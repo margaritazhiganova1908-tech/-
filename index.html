@@ -5,27 +5,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Пикник Афиши 2027 — План автоматизации · Кабинет резидента</title>
 <style>
+/* Палитра и типографика — по гайду «Пикник Афиши» (picnic24_guide) */
 :root{
-  --bg:#08080A;
-  --surface:#111113;
-  --surface-2:#161619;
-  --surface-3:#1D1D21;
-  --line:#26262C;
-  --line-soft:#1E1E23;
-  --text:#F5F5F7;
-  --muted:#8A8A94;
-  --muted-2:#5F5F6B;
-  --accent:#C8F531;
-  --accent-dim:rgba(200,245,49,.14);
-  --accent-line:rgba(200,245,49,.35);
-  --warn:#FFB020;
-  --warn-dim:rgba(255,176,32,.14);
-  --danger:#FF5C5C;
-  --danger-dim:rgba(255,92,92,.13);
+  --bg:#BFDDF1;
+  --surface:#E1F0FA;
+  --surface-2:#D3E8F6;
+  --surface-3:#C2DBEE;
+  --line:rgba(36,23,21,.16);
+  --line-soft:rgba(36,23,21,.09);
+  --text:#241715;
+  --muted:#4E3D39;
+  --muted-2:#8A7873;
+  --accent:#B7DC1E;
+  --accent-dim:rgba(183,220,30,.32);
+  --accent-line:rgba(36,23,21,.35);
+  --accent-ink:#41500A;
+  --pink:#FF6FD8;
+  --warn:#C2408F;
+  --warn-dim:rgba(255,111,216,.2);
+  --danger:#F52016;
+  --danger-dim:rgba(245,32,22,.12);
+  --info:#1273B8;
+  --ok-bg:rgba(183,220,30,.40);      --ok-ink:#3C4A08;
+  --warn-bg:rgba(255,111,216,.24);   --warn-ink:#A32478;
+  --bad-bg:rgba(245,32,22,.14);      --bad-ink:#C0170F;
+  --mute-bg:rgba(36,23,21,.08);      --mute-ink:#6B5A56;
+  --btn-ink:#1A1310;
+  --plan-bg:#CFE6F6;
+  --grid:rgba(36,23,21,.07);
+  --r:18px;
+  --r-sm:12px;
+  --font:'Inter','Helvetica Neue',Arial,sans-serif;
+  --font-display:'Pavliuchenko','Pavliuchenko Trial','Arial Black','Helvetica Neue',Impact,sans-serif;
+}
+:root[data-theme="dark"]{
+  --bg:#0B0B0D;
+  --surface:#141416;
+  --surface-2:#1A1A1D;
+  --surface-3:#232327;
+  --line:#2C2C33;
+  --line-soft:#232328;
+  --text:#F4F4F6;
+  --muted:#96969F;
+  --muted-2:#6A6A74;
+  --accent:#C8E82D;
+  --accent-dim:rgba(200,232,45,.16);
+  --accent-line:rgba(200,232,45,.4);
+  --accent-ink:#C8E82D;
+  --pink:#FF6FD8;
+  --warn:#FF6FD8;
+  --warn-dim:rgba(255,111,216,.16);
+  --danger:#FF3B2F;
+  --danger-dim:rgba(255,59,47,.14);
   --info:#6EA8FF;
-  --r:14px;
-  --r-sm:10px;
-  --font:'Inter','Montserrat','Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --ok-bg:rgba(200,232,45,.16);      --ok-ink:#C8E82D;
+  --warn-bg:rgba(255,111,216,.16);   --warn-ink:#FF6FD8;
+  --bad-bg:rgba(255,59,47,.15);      --bad-ink:#FF6A5F;
+  --mute-bg:rgba(255,255,255,.07);   --mute-ink:#96969F;
+  --btn-ink:#0D0D0D;
+  --plan-bg:#0E0E12;
+  --grid:rgba(255,255,255,.04);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
@@ -33,26 +72,31 @@ body{
   font-family:var(--font);background:var(--bg);color:var(--text);
   min-height:100vh;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.45;
 }
-::selection{background:var(--accent);color:#0A0A0A}
+::selection{background:var(--accent);color:var(--btn-ink)}
 button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
 input,select{font-family:inherit}
 
 /* ---------------- ШАПКА ---------------- */
-header{position:sticky;top:0;z-index:60;background:rgba(8,8,10,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:60;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .nav{max-width:1400px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px}
 .brand{display:flex;align-items:center;gap:11px;margin-right:auto;min-width:0}
-.mark{width:36px;height:36px;border-radius:10px;flex:none;background:var(--accent);color:#0A0A0A;display:grid;place-items:center;font-weight:900;font-size:15px;letter-spacing:-.5px}
-.brand b{display:block;font-size:14px;font-weight:700;letter-spacing:-.2px;white-space:nowrap}
+.mark{width:36px;height:36px;border-radius:10px;flex:none;background:var(--accent);color:var(--btn-ink);font-family:var(--font-display);display:grid;place-items:center;font-weight:900;font-size:15px;letter-spacing:-.5px}
+.brand b{display:block;font-family:var(--font-display);font-size:15px;font-weight:800;letter-spacing:.2px;white-space:nowrap}
 .brand span{display:block;font-size:11px;color:var(--muted-2);font-weight:500;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tabs{display:flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:12px;border:1px solid var(--line-soft)}
 .tab{font-size:13px;font-weight:600;color:var(--muted);padding:8px 15px;border-radius:9px;transition:.15s;white-space:nowrap}
 .tab:hover{color:var(--text)}
-.tab.active{background:var(--accent);color:#0A0A0A}
+.tab.active{background:var(--accent);color:var(--btn-ink)}
 .user{display:flex;align-items:center;gap:9px;padding:6px 12px 6px 6px;border:1px solid var(--line);border-radius:99px}
-.ava{width:26px;height:26px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--accent)}
+.ava{width:26px;height:26px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--accent-ink)}
 .user span{font-size:12px;color:var(--muted)}
 
 main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
+.strip{background:var(--text);color:var(--bg);overflow:hidden;white-space:nowrap}
+.strip div{display:inline-block;padding:7px 0;font-family:var(--font-display);font-size:12px;font-weight:800;letter-spacing:1px;text-transform:lowercase;animation:run 50s linear infinite}
+.strip span{padding:0 14px;opacity:.94}
+@keyframes run{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.strip div{animation:none}}
 .g-main>*,.map-grid>*,.g-an>*,.hero-id,.hero-top>*{min-width:0}
 .view{display:none}
 .view.active{display:block;animation:in .3s ease}
@@ -61,15 +105,15 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 /* ---------------- ОБЩЕЕ ---------------- */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
 .card-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-.card-h h3{font-size:15px;font-weight:700;letter-spacing:-.2px}
+.card-h h3{font-family:var(--font-display);font-size:16px;font-weight:800;letter-spacing:.2px}
 .card-h .hint{font-size:11.5px;color:var(--muted-2)}
 .sec-title{font-size:11px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted-2)}
 .page-h{margin-bottom:20px}
-.page-h h2{font-size:26px;font-weight:800;letter-spacing:-.7px}
+.page-h h2{font-family:var(--font-display);font-size:44px;line-height:.94;font-weight:900;letter-spacing:-.5px;text-transform:lowercase;color:transparent;-webkit-text-stroke:2px var(--text)}
 .page-h p{color:var(--muted);margin-top:6px;font-size:13.5px;max-width:660px}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:700;padding:11px 18px;border-radius:var(--r-sm);transition:.16s;white-space:nowrap}
-.btn-acc{background:var(--accent);color:#0A0A0A}
+.btn-acc{background:var(--accent);color:var(--btn-ink)}
 .btn-acc:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .btn-light{background:var(--surface-3);color:var(--text);border:1px solid var(--line)}
 .btn-light:hover{background:#25252A;border-color:#33333A}
@@ -79,10 +123,10 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 .btn[disabled]{opacity:.45;pointer-events:none}
 
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:5px 10px;border-radius:7px;white-space:nowrap}
-.p-ok{background:var(--accent-dim);color:var(--accent)}
-.p-warn{background:var(--warn-dim);color:var(--warn)}
-.p-bad{background:var(--danger-dim);color:var(--danger)}
-.p-mute{background:var(--surface-3);color:var(--muted)}
+.p-ok{background:var(--ok-bg);color:var(--ok-ink)}
+.p-warn{background:var(--warn-bg);color:var(--warn-ink)}
+.p-bad{background:var(--bad-bg);color:var(--bad-ink)}
+.p-mute{background:var(--mute-bg);color:var(--mute-ink)}
 .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
 
 .bar{height:7px;border-radius:99px;background:var(--surface-3);overflow:hidden}
@@ -92,11 +136,11 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 .g-main{display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
 .hero{background:linear-gradient(135deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:var(--r);padding:22px;margin-bottom:16px}
 .hero-top{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
-.hero-logo{width:58px;height:58px;border-radius:14px;background:var(--accent);color:#0A0A0A;display:grid;place-items:center;font-weight:900;font-size:20px;flex:none;letter-spacing:-1px}
-.hero-id h1{font-size:24px;font-weight:800;letter-spacing:-.7px}
+.hero-logo{width:58px;height:58px;border-radius:14px;background:var(--accent);color:var(--btn-ink);font-family:var(--font-display);display:grid;place-items:center;font-weight:900;font-size:20px;flex:none;letter-spacing:-1px}
+.hero-id h1{font-family:var(--font-display);font-size:30px;font-weight:900;letter-spacing:-.2px;text-transform:lowercase}
 .hero-id .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .hero-num{margin-left:auto;text-align:right}
-.hero-num b{display:block;font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1}
+.hero-num b{display:block;font-family:var(--font-display);font-size:34px;font-weight:900;letter-spacing:-.5px;line-height:1}
 .hero-num span{font-size:11.5px;color:var(--muted-2);font-weight:600}
 .hero-prog{margin-top:20px}
 .hero-prog .row{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600}
@@ -104,16 +148,16 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 .steps::-webkit-scrollbar{height:5px}
 .steps::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:99px}
 .step{flex:none;min-width:104px;max-width:132px;padding:9px 10px;border-radius:9px;background:var(--surface-3);border:1px solid var(--line-soft);font-size:11px;font-weight:700;color:var(--muted-2);text-align:center;transition:.2s}
-.step.done{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-line)}
+.step.done{background:var(--ok-bg);color:var(--accent-ink);border-color:var(--accent-line)}
 .step.cur{background:var(--surface-3);color:var(--text);border-color:var(--accent)}
 
 .alerts{display:flex;flex-direction:column;gap:9px;margin-bottom:16px}
 .alert{display:flex;align-items:center;gap:11px;padding:13px 15px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--surface)}
-.alert.w{border-color:rgba(255,176,32,.3);background:rgba(255,176,32,.06)}
+.alert.w{border-color:var(--warn-ink);background:var(--warn-bg)}
 .alert.g{border-color:var(--accent-line);background:rgba(200,245,49,.05)}
 .alert .ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:13px;flex:none;background:var(--surface-3)}
-.alert.w .ic{background:var(--warn-dim);color:var(--warn)}
-.alert.g .ic{background:var(--accent-dim);color:var(--accent)}
+.alert.w .ic{background:var(--warn-bg);color:var(--warn-ink)}
+.alert.g .ic{background:var(--ok-bg);color:var(--ok-ink)}
 .alert .txt{flex:1;min-width:0}
 .alert .txt b{font-size:13px;font-weight:700;display:block}
 .alert .txt span{font-size:11.5px;color:var(--muted)}
@@ -123,15 +167,15 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 .stab:hover{color:var(--text)}
 .stab.active{border-color:var(--accent);color:var(--text);background:var(--surface-3)}
 .stab i{font-style:normal;font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:6px;background:var(--surface-3);color:var(--muted-2)}
-.stab.active i{background:var(--accent);color:#0A0A0A}
-.stab.full i{background:var(--accent-dim);color:var(--accent)}
+.stab.active i{background:var(--accent);color:var(--btn-ink)}
+.stab.full i{background:var(--ok-bg);color:var(--accent-ink)}
 
 .task{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;border-radius:var(--r-sm);border:1px solid var(--line-soft);background:var(--surface-2);margin-bottom:8px;transition:.15s}
 .task:hover{border-color:var(--line)}
 .task.done{opacity:.62}
 .chk{width:21px;height:21px;border-radius:6px;border:1.5px solid var(--line);flex:none;display:grid;place-items:center;font-size:11px;color:transparent;transition:.15s;margin-top:1px}
 .chk:hover{border-color:var(--accent)}
-.task.done .chk{background:var(--accent);border-color:var(--accent);color:#0A0A0A}
+.task.done .chk{background:var(--accent);border-color:var(--accent);color:var(--btn-ink)}
 .task .body{flex:1;min-width:0}
 .task .tt{font-size:13.5px;font-weight:600}
 .task.done .tt{text-decoration:line-through;text-decoration-color:var(--muted-2)}
@@ -145,28 +189,61 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 .kv span{color:var(--muted)}
 .kv b{font-weight:700;text-align:right}
 .place{background:var(--surface-2);border:1px solid var(--accent-line);border-radius:var(--r-sm);padding:14px;margin-bottom:14px}
-.place .big{font-size:20px;font-weight:800;letter-spacing:-.4px}
+.place .big{font-family:var(--font-display);font-size:21px;font-weight:800;letter-spacing:-.2px}
 .place .sm{font-size:11.5px;color:var(--muted);margin-top:4px}
 
-.host-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.host{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:var(--r-sm);padding:15px}
-.host-h{display:flex;align-items:center;gap:9px;margin-bottom:10px}
-.host-ic{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-size:13px;background:var(--accent-dim);color:var(--accent);flex:none}
-.host-h b{font-size:13.5px;font-weight:700}
-.host ul{list-style:none;display:flex;flex-direction:column;gap:8px}
-.host li{position:relative;padding-left:14px;font-size:12.5px;color:var(--muted);line-height:1.55}
-.host li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
-.host-note{font-size:12px;color:var(--muted-2);border-left:2px solid var(--accent);padding:9px 12px;background:rgba(255,255,255,.03);border-radius:0 8px 8px 0;margin-bottom:16px}
-@media(max-width:860px){.host-grid{grid-template-columns:1fr}}
+.h-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 16px;border-radius:var(--r-sm);
+  background:var(--surface-2);border:1px solid var(--line);margin-bottom:12px}
+.h-top b{font-size:14px;font-weight:800;display:block}
+.h-top span{font-size:11.5px;color:var(--muted-2)}
+.h-top .pill{margin-left:auto}
+.p-info{background:rgba(110,168,255,.14);color:var(--info)}
+
+.h-sec{border:1px solid var(--line);border-radius:var(--r-sm);margin-bottom:8px;overflow:hidden;background:var(--surface-2)}
+.h-sec.open{border-color:var(--accent-line)}
+.h-head{width:100%;display:flex;align-items:center;gap:12px;padding:13px 15px;text-align:left;transition:.15s}
+.h-head:hover{background:rgba(255,255,255,.03)}
+.h-head i{font-style:normal;font-family:var(--font-display);font-size:15px;font-weight:900;color:var(--danger);letter-spacing:-.5px;min-width:26px}
+.h-head b{font-family:var(--font-display);font-size:15px;font-weight:800;letter-spacing:.2px;text-transform:lowercase;flex:1}
+.h-arrow{font-size:16px;font-weight:700;color:var(--muted-2)}
+.h-body{display:none;padding:2px 15px 16px}
+.h-sec.open .h-body{display:block}
+
+.h-facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 14px}
+.h-fact{background:var(--surface-3);border-radius:var(--r-sm);padding:12px 14px}
+.h-fact span{font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted-2)}
+.h-fact b{display:block;font-family:var(--font-display);font-size:17px;font-weight:800;margin-top:4px;letter-spacing:-.2px}
+
+.h-grp{margin-bottom:14px}
+.h-grp h4{font-size:12.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--text);margin-bottom:8px}
+.h-grp ul,.h-bans ul,.h-check ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.h-grp li{position:relative;padding-left:15px;font-size:12.8px;color:var(--muted);line-height:1.6}
+.h-grp li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent-ink);opacity:.65}
+
+.h-bans{border:1px solid rgba(255,92,92,.35);background:var(--danger-dim);border-radius:var(--r-sm);padding:13px 15px;margin-bottom:14px}
+.h-bans-t{font-family:var(--font-display);font-size:13.5px;font-weight:800;color:var(--danger);text-transform:lowercase;margin-bottom:9px}
+.h-bans li{position:relative;padding-left:18px;font-size:12.8px;color:var(--danger);line-height:1.55}
+.h-bans li::before{content:"⊘";position:absolute;left:0;top:0;font-size:11px}
+
+.h-alert{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  border-left:3px solid var(--danger);background:var(--danger-dim);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:11px 14px;margin-bottom:14px}
+.h-alert span{font-size:12.5px;font-weight:700}
+.h-alert b{font-size:13px;font-weight:800;color:var(--danger)}
+
+.h-check{border:1px solid var(--accent-line);background:var(--ok-bg);border-radius:var(--r-sm);padding:13px 15px;margin-bottom:14px}
+.h-check-t{font-family:var(--font-display);font-size:13.5px;font-weight:800;margin-bottom:9px;text-transform:lowercase}
+.h-check li{position:relative;padding-left:20px;font-size:12.8px;color:var(--muted);line-height:1.55}
+.h-check li::before{content:"☑";position:absolute;left:0;top:0;color:var(--accent-ink);font-size:12px}
+@media(max-width:860px){.h-facts{grid-template-columns:1fr}}
 
 /* ---------------- РАЗДЕЛ 2: КАРТА ---------------- */
 .map-grid{display:grid;grid-template-columns:1fr 380px;gap:16px;align-items:start}
 .city-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
 .ctab{padding:10px 18px;border-radius:11px;border:1px solid var(--line);background:var(--surface-2);font-size:13px;font-weight:700;color:var(--muted);transition:.15s}
-.ctab.active{background:var(--accent);color:#0A0A0A;border-color:var(--accent)}
+.ctab.active{background:var(--accent);color:var(--btn-ink);border-color:var(--accent)}
 .venue{margin-bottom:16px}
 .venue-h{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
-.venue-h h3{font-size:16px;font-weight:800;letter-spacing:-.3px}
+.venue-h h3{font-family:var(--font-display);font-size:18px;font-weight:800;letter-spacing:.2px}
 .venue-h .sub{font-size:11.5px;color:var(--muted-2)}
 .venue-h .right{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
 .partner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;padding:12px 14px;
@@ -175,9 +252,9 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 .partner input{flex:1;min-width:170px;background:transparent;border:0;border-bottom:1px solid var(--line);
   color:var(--text);font-size:14px;font-weight:700;padding:6px 2px;outline:none}
 .partner input:focus{border-color:var(--accent)}
-.partner.kuper{border-style:solid;border-color:var(--accent-line);background:rgba(200,245,49,.05)}
+.partner.kuper{border-style:solid;border-color:var(--accent-line);background:var(--ok-bg)}
 .partner.kuper .btn{margin-left:auto}
-svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0C0F;border:1px solid var(--line-soft)}
+svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(--plan-bg);border:1px solid var(--line-soft)}
 .cell{cursor:pointer}
 .cell rect{transition:.15s}
 .cell:hover rect.c-base{filter:brightness(1.35)}
@@ -190,19 +267,19 @@ svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0
 
 #tip{
   position:fixed;z-index:200;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;
-  background:#000;border:1px solid var(--accent-line);border-radius:10px;padding:11px 13px;min-width:172px;box-shadow:0 12px 34px rgba(0,0,0,.7);
+  background:var(--surface);border:1px solid var(--accent-line);border-radius:10px;padding:11px 13px;min-width:172px;box-shadow:0 12px 34px rgba(0,0,0,.7);
 }
 #tip.on{opacity:1;transform:none}
 #tip .t1{font-size:13px;font-weight:800;margin-bottom:2px}
 #tip .t2{font-size:11px;color:var(--muted);margin-bottom:8px}
-#tip .t3{font-size:17px;font-weight:800;color:var(--accent);letter-spacing:-.4px}
+#tip .t3{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--accent-ink);letter-spacing:-.2px}
 #tip .t4{font-size:11px;margin-top:7px;padding-top:7px;border-top:1px solid var(--line)}
 
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
 .stat{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:var(--r-sm);padding:13px}
 .stat span{font-size:10.5px;color:var(--muted-2);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
-.stat b{display:block;font-size:20px;font-weight:800;margin-top:5px;letter-spacing:-.6px}
-.stat.a b{color:var(--accent)}
+.stat b{display:block;font-family:var(--font-display);font-size:20px;font-weight:800;margin-top:5px;letter-spacing:-.6px}
+.stat.a b{color:var(--accent-ink)}
 .stat.w b{color:var(--warn)}
 .stat.d b{color:var(--danger)}
 
@@ -210,7 +287,7 @@ svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0
 .frow{display:flex;gap:6px;flex-wrap:wrap}
 .fchip{font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:8px;border:1px solid var(--line);color:var(--muted);transition:.15s}
 .fchip:hover{color:var(--text)}
-.fchip.active{background:var(--text);color:#0A0A0A;border-color:var(--text)}
+.fchip.active{background:var(--text);color:var(--bg);border-color:var(--text)}
 .list{max-height:520px;overflow-y:auto;margin:0 -6px;padding:0 6px}
 .list::-webkit-scrollbar{width:6px}
 .list::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:99px}
@@ -231,9 +308,9 @@ svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0
 .an-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
 .an-kpi .k{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
 .an-kpi .k span{font-size:11px;color:var(--muted);font-weight:600}
-.an-kpi .k b{display:block;font-size:27px;font-weight:800;letter-spacing:-1px;margin:7px 0 4px}
+.an-kpi .k b{display:block;font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-1px;margin:7px 0 4px}
 .an-kpi .k .d{font-size:11.5px;color:var(--muted-2)}
-.an-kpi .k .d em{font-style:normal;color:var(--accent);font-weight:700}
+.an-kpi .k .d em{font-style:normal;color:var(--accent-ink);font-weight:700}
 .g-an{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 .chart-row{display:flex;align-items:center;gap:12px;padding:9px 0}
 .chart-row .lbl{width:150px;flex:none;font-size:12.5px;font-weight:600}
@@ -260,21 +337,21 @@ svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0
 .dept{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:var(--r-sm);padding:15px}
 .dept-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
 .dept-row span{font-size:13px;font-weight:600;color:var(--muted)}
-.dept-row b{font-size:26px;font-weight:800;letter-spacing:-1px;color:var(--accent)}
+.dept-row b{font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-1px;color:var(--accent-ink)}
 
 /* ---------------- ТОСТЫ ---------------- */
 #toasts{position:fixed;right:18px;bottom:18px;z-index:300;display:flex;flex-direction:column;gap:9px;max-width:330px}
-.toast{background:var(--surface-2);border:1px solid var(--accent-line);border-left:3px solid var(--accent);border-radius:11px;padding:13px 15px;box-shadow:0 14px 36px rgba(0,0,0,.6);animation:tin .28s ease}
+.toast{background:var(--surface);border:1px solid var(--accent-line);border-left:3px solid var(--accent);border-radius:11px;padding:13px 15px;box-shadow:0 14px 36px rgba(0,0,0,.6);animation:tin .28s ease}
 .toast b{display:block;font-size:13px;font-weight:700;margin-bottom:3px}
 .toast span{font-size:11.5px;color:var(--muted)}
-.toast.w{border-color:rgba(255,176,32,.4);border-left-color:var(--warn)}
+.toast.w{border-color:var(--warn-ink);border-left-color:var(--warn-ink)}
 @keyframes tin{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
 
 /* ---------------- МОДАЛ ---------------- */
-#modal{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,.72);backdrop-filter:blur(5px);display:none;place-items:center;padding:20px}
+#modal{position:fixed;inset:0;z-index:250;background:rgba(20,12,10,.62);backdrop-filter:blur(5px);display:none;place-items:center;padding:20px}
 #modal.on{display:grid}
 .mbox{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;max-width:430px;width:100%;animation:in .25s ease}
-.mbox h3{font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px}
+.mbox h3{font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:8px;text-transform:lowercase}
 .mbox p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:18px}
 .mbox .mrow{display:flex;gap:9px}
 .mbox .mrow .btn{flex:1}
@@ -285,7 +362,8 @@ svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0
   .list{max-height:none}
 }
 @media(max-width:860px){
-  body{overflow-x:hidden}
+  html,body{overflow-x:hidden}
+  .strip{max-width:100vw}
   .nav{flex-wrap:wrap;padding:11px 14px;gap:12px}
   .brand{min-width:0}
   .brand>div:last-child{min-width:0;flex:1}
@@ -326,12 +404,15 @@ svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0
       <button class="tab" data-view="map">Выбор места</button>
       <button class="tab" data-view="an">Аналитика</button>
     </nav>
+    <button class="btn-ghost" id="themeBtn" data-act="theme">Тема: Пикник</button>
     <div class="user">
       <div class="ava">UD</div>
       <span>Underdog · ФК1 · точка 12</span>
     </div>
   </div>
 </header>
+
+<div class="strip"><div id="stripLine"></div></div>
 
 <main>
 
@@ -642,12 +723,34 @@ TRUCK_CELLS.forEach((c,i)=>{
         x:52 + col*112, y:80 + row*120, w:96, h:96});
 });
 
-const STATUS = {
-  free:{t:'Свободна', c:'#C8F531', fill:'rgba(200,245,49,.16)', txt:'#C8F531'},
-  hold:{t:'Бронь',    c:'#FFB020', fill:'rgba(255,176,32,.16)', txt:'#FFB020'},
-  taken:{t:'Занята',  c:'#3A3A42', fill:'rgba(255,255,255,.05)', txt:'#8A8A94'},
-  tech:{t:'Тех. зона',c:'#2A3A55', fill:'rgba(110,168,255,.10)', txt:'#6EA8FF'}
+const THEMES = {
+  picnic:{
+    status:{
+      free :{t:'Свободна', c:'#7E9C05', fill:'rgba(183,220,30,.55)', txt:'#2F3A05'},
+      hold :{t:'Бронь',    c:'#D53BA8', fill:'rgba(255,111,216,.35)', txt:'#8E1F68'},
+      taken:{t:'Занята',   c:'#8A7873', fill:'rgba(36,23,21,.10)',   txt:'#5D4C48'},
+      tech :{t:'Тех. зона',c:'#1273B8', fill:'rgba(18,115,184,.16)', txt:'#0E5C93'}
+    },
+    grid:'rgba(36,23,21,.07)', road:'rgba(36,23,21,.08)',
+    tableFill:'rgba(255,255,255,.55)', tableStroke:'rgba(36,23,21,.22)', seat:'rgba(36,23,21,.18)',
+    navFill:'rgba(183,220,30,.35)', navStroke:'#7E9C05', navInk:'#2F3A05',
+    label:'#6B5A56', entryFill:'rgba(36,23,21,.08)', entryStroke:'rgba(36,23,21,.18)', entryInk:'#4E3D39'
+  },
+  dark:{
+    status:{
+      free :{t:'Свободна', c:'#C8E82D', fill:'rgba(200,232,45,.16)', txt:'#C8E82D'},
+      hold :{t:'Бронь',    c:'#FF6FD8', fill:'rgba(255,111,216,.16)',txt:'#FF6FD8'},
+      taken:{t:'Занята',   c:'#3A3A42', fill:'rgba(255,255,255,.05)',txt:'#96969F'},
+      tech :{t:'Тех. зона',c:'#2A4258', fill:'rgba(110,168,255,.12)',txt:'#6EA8FF'}
+    },
+    grid:'rgba(255,255,255,.04)', road:'rgba(255,255,255,.09)',
+    tableFill:'rgba(255,255,255,.06)', tableStroke:'#3C3C46', seat:'#33333C',
+    navFill:'rgba(200,232,45,.10)', navStroke:'#C8E82D', navInk:'#C8E82D',
+    label:'#8A8A94', entryFill:'rgba(255,255,255,.06)', entryStroke:'#2B2B33', entryInk:'#8A8A94'
+  }
 };
+let TH = THEMES.picnic;
+const STATUS = Object.assign({}, TH.status);
 
 /* ---- задачи кабинета ---- */
 const STAGES = [
@@ -705,28 +808,166 @@ const STAGES = [
   ]}
 ];
 
-/* Информация по этапу «Тех Хостинг» — смысловые блоки */
+/* Информация по этапу «Тех Хостинг» — памятка резидента фудкорта, по смысловым блокам */
+const HOSTING_META = {
+  title:'Памятка резидента фудкорта',
+  sub:'Пикник Афиши · Санкт-Петербург, 8 августа · ЦПКиО им. С. М. Кирова'
+};
+
 const HOSTING = [
-  {ic:'⚡', t:'Электричество', items:[
-    'Мощность рассчитывается по списку оборудования — заявку подаём заранее, на площадке увеличить нельзя.',
-    'Подключение — через щит организатора, кабель и автомат от резидента.',
-    'Все приборы должны иметь паспорт и соответствовать заявленной мощности.'
-  ]},
-  {ic:'◫', t:'Корнер и оборудование', items:[
-    'Тех. карта корнера согласуется до монтажа: планировка, точки подключения, витрина.',
-    'Габариты оборудования не должны выходить за границы точки.',
-    'Открытый огонь и газ — только по отдельному согласованию.'
-  ]},
-  {ic:'◷', t:'Монтаж и график', items:[
-    'Заезд по пропускам в назначенное окно, машины разгружаются и сразу уезжают.',
-    'К моменту открытия корнер должен пройти приёмку куратора.',
-    'Демонтаж — в день закрытия, зона сдаётся по акту.'
-  ]},
-  {ic:'✓', t:'Требования и документы', items:[
-    'Персонал проходит аккредитацию по спискам, поданным заранее.',
-    'На площадке — медкнижки, форма и бейджи резидента.',
-    'Нарушение регламента фиксируется куратором и влияет на участие в следующем сезоне.'
-  ]}
+  {n:'01', t:'Главное', open:true,
+   facts:[{k:'Часы работы фудкортов', v:'14:00 – 22:00'},
+          {k:'Финальная готовность зон', v:'8 августа, 9:45'}],
+   groups:[
+     {t:'1.1 Общий заезд', items:[
+       'С 22:00 7 августа до 01:00 8 августа.',
+       'Слоты самостоятельной застройки согласуются отдельно.']},
+     {t:'1.2 Выезд участников', items:[
+       'С 00:00 до 03:00 9 августа, сразу после закрытия фестиваля.']},
+     {t:'1.3 Как пройти команде к своему корнеру', items:[
+       'На фестивале действует пропускная система.',
+       'На период монтажа — вход по «кодовому слову», после получения монтажного браслета — по браслету.',
+       'На монтаже вы получаете браслеты, для работы на фестивале — бейджи.',
+       'Форму для сбора ФИО сотрудников нужно заполнить до 25.07.']},
+     {t:'1.4 А можно на машине?', items:[
+       'Можно, но только для разгрузки/погрузки и в строго отведённое время.',
+       'Во время фестиваля въезд на территорию запрещён.',
+       'Форму аккредитации автомобилей нужно заполнить до 1.08.',
+       'Допускаются машины грузоподъёмностью до 10 т. Еврофурам въезд закрыт.']},
+     {t:'1.5 Коммуникация', items:[
+       'Создаём оперативный чат с администратором — по 1 человеку от каждого резидента.']},
+     {t:'1.6 Персонал', items:['Важно иметь медицинскую книжку.']}
+   ],
+   bans:['Нахождение транспорта вне разгрузочно-погрузочных работ', 'Заезд на каршеринге'],
+   facts2:[{k:'Грузовые', v:'60 минут на территории'},
+           {k:'Легковые', v:'30 минут на территории'}]},
+
+  {n:'02', t:'Безопасность',
+   groups:[
+     {t:'Все участники фуд-корта', items:[
+       '1. Гарантируют, что продаваемые товары и услуги разрешены для реализации на территории РФ.',
+       '2. Соответствуют требованиям законодательства РФ.',
+       '3. Соответствуют критериям качества, имеют сертификаты, лицензии и иные разрешительные документы.',
+       '4. Гарантируют соблюдение правил безналичной и наличной продажи с использованием ККТ.',
+       '5. Обязаны соблюдать требования к оформлению своей торговой точки.',
+       '6. Обязаны соблюдать правила поведения на территории мероприятия и требования договоров.']}
+   ]},
+
+  {n:'03', t:'Продажи',
+   groups:[
+     {t:'3.1 Оплата', items:['Только безналичный расчёт — терминалы от резидента.']},
+     {t:'3.2 Алкоголь', items:['Продажа алкоголя на мероприятии запрещена.']},
+     {t:'3.3 Стекло и жестяные банки', items:[
+       'Всю продукцию в стеклянных бутылках и жестяных банках обязательно переливать в стаканы при госте.',
+       'Отдавать напитки в закрытой заводской таре строго запрещено правилами безопасности.']}
+   ]},
+
+  {n:'04', t:'Монтаж',
+   groups:[
+     {t:'4.1 Заезд на территорию', items:[
+       'Въезд ТС со стороны Приморского проспекта, через 3-й Елагин мост. Координаты: 59.982987, 30.254235.',
+       'Время работы КПП 3: с 22:00 до 10:00 в будние, выходные и праздничные дни. Выезд всех ТС — до 9:00.',
+       'Заезд идёт по временным слотам организатора; участникам со своей застройкой время уточняется отдельно.',
+       'Общий заезд всех резидентов — с 22:00 7 августа до 01:00 8 августа.',
+       'ТС массой 3,6 т — по асфальтовому и гравийному покрытию. По набивным и грунтовым дорожкам движение категорически запрещено.',
+       'С 9:00 нахождение транспорта на территории острова запрещено.',
+       'Монтаж и транспортировка оборудования — силами и средствами самих участников.',
+       'После разгрузки транспортное средство покидает территорию парка незамедлительно.',
+       'Браслеты выдаёт закреплённый администратор, действуют до 10:00 8 августа. Водителям и грузчикам браслеты не нужны.',
+       'Добавить машину — написать Алине +7 911 760 4595 / @AlinaPyatakova накануне дня заезда: марка и модель, номер машины, ФИО водителя.']},
+     {t:'4.2 Застройка и монтаж', items:[
+       'Фестиваль проходит в ЦПКиО им. С. М. Кирова на Елагином острове — памятнике природы регионального значения.',
+       'Любое повреждение территории = штраф.',
+       'Отступы обязательны: деревья — 3 м, кусты — 1 м, цветники — 1 м, здания — 2 м.',
+       'У всех конструкций в местах значительных весовых нагрузок — деревянные подкладки для распределения нагрузки.',
+       'При монтаже на газоне обязательны настил, защита газона и подходов. Тип настила согласуется заранее.',
+       'На период монтажа периметр рабочей зоны огораживается забором (предоставляет организатор), штраф за нарушение — от 20 000 руб.',
+       'Завоз оборудования и громкие работы — только ночью, днём тихие работы по декору и расстановке.']},
+     {t:'4.3 Электричество', items:[
+       'Подача электроэнергии — с 23:00 до 23:00 7 августа. До этого времени корнеры обесточены.',
+       'Заранее планируйте логистику и хранение продуктов, особенно скоропортящихся.',
+       'Удлинители для подключения оборудования привозите самостоятельно.']},
+     {t:'4.4 Готовность', items:[
+       '9:00 — все машины покинули территорию.',
+       '9:45 — полная готовность всех зон, участники покидают зоны.',
+       'С 10:00 — получение аккредитации (бейджей).',
+       '13:00 — полная готовность, вход для персонала через отдельный технический вход.']},
+     {t:'4.5 Аккредитация', items:[
+       'Все сотрудники, поданные в списках до 25.07, получают бейджи для работы на фестивале.',
+       'Подать нужно ВСЕХ, кому нужно пройти на территорию 8 августа после 11:30 — включая сисадмина и техников.',
+       '8.07 с 10:00 до 21:00 бейджи выдают в аккредитационном кубике на главном входе.',
+       'Вход на фестиваль: 10:00–11:30 — закрыт (кинологические работы), 11:30–13:00 — главный вход, 13:00–22:00 — технический вход.',
+       'Бейдж выдаётся один раз, проход по паспорту, носить на видном месте. Фото бейджа не публиковать — иначе аннулирование.']},
+     {t:'4.6 Замены', items:[
+       'Для замены сотрудника написать Алине +7 911 760 4595 / @AlinaPyatakova: ФИО выбывшего; ФИО, телефон, серия и номер паспорта нового.']}
+   ],
+   bans:['Высота — больше 6 м', 'Шатры (сферические — по согласованию)', 'Контейнеры', 'Звук — только по согласованию'],
+   alerts:[{t:'Штраф за порчу газона', v:'200 000 руб. или самостоятельное восстановление'}],
+   check:{t:'Чек-лист на заезд (ночь с 7 на 8 августа)', items:[
+     'Выгрузить в корнер всё оборудование и продукты.',
+     'Проверить электричество и исправность всех розеток внутри корнера.',
+     'Замотать корнер стрейч-плёнкой на ночь — не обязательно, но так спокойнее за сохранность вещей.']},
+   facts2:[{k:'Грузовые', v:'60 минут на территории'},
+           {k:'Легковые', v:'30 минут на территории'}]},
+
+  {n:'05', t:'Для участников со своей застройкой',
+   facts:[{k:'Документы для МЧС', v:'не позднее 10 дней до монтажа'},
+          {k:'Почта', v:'tech.picnic.2025@gmail.com'}],
+   groups:[
+     {t:'Комплект документов', items:[
+       '1. Комплект цветных эскизов декораций в разных ракурсах — дизайн-проект на согласование до 24 июля.',
+       '2. Постановочный план — схема с привязкой к местности.',
+       '3. Детальный план застройки.',
+       '4. Схема с весовыми данными подвешиваемых частей декораций и оборудования, режимами работы и нагрузкой на каждую точку подвеса.',
+       '5. Технические паспорта на художественно-декорационное оформление.',
+       '6. Сертификаты соответствия на горючие элементы декораций или акты приёмки огнезащитных работ с сертификатами на состав.',
+       '7. Ветровые нагрузки на уличные конструктивы, если объект выше 5 м.',
+       '8. Сертификаты соответствия на оборудование.',
+       '9. Детальный план прокладки инженерных сетей и подключений.',
+       '10. Детальный проект противопожарных мероприятий.',
+       '11. Приказ о назначении ответственных за охрану труда и технику безопасности.',
+       '12. Копии удостоверений об обучении по охране труда и технике безопасности.',
+       '13. Приказ о назначении ответственного за монтажно-демонтажные работы.',
+       '14. Приказ о назначении ответственных за пожарную безопасность при застройке и на время мероприятия.',
+       '15. Копии удостоверений об обучении по пожарно-техническому минимуму.',
+       '16. Приказ о назначении ответственного за электробезопасность не ниже 4-й группы допуска.',
+       '17. Копия удостоверения о допуске ответственного лица на группу не ниже 4-й.',
+       '18. Список электриков не ниже 3-й группы допуска в электроустановки до 1000 В.',
+       '19. Копии удостоверений электриков из списка (допуск до 1000 В, не ниже 3-й группы).',
+       '20. Приказ о назначении ответственного за работы на высоте (верхолазные работы).']}
+   ]},
+
+  {n:'06', t:'На фестивале',
+   groups:[
+     {t:'6.1 Вода', items:[
+       'На монтаже и демонтаже — самообеспечение.',
+       'В день фестиваля на территории появятся кубы с чистой водой и бочки для отработанной. Ёмкости для перемещения воды — свои.']},
+     {t:'6.2 Мусор', items:[
+       'Пластиковый бак для пищевых и прочих отходов внутри корнера — свой, мусорные мешки тоже.',
+       'Во время работы фудкорта клинеры выносят мусор из корнеров в контейнеры, вывоз пищевых отходов — на организаторах.',
+       'Вывоз мусора после застройки и демонтажа — силами участника. Штраф за неубранный мусор — 100 000 руб. за каждый выявленный случай.',
+       'Весь крупногабаритный мусор во время монтажных работ должен быть вывезен до 08:00 9.08.']},
+     {t:'6.3 Интернет', items:[
+       'Участники обеспечивают доступ к интернету самостоятельно. На территории будут внешние антенны для усиления сотовой связи.']},
+     {t:'6.4 Склад', items:[
+       'Оборудование и заготовки резиденты основного фудкорта хранят у себя в корнере. Нужно место на складе — сообщите заранее.']},
+     {t:'6.6 Все участники обязаны соблюдать правила', items:[
+       'Запрещено курение, разведение костров, нахождение в нетрезвом состоянии.']}
+   ],
+   bans:['Газовые баллоны', 'Стекло и алюминиевые банки', 'Виндеры и фан-барьеры', 'Крепления в грунт', 'Краска на покрытиях']},
+
+  {n:'07', t:'Демонтаж',
+   groups:[
+     {t:'Выезд', items:[
+       'Выезд участников — сразу после окончания фестиваля, с 00:00 до 03:00 9 августа.',
+       'Участникам демонтажа нужно зайти на территорию до 22:00: с 22:00 до 23:00 идёт зачистка территории, вход ограничен.',
+       'Списки машин на демонтаж подать по установленной форме не позднее 05.08.']}
+   ],
+   check:{t:'Как сдать корнер', items:[
+     'Сдать отчёт по продажам Наталье.',
+     'Вывезти всё оборудование и продукты.',
+     'Проверить чистоту контейнера — жирные пятна, грязь, мусор.',
+     'Вынести отработанную воду.']}}
 ];
 
 const TODOS = [
@@ -750,6 +991,8 @@ const S = {
   sel:null,
   paid:false,
   partner:'',
+  hostOpen:new Set(['01']),
+  theme:'picnic',
   dataCollected:18
 };
 
@@ -828,10 +1071,36 @@ function renderStageTabs(){
   }));
 }
 function hostingHTML(){
-  return '<div class="host-grid">' + HOSTING.map(h=>
-    '<div class="host"><div class="host-h"><span class="host-ic">'+h.ic+'</span><b>'+h.t+'</b></div>'+
-    '<ul>'+h.items.map(i=>'<li>'+i+'</li>').join('')+'</ul></div>').join('') +
-    '</div><div class="host-note">Регламент тех. хостинга · вопросы — куратору Наталье Арсентьевой</div>';
+  const facts = f => f && f.length ? '<div class="h-facts">' + f.map(x=>
+      '<div class="h-fact"><span>'+x.k+'</span><b>'+x.v+'</b></div>').join('') + '</div>' : '';
+
+  return '<div class="h-top"><div><b>'+HOSTING_META.title+'</b><span>'+HOSTING_META.sub+'</span></div>'+
+         '<span class="pill p-info">регламент площадки</span></div>' +
+    HOSTING.map(sec=>{
+      const open = S.hostOpen.has(sec.n);
+      return '<section class="h-sec'+(open?' open':'')+'" data-h="'+sec.n+'">'+
+        '<button class="h-head"><i>'+sec.n+'</i><b>'+sec.t+'</b><span class="h-arrow">'+(open?'−':'+')+'</span></button>'+
+        '<div class="h-body">'+
+          facts(sec.facts)+
+          (sec.groups||[]).map(g=>
+            '<div class="h-grp"><h4>'+g.t+'</h4><ul>'+
+            g.items.map(i=>'<li>'+i+'</li>').join('')+'</ul></div>').join('')+
+          (sec.alerts||[]).map(a=>
+            '<div class="h-alert"><span>'+a.t+'</span><b>'+a.v+'</b></div>').join('')+
+          (sec.bans ? '<div class="h-bans"><div class="h-bans-t">Запрещено</div><ul>'+
+            sec.bans.map(b=>'<li>'+b+'</li>').join('')+'</ul></div>' : '')+
+          (sec.check ? '<div class="h-check"><div class="h-check-t">'+sec.check.t+'</div><ul>'+
+            sec.check.items.map(i=>'<li>'+i+'</li>').join('')+'</ul></div>' : '')+
+          facts(sec.facts2)+
+        '</div></section>';
+    }).join('');
+}
+function bindHosting(){
+  $$('#taskList .h-head').forEach(b=>b.addEventListener('click', ()=>{
+    const n = b.parentElement.dataset.h;
+    S.hostOpen.has(n) ? S.hostOpen.delete(n) : S.hostOpen.add(n);
+    renderTasks();
+  }));
 }
 function renderTasks(){
   const st = STAGES.find(s=>s.id===S.stage);
@@ -852,6 +1121,7 @@ function renderTasks(){
       toggleTask(st, +el.dataset.i);
     });
   });
+  bindHosting();
   $$('#taskList [data-up]').forEach(b=>b.addEventListener('click', e=>{
     e.stopPropagation();
     const t = st.tasks[+b.dataset.up];
@@ -921,11 +1191,11 @@ function tables(cfg){
       const x = cfg.nav.x + Math.cos(a)*ring.r;
       const y = cfg.nav.y + Math.sin(a)*ring.r;
       s += '<g opacity=".8">'+
-           '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="12" fill="rgba(255,255,255,.06)" stroke="#3C3C46" stroke-width="1.2"/>'+
-           '<circle cx="'+(x).toFixed(1)+'" cy="'+(y-18).toFixed(1)+'" r="4" fill="#33333C"/>'+
-           '<circle cx="'+(x).toFixed(1)+'" cy="'+(y+18).toFixed(1)+'" r="4" fill="#33333C"/>'+
-           '<circle cx="'+(x-18).toFixed(1)+'" cy="'+(y).toFixed(1)+'" r="4" fill="#33333C"/>'+
-           '<circle cx="'+(x+18).toFixed(1)+'" cy="'+(y).toFixed(1)+'" r="4" fill="#33333C"/>'+
+           '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="12" fill="'+TH.tableFill+'" stroke="'+TH.tableStroke+'" stroke-width="1.2"/>'+
+           '<circle cx="'+(x).toFixed(1)+'" cy="'+(y-18).toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
+           '<circle cx="'+(x).toFixed(1)+'" cy="'+(y+18).toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
+           '<circle cx="'+(x-18).toFixed(1)+'" cy="'+(y).toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
+           '<circle cx="'+(x+18).toFixed(1)+'" cy="'+(y).toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
            '</g>';
     }
   });
@@ -937,7 +1207,7 @@ function venueSVG(v){
   const cells = CELLS.filter(c=>c.venue===v.id);
   let s = '<svg class="plan" viewBox="'+cfg.vb+'" role="img" aria-label="Схема '+v.name+'">';
   s += '<defs><pattern id="gr'+v.id+'" width="38" height="38" patternUnits="userSpaceOnUse">'+
-       '<path d="M38 0H0V38" fill="none" stroke="rgba(255,255,255,.035)" stroke-width="1"/></pattern></defs>';
+       '<path d="M38 0H0V38" fill="none" stroke="'+TH.grid+'" stroke-width="1"/></pattern></defs>';
   s += '<rect width="100%" height="100%" fill="url(#gr'+v.id+')"/>';
 
   /* столики вокруг навигации */
@@ -947,14 +1217,14 @@ function venueSVG(v){
   if(!cfg.hideNav){
   const nf = cfg.nav.r >= 44 ? 11 : 10;
   const ny = cfg.nav.r >= 44 ? cfg.nav.y + 4 : cfg.nav.y + cfg.nav.r + 15;
-  s += '<circle cx="'+cfg.nav.x+'" cy="'+cfg.nav.y+'" r="'+cfg.nav.r+'" fill="rgba(200,245,49,.10)" stroke="#C8F531" stroke-width="1.6" stroke-dasharray="5 4"/>'+
-       (cfg.nav.r < 44 ? '<circle cx="'+cfg.nav.x+'" cy="'+cfg.nav.y+'" r="5" fill="#C8F531" opacity=".65"/>' : '')+
-       '<text class="static-txt" x="'+cfg.nav.x+'" y="'+ny+'" text-anchor="middle" font-size="'+nf+'" fill="#C8F531" letter-spacing="1">НАВИГАЦИЯ</text>';
+  s += '<circle cx="'+cfg.nav.x+'" cy="'+cfg.nav.y+'" r="'+cfg.nav.r+'" fill="'+TH.navFill+'" stroke="'+TH.navStroke+'" stroke-width="1.6" stroke-dasharray="5 4"/>'+
+       (cfg.nav.r < 44 ? '<circle cx="'+cfg.nav.x+'" cy="'+cfg.nav.y+'" r="5" fill="'+TH.navStroke+'" opacity=".7"/>' : '')+
+       '<text class="static-txt" x="'+cfg.nav.x+'" y="'+ny+'" text-anchor="middle" font-size="'+nf+'" fill="'+TH.navInk+'" letter-spacing="1">НАВИГАЦИЯ</text>';
   }
 
   /* вход */
-  s += '<g opacity=".9"><rect x="'+(cfg.entry.x-42)+'" y="'+(cfg.entry.y-13)+'" width="84" height="26" rx="8" fill="rgba(255,255,255,.06)" stroke="#2B2B33"/>'+
-       '<text class="static-txt" x="'+cfg.entry.x+'" y="'+(cfg.entry.y+4)+'" text-anchor="middle" font-size="11">ВХОД</text></g>';
+  s += '<g opacity=".9"><rect x="'+(cfg.entry.x-42)+'" y="'+(cfg.entry.y-13)+'" width="84" height="26" rx="8" fill="'+TH.entryFill+'" stroke="'+TH.entryStroke+'"/>'+
+       '<text class="static-txt" x="'+cfg.entry.x+'" y="'+(cfg.entry.y+4)+'" text-anchor="middle" font-size="11" fill="'+TH.entryInk+'">ВХОД</text></g>';
 
   /* подписи блоков */
   const blocks = [...new Set(cells.map(c=>c.block))];
@@ -964,7 +1234,7 @@ function venueSVG(v){
     const y = Math.min(...bc.map(c=>c.y));
     const price = (bc.find(c=>!c.tech)||{}).price || 0;
     const size  = (bc.find(c=>!c.tech)||{}).size  || '';
-    s += '<text class="static-txt" x="'+x+'" y="'+(y-12)+'" font-size="12.5" fill="#8A8A94">'+
+    s += '<text class="static-txt" x="'+x+'" y="'+(y-12)+'" font-size="12.5" fill="'+TH.label+'">'+
          (bc[0].blockLabel).toUpperCase()+' · '+size+' м · '+(price ? price.toLocaleString('ru-RU')+' ₽' : 'по договору')+'</text>';
   });
 
@@ -1002,10 +1272,7 @@ function renderVenues(){
         '<button class="btn btn-acc btn-sm" data-act="kuper">Онбординг на платформу Купер — загрузка документов</button></div>' : '')+
       venueSVG(v)+
       '<div class="legend">'+
-        '<div><span class="sw" style="background:#C8F531"></span> Свободна</div>'+
-        '<div><span class="sw" style="background:#FFB020"></span> Бронь</div>'+
-        '<div><span class="sw" style="background:#3A3A42;border:1px solid #4A4A55"></span> Занята</div>'+
-        '<div><span class="sw" style="background:rgba(110,168,255,.35)"></span> Тех. зона</div>'+
+        ['free','hold','taken','tech'].map(k=>'<div><span class="sw" style="background:'+STATUS[k].c+'"></span> '+STATUS[k].t+'</div>').join('')+
       '</div></div>';
   }).join('');
   bindCells();
@@ -1120,7 +1387,7 @@ function renderDetail(){
       '<div style="font-size:11.5px;color:var(--muted-2);margin-top:3px">'+v.name+'</div></div>'+
       '<span class="pill" style="background:'+st.fill+';color:'+st.txt+'"><span class="dot"></span>'+st.t+'</span></div>'+
     '<div class="kv"><span>Площадь</span><b>'+c.size+' м</b></div>'+
-    '<div class="kv"><span>Стоимость</span><b style="color:var(--accent)">'+(c.price ? money(c.price) : 'По договору')+'</b></div>'+
+    '<div class="kv"><span>Стоимость</span><b style="color:var(--accent-ink)">'+(c.price ? money(c.price) : 'По договору')+'</b></div>'+
     '<div class="kv"><span>Арендатор</span><b>'+(c.tenant || '—')+'</b></div>'+
     '<div class="kv"><span>Электричество</span><b>до 7 кВт</b></div>'+
     '<div style="margin-top:14px">'+btn+'</div></div>';
@@ -1179,7 +1446,7 @@ function renderAnalytics(){
     '<div class="k"><span>Продано</span><b>'+mln(sold)+'</b><div class="d">план '+mln(city.plan)+' · <em>'+done+'%</em></div></div>'+
     '<div class="k"><span>В брони</span><b style="color:var(--warn)">'+mln(hold)+'</b><div class="d">'+
       cells.filter(c=>c.status==='hold').length+' точек ждут оплаты</div></div>'+
-    '<div class="k"><span>Доступно точек</span><b style="color:var(--accent)">'+free.length+'</b><div class="d">остаток '+
+    '<div class="k"><span>Доступно точек</span><b style="color:var(--accent-ink)">'+free.length+'</b><div class="d">остаток '+
       mln(free.reduce((s,c)=>s+c.price,0))+'</div></div>'+
     '<div class="k"><span>Дедлайн брони</span><b>'+city.deadline+'</b><div class="d">'+
       cells.length+' точек в городе</div></div>';
@@ -1192,11 +1459,12 @@ function renderAnalytics(){
       const bc = CELLS.filter(c=>c.venue===v.id && c.block===b && !c.tech);
       const t  = bc.filter(c=>c.status!=='free').length;
       const p  = Math.round(t/bc.length*100);
-      const col = p >= 70 ? 'var(--accent)' : (p >= 40 ? '#5F5F6B' : 'var(--danger)');
+      const col = p >= 70 ? 'var(--accent)' : (p >= 40 ? 'var(--muted-2)' : 'var(--danger)');
+      const ink = p >= 70 ? 'var(--accent-ink)' : col;
       rows += '<div class="chart-row"><div class="lbl">'+bc[0].blockLabel+
         '<small>'+v.name+' · '+bc[0].size+' м</small></div>'+
         '<div class="track"><i data-w="'+p+'" style="background:'+col+'"></i></div>'+
-        '<div class="val" style="color:'+col+'">'+t+'/'+bc.length+'</div></div>';
+        '<div class="val" style="color:'+ink+'">'+t+'/'+bc.length+'</div></div>';
     });
   });
   $('#chartBlocks').innerHTML = rows;
@@ -1212,10 +1480,11 @@ function renderAnalytics(){
   });
   $('#chartSizes').innerHTML = Object.entries(groups).map(([k,g])=>{
     const p = Math.round(g.sold/g.pot*100);
-    const col = p >= 60 ? 'var(--accent)' : (p >= 25 ? '#5F5F6B' : 'var(--danger)');
+    const col = p >= 60 ? 'var(--accent)' : (p >= 25 ? 'var(--muted-2)' : 'var(--danger)');
+    const ink = p >= 60 ? 'var(--accent-ink)' : col;
     return '<div class="chart-row"><div class="lbl">'+k+'<small>'+g.n+' точек · '+(g.price/1000)+' тыс ₽</small></div>'+
       '<div class="track"><i data-w="'+p+'" style="background:'+col+'"></i></div>'+
-      '<div class="val" style="color:'+col+'">'+tys(g.sold)+'</div></div>';
+      '<div class="val" style="color:'+ink+'">'+tys(g.sold)+'</div></div>';
   }).join('');
 
   /* задачи департамента */
@@ -1223,7 +1492,7 @@ function renderAnalytics(){
   $('#todoHint').textContent = d + ' из ' + TODOS.length + ' выполнено';
   $('#todoList').innerHTML = TODOS.map((t,i)=>
     '<div class="todo '+(t.done?'done':'')+'" data-t="'+i+'">'+
-      '<div class="chk" style="'+(t.done?'background:var(--accent);border-color:var(--accent);color:#0A0A0A':'')+'">✓</div>'+
+      '<div class="chk" style="'+(t.done?'background:var(--accent);border-color:var(--accent);color:var(--btn-ink)':'')+'">✓</div>'+
       '<div class="tx">'+t.t+'<div style="font-size:11px;color:var(--muted-2);font-weight:500;margin-top:2px">'+t.d+'</div></div>'+
     '</div>').join('');
   $$('#todoList .todo').forEach(el=>el.addEventListener('click', ()=>{
@@ -1275,6 +1544,17 @@ function openVenue(id){
   renderCityTabs(); renderVenues(); renderList(); renderDetail();
   go('map');
   setTimeout(()=>{ const el = $('#v-'+id); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }, 220);
+}
+
+function applyTheme(name){
+  S.theme = name;
+  TH = THEMES[name];
+  Object.assign(STATUS, TH.status);
+  document.documentElement.dataset.theme = name;
+  const b = $('#themeBtn');
+  if(b) b.textContent = name === 'picnic' ? 'Тема: Пикник' : 'Тема: Тёмная';
+  try{ localStorage.setItem('pa-theme', name); }catch(e){}
+  renderVenues(); renderList(); renderDetail(); renderAnalytics();
 }
 
 document.addEventListener('click', e=>{
@@ -1352,6 +1632,7 @@ document.addEventListener('click', e=>{
     toast('Показаны свободные точки', 'Выберите новый корнер и нажмите «Забронировать»');
     return;
   }
+  if(a === 'theme'){ applyTheme(S.theme === 'picnic' ? 'dark' : 'picnic'); return; }
   if(a === 'kuper'){
     modal('Онбординг на платформу Купер',
       'Сервис доставки Купер · ФК3.<br>Для подключения корнера к доставке загрузите документы:<br><br>'+
@@ -1386,6 +1667,16 @@ window.closeModal = closeModal;
 /* ============================================================
    СТАРТ
    ============================================================ */
+let saved = 'picnic';
+try{ saved = localStorage.getItem('pa-theme') || 'picnic'; }catch(e){}
+TH = THEMES[saved] || THEMES.picnic;
+Object.assign(STATUS, TH.status);
+S.theme = saved;
+document.documentElement.dataset.theme = saved;
+
+const STRIP = 'пикник афиши 2027 / фудкорты / резиденты / тех хостинг / монтаж / аккредитация / выручка / аналитика / ';
+$('#stripLine').innerHTML = ('<span>'+STRIP.split(' / ').filter(Boolean).join(' /</span><span>')+' /</span>').repeat(2);
+
 renderStageTabs();
 renderTasks();
 paintProgress();
@@ -1396,6 +1687,7 @@ renderVenues();
 renderList();
 renderDetail();
 renderAnalytics();
+$('#themeBtn').textContent = S.theme === 'picnic' ? 'Тема: Пикник' : 'Тема: Тёмная';
 </script>
 </body>
 </html>
