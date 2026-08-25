@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Пикник Афиши 2027 — Кабинет резидента</title>
+<title>Пикник Афиши 2027 × Сбер</title>
 <style>
 /* Палитра и типографика — по гайду «Пикник Афиши» (picnic24_guide) */
 :root{
@@ -78,70 +78,108 @@ input,select,textarea{font-family:inherit}
 a{color:inherit}
 
 /* ============ СПЛЭШ ============ */
-#splash{position:fixed;inset:0;z-index:400;background:var(--neon);display:grid;place-items:center;overflow:hidden}
-#splash.hide{animation:splashOut .7s cubic-bezier(.7,0,.3,1) forwards}
-@keyframes splashOut{to{opacity:0;transform:scale(1.08);visibility:hidden}}
-.sp-logo{position:absolute;top:22px;left:22px;z-index:3;font-family:var(--font-display);font-size:14px;font-weight:800;
-  letter-spacing:.5px;color:#0A0A0A;background:var(--neon);padding:7px 12px;border-radius:8px;
-  opacity:0;animation:spFade .5s .15s forwards}
-.sp-skip{position:absolute;bottom:22px;right:22px;z-index:3;background:var(--neon);font-size:12px;font-weight:700;color:rgba(10,10,10,.6);
-  border:1px solid rgba(10,10,10,.25);border-radius:99px;padding:8px 16px;opacity:0;animation:spFade .4s 1s forwards}
-.sp-skip:hover{color:#0A0A0A;border-color:#0A0A0A}
-@keyframes spFade{to{opacity:1}}
+#splash{position:fixed;inset:0;z-index:400;background:#08090A;display:grid;place-items:center;overflow:hidden;
+  --neon:#00E01E}
+#splash.hide{animation:splashOut .8s cubic-bezier(.76,0,.24,1) forwards;pointer-events:none}
+@keyframes splashOut{
+  0%{clip-path:inset(0 0 0 0)}
+  100%{clip-path:inset(50% 0 50% 0);opacity:0;visibility:hidden}
+}
+.sp-bg{position:absolute;inset:0;background:var(--neon);transform:scale(0);border-radius:50%;
+  animation:bgIn .85s cubic-bezier(.7,0,.2,1) .1s forwards}
+@keyframes bgIn{to{transform:scale(2.4);border-radius:0}}
+.sp-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;mix-blend-mode:overlay}
+.sp-flash.on{animation:flash .38s ease}
+@keyframes flash{0%{opacity:.9}100%{opacity:0}}
 
-.sp-tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);
-  gap:14px;padding:14px;opacity:0}
-.sp-tiles.on{animation:tilesIn .5s forwards}
-@keyframes tilesIn{to{opacity:1}}
-.sp-tile{border-radius:2px;transform:scale(.82);opacity:0;filter:blur(14px);
-  animation:tileUp .6s cubic-bezier(.2,.8,.2,1) forwards}
-@keyframes tileUp{to{transform:scale(1);opacity:1}}
+.sp-stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:26px;
+  transform:scale(.94);opacity:0;animation:stageIn .7s cubic-bezier(.2,.9,.2,1) .35s forwards}
+@keyframes stageIn{to{transform:scale(1);opacity:1}}
+.sp-stage.blast{animation:blast .9s cubic-bezier(.6,0,.2,1) forwards}
+@keyframes blast{60%{transform:scale(1.06)}100%{transform:scale(1.5);opacity:0;filter:blur(3px)}}
 
-.sp-face{position:relative;width:min(74vw,660px);z-index:2}
+.sp-face{position:relative;width:min(72vw,620px)}
 .sp-face svg{width:100%;height:auto;display:block;overflow:visible}
-.sp-eye{transform-origin:center;opacity:0}
-.sp-eye.l{animation:eyeIn .5s .25s cubic-bezier(.3,1.5,.5,1) forwards}
-.sp-eye.r{animation:eyeIn .5s .38s cubic-bezier(.3,1.5,.5,1) forwards}
-@keyframes eyeIn{
-  0%{opacity:0;transform:scale(.2) rotate(-60deg)}
-  100%{opacity:1;transform:scale(1) rotate(0)}
+.sp-eye{opacity:0;transform-origin:center}
+.sp-eye.l{animation:eyeCut .55s cubic-bezier(.2,1.4,.3,1) .5s forwards}
+.sp-eye.r{animation:eyeCut .55s cubic-bezier(.2,1.4,.3,1) .64s forwards}
+@keyframes eyeCut{
+  0%{opacity:0;transform:translateX(-90px) rotate(-38deg) scale(.5)}
+  55%{opacity:1;transform:translateX(10px) rotate(6deg) scale(1.08)}
+  100%{opacity:1;transform:none}
 }
 .sp-mouth{stroke:#0A0A0A;stroke-width:46;stroke-linecap:round;fill:none;
-  stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 1s .5s cubic-bezier(.4,0,.2,1) forwards}
+  stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw .95s cubic-bezier(.3,0,.15,1) .82s forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
-.sp-face.blink{animation:blink .5s 1.4s}
-@keyframes blink{40%{transform:scaleY(.86) translateY(6px)}70%{transform:scaleY(1.04)}100%{transform:none}}
-.sp-word{position:absolute;left:50%;bottom:-52px;z-index:3;background:var(--neon);padding:6px 12px;border-radius:8px;transform:translateX(-50%);font-family:var(--font-display);
-  font-size:14px;font-weight:800;letter-spacing:3px;color:#0A0A0A;opacity:0;white-space:nowrap;
-  animation:spFade .5s 1.5s forwards}
+.sp-ghost{opacity:0;mix-blend-mode:multiply}
+.sp-ghost.g1{animation:gh1 .5s steps(2) 1.75s 2}
+.sp-ghost.g2{animation:gh2 .5s steps(2) 1.75s 2}
+@keyframes gh1{0%{opacity:0;transform:none}40%{opacity:.85;transform:translate(-14px,6px)}100%{opacity:0;transform:none}}
+@keyframes gh2{0%{opacity:0;transform:none}40%{opacity:.85;transform:translate(15px,-7px)}100%{opacity:0;transform:none}}
+
+.sp-word{display:flex;align-items:baseline;gap:12px;font-family:var(--font-display);color:#0A0A0A;
+  opacity:0;animation:wordIn .55s cubic-bezier(.2,.9,.2,1) 1.55s forwards}
+.sp-word span{font-size:14px;font-weight:800;letter-spacing:5px}
+.sp-word b{font-size:30px;font-weight:900;letter-spacing:-.5px;line-height:1}
+@keyframes wordIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.sp-tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);
+  gap:12px;padding:12px;opacity:0;z-index:3;pointer-events:none}
+.sp-tiles.on{opacity:1}
+.sp-tile{border-radius:3px;opacity:0;transform:scale(.2) rotate(-8deg);filter:blur(18px)}
+.sp-tiles.on .sp-tile{animation:tileBlast .75s cubic-bezier(.2,.85,.25,1) forwards}
+@keyframes tileBlast{
+  0%{opacity:0;transform:scale(.2) rotate(-8deg);filter:blur(18px)}
+  70%{opacity:1;transform:scale(1.03) rotate(1deg);filter:blur(4px)}
+  100%{opacity:1;transform:none;filter:blur(0)}
+}
+.sp-logo{position:absolute;top:22px;left:22px;z-index:5;font-family:var(--font-display);font-size:13px;font-weight:800;
+  letter-spacing:.6px;color:#0A0A0A;background:var(--neon);padding:7px 12px;border-radius:8px;
+  opacity:0;animation:spFade .5s .55s forwards}
+.sp-skip{position:absolute;bottom:22px;right:22px;z-index:5;background:var(--neon);font-size:12px;font-weight:700;
+  color:rgba(10,10,10,.65);border:1px solid rgba(10,10,10,.3);border-radius:99px;padding:8px 16px;
+  opacity:0;animation:spFade .4s 1s forwards}
+.sp-skip:hover{color:#0A0A0A;border-color:#0A0A0A}
+@keyframes spFade{to{opacity:1}}
 @media(prefers-reduced-motion:reduce){
-  .sp-eye,.sp-mouth,.sp-logo,.sp-skip,.sp-word,.sp-tile{animation:none!important;opacity:1!important;
-    transform:none!important;stroke-dashoffset:0!important;filter:none!important}
+  #splash *{animation:none!important;opacity:1!important;transform:none!important;
+    stroke-dashoffset:0!important;filter:none!important}
+  .sp-bg{transform:scale(2.4)!important;border-radius:0!important}
+  .sp-ghost{opacity:0!important}
 }
 
 /* ============ ШАПКА ============ */
 header{position:sticky;top:0;z-index:60;background:color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-.nav{max-width:1400px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px}
-.brand{display:flex;align-items:center;gap:11px;margin-right:auto;min-width:0;cursor:pointer}
+.nav{max-width:1400px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px}
+.tabs{margin-left:auto}
+.brand{display:flex;align-items:center;gap:11px;cursor:pointer;flex:0 0 auto}
 .mark{width:36px;height:36px;border-radius:10px;flex:none;background:var(--accent);color:var(--btn-ink);
   font-family:var(--font-display);display:grid;place-items:center;font-weight:900;font-size:15px;letter-spacing:-.5px}
 .brand b{display:block;font-family:var(--font-display);font-size:15px;font-weight:800;letter-spacing:.2px;white-space:nowrap}
-.brand span{display:block;font-size:11px;color:var(--muted-2);font-weight:500;margin-top:1px;
+.brand{flex:0 0 auto}
+.brand>div:last-child{flex:none;white-space:nowrap;width:max-content}
+.brand>div>span{display:block;font-size:11px;color:var(--muted-2);font-weight:500;margin-top:1px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tabs{display:flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:12px;border:1px solid var(--line-soft)}
 .tab{font-size:13px;font-weight:600;color:var(--muted);padding:8px 14px;border-radius:9px;transition:.15s;white-space:nowrap}
 .tab:hover{color:var(--text)}
 .tab.active{background:var(--accent);color:var(--btn-ink)}
-.user{display:flex;align-items:center;gap:9px;padding:6px 12px 6px 6px;border:1px solid var(--line);border-radius:99px}
+.user{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border:1px solid var(--line);
+  border-radius:99px;background:var(--surface-2)}
+.u-txt b{display:block;font-family:var(--font-display);font-size:12.5px;font-weight:800;letter-spacing:.4px}
+.u-txt span{display:block;font-size:10.5px;color:var(--muted-2);font-weight:600}
+.p-gold{background:linear-gradient(100deg,#F2C230,#FFE9A3);color:#4A3606;border:1px solid rgba(74,54,6,.22)}
+.brand .x{display:inline;color:var(--accent-ink);font-weight:900}
 .ava{width:26px;height:26px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;
   font-size:11px;font-weight:800;color:var(--accent-ink)}
 .user span{font-size:12px;color:var(--muted)}
 
 .strip{background:var(--text);color:var(--bg);overflow:hidden;white-space:nowrap}
 .strip div{display:inline-block;padding:7px 0;font-family:var(--font-display);font-size:12px;font-weight:800;
-  letter-spacing:1px;text-transform:lowercase;animation:run 50s linear infinite}
-.strip span{padding:0 14px;opacity:.94}
+  letter-spacing:1.4px;white-space:nowrap;animation:run 34s linear infinite}
+.strip span{padding:0 13px;opacity:.94}
+.strip em{font-style:normal;color:var(--accent);opacity:.85;font-size:10px;vertical-align:middle}
 @keyframes run{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.strip div{animation:none}}
 
@@ -232,6 +270,7 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 90px}
   border:1px solid var(--line-soft);font-size:11px;font-weight:700;color:var(--muted-2);text-align:center;transition:.2s}
 .step.done{background:var(--ok-bg);color:var(--accent-ink);border-color:var(--accent-line)}
 .step.cur{background:var(--surface-3);color:var(--text);border-color:var(--accent)}
+.step.sel{outline:2px solid var(--accent);outline-offset:1px}
 
 .alerts{display:flex;flex-direction:column;gap:9px;margin-bottom:16px}
 .alert{display:flex;align-items:center;gap:11px;padding:13px 15px;border-radius:var(--r-sm);
@@ -275,10 +314,32 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 90px}
 .place .big{font-family:var(--font-display);font-size:21px;font-weight:800;letter-spacing:-.2px}
 .place .sm{font-size:11.5px;color:var(--muted);margin-top:4px}
 
+/* поповер этапа */
+.hero-prog{position:relative}
+.step{cursor:pointer}
+.step-pop{position:absolute;z-index:40;background:var(--surface);border:1px solid var(--accent-line);
+  border-radius:var(--r-sm);box-shadow:0 18px 40px rgba(36,23,21,.22);padding:14px;width:290px;
+  animation:in .16s ease;pointer-events:none}
+.step-pop h5{font-family:var(--font-display);font-size:14px;font-weight:800;margin-bottom:4px}
+.step-pop .sp-sub{font-size:11px;color:var(--muted-2);font-weight:700;margin-bottom:10px}
+.step-pop ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.step-pop li{display:flex;gap:8px;font-size:12.3px;color:var(--muted);line-height:1.45}
+.step-pop li i{font-style:normal;flex:none;width:15px;color:var(--accent-ink);font-weight:800}
+.step-pop li.no i{color:var(--muted-2)}
+
+/* скидка куратора */
+.curator-box{margin-top:14px;padding:13px 14px;border:1px dashed var(--line);border-radius:var(--r-sm);background:var(--surface-2)}
+.cb-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+
 /* статус-сводка */
 .stat-list{display:flex;flex-direction:column;gap:8px}
-.st-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-sm);
-  border:1px solid var(--line-soft);background:var(--surface-2)}
+.st-row{display:flex;align-items:flex-start;gap:10px;padding:12px 13px;border-radius:var(--r-sm);
+  border:1px solid var(--line-soft);background:var(--surface-2);transition:.15s;text-align:left;width:100%}
+.st-row:hover{border-color:var(--accent-line)}
+.st-row.act{cursor:pointer}
+.st-row .st-b{flex:1;min-width:0}
+.st-row .st-b b{display:block;font-size:12.8px;font-weight:700}
+.st-row .st-b span{display:block;font-size:11.3px;color:var(--muted-2);margin-top:2px;line-height:1.4}
 .st-row .st-ic{width:24px;height:24px;border-radius:7px;flex:none;display:grid;place-items:center;font-size:11px;font-weight:800}
 .st-row b{font-size:12.5px;font-weight:700;flex:1;min-width:0}
 .st-row .st-v{font-size:12px;font-weight:800;white-space:nowrap}
@@ -419,6 +480,21 @@ svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(
 .offer p{font-size:12.5px;color:var(--muted);margin-top:6px;max-width:520px}
 .offer .o-p{font-family:var(--font-display);font-size:30px;font-weight:900;letter-spacing:-1px;white-space:nowrap}
 
+.map-modal{width:100%}
+.mm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.mm-head h3{font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:4px}
+.mm-head p{font-size:12.5px;color:var(--muted)}
+svg.citymap{width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--line-soft)}
+svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-width:2.4px;stroke-linejoin:round}
+:root[data-theme="dark"] svg.citymap text{stroke:rgba(0,0,0,.5)}
+.cm-venue{cursor:pointer}
+.cm-venue rect,.cm-venue circle{transition:.15s}
+.cm-venue:hover rect,.cm-venue:hover circle{filter:brightness(1.15)}
+.cm-pin{animation:pin 1.4s ease-in-out infinite}
+@keyframes pin{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media(prefers-reduced-motion:reduce){.cm-pin{animation:none}}
+.mbox.wide{max-width:1060px}
+
 #tip{position:fixed;z-index:200;pointer-events:none;opacity:0;transform:translateY(4px);
   transition:opacity .12s,transform .12s;background:var(--surface);border:1px solid var(--accent-line);
   border-radius:10px;padding:11px 13px;min-width:172px;box-shadow:0 12px 34px rgba(0,0,0,.28)}
@@ -484,6 +560,25 @@ svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(
 .todo.done{opacity:.55}
 .todo .tx{flex:1;font-size:13px;font-weight:600}
 .todo.done .tx{text-decoration:line-through}
+.cur-row{display:grid;grid-template-columns:38px 1.4fr 120px 1.2fr 84px 84px;gap:14px;align-items:center;
+  padding:12px 10px;border-bottom:1px solid var(--line-soft)}
+.cur-row:last-child{border-bottom:0}
+.cur-ava{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:12px;font-weight:800;
+  background:var(--surface-3);color:var(--muted);position:relative}
+.cur-ava.on{background:var(--ok-bg);color:var(--accent-ink)}
+.cur-ava.on::after{content:"";position:absolute;right:-2px;bottom:-2px;width:11px;height:11px;border-radius:50%;
+  background:#2CB94A;border:2px solid var(--surface)}
+.cur-i b{display:block;font-size:13px;font-weight:700}
+.cur-i span{display:block;font-size:11px;color:var(--muted-2);margin-top:2px}
+.cur-bar span{display:block;font-size:11px;color:var(--muted-2);font-weight:700;margin-top:6px}
+.cur-n{text-align:right}
+.cur-n b{display:block;font-family:var(--font-display);font-size:15px;font-weight:800}
+.cur-n span{font-size:10px;color:var(--muted-2);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+@media(max-width:860px){
+  .cur-row{grid-template-columns:38px 1fr auto;gap:10px}
+  .cur-bar,.cur-n{grid-column:2 / -1;text-align:left}
+}
+
 .res-table{width:100%;border-collapse:collapse;font-size:12.5px}
 .res-table th{text-align:left;font-size:10.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;
   color:var(--muted-2);padding:0 10px 9px;border-bottom:1px solid var(--line)}
@@ -497,6 +592,20 @@ svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(
 .club-hero{padding:24px;border-radius:var(--r);background:linear-gradient(130deg,var(--ok-bg),var(--warn-bg));
   border:1px solid var(--accent-line);margin-bottom:16px}
 .club-hero h3{font-family:var(--font-display);font-size:26px;font-weight:900;text-transform:lowercase;letter-spacing:-.3px}
+.deg-wrap{display:flex;gap:26px;align-items:stretch;flex-wrap:wrap}
+.deg-wrap>div:first-child{flex:1;min-width:260px}
+.deg{width:190px;flex:none;padding:8px 0}
+.deg-scale{position:relative;height:190px;width:14px;margin-left:8px;border-radius:99px;
+  background:rgba(36,23,21,.12);overflow:visible}
+.deg-fill{position:absolute;left:0;bottom:0;width:100%;border-radius:99px;
+  background:linear-gradient(180deg,#F2C230,#B7DC1E);transition:height .9s cubic-bezier(.2,.8,.2,1)}
+.deg-mark{position:absolute;left:26px;transform:translateY(50%);white-space:nowrap;opacity:.45}
+.deg-mark.on{opacity:1}
+.deg-mark i{position:absolute;left:-24px;top:50%;width:10px;height:10px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--muted-2);transform:translateY(-50%)}
+.deg-mark.on i{border-color:#8A6A05;background:#F2C230}
+.deg-mark b{font-family:var(--font-display);font-size:13px;font-weight:800;letter-spacing:.5px}
+.deg-mark span{font-size:10.5px;color:var(--muted-2);font-weight:700;margin-left:6px}
 .club-hero p{font-size:13.5px;color:var(--muted);margin-top:8px;max-width:640px}
 .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:16px}
 .tier{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;position:relative}
@@ -515,6 +624,38 @@ svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(
 .perk h4{font-size:14.5px;font-weight:800;margin-bottom:7px}
 .perk p{font-size:12.5px;color:var(--muted);line-height:1.6}
 .perk .p-num{font-family:var(--font-display);font-size:22px;font-weight:900;color:var(--accent-ink);margin-top:10px;display:block}
+
+/* ============ ДАЙДЖЕСТ ============ */
+.nw-hero{display:grid;grid-template-columns:320px 1fr;gap:28px;align-items:center;padding:26px;border-radius:var(--r);
+  background:linear-gradient(120deg,var(--surface),var(--surface-2));border:1px solid var(--line);margin-bottom:22px;overflow:hidden}
+.nw-hero .mascot{width:100%;max-width:320px;filter:drop-shadow(0 22px 34px rgba(36,23,21,.22))}
+.nw-hero .nw-t .kicker{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;font-weight:800;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--accent-ink);background:var(--ok-bg);padding:5px 11px;border-radius:99px;margin-bottom:14px}
+.nw-hero h3{font-family:var(--font-display);font-size:clamp(26px,3.4vw,40px);line-height:1;font-weight:900;
+  letter-spacing:-.6px;text-transform:lowercase;margin-bottom:12px}
+.nw-hero p{font-size:14px;color:var(--muted);line-height:1.6;max-width:560px}
+.nw-hero .nw-meta{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;font-size:11.5px;color:var(--muted-2);font-weight:700}
+.feed{border-top:1px solid var(--line)}
+.item{display:grid;grid-template-columns:52px 1fr 150px;gap:20px;align-items:start;padding:22px 12px;
+  border-bottom:1px solid var(--line);transition:.18s;cursor:pointer;text-align:left;width:100%}
+.item:hover{background:var(--surface);padding-left:20px}
+.item .num{font-family:var(--font-display);font-size:15px;font-weight:900;color:var(--muted-2);padding-top:4px}
+.item h4{font-family:var(--font-display);font-size:clamp(19px,2.2vw,26px);line-height:1.08;font-weight:800;
+  letter-spacing:-.2px;margin-bottom:8px;text-wrap:balance}
+.item:hover h4{color:var(--accent-ink)}
+.item p{font-size:13px;color:var(--muted);line-height:1.6;max-width:640px}
+.item .side{text-align:right;display:flex;flex-direction:column;gap:8px;align-items:flex-end;padding-top:4px}
+.item .rub{font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent-ink);
+  background:var(--ok-bg);padding:4px 9px;border-radius:6px}
+.item .rub.pink{background:var(--warn-bg);color:var(--warn-ink)}
+.item .rub.blue{background:rgba(18,115,184,.14);color:var(--info)}
+.item .date{font-size:11px;color:var(--muted-2);font-weight:700}
+@media(max-width:860px){
+  .nw-hero{grid-template-columns:1fr;gap:18px}
+  .nw-hero .mascot{max-width:210px;margin:0 auto}
+  .item{grid-template-columns:1fr;gap:10px;padding:18px 4px}
+  .item .side{flex-direction:row;align-items:center;text-align:left}
+}
 
 /* ============ ЧАТ С КУРАТОРОМ ============ */
 #chat{position:fixed;right:20px;bottom:20px;z-index:180;width:340px;max-width:calc(100vw - 32px);
@@ -624,20 +765,37 @@ footer a:hover{text-decoration:underline}
 
 <!-- ==================== СПЛЭШ ==================== -->
 <div id="splash">
-  <div class="sp-logo">ЛОГОТИП.SMILE</div>
+  <div class="sp-bg"></div>
+  <div class="sp-flash"></div>
   <div class="sp-tiles" id="spTiles"></div>
-  <div class="sp-face" id="spFace">
-    <svg viewBox="0 0 760 640" aria-label="Пикник Афиши">
-      <g class="sp-eye l">
-        <path d="M140 110 L320 300 M320 110 L140 300" stroke="#0A0A0A" stroke-width="92" stroke-linecap="round"/>
-      </g>
-      <g class="sp-eye r">
-        <path d="M440 110 L620 300 M620 110 L440 300" stroke="#0A0A0A" stroke-width="92" stroke-linecap="round"/>
-      </g>
-      <path class="sp-mouth" d="M58 392 C58 344 122 332 146 380 C206 566 554 566 614 380 C638 332 702 344 702 392"/>
-    </svg>
-    <div class="sp-word">ПИКНИК АФИШИ 2027</div>
+
+  <div class="sp-stage" id="spStage">
+    <div class="sp-face" id="spFace">
+      <svg viewBox="0 0 760 640" aria-label="Пикник Афиши 2027">
+        <g class="sp-ghost g1">
+          <path d="M140 110 L320 300 M320 110 L140 300" stroke="#FF6FD8" stroke-width="92" stroke-linecap="round"/>
+          <path d="M440 110 L620 300 M620 110 L440 300" stroke="#FF6FD8" stroke-width="92" stroke-linecap="round"/>
+          <path d="M58 392 C58 344 122 332 146 380 C206 566 554 566 614 380 C638 332 702 344 702 392"
+                stroke="#FF6FD8" stroke-width="46" fill="none" stroke-linecap="round"/>
+        </g>
+        <g class="sp-ghost g2">
+          <path d="M140 110 L320 300 M320 110 L140 300" stroke="#12E0FF" stroke-width="92" stroke-linecap="round"/>
+          <path d="M440 110 L620 300 M620 110 L440 300" stroke="#12E0FF" stroke-width="92" stroke-linecap="round"/>
+          <path d="M58 392 C58 344 122 332 146 380 C206 566 554 566 614 380 C638 332 702 344 702 392"
+                stroke="#12E0FF" stroke-width="46" fill="none" stroke-linecap="round"/>
+        </g>
+
+        <g class="sp-eye l"><path d="M140 110 L320 300 M320 110 L140 300"
+            stroke="#0A0A0A" stroke-width="92" stroke-linecap="round"/></g>
+        <g class="sp-eye r"><path d="M440 110 L620 300 M620 110 L440 300"
+            stroke="#0A0A0A" stroke-width="92" stroke-linecap="round"/></g>
+        <path class="sp-mouth" d="M58 392 C58 344 122 332 146 380 C206 566 554 566 614 380 C638 332 702 344 702 392"/>
+      </svg>
+    </div>
+    <div class="sp-word"><span>ПИКНИК АФИШИ</span><b>2027</b><span>× СБЕР</span></div>
   </div>
+
+  <div class="sp-logo">ЛОГОТИП.SMILE</div>
   <button class="sp-skip" id="spSkip">пропустить</button>
 </div>
 
@@ -647,16 +805,20 @@ footer a:hover{text-decoration:underline}
     <div class="brand" data-act="home">
       <div class="mark">ПА</div>
       <div>
-        <b>Пикник Афиши 2027</b>
+        <b>Пикник Афиши 2027 <span class="x">×</span> Сбер</b>
         <span id="brandSub">Сервис резидентов фуд-кортов</span>
       </div>
     </div>
-    <nav class="tabs" id="tabs"></nav>
-    <button class="btn-ghost" id="themeBtn" data-act="theme">Тема: Пикник</button>
     <div class="user" id="userChip" hidden>
       <div class="ava">UD</div>
-      <span>Underdog · ФК1 · точка 12</span>
+      <div class="u-txt">
+        <b id="uName">UNDERDOG</b>
+        <span id="uCurator">Куратор: Наталья Арсентьева</span>
+      </div>
+      <span class="pill p-gold" id="uTier">GOLD · 80°</span>
     </div>
+    <nav class="tabs" id="tabs"></nav>
+    <button class="btn-ghost" id="themeBtn" data-act="theme">Тема: Пикник</button>
   </div>
 </header>
 
@@ -666,11 +828,6 @@ footer a:hover{text-decoration:underline}
 
 <!-- ==================== МЕНЮ ==================== -->
 <section class="view active" id="view-menu">
-  <div class="menu-hero">
-    <h1>сервис резидентов<br>фуд-кортов</h1>
-    <p>Выберите место на фестивале, пройдите согласование и ведите подготовку корнера в личном кабинете.</p>
-  </div>
-
   <div class="menu-grid">
     <button class="mcard" data-act="go-rent">
       <div class="mc-ic">◫</div>
@@ -682,15 +839,15 @@ footer a:hover{text-decoration:underline}
     <button class="mcard pink" data-act="go-club">
       <div class="mc-ic">◈</div>
       <h3>клуб резидентов</h3>
-      <p>Программа лояльности: уровни за сезоны, скидки на аренду, реферальные бонусы, приоритетный выбор места и подарки для постоянных резидентов.</p>
+      <p>Градус резидента растёт с каждым сезоном: RAW, WARM, GOLD, FLAMBÉ. Скидки на аренду, реферальные бонусы, приоритет выбора места и подарки.</p>
       <span class="mc-go">Условия программы →</span>
     </button>
 
-    <button class="mcard blue" data-act="go-cab">
-      <div class="mc-ic">◉</div>
-      <h3>кабинет резидента</h3>
-      <p>Этапы подготовки с процентом выполнения, счёт и платёжка, калькулятор услуг, тех. хостинг, выручка, закрывающие документы и чат с куратором.</p>
-      <span class="mc-go" id="cabHint">Войти в кабинет →</span>
+    <button class="mcard blue" data-act="go-news">
+      <div class="mc-ic">✦</div>
+      <h3>дайджест</h3>
+      <p>Новости фестиваля, анонсы площадок, гид по резидентам, дедлайны сезона и партнёрские истории — лента от редакции «Афиши».</p>
+      <span class="mc-go">Читать ленту →</span>
     </button>
   </div>
 
@@ -700,6 +857,15 @@ footer a:hover{text-decoration:underline}
   </div>
 </section>
 
+<!-- ==================== ДАЙДЖЕСТ ==================== -->
+<section class="view" id="view-news">
+  <div class="page-h">
+    <h2>дайджест</h2>
+    <p>Что происходит на фестивале: анонсы, цифры, гид по резидентам и дедлайны сезона.</p>
+  </div>
+  <div id="newsBody"></div>
+</section>
+
 <!-- ==================== АРЕНДА ==================== -->
 <section class="view" id="view-rent">
   <div class="page-h">
@@ -707,7 +873,12 @@ footer a:hover{text-decoration:underline}
     <p>Схемы площадок фестиваля. Наведите на место, чтобы увидеть площадь и стоимость, нажмите — чтобы открыть карточку и отправить заявку на резидентство.</p>
   </div>
 
-  <div class="city-tabs" id="cityTabs"></div>
+  <div class="city-tabs" id="cityTabs">
+  </div>
+  <div class="menu-foot" style="margin:0 0 16px">
+    <span>Общая карта площадки со всеми фуд-кортами, сценами, VIP-зоной и входами.</span>
+    <button class="btn btn-acc btn-sm" data-act="city-map">Открыть общую карту →</button>
+  </div>
 
   <div class="map-grid">
     <div id="venues"></div>
@@ -763,13 +934,13 @@ footer a:hover{text-decoration:underline}
           <div class="hero-id">
             <h1>underdog</h1>
             <div class="meta">
-              <span class="pill p-mute"><span class="dot"></span> Куратор: Наталья Арсентьева</span>
+              <span class="pill p-gold" id="heroTier">GOLD · 80°</span>
               <span class="pill p-ok" id="heroPlace">ФК1 · блок B · точка 12</span>
             </div>
           </div>
           <div class="hero-num">
             <div>
-              <b id="heroStage">3 из 10</b>
+              <b id="heroStage">3 из 8</b>
               <span>ЭТАП ПОДГОТОВКИ</span>
             </div>
           </div>
@@ -778,6 +949,7 @@ footer a:hover{text-decoration:underline}
           <div class="row"><span id="progLabel">Задачи по этапам</span><span><b id="progPct">25%</b></span></div>
           <div class="bar"><i id="progBar"></i></div>
           <div class="steps" id="steps"></div>
+          <div class="step-pop" id="stepPop" hidden></div>
         </div>
       </div>
 
@@ -789,14 +961,16 @@ footer a:hover{text-decoration:underline}
           <div class="sm" id="sumHold">Бронь до 14 мая · 3×3 м</div>
         </div>
         <div class="kv"><span>Аренда корнера</span><b id="sumRent">—</b></div>
-        <div class="kv"><span>Электричество</span><b id="sumKw">—</b></div>
-        <div class="kv"><span>Аккредитации</span><b id="sumAcc">—</b></div>
-        <div class="kv"><span>Сервисный сбор</span><b>15 000 ₽</b></div>
-        <div class="kv"><span>Смета</span><b id="sumTotal">—</b></div>
+        <div class="kv" id="discRow" hidden><span>Скидка куратора</span><b id="sumDisc">—</b></div>
+        <div class="kv"><span>Итого по счёту</span><b id="sumTotal">—</b></div>
         <div class="kv"><span>Оплата</span><b id="sumPay">—</b></div>
-        <div class="actions" style="margin-top:14px">
-          <button class="btn btn-acc" data-act="invoice">Оплатить счёт</button>
-          <button class="btn btn-light" data-act="pay">Загрузить платёжку</button>
+
+        <div class="curator-box">
+          <div class="cb-head">
+            <span class="sec-title">Скидка куратора</span>
+            <span class="pill p-info">доступно куратору</span>
+          </div>
+          <div class="frow" id="discRow2"></div>
         </div>
       </div>
 
@@ -823,25 +997,26 @@ footer a:hover{text-decoration:underline}
           </div>
         </div>
         <div class="calc-total"><span>Итого по услугам</span><b id="extraSum">33 000 ₽</b></div>
+        <div class="actions" style="margin-top:12px">
+          <button class="btn btn-acc" data-act="invoice">Оплатить счёт</button>
+          <button class="btn btn-light" data-act="pay">Загрузить платёжку</button>
+        </div>
       </div>
 
       <div class="card">
         <div class="card-h">
-          <h3>Задачи по этапам</h3>
+          <h3 id="stageTitle">Этап</h3>
           <span class="hint" id="taskHint"></span>
         </div>
-        <div class="stage-tabs" id="stageTabs"></div>
         <div id="taskList"></div>
       </div>
     </div>
 
     <aside>
       <div class="card side-card">
-        <div class="card-h"><h3>Статус резидента</h3><span class="hint">сводка</span></div>
+        <div class="card-h"><h3>Статус резидента</h3><span class="hint">актуальные задачи</span></div>
         <div class="stat-list" id="statusList"></div>
       </div>
-
-      <div class="alerts" id="alerts"></div>
 
       <div class="card side-card">
         <div class="card-h"><h3>Пригласительные билеты</h3><span class="hint">от организатора</span></div>
@@ -854,18 +1029,6 @@ footer a:hover{text-decoration:underline}
           <button class="btn btn-acc btn-sm" data-act="tk-send">Передать гостю</button>
           <button class="btn btn-light btn-sm" data-act="tk-download">Скачать PDF</button>
         </div>
-      </div>
-
-      <div class="card side-card">
-        <div class="card-h"><h3>Куратор</h3></div>
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-          <div class="ava" style="width:42px;height:42px;font-size:13px">НА</div>
-          <div>
-            <b style="font-size:14px;font-weight:700">Наталья Арсентьева</b>
-            <div style="font-size:11.5px;color:var(--muted-2)">Куратор · фуд-корты Москвы</div>
-          </div>
-        </div>
-        <button class="btn btn-acc btn-sm" style="width:100%" data-act="chat-open">Написать куратору</button>
       </div>
     </aside>
   </div>
@@ -918,6 +1081,11 @@ footer a:hover{text-decoration:underline}
         <div class="kv"><span>Монтаж</span><b>10 июля</b></div>
       </div>
     </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-h"><h3>Кураторы на смене</h3><span class="hint" id="curHint"></span></div>
+    <div id="curatorList"></div>
   </div>
 
   <div class="card">
@@ -1046,28 +1214,28 @@ function lineBlock(vid, id, label, price, size, cells, o){
 quadBlock('msk-fk1','A','Блок A',200000,'3×3', 34, 64,[
   ['free'],['free'],['free'],['free'],['tech'],['free'],['free'],['free'],['free']]);
 quadBlock('msk-fk1','B','Блок B',180000,'3×3',546, 64,[
-  ['taken','Teremok'],['hold','Бронь · Вок Стрит'],['free'],['taken','Underdog'],['tech'],
+  ['taken','TEREMOK'],['hold','Бронь · WOK STREET'],['free'],['taken','Underdog'],['tech'],
   ['free'],['free'],['free'],['free']]);
 quadBlock('msk-fk1','C','Блок C',150000,'3×3', 34,396,[
-  ['taken','Cofix'],['taken','BOLO'],['taken','SALATNICA'],['hold','Бронь · AAARC'],['tech'],
-  ['hold','Бронь · Мороженое'],['free'],['free'],['free']]);
+  ['taken','COFIX'],['taken','BOLO'],['taken','SALATNICA'],['hold','Бронь · AAARC'],['tech'],
+  ['hold','Бронь · ICE CREAM CO'],['free'],['free'],['free']]);
 quadBlock('msk-fk1','D','Блок D',150000,'3×3',546,396,[
-  ['taken','Крошка Картошка'],['taken','Technodoner'],['taken','Пян-Се'],['taken','Popmeal'],['tech'],
-  ['taken','Skuratov'],['taken','Rusty'],['hold','Бронь · Лапочка'],['free']]);
+  ['taken','KROSHKA'],['taken','TECHNODONER'],['taken','PYAN SE'],['taken','POPMEAL'],['tech'],
+  ['taken','SKURATOV'],['taken','RUSTY'],['hold','Бронь · LAPOCHKA'],['free']]);
 
 /* ФК2 — «Г» */
-[['free'],['taken','Cofix'],['free'],['free'],['hold','Бронь · JNKL'],['free'],['free'],['free']]
+[['free'],['taken','COFIX'],['free'],['free'],['hold','Бронь · JNKL'],['free'],['free'],['free']]
 .forEach((c,i)=>{
   push({venue:'msk-fk2', block:'Г', blockLabel:'Блок Г', tech:false, num:i+1, size:'4,5×3', price:180000,
         status:c[0], tenant:c[1]||null, x: i<5 ? 70 + i*92 : 70, y: i<5 ? 70 : 70 + (i-4)*92, w:84, h:84});
 });
 
 lineBlock('msk-fk3','КУПЕР','Блок Купер',0,'4,5×3',
-  [['free'],['taken','Cofix'],['free'],['hold','Бронь · SALATNICA'],['free']],
+  [['free'],['taken','COFIX'],['free'],['hold','Бронь · SALATNICA'],['free']],
   {ox:52, oy:76, w:120, h:96, gap:20});
 
 lineBlock('msk-family','СЕМЬЯ','Семейный фуд-корт',200000,'3×3',
-  [['taken','ВкусВилл'],['taken','ВкусВилл'],['taken','ВкусВилл'],['taken','ВкусВилл'],['taken','ВкусВилл']],
+  [['taken','VKUSVILL'],['taken','VKUSVILL'],['taken','VKUSVILL'],['taken','VKUSVILL'],['taken','VKUSVILL']],
   {ox:52, oy:76, w:120, h:96, gap:20});
 
 lineBlock('msk-ice','ICE','Тележки мороженого',70000,'2×2',
@@ -1079,7 +1247,7 @@ lineBlock('msk-popup','POPUP','PopUp проекты',19000,'1 м²',
   {ox:96, oy:66, w:76, h:76, gap:52});
 
 /* VIP Москва */
-[['taken','Сыроварня'],['taken','Дом Культуры'],['hold','Бронь · Ruski'],['free'],['free']]
+[['taken','SYROVARNYA'],['taken','DOM KULTURY'],['hold','Бронь · RUSKI'],['free'],['free']]
 .forEach((c,i)=>{
   push({venue:'msk-vip', block:'VIP', blockLabel:'VIP корнеры', tech:false, num:i+1, size:'5×5', price:250000,
         status:c[0], tenant:c[1]||null, x:52 + i*136, y:72, w:120, h:120});
@@ -1093,28 +1261,28 @@ push({venue:'msk-vip', block:'ICE', blockLabel:'Точка мороженого'
 
 /* ---------- САНКТ-ПЕТЕРБУРГ ---------- */
 lineBlock('spb-fk1','ФК1','Линия ФК1',220000,'3×3',
-  [['taken','Пышки СПб'],['taken','Cofix'],['hold','Бронь · Корюшка'],['free'],['free'],
-   ['taken','Пироговая'],['hold','Бронь · Смузи'],['free'],['free'],['free']],
+  [['taken','PYSHKI'],['taken','COFIX'],['hold','Бронь · KORYUSHKA'],['free'],['free'],
+   ['taken','PIROGOVAYA'],['hold','Бронь · SMOOTHIE BAR'],['free'],['free'],['free']],
   {ox:36, oy:76, w:64, h:80, gap:12, cols:10});
 
 lineBlock('spb-fk2','ФК2','Линия ФК2',200000,'4,5×3',
-  [['taken','Пельменная'],['hold','Бронь · Чебуречная'],['free'],['free'],['free']],
+  [['taken','PELMENI CLUB'],['hold','Бронь · CHEBUREK'],['free'],['free'],['free']],
   {ox:52, oy:76, w:120, h:96, gap:20});
 
 lineBlock('spb-fk3','КУПЕР','Блок Купер',120000,'4,5×3',
-  [['taken','Cofix'],['free'],['free'],['free'],['free']],
+  [['taken','COFIX'],['free'],['free'],['free'],['free']],
   {ox:52, oy:76, w:120, h:96, gap:20});
 
 lineBlock('spb-family','СЕМЬЯ','Семейный фуд-корт',150000,'3×3',
-  [['taken','ВкусВилл'],['taken','ВкусВилл'],['taken','ВкусВилл']],
+  [['taken','VKUSVILL'],['taken','VKUSVILL'],['taken','VKUSVILL']],
   {ox:52, oy:76, w:120, h:96, gap:20});
 
 lineBlock('spb-truck','ФУДТРАК','Фудтраки',150000,'фудтрак',
-  [['taken','Бургер Трак'],['free'],['free']],
+  [['taken','BURGER TRUCK'],['free'],['free']],
   {ox:52, oy:80, w:180, h:104, gap:28});
 
 lineBlock('spb-ice','ICE','Тележки мороженого',70000,'2×2',
-  [['taken','Mun Mun'],['taken','Mun Mun'],['taken','Mun Mun'],['free']],
+  [['taken','MUN MUN'],['taken','MUN MUN'],['taken','MUN MUN'],['free']],
   {ox:96, oy:72, w:96, h:96, gap:56, round:true});
 
 lineBlock('spb-popup','POPUP','PopUp проекты',19000,'1 м²',
@@ -1122,7 +1290,7 @@ lineBlock('spb-popup','POPUP','PopUp проекты',19000,'1 м²',
   {ox:96, oy:66, w:76, h:76, gap:52});
 
 /* VIP Питер */
-[['taken','Smoke bbq'],['hold','Бронь · Северянин'],['free']].forEach((c,i)=>{
+[['taken','SMOKE BBQ'],['hold','Бронь · SEVERYANIN'],['free']].forEach((c,i)=>{
   push({venue:'spb-vip', block:'VIP', blockLabel:'VIP места', tech:false, num:i+1, size:'5×5', price:180000,
         status:c[0], tenant:c[1]||null, x:52 + i*136, y:72, w:120, h:120});
 });
@@ -1191,10 +1359,6 @@ const STAGES = [
     {t:'Загрузить платёжное поручение', d:'Скан с отметкой банка', done:false, upload:true}
   ]},
   {id:'hosting', name:'Тех Хостинг', kind:'hosting', tasks:[]},
-  {id:'montazh', name:'Монтаж', kind:'empty',
-   emptyT:'ничего не требуется', emptyS:'Задачи по монтажу появятся ближе к заезду — следите за уведомлениями куратора.', tasks:[]},
-  {id:'demontazh', name:'Демонтаж', kind:'empty',
-   emptyT:'ничего не требуется', emptyS:'Задачи по демонтажу появятся после закрытия фестиваля.', tasks:[]},
   {id:'vyruchka', name:'Загрузка данных по выручке', kind:'revenue', tasks:[]},
   {id:'zakryvashki', name:'Закрывающие документы', kind:'docs', tasks:[]},
   {id:'feedback', name:'Обратная связь', kind:'feedback', tasks:[]}
@@ -1333,28 +1497,45 @@ const TODOS = [
   {t:'Обзвон брони', d:'5 мест с истекающей бронью', done:true}
 ];
 
-const RATES = {kw:3000, acc:1500, service:15000};
+const CURATORS = [
+  {n:'Наталья Арсентьева', c:'msk', role:'Фуд-корты Москвы',   online:true,  hrs:31.5, res:24, resp:'12 мин', last:'сейчас'},
+  {n:'Алина Пятакова',     c:'spb', role:'Монтаж и логистика',  online:true,  hrs:27.2, res:16, resp:'18 мин', last:'сейчас'},
+  {n:'Егор Лаптев',        c:'msk', role:'VIP и партнёры',      online:false, hrs:19.8, res:9,  resp:'40 мин', last:'14 минут назад'},
+  {n:'Дарья Соколова',     c:'spb', role:'Документы и счета',   online:true,  hrs:24.1, res:18, resp:'9 мин',  last:'сейчас'},
+  {n:'Иван Лебедев',       c:'msk', role:'Тех. хостинг',        online:false, hrs:16.4, res:12, resp:'55 мин', last:'вчера, 21:40'}
+];
+
+const RATES = {kw:3000, acc:1500};
+const DISCOUNTS = [0,5,10,15,20,30];
 const TICKETS = {total:12, from:'Организатор фестиваля', sentAt:'20 июня'};
 
 /* ============================================================
    КЛУБ РЕЗИДЕНТОВ
    ============================================================ */
+const TIERS = [
+  {key:'raw',    name:'RAW',    deg:0,   req:'первый сезон'},
+  {key:'warm',   name:'WARM',   deg:40,  req:'2 сезона подряд'},
+  {key:'gold',   name:'GOLD',   deg:80,  req:'4 сезона'},
+  {key:'flambe', name:'FLAMBÉ', deg:100, req:'6 сезонов и больше'}
+];
+const ME = {name:'UNDERDOG', tier:'gold', deg:80, seasons:4, curator:'Наталья Арсентьева'};
+
 const CLUB_TIERS = [
-  {name:'дебютант', req:'1-й сезон', now:false, perks:[
+  {name:'raw · 0°', req:'первый сезон', now:false, perks:[
     'Базовая ставка аренды без наценок',
     'Куратор и оперативный чат площадки',
     'Размещение в афише фуд-корта и на карте фестиваля']},
-  {name:'серебро', req:'2 сезона подряд', now:true, perks:[
+  {name:'warm · 40°', req:'2 сезона подряд', now:false, perks:[
     'Скидка 5% на аренду корнера',
     'Ранний доступ к схеме за 2 недели до открытия продаж',
     '2 бесплатные аккредитации',
     '+4 пригласительных билета']},
-  {name:'золото', req:'4 сезона', now:false, perks:[
+  {name:'gold · 80°', req:'4 сезона', now:true, perks:[
     'Скидка 10% на аренду и 50% на электричество',
     'Приоритетный выбор места в блоках A и B',
     '5 бесплатных аккредитаций',
     'Съёмка корнера и пост в соцсетях фестиваля']},
-  {name:'платина', req:'6 сезонов и больше', now:false, perks:[
+  {name:'flambé · 100°', req:'6 сезонов и больше', now:false, perks:[
     'Скидка 15% на аренду, электричество включено',
     'Первое право выбора места и участие в VIP фуд-корте',
     'Бренд-интеграция в программу фестиваля',
@@ -1390,6 +1571,7 @@ const S = {
   partner:'',
   dataCollected:18,
   hostOpen:new Set(['01']),
+  disc:0,
   revenue:null,
   fb:{rate:0, rec:null, next:null, sent:false},
   chatOpen:false,
@@ -1407,7 +1589,11 @@ function toast(title, text, warn){
   setTimeout(()=>{ el.style.transition='.3s'; el.style.opacity='0'; el.style.transform='translateX(24px)';
     setTimeout(()=>el.remove(), 320); }, 3600);
 }
-function modal(html){ $('#mbox').innerHTML = html; $('#modal').classList.add('on'); }
+function modal(html, wide){
+  $('#mbox').innerHTML = html;
+  $('#mbox').classList.toggle('wide', !!wide);
+  $('#modal').classList.add('on');
+}
 function closeModal(){ $('#modal').classList.remove('on'); }
 window.closeModal = closeModal;
 $('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') closeModal(); });
@@ -1420,6 +1606,7 @@ const TABS = [
   {id:'menu', name:'Меню'},
   {id:'rent', name:'Аренда фуд-спота'},
   {id:'club', name:'Клуб резидентов'},
+  {id:'news', name:'Дайджест'},
   {id:'cab',  name:'Кабинет'},
   {id:'an',   name:'Аналитика'}
 ];
@@ -1439,6 +1626,7 @@ function go(v){
   if(v==='cab') setTimeout(paintProgress, 60);
   if(v==='an')  renderAnalytics();
   if(v==='club') renderClub();
+  if(v==='news') renderNews();
 }
 
 /* ============================================================
@@ -1465,7 +1653,12 @@ function venueSVG(v){
        '<rect width="100%" height="100%" fill="url(#gr'+v.id+')"/>';
 
   if(v.kind === 'quad'){
-    for(let r=0;r<2;r++) for(let c=0;c<6;c++) s += table(300 + c*36, 200 + r*90);
+    [[104,8],[152,12]].forEach(([rad,n])=>{
+      for(let i=0;i<n;i++){
+        const a = Math.PI*2/n*i - Math.PI/2;
+        s += table(Math.round(380 + Math.cos(a)*rad), Math.round(320 + Math.sin(a)*rad));
+      }
+    });
     s += '<circle cx="380" cy="320" r="46" fill="'+TH.navFill+'" stroke="'+TH.navStroke+'" stroke-width="1.6" stroke-dasharray="5 4"/>'+
          '<text class="static-txt" x="380" y="324" text-anchor="middle" font-size="11" fill="'+TH.navInk+'" letter-spacing="1">НАВИГАЦИЯ</text>';
     s += entry(380, 600);
@@ -1641,7 +1834,159 @@ function renderDetail(){
     '<div class="kv"><span>Площадь</span><b>'+c.size+'</b></div>'+
     '<div class="kv"><span>Стоимость</span><b style="color:var(--accent-ink)">'+priceText(c)+'</b></div>'+
     '<div class="kv"><span>Резидент</span><b>'+(c.tenant || '—')+'</b></div>'+
-    '<div style="margin-top:14px">'+btn+'</div></div>';
+    '<div style="margin-top:14px">'+btn+'</div>'+
+    '<button class="btn btn-light btn-sm" style="width:100%;margin-top:8px" data-act="show-on-map" data-uid="'+c.uid+'">'+
+      'Посмотреть место на общей карте</button></div>';
+}
+
+/* ============================================================
+   ОБЩИЕ КАРТЫ ПЛОЩАДОК
+   ============================================================ */
+const CITY_MAPS = {
+  msk:{
+    title:'Москва · Коломенское', vb:'0 0 1000 700',
+    water:'M0 700 L0 560 C120 548 220 566 330 606 C430 642 520 664 620 672 L700 700 Z',
+    green:[[60,60,880,560]],
+    paths:['M120 470 C260 430 380 300 520 250 C650 205 800 190 930 210',
+           'M240 120 C300 240 320 360 300 500','M520 100 C560 250 600 380 700 520',
+           'M120 250 C300 260 520 260 900 300','M400 620 C520 560 660 540 880 520'],
+    fence:'M170 300 L250 130 L560 90 L700 60 L930 110 L950 320 L860 560 L520 640 L260 600 Z',
+    zones:[
+      {t:'СЦ-1', x:190, y:470, w:96,  h:64, c:'stage'},
+      {t:'СЦ-2', x:790, y:170, w:104, h:66, c:'stage'},
+      {t:'СЦ-3', x:596, y:378, w:78,  h:48, c:'stage'},
+      {t:'СЦ-4', x:430, y:566, w:66,  h:48, c:'stage'},
+      {t:'VIP пространство', x:286, y:466, w:196, h:118, c:'vip'},
+      {t:'Пикник для детей', x:800, y:380, w:132, h:140, c:'kids'},
+      {t:'Маркет', x:640, y:250, w:180, h:32, c:'market'}
+    ],
+    venues:[
+      {id:'msk-fk1',    t:'ФК1',  x:430, y:330, r:76,  ring:true},
+      {id:'msk-fk2',    t:'ФК2',  x:640, y:128, w:96,  h:56},
+      {id:'msk-fk3',    t:'ФК3 Купер', x:250, y:300, w:96, h:52},
+      {id:'msk-family', t:'Семейный ФК', x:660, y:592, w:128, h:50},
+      {id:'msk-vip',    t:'VIP ФК', x:314, y:504, w:100, h:52},
+      {id:'msk-ice',    t:'Мороженое', x:530, y:456, w:100, h:42},
+      {id:'msk-popup',  t:'PopUp', x:672, y:456, w:92, h:42}
+    ],
+    gates:[{t:'№2 ГЛАВНЫЙ', x:470, y:74},{t:'№1 VIP', x:214, y:250},{t:'№3', x:930, y:236},
+           {t:'№4', x:932, y:600},{t:'№5', x:474, y:640},{t:'№6', x:180, y:560}]
+  },
+  spb:{
+    title:'Санкт-Петербург · Елагин парк', vb:'0 0 1000 700',
+    water:'M0 0 H1000 V96 C820 130 700 120 560 96 C420 72 220 78 0 120 Z',
+    green:[[40,110,920,540]],
+    ponds:[[250,170,210,80],[600,150,180,64]],
+    paths:['M120 300 C300 250 520 250 900 280','M300 140 C340 300 360 460 340 620',
+           'M620 130 C660 300 700 440 760 600','M160 480 C360 440 600 470 900 430'],
+    fence:'M80 200 L200 130 L520 120 L800 140 L940 220 L930 520 L700 630 L340 640 L110 520 Z',
+    zones:[
+      {t:'СЦ-1', x:392, y:352, w:96,  h:60, c:'stage'},
+      {t:'СЦ-2', x:770, y:492, w:88,  h:54, c:'stage'},
+      {t:'СЦ-3', x:700, y:196, w:72,  h:46, c:'stage'},
+      {t:'СЦ-4', x:866, y:250, w:72,  h:46, c:'stage'},
+      {t:'VIP пространство', x:300, y:404, w:150, h:92, c:'vip'},
+      {t:'Детская зона', x:520, y:512, w:200, h:130, c:'kids'},
+      {t:'Дворец', x:600, y:300, w:130, h:76, c:'market'}
+    ],
+    venues:[
+      {id:'spb-fk1',    t:'ФК1',  x:452, y:196, w:150, h:44},
+      {id:'spb-fk2',    t:'ФК2',  x:800, y:392, w:96,  h:46},
+      {id:'spb-fk3',    t:'ФК3 Купер', x:470, y:452, w:112, h:44},
+      {id:'spb-family', t:'Семейный ФК', x:556, y:582, w:130, h:44},
+      {id:'spb-vip',    t:'VIP ФК', x:856, y:146, w:96, h:50},
+      {id:'spb-truck',  t:'Фудтраки', x:206, y:296, w:106, h:44},
+      {id:'spb-ice',    t:'Мороженое', x:420, y:262, w:100, h:40},
+      {id:'spb-popup',  t:'PopUp', x:214, y:392, w:86, h:40}
+    ],
+    gates:[{t:'КПП №3', x:520, y:126},{t:'КПП №2 VIP', x:150, y:400},
+           {t:'КПП №1', x:470, y:660},{t:'КПП №4', x:906, y:566}]
+  }
+};
+const ZONE_STYLE = {
+  stage : {f:'rgba(245,32,22,.20)',  st:'#F52016', ink:'#B3150E'},
+  vip   : {f:'rgba(255,111,216,.22)',st:'#D53BA8', ink:'#8E1F68'},
+  kids  : {f:'rgba(126,201,90,.25)', st:'#5F9A2E', ink:'#3C6417'},
+  market: {f:'rgba(36,23,21,.10)',   st:'rgba(36,23,21,.35)', ink:'#5D4C48'}
+};
+
+function cityMapSVG(city, hl){
+  const m = CITY_MAPS[city], A = STATUS.free.c;
+  let s = '<svg class="citymap" viewBox="'+m.vb+'" role="img" aria-label="Общая карта: '+m.title+'">';
+  s += '<rect width="100%" height="100%" fill="'+(S.theme==='dark' ? '#0E1412' : '#DCEBD8')+'"/>';
+  m.green.forEach(([x,y,w,h])=> s += '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="60" fill="'+(S.theme==='dark'?'#14201A':'#CBE3C2')+'"/>');
+  s += '<path d="'+m.water+'" fill="'+(S.theme==='dark'?'#12283A':'#A9D3EE')+'"/>';
+  (m.ponds||[]).forEach(([x,y,w,h])=> s += '<ellipse cx="'+(x+w/2)+'" cy="'+(y+h/2)+'" rx="'+w/2+'" ry="'+h/2+'" fill="'+(S.theme==='dark'?'#12283A':'#A9D3EE')+'"/>');
+  const tint = S.theme==='dark' ? 'rgba(120,180,120,.18)' : 'rgba(90,140,70,.30)';
+  let seed = 7;
+  const rnd = ()=> (seed = (seed*9301 + 49297) % 233280) / 233280;
+  for(let i=0;i<130;i++){
+    const tx = 40 + rnd()*920, ty = 110 + rnd()*560;
+    const busy = m.zones.some(z=>tx>z.x-20&&tx<z.x+z.w+20&&ty>z.y-20&&ty<z.y+z.h+20) ||
+                 m.venues.some(v=> v.ring ? Math.hypot(tx-v.x,ty-v.y) < v.r+30
+                                          : tx>v.x-24&&tx<v.x+v.w+24&&ty>v.y-24&&ty<v.y+v.h+24);
+    if(busy) continue;
+    s += '<circle cx="'+tx.toFixed(0)+'" cy="'+ty.toFixed(0)+'" r="'+(4+rnd()*4).toFixed(1)+'" fill="'+tint+'"/>';
+  }
+  m.paths.forEach(d=> s += '<path d="'+d+'" fill="none" stroke="'+(S.theme==='dark'?'rgba(255,255,255,.10)':'rgba(255,255,255,.85)')+'" stroke-width="9" stroke-linecap="round"/>');
+  s += '<path d="'+m.fence+'" fill="none" stroke="#F52016" stroke-width="2.5" stroke-dasharray="10 7" opacity=".85"/>';
+
+  m.zones.forEach(z=>{
+    const st = ZONE_STYLE[z.c];
+    s += '<g><rect x="'+z.x+'" y="'+z.y+'" width="'+z.w+'" height="'+z.h+'" rx="10" fill="'+st.f+'" stroke="'+st.st+'" stroke-width="1.6"/>'+
+      '<text x="'+(z.x+9)+'" y="'+(z.y+16)+'" font-family="var(--font)" font-size="10.5" font-weight="800" fill="'+st.ink+'">'+z.t.toUpperCase()+'</text></g>';
+  });
+
+  m.venues.forEach(v=>{
+    const on = hl === v.id;
+    const cells = CELLS.filter(c=>c.venue===v.id && !c.tech);
+    const free = cells.filter(c=>c.status==='free').length;
+    const cx = v.ring ? v.x : v.x + v.w/2, cy = v.ring ? v.y : v.y + v.h/2;
+    s += '<g class="cm-venue'+(on?' on':'')+'" data-act="cm-zone" data-v="'+v.id+'">';
+    if(v.ring){
+      s += '<circle cx="'+v.x+'" cy="'+v.y+'" r="'+v.r+'" fill="'+(on?'rgba(183,220,30,.5)':'rgba(183,220,30,.28)')+'" stroke="'+A+'" stroke-width="2"/>'+
+           '<circle cx="'+v.x+'" cy="'+v.y+'" r="'+(v.r-26)+'" fill="none" stroke="'+A+'" stroke-width="1.4" stroke-dasharray="5 6"/>';
+      for(let i=0;i<12;i++){
+        const a = Math.PI*2/12*i, rx = v.x + Math.cos(a)*(v.r-13), ry = v.y + Math.sin(a)*(v.r-13);
+        s += '<rect x="'+(rx-6)+'" y="'+(ry-6)+'" width="12" height="12" rx="2.5" fill="'+A+'" opacity=".9"/>';
+      }
+    }else{
+      s += '<rect x="'+v.x+'" y="'+v.y+'" width="'+v.w+'" height="'+v.h+'" rx="9" fill="'+(on?'rgba(183,220,30,.55)':'rgba(183,220,30,.3)')+'" stroke="'+A+'" stroke-width="'+(on?3:1.8)+'"/>';
+    }
+    s += '<text x="'+cx+'" y="'+(cy - (v.ring?6:4))+'" text-anchor="middle" font-family="var(--font)" font-size="'+(v.ring?13:12)+'" font-weight="800" fill="'+STATUS.free.txt+'">'+v.t+'</text>'+
+         '<text x="'+cx+'" y="'+(cy + (v.ring?12:12))+'" text-anchor="middle" font-family="var(--font)" font-size="9.5" font-weight="700" fill="'+STATUS.free.txt+'" opacity=".85">'+
+         (free ? 'свободно '+free : 'мест нет')+'</text>';
+    if(on){
+      s += '<g class="cm-pin"><circle cx="'+cx+'" cy="'+(cy-(v.ring?v.r:v.h/2)-26)+'" r="15" fill="#F52016"/>'+
+        '<text x="'+cx+'" y="'+(cy-(v.ring?v.r:v.h/2)-21)+'" text-anchor="middle" font-size="13" font-weight="900" fill="#fff" font-family="var(--font)">◉</text>'+
+        '<text x="'+cx+'" y="'+(cy-(v.ring?v.r:v.h/2)-46)+'" text-anchor="middle" font-size="11" font-weight="800" fill="#F52016" font-family="var(--font)">ВЫ ЗДЕСЬ</text></g>';
+    }
+    s += '</g>';
+  });
+
+  m.gates.forEach(g=>{
+    s += '<g opacity=".9"><circle cx="'+g.x+'" cy="'+g.y+'" r="12" fill="#F6F6F2" stroke="#F52016" stroke-width="2"/>'+
+      '<text x="'+g.x+'" y="'+(g.y+4)+'" text-anchor="middle" font-size="10" font-weight="900" fill="#F52016" font-family="var(--font)">↕</text>'+
+      '<text x="'+g.x+'" y="'+(g.y+27)+'" text-anchor="middle" font-size="9.5" font-weight="800" fill="'+(S.theme==='dark'?'#96969F':'#5D4C48')+'" font-family="var(--font)">'+g.t+'</text></g>';
+  });
+  return s + '</svg>';
+}
+
+function openCityMap(city, hl, cellUid){
+  const m = CITY_MAPS[city];
+  const c = cellUid ? CELLS.find(x=>x.uid===cellUid) : null;
+  modal('<div class="map-modal">'+
+    '<div class="mm-head"><div><h3>Общая карта · '+m.title+'</h3>'+
+      '<p style="margin:0">'+(c ? 'Ваше место: '+VENUES.find(v=>v.id===c.venue).name+' · '+c.blockLabel+' · '+c.num
+                                : 'Все площадки фестиваля. Нажмите на фуд-корт, чтобы открыть его схему.')+'</p></div>'+
+      '<button class="btn btn-light btn-sm" onclick="closeModal()">Закрыть</button></div>'+
+    cityMapSVG(city, hl)+
+    '<div class="legend" style="margin-top:12px">'+
+      '<div><span class="sw" style="background:'+STATUS.free.c+'"></span> фуд-корты</div>'+
+      '<div><span class="sw" style="background:#F52016"></span> сцены и входы</div>'+
+      '<div><span class="sw" style="background:#D53BA8"></span> VIP</div>'+
+      '<div><span class="sw" style="background:#5F9A2E"></span> детская зона</div>'+
+    '</div></div>', true);
 }
 
 /* ============================================================
@@ -1719,11 +2064,10 @@ function finishRegistration(){
   }
   closeModal();
   $('#userChip').hidden = false;
-  $('#cabHint').textContent = 'Открыть кабинет →';
-  $('#brandSub').textContent = 'Кабинет резидента · Underdog';
+  $('#brandSub').textContent = 'Кабинет резидента · UNDERDOG';
   refreshAll();
   go('cab');
-  toast('Кабинет создан', 'Добро пожаловать, Underdog · этап 3 из 10');
+  toast('Кабинет создан', 'Добро пожаловать, UNDERDOG · этап ' + (progressData().cur+1) + ' из ' + STAGES.length);
   setTimeout(()=>pushMsg('them','Поздравляю с согласованием! Я Наталья, ваш куратор. Первым делом загрузите меню и реквизиты — дедлайн 28 мая.'), 1200);
 }
 
@@ -1732,7 +2076,8 @@ function finishRegistration(){
    ============================================================ */
 function rent(){ const my = CELLS.find(c=>c.tenant === 'Underdog'); return my ? my.price : 180000; }
 function extras(){ return S.kw*RATES.kw + S.acc*RATES.acc; }
-function estimate(){ return rent() + extras() + RATES.service; }
+function discount(){ return Math.round(rent() * S.disc / 100); }
+function estimate(){ return rent() - discount() + extras(); }
 
 function stageUnits(st){
   if(st.kind === 'hosting')  return {done:Object.values(S.host).filter(Boolean).length, total:3};
@@ -1758,12 +2103,46 @@ function paintProgress(){
   $('#heroStage').textContent = (p.cur + 1) + ' из ' + STAGES.length;
   $('#steps').innerHTML = STAGES.map((st,i)=>{
     const u = stageUnits(st), full = stageFull(st);
-    return '<div class="step '+(full?'done':'')+' '+(i===p.cur&&!full?'cur':'')+'">'+st.name+
+    return '<button class="step '+(full?'done':'')+' '+(i===p.cur&&!full?'cur':'')+
+      (S.stage===st.id?' sel':'')+'" data-step="'+st.id+'">'+st.name+
       (u.total ? '<br><span style="font-size:9.5px;opacity:.75">'+u.done+'/'+u.total+'</span>' : '')+
-      '</div>';
+      '</button>';
   }).join('');
+  $$('#steps .step').forEach(el=>{
+    el.addEventListener('click', ()=>{ S.stage = el.dataset.step; paintProgress(); renderTasks();
+      $('#taskList').scrollIntoView({behavior:'smooth', block:'center'}); });
+    el.addEventListener('mouseenter', ()=>showStepPop(el));
+    el.addEventListener('mouseleave', hideStepPop);
+    el.addEventListener('focus', ()=>showStepPop(el));
+    el.addEventListener('blur', hideStepPop);
+  });
 }
+function stagePreview(st){
+  if(st.kind === 'hosting') return [
+    ['Заявка на электричество', S.host.power], ['Список оборудования', S.host.equip],
+    ['Списки на аккредитацию', S.host.accr]];
+  if(st.kind === 'revenue')  return [['Сумма выручки и количество чеков', !!S.revenue]];
+  if(st.kind === 'docs')     return [['УПД, акт, счёт-фактура от организатора', S.docsDone]];
+  if(st.kind === 'feedback') return [['Отзыв, оценка куратору, заявка на сезон', S.fb.sent]];
+  return st.tasks.map(t=>[t.t, t.done]);
+}
+function showStepPop(el){
+  const st = STAGES.find(x=>x.id===el.dataset.step), u = stageUnits(st), pop = $('#stepPop');
+  pop.innerHTML = '<h5>'+st.name+'</h5><div class="sp-sub">'+
+    (u.total ? u.done+' из '+u.total+' выполнено' : 'без задач')+'</div>'+
+    '<ul>'+ stagePreview(st).map(([t,done])=>
+      '<li class="'+(done?'':'no')+'"><i>'+(done?'✓':'○')+'</i><span>'+t+'</span></li>').join('') +'</ul>';
+  pop.hidden = false;
+  const wrap = el.closest('.hero-prog').getBoundingClientRect(), r = el.getBoundingClientRect();
+  let left = r.left - wrap.left + r.width/2 - 145;
+  left = Math.max(0, Math.min(left, wrap.width - 290));
+  pop.style.left = left + 'px';
+  pop.style.top  = (r.bottom - wrap.top + 10) + 'px';
+}
+function hideStepPop(){ $('#stepPop').hidden = true; }
+
 function renderStageTabs(){
+  if(!$('#stageTabs')) return;
   $('#stageTabs').innerHTML = STAGES.map(st=>{
     const u = stageUnits(st), full = stageFull(st);
     return '<button class="stab '+(S.stage===st.id?'active':'')+' '+(full?'full':'')+'" data-s="'+st.id+'">'+
@@ -1846,6 +2225,7 @@ function feedbackHTML(){
 }
 function renderTasks(){
   const st = STAGES.find(s=>s.id===S.stage);
+  if($('#stageTitle')) $('#stageTitle').textContent = st.name;
   const u = stageUnits(st);
   $('#taskHint').textContent = u.total ? u.done + ' из ' + u.total + ' выполнено' : '';
   let html = '';
@@ -1884,11 +2264,11 @@ function toggleTask(st, i, force){
   const t = st.tasks[i];
   t.done = force ? true : !t.done;
   if(t.key === 'pay') S.paid = t.done;
-  renderStageTabs(); renderTasks(); paintProgress(); renderAlerts(); renderSummary(); renderStatus();
+  renderStageTabs(); renderTasks(); paintProgress(); renderSummary(); renderStatus();
   if(!force) toast(t.done ? 'Задача выполнена' : 'Задача возвращена в работу',
                    t.t + ' · прогресс ' + progressData().pct + '%');
 }
-function renderAlerts(){
+function renderAlertsUnused(){
   const p = progressData(), items = [];
   items.push(S.paid
     ? {c:'g', ic:'✓', b:'Счёт оплачен', s:'Платёж подтверждён · место закреплено за вами'}
@@ -1907,28 +2287,38 @@ function renderAlerts(){
 }
 function renderStatus(){
   const p = progressData();
-  const dan = STAGES.find(s=>s.id==='dannye').tasks.filter(t=>!t.done).length;
-  const rows = [
-    {t:'Задачи по этапам', v:p.done+' из '+p.total, ok:p.done===p.total, ic:'%'},
-    {t:'Место закреплено', v:(()=>{ const m = CELLS.find(c=>c.tenant==='Underdog');
-        return m ? m.blockLabel.replace('Блок ','')+' · '+m.num : '—'; })(), ok:true, ic:'✓'},
-    {t:'Оплата счёта', v:S.paid ? 'оплачено' : money(estimate()), ok:S.paid, ic:S.paid?'✓':'!'},
-    {t:'Документы резидента', v:dan ? 'не хватает '+dan : 'сданы', ok:!dan, ic:dan?'!':'✓'},
-    {t:'Данные по выручке', v:S.revenue ? 'отправлены' : 'ожидаются', ok:!!S.revenue, ic:S.revenue?'✓':'◷'},
-    {t:'Обратная связь', v:S.fb.sent ? 'получена' : 'не заполнена', ok:S.fb.sent, ic:S.fb.sent?'✓':'◷'}
-  ];
+  const dan = STAGES.find(s=>s.id==='dannye').tasks.filter(t=>!t.done);
+  const rows = [];
+  if(!S.paid) rows.push({ic:'!', ok:false, t:'Оплатить счёт', s:'К оплате '+money(estimate())+' · срок 2 рабочих дня', act:'invoice'});
+  if(dan.length) rows.push({ic:'↑', ok:false, t:'Загрузить документы — '+dan.length,
+    s:dan.map(t=>t.t.replace('Загрузить ','')).join(', ')+' · до 28 мая', act:'go-stage', v:'dannye'});
+  const hostLeft = 3 - Object.values(S.host).filter(Boolean).length;
+  if(hostLeft) rows.push({ic:'⚡', ok:false, t:'Тех хостинг — '+hostLeft+' заявки',
+    s:'Электричество, оборудование, списки аккредитаций', act:'go-stage', v:'hosting'});
+  if(!S.revenue) rows.push({ic:'₽', ok:false, t:'Сдать данные по выручке',
+    s:'Сумма и количество чеков после фестиваля', act:'go-stage', v:'vyruchka'});
+  if(!S.fb.sent) rows.push({ic:'✎', ok:false, t:'Оставить обратную связь',
+    s:'Оценка куратору и заявка на следующий сезон', act:'go-stage', v:'feedback'});
+  if(S.tkSent < TICKETS.total) rows.push({ic:'✦', ok:true, t:'Пригласительные — '+(TICKETS.total-S.tkSent),
+    s:'Передайте билеты гостям и команде', act:'tk-send'});
+  rows.push({ic:'%', ok:p.done===p.total, t:'Прогресс подготовки — '+p.pct+'%',
+    s:'Выполнено '+p.done+' из '+p.total+' задач · этап «'+STAGES[p.cur].name+'»'});
+  if(S.paid) rows.push({ic:'✓', ok:true, t:'Счёт оплачен', s:'Место закреплено, документы в работе'});
+
   $('#statusList').innerHTML = rows.map(r=>
-    '<div class="st-row"><div class="st-ic" style="background:'+(r.ok?'var(--ok-bg)':'var(--warn-bg)')+
-    ';color:'+(r.ok?'var(--ok-ink)':'var(--warn-ink)')+'">'+r.ic+'</div>'+
-    '<b>'+r.t+'</b><span class="st-v" style="color:'+(r.ok?'var(--accent-ink)':'var(--warn-ink)')+'">'+r.v+'</span></div>').join('');
+    '<'+(r.act?'button':'div')+' class="st-row'+(r.act?' act':'')+'"'+
+      (r.act?' data-act="'+r.act+'"'+(r.v?' data-v="'+r.v+'"':''):'')+'>'+
+    '<div class="st-ic" style="background:'+(r.ok?'var(--ok-bg)':'var(--warn-bg)')+
+      ';color:'+(r.ok?'var(--ok-ink)':'var(--warn-ink)')+'">'+r.ic+'</div>'+
+    '<div class="st-b"><b>'+r.t+'</b><span>'+r.s+'</span></div>'+
+    '</'+(r.act?'button':'div')+'>').join('');
 }
 function renderCalc(){
   $('#kwInput').value = S.kw; $('#accInput').value = S.acc;
   $('#kwSum').textContent  = money(S.kw*RATES.kw);
   $('#accSum').textContent = money(S.acc*RATES.acc);
   $('#extraSum').textContent = money(extras());
-  $('#sumKw').textContent  = money(S.kw*RATES.kw);
-  $('#sumAcc').textContent = money(S.acc*RATES.acc);
+
 }
 function setKw(v){  S.kw  = Math.max(0, Math.min(60, v|0)); renderCalc(); renderSummary(); renderStatus(); }
 function setAcc(v){ S.acc = Math.max(0, Math.min(80, v|0)); renderCalc(); renderSummary(); renderStatus(); }
@@ -1940,10 +2330,24 @@ function renderTickets(){
   $('#tkBar').style.width = Math.round(S.tkSent/TICKETS.total*100) + '%';
   const b = $('[data-act="tk-send"]'); if(b) b.disabled = left === 0;
 }
+function renderDiscount(){
+  $('#discRow2').innerHTML = DISCOUNTS.map(d=>
+    '<button class="fchip'+(S.disc===d?' active':'')+'" data-act="disc" data-d="'+d+'">'+(d?d+'%':'без скидки')+'</button>').join('');
+  const on = S.disc > 0;
+  $('#discRow').hidden = !on;
+  if(on) $('#sumDisc').textContent = '−' + money(discount()) + '  ·  ' + S.disc + '%';
+}
 function renderSummary(){
   const my = CELLS.find(c=>c.tenant === 'Underdog');
+  const tier = TIERS.find(t=>t.key===ME.tier);
+  const tierTxt = tier.name + ' · ' + ME.deg + '°';
+  $('#uTier').textContent = tierTxt;
+  $('#heroTier').textContent = tierTxt;
+  $('#uName').textContent = ME.name;
+  $('#uCurator').textContent = 'Куратор: ' + ME.curator;
   $('#sumRent').textContent  = money(rent());
   $('#sumTotal').textContent = money(estimate());
+  renderDiscount();
   $('#sumPay').innerHTML = S.paid
     ? '<span class="pill p-ok"><span class="dot"></span>Оплачено</span>'
     : '<span class="pill p-warn"><span class="dot"></span>Ожидает оплаты</span>';
@@ -1954,7 +2358,7 @@ function renderSummary(){
     $('#sumPlace').textContent = txt;
     $('#heroPlace').textContent = txt;
     $('#sumHold').textContent = 'Бронь до 14 мая · ' + my.size;
-    $('#userChip').lastElementChild.textContent = 'Underdog · ' + txt;
+
   }
 }
 
@@ -2006,11 +2410,14 @@ $('#chInput').addEventListener('keydown', e=>{ if(e.key==='Enter') sendChat(); }
    ============================================================ */
 function renderClub(){
   $('#clubBody').innerHTML =
-    '<div class="club-hero"><h3>underdog · уровень «серебро»</h3>'+
-    '<p>Второй сезон с фестивалем. До «золота» — ещё 2 сезона: скидка вырастет до 10%, электричество станет вдвое дешевле, '+
-    'а выбор места откроется раньше общих продаж.</p>'+
-    '<div class="bar" style="margin-top:16px;max-width:420px"><i style="width:50%"></i></div>'+
-    '<div style="font-size:11.5px;color:var(--muted);margin-top:8px;font-weight:600">2 из 4 сезонов до уровня «золото»</div></div>'+
+    '<div class="club-hero"><div class="deg-wrap"><div>'+
+      '<h3>underdog · gold 80°</h3>'+
+      '<p>Четвёртый сезон с фестивалем. Градус резидента растёт с каждым сезоном: чем он выше, тем дешевле аренда, '+
+      'тем раньше открывается схема и тем больше поддержки в продвижении. До FLAMBÉ — 2 сезона.</p></div>'+
+      '<div class="deg"><div class="deg-scale">'+ TIERS.map(t=>
+        '<div class="deg-mark'+(ME.deg>=t.deg?' on':'')+'" style="bottom:'+t.deg+'%"><i></i><b>'+t.name+'</b><span>'+t.deg+'°</span></div>').join('')+
+      '<div class="deg-fill" style="height:'+ME.deg+'%"></div></div></div>'+
+    '</div></div>'+
 
     '<div class="sec-title" style="margin:22px 0 12px">Уровни программы</div>'+
     '<div class="tiers">'+ CLUB_TIERS.map(t=>
@@ -2028,6 +2435,111 @@ function renderClub(){
     '<div class="menu-foot" style="margin-top:22px">'+
       '<span>Пригласите резидента по своей ссылке — бонус придёт после оплаты его счёта.</span>'+
       '<button class="btn btn-acc btn-sm" data-act="ref-link">Скопировать реферальную ссылку</button>'+
+    '</div>';
+}
+
+/* ============================================================
+   ДАЙДЖЕСТ
+   ============================================================ */
+function mascotSVG(){
+  return '<svg class="mascot" viewBox="0 0 360 470" role="img" aria-label="Маскот фестиваля">'+
+  '<defs>'+
+    '<filter id="fur" x="-14%" y="-14%" width="128%" height="128%">'+
+      '<feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="4" seed="7" result="n"/>'+
+      '<feDisplacementMap in="SourceGraphic" in2="n" scale="17" xChannelSelector="R" yChannelSelector="G"/>'+
+    '</filter>'+
+    '<radialGradient id="lens" cx="38%" cy="34%">'+
+      '<stop offset="0%" stop-color="#EEFFB0"/><stop offset="55%" stop-color="#B7DC1E"/>'+
+      '<stop offset="100%" stop-color="#5E7A00"/></radialGradient>'+
+    '<clipPath id="ballClip"><circle cx="180" cy="215" r="118"/></clipPath>'+
+  '</defs>'+
+
+  '<ellipse cx="180" cy="446" rx="118" ry="16" fill="rgba(36,23,21,.16)"/>'+
+
+  '<rect x="150" y="316" width="20" height="86" rx="10" fill="#14100F"/>'+
+  '<rect x="192" y="316" width="20" height="86" rx="10" fill="#14100F"/>'+
+  '<path d="M126 396h56v22c0 12-12 20-28 20h-26c-10 0-16-6-16-14 0-16 8-28 14-28z" fill="#14100F"/>'+
+  '<path d="M180 396h56c6 0 14 12 14 28 0 8-6 14-16 14h-26c-16 0-28-8-28-20z" fill="#14100F"/>'+
+  '<path d="M118 424h64v8h-64zM178 424h68v8h-68z" fill="#3A3A3F"/>'+
+  '<circle cx="142" cy="428" r="3.4" fill="#B7DC1E"/><circle cx="236" cy="428" r="3.4" fill="#B7DC1E"/>'+
+
+  '<g filter="url(#fur)">'+
+    '<circle cx="180" cy="215" r="118" fill="#B7DC1E"/>'+
+    '<g clip-path="url(#ballClip)">'+
+      '<ellipse cx="120" cy="150" rx="52" ry="44" fill="#8E86E8"/>'+
+      '<ellipse cx="228" cy="262" rx="62" ry="52" fill="#8E86E8"/>'+
+      '<ellipse cx="112" cy="286" rx="38" ry="30" fill="#8E86E8"/>'+
+      '<ellipse cx="268" cy="150" rx="30" ry="26" fill="#8E86E8"/>'+
+      '<ellipse cx="176" cy="196" rx="26" ry="20" fill="#C7E84A" opacity=".7"/>'+
+    '</g>'+
+    '<ellipse cx="72" cy="238" rx="34" ry="30" fill="#B7DC1E"/>'+
+    '<ellipse cx="290" cy="232" rx="32" ry="28" fill="#B7DC1E"/>'+
+  '</g>'+
+
+  '<path d="M92 128c8-38 40-62 88-62s80 24 88 62c-24-14-54-22-88-22s-64 8-88 22z" fill="#14100F"/>'+
+  '<ellipse cx="180" cy="128" rx="92" ry="24" fill="#14100F"/>'+
+  '<circle cx="180" cy="56" r="26" fill="#14100F"/>'+
+
+  '<g>'+
+    '<circle cx="140" cy="200" r="34" fill="url(#lens)" stroke="#F6F6F2" stroke-width="6"/>'+
+    '<circle cx="222" cy="200" r="34" fill="url(#lens)" stroke="#F6F6F2" stroke-width="6"/>'+
+    '<path d="M174 198h14" stroke="#F6F6F2" stroke-width="6" stroke-linecap="round"/>'+
+    '<circle cx="130" cy="190" r="7" fill="#FFFFFF" opacity=".75"/>'+
+    '<circle cx="212" cy="190" r="7" fill="#FFFFFF" opacity=".75"/>'+
+  '</g>'+
+  '<path d="M158 248c6 10 16 15 22 15s16-5 22-15" stroke="#14100F" stroke-width="9" stroke-linecap="round" fill="none"/>'+
+
+  '<g>'+
+    '<rect x="42" y="212" width="46" height="60" rx="6" fill="#F6F6F2" stroke="#14100F" stroke-width="3"/>'+
+    '<rect x="38" y="200" width="54" height="18" rx="6" fill="#14100F"/>'+
+    '<path d="M52 268c-6 6-6 16 4 20s22-2 24-12" fill="#14100F"/>'+
+  '</g>'+
+  '<g>'+
+    '<rect x="292" y="176" width="13" height="46" rx="6.5" fill="#14100F" transform="rotate(-16 298 199)"/>'+
+    '<rect x="312" y="180" width="13" height="46" rx="6.5" fill="#14100F" transform="rotate(10 318 203)"/>'+
+    '<path d="M288 220h40c8 0 14 6 14 14s-6 14-14 14h-40c-8 0-14-6-14-14s6-14 14-14z" fill="#14100F"/>'+
+  '</g>'+
+  '</svg>';
+}
+
+const NEWS_HERO = {
+  kicker:'✦ Слово редакции',
+  h:'фуд-корты пикника: 46 резидентов, девять площадок, один остров',
+  p:'Сезон 2027 собрал рекордный состав: от корнеров 3×3 до бренд-зоны на сто квадратов. Рассказываем, кто где стоит, '+
+    'сколько это стоит и почему PopUp за 19 000 ₽ — самый быстрый способ попасть на фестиваль.',
+  meta:['25 августа','Редакция «Афиши»','7 минут чтения']
+};
+const NEWS = [
+  {r:'Цифры',    c:'',     h:'Sold out за 72 часа: как разошлись корнеры 3×3',
+   p:'Блок D закрылся первым — семь из восьми мест ушли в первые сутки после открытия схемы. Разбираем, какие форматы держат спрос и где ещё есть места.', d:'24 августа'},
+  {r:'Партнёры', c:'blue', h:'Пикник × Сбер: безнал, чаевые и выплаты резидентам в день фестиваля',
+   p:'Все точки работают только по безналу. Эквайринг, мгновенные выплаты и сводка по выручке приходят в кабинет резидента без задержек.', d:'22 августа'},
+  {r:'Лонгрид',  c:'',     h:'VIP фуд-корт: барная линия, бренд-зона и пять квадратов 5×5',
+   p:'Как устроена премиальная зона, зачем ей отдельный вход и что получает бренд, который занимает сто квадратных метров рядом с главной сценой.', d:'20 августа'},
+  {r:'Анонс',    c:'pink', h:'Питер, 8 августа: ЦПКиО им. Кирова и новая линия фудтраков',
+   p:'Вторая площадка сезона: десять мест 3×3 на главной линии, три фудтрака и VIP-зона Smoke BBQ с барной линией Catch22.', d:'18 августа'},
+  {r:'Клуб',     c:'',     h:'GOLD-резиденты получили приоритет выбора мест',
+   p:'Градус резидента растёт с каждым сезоном: на четвёртом открывается ранний доступ к схеме, скидка 10% и половина стоимости электричества.', d:'15 августа'},
+  {r:'Гид',      c:'blue', h:'Меню-2027: что готовят COFIX, SKURATOV и SMOKE BBQ',
+   p:'Собрали превью меню ключевых резидентов — от специалти-кофе и завтраков до угольного барбекю и десертов MUN MUN.', d:'12 августа'},
+  {r:'Формат',   c:'pink', h:'PopUp за 19 000 ₽: витрина для тех, кто только пробует',
+   p:'Один квадратный метр, минимум вложений и место в общей навигации фестиваля — как малым проектам зайти на Пикник без большого корнера.', d:'10 августа'},
+  {r:'Дедлайн',  c:'',     h:'Меню — до 28 мая, списки на аккредитацию — до 20 июня',
+   p:'Ключевые даты сезона в одном месте: документы, тех. карта, оплата счёта и заезд на монтаж в ночь с 7 на 8 августа.', d:'8 августа'}
+];
+function renderNews(){
+  $('#newsBody').innerHTML =
+    '<div class="nw-hero">'+ mascotSVG() +
+      '<div class="nw-t"><span class="kicker">'+NEWS_HERO.kicker+'</span>'+
+      '<h3>'+NEWS_HERO.h+'</h3><p>'+NEWS_HERO.p+'</p>'+
+      '<div class="nw-meta">'+NEWS_HERO.meta.map(m=>'<span>'+m+'</span>').join('')+'</div></div>'+
+    '</div>'+
+    '<div class="feed">'+ NEWS.map((n,i)=>
+      '<button class="item" data-act="news-open" data-i="'+i+'">'+
+        '<div class="num">'+String(i+1).padStart(2,'0')+'</div>'+
+        '<div><h4>'+n.h+'</h4><p>'+n.p+'</p></div>'+
+        '<div class="side"><span class="rub '+n.c+'">'+n.r+'</span><span class="date">'+n.d+'</span></div>'+
+      '</button>').join('')+
     '</div>';
 }
 
@@ -2110,6 +2622,28 @@ function renderAnalytics(){
     $$('#chartBlocks .track i, #chartSizes .track i').forEach(i=>{ i.style.width = i.dataset.w + '%'; });
   });
   renderResidents();
+  renderCurators();
+}
+function renderCurators(){
+  const on = CURATORS.filter(c=>c.online).length;
+  const total = CURATORS.reduce((s,c)=>s+c.hrs,0);
+  const max = Math.max(...CURATORS.map(c=>c.hrs));
+  $('#curHint').textContent = on + ' из ' + CURATORS.length + ' онлайн · ' +
+    total.toFixed(1).replace('.',',') + ' ч на сайте за неделю';
+  $('#curatorList').innerHTML = CURATORS.map(c=>{
+    const city = CITIES.find(x=>x.id===c.c).name;
+    return '<div class="cur-row">'+
+      '<div class="cur-ava'+(c.online?' on':'')+'">'+c.n.split(' ').map(w=>w[0]).join('')+'</div>'+
+      '<div class="cur-i"><b>'+c.n+'</b><span>'+c.role+' · '+city+'</span></div>'+
+      '<div class="cur-st">'+(c.online
+        ? '<span class="pill p-ok"><span class="dot"></span>онлайн</span>'
+        : '<span class="pill p-mute">'+c.last+'</span>')+'</div>'+
+      '<div class="cur-bar"><div class="bar"><i style="width:'+Math.round(c.hrs/max*100)+'%"></i></div>'+
+        '<span>'+c.hrs.toFixed(1).replace('.',',')+' ч на сайте</span></div>'+
+      '<div class="cur-n"><b>'+c.res+'</b><span>резидентов</span></div>'+
+      '<div class="cur-n"><b>'+c.resp+'</b><span>ответ</span></div>'+
+    '</div>';
+  }).join('');
 }
 function renderResidents(){
   const rows = [];
@@ -2148,7 +2682,7 @@ function applyTheme(name){
    ============================================================ */
 function refreshAll(){
   renderCityTabs(); renderVenues(); renderSizeFilter(); renderList(); renderDetail();
-  renderStageTabs(); renderTasks(); paintProgress(); renderAlerts(); renderStatus();
+  renderStageTabs(); renderTasks(); paintProgress(); renderStatus(); renderStatus();
   renderCalc(); renderTickets(); renderSummary(); renderAnalytics();
 }
 
@@ -2160,6 +2694,7 @@ document.addEventListener('click', e=>{
   if(a === 'home')      return go('menu');
   if(a === 'go-rent')   return go('rent');
   if(a === 'go-club')   return go('club');
+  if(a === 'go-news')   return go('news');
   if(a === 'go-cab')    return go('cab');
   if(a === 'theme')     return applyTheme(S.theme === 'picnic' ? 'dark' : 'picnic');
 
@@ -2186,6 +2721,13 @@ document.addEventListener('click', e=>{
   }
   if(a === 'offer-ok'){ closeModal(); toast('Запрос отправлен', 'Коммерческий отдел свяжется с вами в течение дня'); return; }
 
+  if(a === 'disc'){
+    S.disc = +b.dataset.d;
+    renderSummary(); renderStatus();
+    toast(S.disc ? 'Скидка применена' : 'Скидка снята',
+      S.disc ? 'Куратор дал скидку ' + S.disc + '% · итог ' + money(estimate()) : 'Счёт пересчитан без скидки');
+    return;
+  }
   if(a === 'kw-'){  setKw(S.kw - 1);   return; }
   if(a === 'kw+'){  setKw(S.kw + 1);   return; }
   if(a === 'acc-'){ setAcc(S.acc - 1); return; }
@@ -2193,12 +2735,32 @@ document.addEventListener('click', e=>{
 
   if(a === 'tk-send'){
     if(S.tkSent >= TICKETS.total) return;
-    S.tkSent++; renderTickets(); renderAlerts();
+    S.tkSent++; renderTickets(); renderStatus();
     toast('Билет передан', 'Пригласительный отправлен гостю · осталось ' + (TICKETS.total - S.tkSent));
     return;
   }
   if(a === 'tk-download'){ toast('Билеты выгружены', TICKETS.total + ' пригласительных в PDF'); return; }
 
+  if(a === 'city-map'){ openCityMap(S.city, null, null); return; }
+  if(a === 'show-on-map'){
+    const c = CELLS.find(x=>x.uid===b.dataset.uid);
+    openCityMap(VENUES.find(v=>v.id===c.venue).city, c.venue, c.uid);
+    return;
+  }
+  if(a === 'cm-zone'){
+    const id = b.dataset.v;
+    closeModal();
+    const v = VENUES.find(x=>x.id===id);
+    if(v.city !== S.city){ S.city = v.city; renderCityTabs(); renderVenues(); renderSizeFilter(); renderList(); }
+    go('rent');
+    setTimeout(()=>{ const el = $('#v-'+id); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }, 260);
+    return;
+  }
+  if(a === 'go-stage'){
+    S.stage = b.dataset.v; paintProgress(); renderTasks();
+    $('#taskList').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
   if(a === 'chat-open'){ toggleChat(true); return; }
   if(a === 'chat-toggle'){ toggleChat(); return; }
   if(a === 'chat-send'){ sendChat(); return; }
@@ -2282,6 +2844,15 @@ document.addEventListener('click', e=>{
     return;
   }
   if(a === 'send-pres'){ toast('Данные отправлены', 'Сводка ушла в презентацию · собрано ' + S.dataCollected + '%'); return; }
+  if(a === 'news-open'){
+    const n = NEWS[+b.dataset.i];
+    modal('<span class="rub '+n.c+'" style="display:inline-block;margin-bottom:12px">'+n.r+'</span>'+
+      '<h3 style="text-transform:none;font-size:22px;line-height:1.1">'+n.h+'</h3>'+
+      '<p>'+n.p+'</p><p style="color:var(--muted-2);font-size:12px">'+n.d+' · Редакция «Афиши»</p>'+
+      '<div class="mrow"><button class="btn btn-light" onclick="closeModal()">Закрыть</button>'+
+      '<a class="btn btn-acc" href="https://picnic.afisha.ru/?ysclid=mt90bt5s2n717694190" target="_blank" rel="noopener">Читать на сайте</a></div>');
+    return;
+  }
   if(a === 'ref-link'){ toast('Ссылка скопирована', 'picnic.afisha.ru/club/ref/underdog'); return; }
 
   if(a === 'pay'){
@@ -2296,9 +2867,9 @@ document.addEventListener('click', e=>{
   if(a === 'invoice'){
     modal('<h3>Счёт №ПА-2027-112</h3>'+
       '<p>Аренда корнера — '+money(rent())+'<br>'+
+      (S.disc ? 'Скидка куратора '+S.disc+'% — −'+money(discount())+'<br>' : '')+
       'Электричество, '+S.kw+' кВт × 3 000 ₽ — '+money(S.kw*RATES.kw)+'<br>'+
-      'Аккредитации, '+S.acc+' шт × 1 500 ₽ — '+money(S.acc*RATES.acc)+'<br>'+
-      'Сервисный сбор — '+money(RATES.service)+'</p>'+
+      'Аккредитации, '+S.acc+' шт × 1 500 ₽ — '+money(S.acc*RATES.acc)+'</p>'+
       '<div class="calc-total"><span>Итого к оплате</span><b>'+money(estimate())+'</b></div>'+
       '<div class="mrow"><button class="btn btn-light" onclick="closeModal()">Закрыть</button>'+
       '<button class="btn btn-acc" data-act="pay-ok">Оплатить счёт</button></div>');
@@ -2309,7 +2880,7 @@ document.addEventListener('click', e=>{
     st.tasks.find(t=>t.key==='pay').done = true;
     S.paid = true; S.stage = 'oplata';
     closeModal();
-    renderStageTabs(); renderTasks(); paintProgress(); renderAlerts(); renderSummary(); renderStatus();
+    renderStageTabs(); renderTasks(); paintProgress(); renderSummary(); renderStatus();
     toast('Платёж принят', 'Счёт оплачен · бронь места подтверждена');
     setTimeout(()=>pushMsg('them','Оплата прошла, спасибо! Следующий шаг — тех. хостинг: электричество и списки аккредитаций.'), 1400);
     return;
@@ -2339,20 +2910,33 @@ const TILE_COLORS = [
   'radial-gradient(circle at 55% 50%, #FF2D55, #FFD93D 80%)'
 ];
 function runSplash(){
-  const sp = $('#splash');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  $('#spTiles').innerHTML = TILE_COLORS.map((g,i)=>
-    '<div class="sp-tile" style="background:'+g+';animation-delay:'+(1.75 + i*0.055)+'s"></div>').join('');
-  setTimeout(()=>{ $('#spFace').classList.add('blink'); }, 1350);
-  setTimeout(()=>{ $('#spTiles').classList.add('on'); }, reduced ? 0 : 1550);
-  const end = setTimeout(closeSplash, reduced ? 800 : 2800);
-  $('#spSkip').addEventListener('click', ()=>{ clearTimeout(end); closeSplash(); });
+  const T = [];
+  const at = (ms, fn)=> T.push(setTimeout(fn, ms));
+
+  $('#spTiles').innerHTML = TILE_COLORS.map((g,i)=>{
+    const d = [3,1,4,0,6,2,7,5][i] * 0.055;
+    return '<div class="sp-tile" style="background:'+g+';animation-delay:'+d+'s"></div>';
+  }).join('');
+
+  if(reduced){ at(900, closeSplash); }
+  else{
+    at(1740, ()=>{ $('#spFlash') && 0; $('.sp-flash').classList.add('on'); });
+    at(2280, ()=>{ $('.sp-flash').classList.remove('on'); void $('.sp-flash').offsetWidth; });
+    at(2320, ()=>{
+      $('#spStage').classList.add('blast');
+      $('#spTiles').classList.add('on');
+      $('.sp-flash').classList.add('on');
+    });
+    at(3260, closeSplash);
+  }
+  $('#spSkip').addEventListener('click', ()=>{ T.forEach(clearTimeout); closeSplash(); });
 }
 function closeSplash(){
   const sp = $('#splash');
-  if(sp.classList.contains('hide')) return;
+  if(!sp || sp.classList.contains('hide')) return;
   sp.classList.add('hide');
-  setTimeout(()=>{ sp.remove(); }, 700);
+  setTimeout(()=>sp.remove(), 820);
 }
 
 /* ============================================================
@@ -2366,8 +2950,11 @@ S.theme = saved;
 document.documentElement.dataset.theme = saved;
 $('#themeBtn').textContent = saved === 'picnic' ? 'Тема: Пикник' : 'Тема: Тёмная';
 
-const STRIP = 'picnic.afisha.ru / festival food / market / vibe / ';
-$('#stripLine').innerHTML = ('<span>'+STRIP.split(' / ').filter(Boolean).join(' /</span><span>')+' /</span>').repeat(2);
+const STRIP_BRANDS = ['UNDERDOG','COFIX','SKURATOV','SMOKE BBQ','BOLO','SALATNICA','TECHNODONER',
+  'POPMEAL','RUSTY','JNKL','VKUSVILL','MUN MUN','TEREMOK','AAARC','LAPOCHKA','CATCH22','DFF',
+  'WOK STREET','PYSHKI','KORYUSHKA','BURGER TRUCK','SYROVARNYA','DOM KULTURY','RUSKI','PYAN SE',
+  'ICE CREAM CO','SMOOTHIE BAR','PELMENI CLUB','CHEBUREK','SEVERYANIN','PIROGOVAYA','KROSHKA'];
+$('#stripLine').innerHTML = (STRIP_BRANDS.map(b=>'<span>'+b+' <em>✦</em></span>').join('')).repeat(2);
 
 renderTabs();
 refreshAll();
