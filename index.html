@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Underdog — План автоматизации · Личный кабинет арендатора</title>
+<style>
+:root{
+  --bg:#08080A;
+  --surface:#111113;
+  --surface-2:#161619;
+  --surface-3:#1D1D21;
+  --line:#26262C;
+  --line-soft:#1E1E23;
+  --text:#F5F5F7;
+  --muted:#8A8A94;
+  --muted-2:#5F5F6B;
+  --accent:#C8F531;
+  --accent-dim:rgba(200,245,49,.14);
+  --accent-line:rgba(200,245,49,.35);
+  --warn:#FFB020;
+  --warn-dim:rgba(255,176,32,.14);
+  --danger:#FF5C5C;
+  --danger-dim:rgba(255,92,92,.13);
+  --info:#6EA8FF;
+  --r:14px;
+  --r-sm:10px;
+  --font:'Inter','Montserrat','Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font);background:var(--bg);color:var(--text);
+  min-height:100vh;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.45;
+}
+::selection{background:var(--accent);color:#0A0A0A}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input,select{font-family:inherit}
+
+/* ---------------- ШАПКА ---------------- */
+header{position:sticky;top:0;z-index:60;background:rgba(8,8,10,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav{max-width:1400px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:11px;margin-right:auto;min-width:0}
+.mark{width:36px;height:36px;border-radius:10px;flex:none;background:var(--accent);color:#0A0A0A;display:grid;place-items:center;font-weight:900;font-size:15px;letter-spacing:-.5px}
+.brand b{display:block;font-size:14px;font-weight:700;letter-spacing:-.2px;white-space:nowrap}
+.brand span{display:block;font-size:11px;color:var(--muted-2);font-weight:500;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabs{display:flex;gap:4px;background:var(--surface-2);padding:4px;border-radius:12px;border:1px solid var(--line-soft)}
+.tab{font-size:13px;font-weight:600;color:var(--muted);padding:8px 15px;border-radius:9px;transition:.15s;white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab.active{background:var(--accent);color:#0A0A0A}
+.user{display:flex;align-items:center;gap:9px;padding:6px 12px 6px 6px;border:1px solid var(--line);border-radius:99px}
+.ava{width:26px;height:26px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--accent)}
+.user span{font-size:12px;color:var(--muted)}
+
+main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
+.g-main>*,.map-grid>*,.g-an>*,.hero-id,.hero-top>*{min-width:0}
+.view{display:none}
+.view.active{display:block;animation:in .3s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------------- ОБЩЕЕ ---------------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.card-h h3{font-size:15px;font-weight:700;letter-spacing:-.2px}
+.card-h .hint{font-size:11.5px;color:var(--muted-2)}
+.sec-title{font-size:11px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted-2)}
+.page-h{margin-bottom:20px}
+.page-h h2{font-size:26px;font-weight:800;letter-spacing:-.7px}
+.page-h p{color:var(--muted);margin-top:6px;font-size:13.5px;max-width:660px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:700;padding:11px 18px;border-radius:var(--r-sm);transition:.16s;white-space:nowrap}
+.btn-acc{background:var(--accent);color:#0A0A0A}
+.btn-acc:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn-light{background:var(--surface-3);color:var(--text);border:1px solid var(--line)}
+.btn-light:hover{background:#25252A;border-color:#33333A}
+.btn-ghost{border:1px solid var(--line);color:var(--muted);font-size:12px;padding:8px 13px;border-radius:9px}
+.btn-ghost:hover{color:var(--text);border-color:var(--accent-line)}
+.btn-sm{font-size:12px;padding:8px 13px}
+.btn[disabled]{opacity:.45;pointer-events:none}
+
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:5px 10px;border-radius:7px;white-space:nowrap}
+.p-ok{background:var(--accent-dim);color:var(--accent)}
+.p-warn{background:var(--warn-dim);color:var(--warn)}
+.p-bad{background:var(--danger-dim);color:var(--danger)}
+.p-mute{background:var(--surface-3);color:var(--muted)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex:none}
+
+.bar{height:7px;border-radius:99px;background:var(--surface-3);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:var(--accent);width:0;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+
+/* ---------------- РАЗДЕЛ 1 ---------------- */
+.g-main{display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
+.hero{background:linear-gradient(135deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:var(--r);padding:22px;margin-bottom:16px}
+.hero-top{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.hero-logo{width:58px;height:58px;border-radius:14px;background:var(--accent);color:#0A0A0A;display:grid;place-items:center;font-weight:900;font-size:20px;flex:none;letter-spacing:-1px}
+.hero-id h1{font-size:24px;font-weight:800;letter-spacing:-.7px}
+.hero-id .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.hero-num{margin-left:auto;text-align:right}
+.hero-num b{display:block;font-size:30px;font-weight:800;letter-spacing:-1px;line-height:1}
+.hero-num span{font-size:11.5px;color:var(--muted-2);font-weight:600}
+.hero-prog{margin-top:20px}
+.hero-prog .row{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600}
+.steps{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.step{flex:1;min-width:88px;padding:9px 10px;border-radius:9px;background:var(--surface-3);border:1px solid var(--line-soft);font-size:11px;font-weight:700;color:var(--muted-2);text-align:center;transition:.2s}
+.step.done{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-line)}
+.step.cur{background:var(--surface-3);color:var(--text);border-color:var(--accent)}
+
+.alerts{display:flex;flex-direction:column;gap:9px;margin-bottom:16px}
+.alert{display:flex;align-items:center;gap:11px;padding:13px 15px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--surface)}
+.alert.w{border-color:rgba(255,176,32,.3);background:rgba(255,176,32,.06)}
+.alert.g{border-color:var(--accent-line);background:rgba(200,245,49,.05)}
+.alert .ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:13px;flex:none;background:var(--surface-3)}
+.alert.w .ic{background:var(--warn-dim);color:var(--warn)}
+.alert.g .ic{background:var(--accent-dim);color:var(--accent)}
+.alert .txt{flex:1;min-width:0}
+.alert .txt b{font-size:13px;font-weight:700;display:block}
+.alert .txt span{font-size:11.5px;color:var(--muted)}
+
+.stage-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px}
+.stab{flex:none;display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);font-size:12.5px;font-weight:600;color:var(--muted);transition:.15s}
+.stab:hover{color:var(--text)}
+.stab.active{border-color:var(--accent);color:var(--text);background:var(--surface-3)}
+.stab i{font-style:normal;font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:6px;background:var(--surface-3);color:var(--muted-2)}
+.stab.active i{background:var(--accent);color:#0A0A0A}
+.stab.full i{background:var(--accent-dim);color:var(--accent)}
+
+.task{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;border-radius:var(--r-sm);border:1px solid var(--line-soft);background:var(--surface-2);margin-bottom:8px;transition:.15s}
+.task:hover{border-color:var(--line)}
+.task.done{opacity:.62}
+.chk{width:21px;height:21px;border-radius:6px;border:1.5px solid var(--line);flex:none;display:grid;place-items:center;font-size:11px;color:transparent;transition:.15s;margin-top:1px}
+.chk:hover{border-color:var(--accent)}
+.task.done .chk{background:var(--accent);border-color:var(--accent);color:#0A0A0A}
+.task .body{flex:1;min-width:0}
+.task .tt{font-size:13.5px;font-weight:600}
+.task.done .tt{text-decoration:line-through;text-decoration-color:var(--muted-2)}
+.task .td{font-size:11.5px;color:var(--muted-2);margin-top:3px}
+.task .act{display:flex;gap:6px;align-items:center;flex:none}
+
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px}
+.side-card{margin-bottom:16px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line-soft);font-size:13px}
+.kv:last-child{border-bottom:0}
+.kv span{color:var(--muted)}
+.kv b{font-weight:700;text-align:right}
+.place{background:var(--surface-2);border:1px solid var(--accent-line);border-radius:var(--r-sm);padding:14px;margin-bottom:14px}
+.place .big{font-size:20px;font-weight:800;letter-spacing:-.4px}
+.place .sm{font-size:11.5px;color:var(--muted);margin-top:4px}
+
+/* ---------------- РАЗДЕЛ 2: КАРТА ---------------- */
+.map-grid{display:grid;grid-template-columns:1fr 380px;gap:16px;align-items:start}
+.city-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+.ctab{padding:10px 18px;border-radius:11px;border:1px solid var(--line);background:var(--surface-2);font-size:13px;font-weight:700;color:var(--muted);transition:.15s}
+.ctab.active{background:var(--accent);color:#0A0A0A;border-color:var(--accent)}
+.venue{margin-bottom:16px}
+.venue-h{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.venue-h h3{font-size:16px;font-weight:800;letter-spacing:-.3px}
+.venue-h .sub{font-size:11.5px;color:var(--muted-2)}
+.venue-h .right{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0C0F;border:1px solid var(--line-soft)}
+.cell{cursor:pointer}
+.cell rect{transition:.15s}
+.cell:hover rect.c-base{filter:brightness(1.35)}
+.cell.sel rect.c-base{stroke:var(--accent);stroke-width:3}
+.cell text{pointer-events:none;font-family:var(--font);font-weight:800}
+.static-txt{font-family:var(--font);font-weight:700;fill:var(--muted-2)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft)}
+.legend div{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--muted)}
+.sw{width:11px;height:11px;border-radius:3px;flex:none}
+
+#tip{
+  position:fixed;z-index:200;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s;
+  background:#000;border:1px solid var(--accent-line);border-radius:10px;padding:11px 13px;min-width:172px;box-shadow:0 12px 34px rgba(0,0,0,.7);
+}
+#tip.on{opacity:1;transform:none}
+#tip .t1{font-size:13px;font-weight:800;margin-bottom:2px}
+#tip .t2{font-size:11px;color:var(--muted);margin-bottom:8px}
+#tip .t3{font-size:17px;font-weight:800;color:var(--accent);letter-spacing:-.4px}
+#tip .t4{font-size:11px;margin-top:7px;padding-top:7px;border-top:1px solid var(--line)}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
+.stat{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:var(--r-sm);padding:13px}
+.stat span{font-size:10.5px;color:var(--muted-2);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.stat b{display:block;font-size:20px;font-weight:800;margin-top:5px;letter-spacing:-.6px}
+.stat.a b{color:var(--accent)}
+.stat.w b{color:var(--warn)}
+.stat.d b{color:var(--danger)}
+
+.filters{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.frow{display:flex;gap:6px;flex-wrap:wrap}
+.fchip{font-size:11.5px;font-weight:700;padding:6px 12px;border-radius:8px;border:1px solid var(--line);color:var(--muted);transition:.15s}
+.fchip:hover{color:var(--text)}
+.fchip.active{background:var(--text);color:#0A0A0A;border-color:var(--text)}
+.list{max-height:520px;overflow-y:auto;margin:0 -6px;padding:0 6px}
+.list::-webkit-scrollbar{width:6px}
+.list::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:99px}
+.grp{font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted-2);margin:14px 0 7px;display:flex;justify-content:space-between}
+.grp:first-child{margin-top:0}
+.row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;border:1px solid var(--line-soft);background:var(--surface-2);margin-bottom:6px;cursor:pointer;transition:.14s}
+.row:hover{border-color:var(--accent-line);transform:translateX(2px)}
+.row.sel{border-color:var(--accent);background:var(--surface-3)}
+.row .n{width:30px;height:30px;border-radius:8px;flex:none;display:grid;place-items:center;font-size:11.5px;font-weight:800}
+.row .info{flex:1;min-width:0}
+.row .info b{font-size:12.5px;font-weight:700;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .info span{font-size:11px;color:var(--muted-2)}
+.row .price{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.detail{border-top:1px solid var(--line);margin-top:14px;padding-top:14px}
+.empty{text-align:center;padding:30px 14px;color:var(--muted-2);font-size:12.5px}
+
+/* ---------------- РАЗДЕЛ 3: АНАЛИТИКА ---------------- */
+.an-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.an-kpi .k{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.an-kpi .k span{font-size:11px;color:var(--muted);font-weight:600}
+.an-kpi .k b{display:block;font-size:27px;font-weight:800;letter-spacing:-1px;margin:7px 0 4px}
+.an-kpi .k .d{font-size:11.5px;color:var(--muted-2)}
+.an-kpi .k .d em{font-style:normal;color:var(--accent);font-weight:700}
+.g-an{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.chart-row{display:flex;align-items:center;gap:12px;padding:9px 0}
+.chart-row .lbl{width:150px;flex:none;font-size:12.5px;font-weight:600}
+.chart-row .lbl small{display:block;color:var(--muted-2);font-size:10.5px;font-weight:600}
+.chart-row .track{flex:1;height:9px;border-radius:99px;background:var(--surface-3);overflow:hidden}
+.chart-row .track i{display:block;height:100%;border-radius:99px;width:0;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.chart-row .val{width:74px;text-align:right;font-size:12.5px;font-weight:800;white-space:nowrap}
+.loc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:12px}
+.loc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:17px;transition:.18s}
+.loc:hover{border-color:var(--accent-line);transform:translateY(-2px)}
+.loc-t{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.loc-t b{font-size:14.5px;font-weight:800;letter-spacing:-.2px}
+.loc-t span{font-size:11px;color:var(--muted-2);display:block;margin-top:2px}
+.loc-n{display:flex;gap:16px;margin:12px 0}
+.loc-n div span{font-size:10.5px;color:var(--muted-2);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.loc-n div b{display:block;font-size:17px;font-weight:800;margin-top:2px}
+.loc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px}
+.todo{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;border:1px solid var(--line-soft);background:var(--surface-2);margin-bottom:7px;cursor:pointer;transition:.14s}
+.todo:hover{border-color:var(--line)}
+.todo.done{opacity:.55}
+.todo .tx{flex:1;font-size:13px;font-weight:600}
+.todo.done .tx{text-decoration:line-through}
+
+/* ---------------- ТОСТЫ ---------------- */
+#toasts{position:fixed;right:18px;bottom:18px;z-index:300;display:flex;flex-direction:column;gap:9px;max-width:330px}
+.toast{background:var(--surface-2);border:1px solid var(--accent-line);border-left:3px solid var(--accent);border-radius:11px;padding:13px 15px;box-shadow:0 14px 36px rgba(0,0,0,.6);animation:tin .28s ease}
+.toast b{display:block;font-size:13px;font-weight:700;margin-bottom:3px}
+.toast span{font-size:11.5px;color:var(--muted)}
+.toast.w{border-color:rgba(255,176,32,.4);border-left-color:var(--warn)}
+@keyframes tin{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+
+/* ---------------- МОДАЛ ---------------- */
+#modal{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,.72);backdrop-filter:blur(5px);display:none;place-items:center;padding:20px}
+#modal.on{display:grid}
+.mbox{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;max-width:430px;width:100%;animation:in .25s ease}
+.mbox h3{font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px}
+.mbox p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:18px}
+.mbox .mrow{display:flex;gap:9px}
+.mbox .mrow .btn{flex:1}
+
+@media(max-width:1100px){
+  .g-main,.map-grid,.g-an{grid-template-columns:1fr}
+  .an-kpi{grid-template-columns:repeat(2,1fr)}
+  .list{max-height:none}
+}
+@media(max-width:860px){
+  body{overflow-x:hidden}
+  .nav{flex-wrap:wrap;padding:11px 14px;gap:12px}
+  .brand{min-width:0}
+  .brand>div:last-child{min-width:0;flex:1}
+  .brand b{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hero-id h1{width:100%}
+  .hero-id .meta .pill{max-width:100%;white-space:normal}
+  .tabs{order:3;width:100%;justify-content:center}
+  .tab{flex:1;text-align:center;padding:9px 8px;font-size:12px}
+  .user{display:none}
+  main{padding:20px 14px 60px}
+  .stats-row{grid-template-columns:1fr}
+  .hero-num{margin-left:0;text-align:left;width:100%;display:flex;gap:20px;align-items:flex-end}
+  .page-h h2{font-size:21px}
+  .actions{grid-template-columns:1fr}
+  #toasts{left:14px;right:14px;max-width:none}
+}
+@media(max-width:560px){
+  .an-kpi{grid-template-columns:1fr}
+  .chart-row .lbl{width:100px;font-size:11.5px}
+  .hero-id h1{font-size:20px}
+  .steps .step{min-width:64px;font-size:10px;padding:8px 5px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="mark">UD</div>
+      <div>
+        <b>План автоматизации · Фестиваль Underdog</b>
+        <span>Личный кабинет арендатора · сезон 2026</span>
+      </div>
+    </div>
+    <nav class="tabs">
+      <button class="tab active" data-view="cab">Кабинет</button>
+      <button class="tab" data-view="map">Выбор места</button>
+      <button class="tab" data-view="an">Аналитика</button>
+    </nav>
+    <div class="user">
+      <div class="ava">UD</div>
+      <span>Underdog · ФК1 · точка 12</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ==================== 1. КАБИНЕТ ==================== -->
+<section class="view active" id="view-cab">
+  <div class="g-main">
+    <div>
+      <div class="hero">
+        <div class="hero-top">
+          <div class="hero-logo">UD</div>
+          <div class="hero-id">
+            <h1>Underdog</h1>
+            <div class="meta">
+              <span class="pill p-mute"><span class="dot"></span> Куратор: Наталья Арсентьева</span>
+              <span class="pill p-ok" id="heroPlace">ФК1 · блок B · точка 12</span>
+            </div>
+          </div>
+          <div class="hero-num">
+            <div>
+              <b id="heroStage">2 из 5</b>
+              <span>ЭТАП ПОДГОТОВКИ</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-prog">
+          <div class="row"><span id="progLabel">Общий прогресс</span><span><b id="progPct">45%</b></span></div>
+          <div class="bar"><i id="progBar"></i></div>
+          <div class="steps" id="steps"></div>
+        </div>
+      </div>
+
+      <div class="alerts" id="alerts"></div>
+
+      <div class="card">
+        <div class="card-h">
+          <h3>Задачи по этапам</h3>
+          <span class="hint" id="taskHint"></span>
+        </div>
+        <div class="stage-tabs" id="stageTabs"></div>
+        <div id="taskList"></div>
+      </div>
+    </div>
+
+    <aside>
+      <div class="card side-card">
+        <div class="card-h"><h3>Действия</h3></div>
+        <div class="actions">
+          <button class="btn btn-acc" data-act="pay">Платёжка</button>
+          <button class="btn btn-acc" data-act="curator">Консультация</button>
+          <button class="btn btn-light" data-act="invoice">Открыть счёт</button>
+          <button class="btn btn-light" data-act="area">Сменить площадь</button>
+        </div>
+        <button class="btn btn-light" style="width:100%" data-act="tomap">Перейти к выбору места →</button>
+      </div>
+
+      <div class="card side-card">
+        <div class="card-h"><h3>Сводка по счёту</h3></div>
+        <div class="place">
+          <div class="sec-title">Ваше место</div>
+          <div class="big" id="sumPlace">ФК1 · блок B · точка 12</div>
+          <div class="sm" id="sumHold">Бронь до 14 мая · 4,5 × 3 м</div>
+        </div>
+        <div class="kv"><span>Смета</span><b id="sumTotal">—</b></div>
+        <div class="kv"><span>Аренда корнера</span><b id="sumRent">—</b></div>
+        <div class="kv"><span>Электричество</span><b>24 000 ₽</b></div>
+        <div class="kv"><span>Оплата</span><b id="sumPay">—</b></div>
+        <div class="kv"><span>Монтаж</span><b>10–11 июля</b></div>
+        <div class="kv"><span>Демонтаж</span><b>14 июля, до 23:00</b></div>
+      </div>
+
+      <div class="card side-card">
+        <div class="card-h"><h3>Куратор</h3></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <div class="ava" style="width:42px;height:42px;font-size:13px">НА</div>
+          <div>
+            <b style="font-size:14px;font-weight:700">Наталья Арсентьева</b>
+            <div style="font-size:11.5px;color:var(--muted-2)">Куратор · фуд-корты Москвы</div>
+          </div>
+        </div>
+        <button class="btn btn-acc btn-sm" style="width:100%" data-act="curator">Запросить консультацию</button>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ==================== 2. ВЫБОР МЕСТА ==================== -->
+<section class="view" id="view-map">
+  <div class="page-h">
+    <h2>Выбор места</h2>
+    <p>Схемы фуд-кортов фестиваля в Москве и Санкт-Петербурге. Наведите на корнер, чтобы увидеть стоимость, нажмите — чтобы открыть карточку и забронировать.</p>
+  </div>
+
+  <div class="city-tabs" id="cityTabs"></div>
+
+  <div class="map-grid">
+    <div id="venues"></div>
+
+    <aside>
+      <div class="card">
+        <div class="card-h"><h3 id="panelCity">Справка по точкам</h3></div>
+        <div class="stats-row">
+          <div class="stat a"><span>Доступно</span><b id="stFree">—</b></div>
+          <div class="stat"><span>Продано</span><b id="stSold">—</b></div>
+          <div class="stat d"><span>Остаток</span><b id="stLost">—</b></div>
+        </div>
+
+        <div class="filters">
+          <div>
+            <div class="sec-title" style="margin-bottom:7px">Статус</div>
+            <div class="frow" id="fStatus">
+              <button class="fchip active" data-v="all">Все</button>
+              <button class="fchip" data-v="free">Свободна</button>
+              <button class="fchip" data-v="hold">Бронь</button>
+              <button class="fchip" data-v="taken">Занята</button>
+            </div>
+          </div>
+          <div>
+            <div class="sec-title" style="margin-bottom:7px">Площадь</div>
+            <div class="frow" id="fSize">
+              <button class="fchip active" data-v="all">Все</button>
+              <button class="fchip" data-v="3×3">3×3</button>
+              <button class="fchip" data-v="4,5×3">4,5×3</button>
+              <button class="fchip" data-v="5×3">5×3</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="list" id="cellList"></div>
+        <div id="cellDetail"></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ==================== 3. АНАЛИТИКА ==================== -->
+<section class="view" id="view-an">
+  <div class="page-h">
+    <h2>Сводная аналитика</h2>
+    <p>География продаж, задачи департамента торговли и прогресс по блокам и площадям. Все цифры пересчитываются сразу после брони.</p>
+  </div>
+
+  <div class="city-tabs" id="anCityTabs"></div>
+
+  <div class="an-kpi" id="anKpi"></div>
+
+  <div class="g-an">
+    <div class="card">
+      <div class="card-h">
+        <h3>Прогресс по блокам</h3>
+        <span class="hint">продано + бронь от объёма блока</span>
+      </div>
+      <div id="chartBlocks"></div>
+    </div>
+    <div class="card">
+      <div class="card-h">
+        <h3>Продажи по площадям</h3>
+        <span class="hint">тыс. ₽ · всего точек</span>
+      </div>
+      <div id="chartSizes"></div>
+    </div>
+  </div>
+
+  <div class="g-an">
+    <div class="card">
+      <div class="card-h">
+        <h3>Департамент торговли</h3>
+        <span class="hint" id="todoHint"></span>
+      </div>
+      <div id="todoList"></div>
+      <div class="bar" style="margin-top:12px"><i id="todoBar"></i></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>Быстрые действия</h3></div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <button class="btn btn-acc" data-act="pick-fk2">Выбрать ФК2</button>
+        <button class="btn btn-light" data-act="book-4">Забронировать точку 4</button>
+        <button class="btn btn-light" data-act="report">Выгрузить отчёт по городам</button>
+      </div>
+      <div class="detail">
+        <div class="sec-title" style="margin-bottom:10px">Дедлайны</div>
+        <div class="kv"><span>Бронь мест</span><b>14 мая</b></div>
+        <div class="kv"><span>Меню и тех. карты</span><b>28 мая</b></div>
+        <div class="kv"><span>Аккредитация</span><b>20 июня</b></div>
+        <div class="kv"><span>Монтаж</span><b>10 июля</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-h" style="margin-top:22px"><h3>Локации</h3><span class="hint">свободные точки и статусы</span></div>
+  <div class="loc-grid" id="locGrid"></div>
+</section>
+
+</main>
+
+<div id="tip"></div>
+<div id="toasts"></div>
+<div id="modal"><div class="mbox" id="mbox"></div></div>
+
+<script>
+/* ============================================================
+   ДАННЫЕ
+   ============================================================ */
+const $  = (s,p=document)=>p.querySelector(s);
+const $$ = (s,p=document)=>[...p.querySelectorAll(s)];
+
+const CITIES = [
+  {id:'msk', name:'Москва',          plan:6500000, deadline:'14 мая'},
+  {id:'spb', name:'Санкт-Петербург', plan:3200000, deadline:'21 мая'}
+];
+
+/* блок: [статус, арендатор] · индекс 4 — центральный внутренний корнер = ТЕХ ЗОНА */
+const BLOCK_DATA = {
+  'msk-fk1':[
+    {id:'A', label:'Блок A', price:200000, size:'5×3',   ox:34,  oy:64,  cells:[
+      ['free'],['free'],['free'],['free'],['tech'],['free'],['free'],['free'],['free']]},
+    {id:'B', label:'Блок B', price:180000, size:'4,5×3', ox:546, oy:64,  cells:[
+      ['taken','Teremok'],['hold','Бронь · Вок Стрит'],['free'],['taken','Underdog'],['tech'],
+      ['free'],['free'],['free'],['free']]},
+    {id:'C', label:'Блок C', price:150000, size:'3×3',   ox:34,  oy:396, cells:[
+      ['taken','Coffix'],['taken','Вареничная'],['taken','Дюжина'],['hold','Бронь · Лаваш'],['tech'],
+      ['hold','Бронь · Мороженое'],['free'],['free'],['free']]},
+    {id:'D', label:'Блок D', price:150000, size:'3×3',   ox:546, oy:396, cells:[
+      ['taken','Крошка Картошка'],['taken','Шаверма №1'],['taken','Пян-Се'],['taken','Донер Хауз'],['tech'],
+      ['taken','Блинная'],['taken','Хинкальная'],['hold','Бронь · Лимонад'],['free']]}
+  ],
+  'spb-fk1':[
+    {id:'А', label:'Блок А', price:170000, size:'4,5×3', ox:34,  oy:64, cells:[
+      ['taken','Пышки СПб'],['taken','Coffix'],['hold','Бронь · Корюшка'],['free'],['tech'],
+      ['free'],['taken','Шаурма Питер'],['free'],['hold','Бронь · Смузи']]},
+    {id:'Б', label:'Блок Б', price:140000, size:'3×3',   ox:546, oy:64, cells:[
+      ['taken','Пельменная'],['free'],['free'],['hold','Бронь · Чебуречная'],['tech'],
+      ['free'],['taken','Пироговая'],['free'],['free']]}
+  ]
+};
+
+/* ФК2 — планировка буквой «Г», 8 корнеров 4,5×3 по 180 000 ₽ */
+const FK2_CELLS = [
+  ['free'],['taken','Coffix'],['free'],['free'],['hold','Бронь · Гриль'],['free'],['free'],['free']
+];
+/* Фудтраки СПб — 12 точек */
+const TRUCK_CELLS = [
+  ['taken','Бургер Трак'],['free'],['hold','Бронь · Тако'],['free'],['taken','Кофе на колёсах'],['free'],
+  ['taken','Вафли'],['free'],['hold','Бронь · Лимонад'],['free'],['taken','Хот-дог Бус'],['free']
+];
+
+const VENUES = [
+  {id:'msk-fk1', city:'msk', name:'Москва ФК1', sub:'Фуд-корт главной сцены · 4 блока по 9 корнеров', kind:'quad'},
+  {id:'msk-fk2', city:'msk', name:'Москва ФК2', sub:'Фуд-корт второй сцены · планировка «Г» · 8 корнеров 4,5×3', kind:'L'},
+  {id:'spb-fk1', city:'spb', name:'Питер ФК1',  sub:'Фуд-корт главной сцены · 2 блока по 9 корнеров', kind:'quad'},
+  {id:'spb-ft',  city:'spb', name:'Питер · Фудтраки', sub:'Линия фудтраков · 12 точек', kind:'line'}
+];
+
+/* -------- построение ячеек -------- */
+const CELLS = [];
+let uid = 0;
+function push(o){ o.uid = 'c'+(uid++); CELLS.push(o); return o; }
+
+function buildGrid(venueId, blocks){
+  blocks.forEach(b=>{
+    let n = 0;
+    const start = CELLS.filter(c=>c.venue===venueId && !c.tech).length;
+    b.cells.forEach((c,i)=>{
+      const col = i%3, row = (i/3)|0;
+      const x = b.ox + col*62, y = b.oy + row*62;
+      if(c[0]==='tech'){
+        push({venue:venueId, block:b.id, blockLabel:b.label, tech:true, num:null,
+              size:'—', price:0, status:'tech', tenant:'Тех. зона', x, y, w:56, h:56});
+      }else{
+        n++;
+        push({venue:venueId, block:b.id, blockLabel:b.label, tech:false, num:start+n,
+              size:b.size, price:b.price, status:c[0], tenant:c[1]||null, x, y, w:56, h:56});
+      }
+    });
+  });
+}
+buildGrid('msk-fk1', BLOCK_DATA['msk-fk1']);
+buildGrid('spb-fk1', BLOCK_DATA['spb-fk1']);
+
+/* ФК2 — «Г»: 5 корнеров по горизонтали + 3 вниз от левого края */
+FK2_CELLS.forEach((c,i)=>{
+  const x = i<5 ? 70 + i*92 : 70;
+  const y = i<5 ? 70 : 70 + (i-4)*92;
+  push({venue:'msk-fk2', block:'Г', blockLabel:'Блок Г', tech:false, num:i+1,
+        size:'4,5×3', price:180000, status:c[0], tenant:c[1]||null, x, y, w:84, h:84});
+});
+/* Фудтраки — линия 12 точек */
+TRUCK_CELLS.forEach((c,i)=>{
+  const col = i%6, row = (i/6)|0;
+  push({venue:'spb-ft', block:'ФТ', blockLabel:'Фудтраки', tech:false, num:i+1,
+        size:'3×3', price:90000, status:c[0], tenant:c[1]||null,
+        x:52 + col*112, y:80 + row*120, w:96, h:96});
+});
+
+const STATUS = {
+  free:{t:'Свободна', c:'#C8F531', fill:'rgba(200,245,49,.16)', txt:'#C8F531'},
+  hold:{t:'Бронь',    c:'#FFB020', fill:'rgba(255,176,32,.16)', txt:'#FFB020'},
+  taken:{t:'Занята',  c:'#3A3A42', fill:'rgba(255,255,255,.05)', txt:'#8A8A94'},
+  tech:{t:'Тех. зона',c:'#2A3A55', fill:'rgba(110,168,255,.10)', txt:'#6EA8FF'}
+};
+
+/* ---- задачи кабинета ---- */
+const STAGES = [
+  {id:'zayavka', name:'Заявка', tasks:[
+    {t:'Заполнить анкету участника', d:'Отправлено 12 марта', done:true},
+    {t:'Согласовать концепцию корнера', d:'Одобрено куратором', done:true},
+    {t:'Получить подтверждение места', d:'ФК1 · блок B · точка 12', done:true}
+  ]},
+  {id:'vhod', name:'Вход', tasks:[
+    {t:'Подписать договор участия', d:'Договор №UD-2026-112', done:true},
+    {t:'Загрузить реквизиты компании', d:'ИНН, КПП, банк', done:true},
+    {t:'Открыть счёт на оплату', d:'Счёт сформирован 6 мая', done:true},
+    {t:'Оплатить счёт', d:'Срок — 2 рабочих дня', done:false, key:'pay'}
+  ]},
+  {id:'komm', name:'Коммерция', tasks:[
+    {t:'Загрузить списки на аккредитацию', d:'ФИО и должности персонала', done:true, upload:true},
+    {t:'Загрузить меню', d:'PDF или таблица с ценами', done:false, upload:true},
+    {t:'Загрузить информацию для промо', d:'Логотип, описание, фото', done:false, upload:true},
+    {t:'Согласовать ассортимент и цены', d:'Проверяет департамент торговли', done:true}
+  ]},
+  {id:'podg', name:'Подготовка', tasks:[
+    {t:'Электричество', d:'Заявка на 7 кВт · подтверждено', done:true},
+    {t:'Тех. карта корнера', d:'Схема оборудования и подключений', done:false},
+    {t:'Схема выкладки товара', d:'Планограмма витрины', done:false},
+    {t:'Инструктаж персонала', d:'Онлайн, 2 июля', done:false},
+    {t:'Пропуска на монтаж', d:'Список авто и людей', done:false}
+  ]},
+  {id:'mont', name:'Монтаж', tasks:[
+    {t:'Заезд на площадку', d:'10 июля, окно 08:00–12:00', done:false},
+    {t:'Монтаж оборудования', d:'10–11 июля', done:false},
+    {t:'Приёмка корнера', d:'12 июля, чек-лист куратора', done:false},
+    {t:'Демонтаж', d:'14 июля, до 23:00', done:false}
+  ]}
+];
+
+const TODOS = [
+  {t:'Заехал по Москве', d:'Проверить фактический заезд арендаторов ФК1', done:true},
+  {t:'Отправить договоры', d:'12 арендаторов ждут документы', done:false},
+  {t:'Кто не сдал меню', d:'Собрать список к 28 мая', done:false},
+  {t:'Согласовать тех. карты', d:'Блоки C и D, Москва', done:false},
+  {t:'Обзвон брони', d:'5 точек с истекающей бронью', done:true}
+];
+
+/* ============================================================
+   СОСТОЯНИЕ
+   ============================================================ */
+const S = {
+  view:'cab',
+  stage:'vhod',
+  city:'msk',
+  anCity:'msk',
+  fStatus:'all',
+  fSize:'all',
+  sel:null,
+  paid:false
+};
+
+/* ============================================================
+   УТИЛИТЫ
+   ============================================================ */
+const money = v => v.toLocaleString('ru-RU') + ' ₽';
+function mln(v){
+  if(v >= 1000000)
+    return (v/1000000).toLocaleString('ru-RU',{maximumFractionDigits:2}) + ' млн ₽';
+  return Math.round(v/1000).toLocaleString('ru-RU') + ' тыс ₽';
+}
+const tys = v => Math.round(v/1000).toLocaleString('ru-RU') + ' тыс';
+function toast(title, text, warn){
+  const el = document.createElement('div');
+  el.className = 'toast' + (warn ? ' w' : '');
+  el.innerHTML = '<b>'+title+'</b><span>'+text+'</span>';
+  $('#toasts').appendChild(el);
+  setTimeout(()=>{ el.style.transition='.3s'; el.style.opacity='0'; el.style.transform='translateX(24px)';
+    setTimeout(()=>el.remove(), 320); }, 3400);
+}
+function modal(title, text, actions){
+  $('#mbox').innerHTML = '<h3>'+title+'</h3><p>'+text+'</p><div class="mrow">'+actions+'</div>';
+  $('#modal').classList.add('on');
+}
+function closeModal(){ $('#modal').classList.remove('on'); }
+$('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') closeModal(); });
+
+const cityCells = c => CELLS.filter(x=>!x.tech && VENUES.find(v=>v.id===x.venue).city===c);
+
+/* ============================================================
+   НАВИГАЦИЯ
+   ============================================================ */
+function go(v){
+  S.view = v;
+  $$('.tab').forEach(t=>t.classList.toggle('active', t.dataset.view===v));
+  $$('.view').forEach(s=>s.classList.toggle('active', s.id==='view-'+v));
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(v==='cab') setTimeout(paintProgress, 50);
+  if(v==='an')  setTimeout(renderAnalytics, 50);
+}
+$$('.tab').forEach(t=>t.addEventListener('click', ()=>go(t.dataset.view)));
+
+/* ============================================================
+   РАЗДЕЛ 1 — КАБИНЕТ
+   ============================================================ */
+function progressData(){
+  const all  = STAGES.flatMap(s=>s.tasks);
+  const done = all.filter(t=>t.done).length;
+  let cur = STAGES.findIndex(s=>s.tasks.some(t=>!t.done));
+  if(cur === -1) cur = STAGES.length - 1;
+  return {done, total:all.length, pct:Math.round(done/all.length*100), cur};
+}
+function paintProgress(){
+  const p = progressData();
+  $('#progBar').style.width = p.pct + '%';
+  $('#progPct').textContent = p.pct + '%';
+  $('#progLabel').textContent = 'Общий прогресс · ' + p.done + ' из ' + p.total + ' задач';
+  $('#heroStage').textContent = (p.cur + 1) + ' из ' + STAGES.length;
+  $('#steps').innerHTML = STAGES.map((s,i)=>{
+    const full = s.tasks.every(t=>t.done);
+    return '<div class="step '+(full?'done':'')+' '+(i===p.cur&&!full?'cur':'')+'">'+
+             s.name+'<br><span style="font-size:9.5px;opacity:.75">'+
+             s.tasks.filter(t=>t.done).length+'/'+s.tasks.length+'</span></div>';
+  }).join('');
+}
+function renderStageTabs(){
+  $('#stageTabs').innerHTML = STAGES.map(s=>{
+    const d = s.tasks.filter(t=>t.done).length;
+    const full = d === s.tasks.length;
+    return '<button class="stab '+(S.stage===s.id?'active':'')+' '+(full?'full':'')+'" data-s="'+s.id+'">'+
+           s.name+' <i>'+d+'/'+s.tasks.length+'</i></button>';
+  }).join('');
+  $$('#stageTabs .stab').forEach(b=>b.addEventListener('click',()=>{
+    S.stage = b.dataset.s; renderStageTabs(); renderTasks();
+  }));
+}
+function renderTasks(){
+  const st = STAGES.find(s=>s.id===S.stage);
+  $('#taskHint').textContent = st.tasks.filter(t=>t.done).length + ' из ' + st.tasks.length + ' выполнено';
+  $('#taskList').innerHTML = st.tasks.map((t,i)=>
+    '<div class="task '+(t.done?'done':'')+'" data-i="'+i+'">'+
+      '<div class="chk">✓</div>'+
+      '<div class="body"><div class="tt">'+t.t+'</div><div class="td">'+t.d+'</div></div>'+
+      '<div class="act">'+
+        (t.upload && !t.done ? '<button class="btn btn-ghost" data-up="'+i+'">Загрузить</button>' : '')+
+        (t.done ? '<span class="pill p-ok"><span class="dot"></span>Готово</span>'
+                : '<span class="pill p-mute">В работе</span>')+
+      '</div></div>').join('');
+
+  $$('#taskList .task').forEach(el=>{
+    el.addEventListener('click', e=>{
+      if(e.target.dataset.up !== undefined) return;
+      toggleTask(st, +el.dataset.i);
+    });
+  });
+  $$('#taskList [data-up]').forEach(b=>b.addEventListener('click', e=>{
+    e.stopPropagation();
+    const t = st.tasks[+b.dataset.up];
+    toast('Файл загружен', '«'+t.t+'» — документ принят, статус обновлён');
+    if(!t.done) toggleTask(st, +b.dataset.up, true);
+  }));
+}
+function toggleTask(st, i, force){
+  const t = st.tasks[i];
+  t.done = force ? true : !t.done;
+  if(t.key === 'pay'){ S.paid = t.done; }
+  renderStageTabs(); renderTasks(); paintProgress(); renderAlerts(); renderSummary();
+  const p = progressData();
+  if(!force) toast(t.done ? 'Задача выполнена' : 'Задача возвращена в работу',
+                   t.t + ' · общий прогресс ' + p.pct + '%');
+}
+function renderAlerts(){
+  const p = progressData();
+  const items = [];
+  items.push(S.paid
+    ? {c:'g', ic:'✓', b:'Счёт оплачен', s:'Платёж подтверждён · место закреплено за вами'}
+    : {c:'w', ic:'!', b:'Счёт не оплачен — 2 раб. дня', s:'После оплаты бронь точки 12 станет подтверждённой'});
+  const komm = STAGES.find(s=>s.id==='komm');
+  const left = komm.tasks.filter(t=>!t.done).length;
+  if(left) items.push({c:'w', ic:'↑', b:'Не сданы документы коммерции — '+left,
+                       s:'Списки на аккредитацию, меню, промо · дедлайн 28 мая'});
+  items.push({c:'', ic:'◷', b:'Бронь места действует до 14 мая',
+              s:'ФК1 · блок B · точка 12 · 4,5 × 3 м'});
+  items.push({c:'', ic:'%', b:'Этап '+(p.cur+1)+' из '+STAGES.length+' · '+STAGES[p.cur].name,
+              s:'Выполнено '+p.done+' из '+p.total+' задач подготовки'});
+  $('#alerts').innerHTML = items.map(a=>
+    '<div class="alert '+a.c+'"><div class="ic">'+a.ic+'</div>'+
+    '<div class="txt"><b>'+a.b+'</b><span>'+a.s+'</span></div></div>').join('');
+}
+function renderSummary(){
+  const my = CELLS.find(c=>c.tenant === 'Underdog');
+  const rent = my ? my.price : 180000;
+  $('#sumRent').textContent  = money(rent);
+  $('#sumTotal').textContent = money(rent + 24000 + 15000);
+  $('#sumPay').innerHTML = S.paid
+    ? '<span class="pill p-ok"><span class="dot"></span>Оплачено</span>'
+    : '<span class="pill p-warn"><span class="dot"></span>Ожидает оплаты</span>';
+  if(my){
+    const txt = 'ФК1 · ' + my.blockLabel.replace('Блок ','блок ') + ' · точка ' + my.num;
+    $('#sumPlace').textContent = txt;
+    $('#heroPlace').textContent = txt;
+    $('#sumHold').textContent = 'Бронь до 14 мая · ' + my.size + ' м';
+  }
+}
+
+/* ============================================================
+   РАЗДЕЛ 2 — ВЫБОР МЕСТА (SVG-схемы)
+   ============================================================ */
+const PLAN = {
+  'msk-fk1':{vb:'0 0 760 620', nav:{x:380,y:320,r:46}, rings:[{r:112,n:8},{r:160,n:12}], entry:{x:380,y:600}},
+  'msk-fk2':{vb:'0 0 760 500', nav:{x:470,y:320,r:44}, rings:[{r:108,n:9}],              entry:{x:640,y:120}},
+  'spb-fk1':{vb:'0 0 760 300', nav:{x:380,y:154,r:38}, rings:[{r:76,n:8}],               entry:{x:380,y:284}},
+  'spb-ft' :{vb:'0 0 760 430', nav:{x:380,y:362,r:32}, rings:[{r:60,n:7}],               entry:{x:120,y:362}}
+};
+
+function tables(cfg){
+  let s = '';
+  cfg.rings.forEach(ring=>{
+    for(let i=0;i<ring.n;i++){
+      const a = (Math.PI*2/ring.n)*i - Math.PI/2;
+      const x = cfg.nav.x + Math.cos(a)*ring.r;
+      const y = cfg.nav.y + Math.sin(a)*ring.r;
+      s += '<g opacity=".8">'+
+           '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="12" fill="rgba(255,255,255,.06)" stroke="#3C3C46" stroke-width="1.2"/>'+
+           '<circle cx="'+(x).toFixed(1)+'" cy="'+(y-18).toFixed(1)+'" r="4" fill="#33333C"/>'+
+           '<circle cx="'+(x).toFixed(1)+'" cy="'+(y+18).toFixed(1)+'" r="4" fill="#33333C"/>'+
+           '<circle cx="'+(x-18).toFixed(1)+'" cy="'+(y).toFixed(1)+'" r="4" fill="#33333C"/>'+
+           '<circle cx="'+(x+18).toFixed(1)+'" cy="'+(y).toFixed(1)+'" r="4" fill="#33333C"/>'+
+           '</g>';
+    }
+  });
+  return s;
+}
+
+function venueSVG(v){
+  const cfg = PLAN[v.id];
+  const cells = CELLS.filter(c=>c.venue===v.id);
+  let s = '<svg class="plan" viewBox="'+cfg.vb+'" role="img" aria-label="Схема '+v.name+'">';
+  s += '<defs><pattern id="gr'+v.id+'" width="38" height="38" patternUnits="userSpaceOnUse">'+
+       '<path d="M38 0H0V38" fill="none" stroke="rgba(255,255,255,.035)" stroke-width="1"/></pattern></defs>';
+  s += '<rect width="100%" height="100%" fill="url(#gr'+v.id+')"/>';
+
+  /* столики вокруг навигации */
+  s += tables(cfg);
+
+  /* навигация */
+  const nf = cfg.nav.r >= 44 ? 11 : 10;
+  const ny = cfg.nav.r >= 44 ? cfg.nav.y + 4 : cfg.nav.y + cfg.nav.r + 15;
+  s += '<circle cx="'+cfg.nav.x+'" cy="'+cfg.nav.y+'" r="'+cfg.nav.r+'" fill="rgba(200,245,49,.10)" stroke="#C8F531" stroke-width="1.6" stroke-dasharray="5 4"/>'+
+       (cfg.nav.r < 44 ? '<circle cx="'+cfg.nav.x+'" cy="'+cfg.nav.y+'" r="5" fill="#C8F531" opacity=".65"/>' : '')+
+       '<text class="static-txt" x="'+cfg.nav.x+'" y="'+ny+'" text-anchor="middle" font-size="'+nf+'" fill="#C8F531" letter-spacing="1">НАВИГАЦИЯ</text>';
+
+  /* вход */
+  s += '<g opacity=".9"><rect x="'+(cfg.entry.x-42)+'" y="'+(cfg.entry.y-13)+'" width="84" height="26" rx="8" fill="rgba(255,255,255,.06)" stroke="#2B2B33"/>'+
+       '<text class="static-txt" x="'+cfg.entry.x+'" y="'+(cfg.entry.y+4)+'" text-anchor="middle" font-size="11">ВХОД</text></g>';
+
+  /* подписи блоков */
+  const blocks = [...new Set(cells.map(c=>c.block))];
+  blocks.forEach(b=>{
+    const bc = cells.filter(c=>c.block===b);
+    const x = Math.min(...bc.map(c=>c.x));
+    const y = Math.min(...bc.map(c=>c.y));
+    const price = (bc.find(c=>!c.tech)||{}).price || 0;
+    const size  = (bc.find(c=>!c.tech)||{}).size  || '';
+    s += '<text class="static-txt" x="'+x+'" y="'+(y-12)+'" font-size="12.5" fill="#8A8A94">'+
+         (bc[0].blockLabel).toUpperCase()+' · '+size+' м · '+price.toLocaleString('ru-RU')+' ₽</text>';
+  });
+
+  /* корнеры */
+  cells.forEach(c=>{
+    const st = STATUS[c.status];
+    const big = c.w >= 84;
+    s += '<g class="cell'+(S.sel===c.uid?' sel':'')+(c.tech?' tech':'')+'" data-uid="'+c.uid+'"'+
+         (c.tech?' style="cursor:default"':'')+'>'+
+         '<rect class="c-base" x="'+c.x+'" y="'+c.y+'" width="'+c.w+'" height="'+c.h+'" rx="9" fill="'+st.fill+'" stroke="'+st.c+'" stroke-width="1.6"/>';
+    if(c.tech){
+      s += '<text x="'+(c.x+c.w/2)+'" y="'+(c.y+c.h/2+4)+'" text-anchor="middle" font-size="10.5" fill="'+st.txt+'">ТЕХ ЗОНА</text>';
+    }else{
+      s += '<text x="'+(c.x+c.w/2)+'" y="'+(c.y+c.h/2+(big?-2:5))+'" text-anchor="middle" font-size="'+(big?19:16)+'" fill="'+st.txt+'">'+c.num+'</text>';
+      if(big) s += '<text x="'+(c.x+c.w/2)+'" y="'+(c.y+c.h/2+16)+'" text-anchor="middle" font-size="9.5" fill="'+st.txt+'" opacity=".85">'+
+                   (c.tenant ? c.tenant.replace('Бронь · ','') : (c.price/1000)+' тыс')+'</text>';
+    }
+    s += '</g>';
+  });
+  return s + '</svg>';
+}
+
+function renderVenues(){
+  const list = VENUES.filter(v=>v.city===S.city);
+  $('#venues').innerHTML = list.map(v=>{
+    const cells = CELLS.filter(c=>c.venue===v.id && !c.tech);
+    const free = cells.filter(c=>c.status==='free').length;
+    return '<div class="card venue" id="v-'+v.id+'">'+
+      '<div class="venue-h"><div><h3>'+v.name+'</h3><div class="sub">'+v.sub+'</div></div>'+
+      '<div class="right"><span class="pill p-ok"><span class="dot"></span>Свободно '+free+'</span>'+
+      '<span class="pill p-mute">Всего '+cells.length+'</span></div></div>'+
+      venueSVG(v)+
+      '<div class="legend">'+
+        '<div><span class="sw" style="background:#C8F531"></span> Свободна</div>'+
+        '<div><span class="sw" style="background:#FFB020"></span> Бронь</div>'+
+        '<div><span class="sw" style="background:#3A3A42;border:1px solid #4A4A55"></span> Занята</div>'+
+        '<div><span class="sw" style="background:rgba(110,168,255,.35)"></span> Тех. зона</div>'+
+      '</div></div>';
+  }).join('');
+  bindCells();
+}
+
+/* --- ховер и клик по корнерам --- */
+const tip = $('#tip');
+function showTip(c, e){
+  const st = STATUS[c.status];
+  tip.innerHTML =
+    '<div class="t1">'+c.blockLabel+' · корнер '+c.num+'</div>'+
+    '<div class="t2">'+c.size+' м · '+VENUES.find(v=>v.id===c.venue).name+'</div>'+
+    '<div class="t3">'+money(c.price)+'</div>'+
+    '<div class="t4" style="color:'+st.txt+'"><b>'+st.t+'</b>'+(c.tenant?' · '+c.tenant:'')+'</div>';
+  tip.classList.add('on');
+  moveTip(e);
+}
+function moveTip(e){
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let x = e.clientX + 16, y = e.clientY - h - 12;
+  if(x + w > innerWidth - 10) x = e.clientX - w - 16;
+  if(y < 10) y = e.clientY + 18;
+  tip.style.left = x + 'px';
+  tip.style.top  = y + 'px';
+}
+function bindCells(){
+  $$('#venues .cell').forEach(g=>{
+    const c = CELLS.find(x=>x.uid===g.dataset.uid);
+    if(c.tech) return;
+    g.addEventListener('mouseenter', e=>showTip(c, e));
+    g.addEventListener('mousemove', moveTip);
+    g.addEventListener('mouseleave', ()=>tip.classList.remove('on'));
+    g.addEventListener('click', ()=>select(c.uid));
+  });
+}
+function select(uid){
+  S.sel = uid;
+  renderVenues(); renderList(); renderDetail();
+  const el = $('#cellList .row.sel');
+  if(el) el.scrollIntoView({block:'nearest', behavior:'smooth'});
+}
+
+/* --- статистика города --- */
+function renderStats(){
+  const cells = cityCells(S.city);
+  const free  = cells.filter(c=>c.status==='free');
+  const sold  = cells.filter(c=>c.status==='taken');
+  $('#panelCity').textContent = 'Справка · ' + CITIES.find(c=>c.id===S.city).name;
+  $('#stFree').textContent = free.length + ' тчк';
+  $('#stSold').textContent = mln(sold.reduce((s,c)=>s+c.price,0));
+  $('#stLost').textContent = mln(free.reduce((s,c)=>s+c.price,0));
+}
+
+/* --- список корнеров с фильтрами --- */
+function renderList(){
+  const venues = VENUES.filter(v=>v.city===S.city);
+  let html = '';
+  venues.forEach(v=>{
+    const blocks = [...new Set(CELLS.filter(c=>c.venue===v.id && !c.tech).map(c=>c.block))];
+    blocks.forEach(b=>{
+      let cells = CELLS.filter(c=>c.venue===v.id && c.block===b && !c.tech);
+      const nums = cells.map(c=>c.num);
+      cells = cells.filter(c=>(S.fStatus==='all'||c.status===S.fStatus) && (S.fSize==='all'||c.size===S.fSize));
+      if(!cells.length) return;
+      html += '<div class="grp"><span>'+v.name+' · '+cells[0].blockLabel+' · '+
+              Math.min(...nums)+'–'+Math.max(...nums)+'</span><span>'+cells.length+'</span></div>';
+      html += cells.map(c=>{
+        const st = STATUS[c.status];
+        return '<div class="row '+(S.sel===c.uid?'sel':'')+'" data-uid="'+c.uid+'">'+
+          '<div class="n" style="background:'+st.fill+';color:'+st.txt+'">'+c.num+'</div>'+
+          '<div class="info"><b>'+(c.tenant || 'Свободна')+'</b>'+
+          '<span>'+st.t+' · '+c.size+' м</span></div>'+
+          '<div class="price">'+(c.price/1000)+' тыс</div></div>';
+      }).join('');
+    });
+  });
+  $('#cellList').innerHTML = html || '<div class="empty">Ничего не найдено по фильтрам</div>';
+  $$('#cellList .row').forEach(r=>r.addEventListener('click', ()=>select(r.dataset.uid)));
+  renderStats();
+}
+$$('#fStatus .fchip').forEach(b=>b.addEventListener('click', ()=>{
+  S.fStatus = b.dataset.v;
+  $$('#fStatus .fchip').forEach(x=>x.classList.toggle('active', x===b));
+  renderList();
+}));
+$$('#fSize .fchip').forEach(b=>b.addEventListener('click', ()=>{
+  S.fSize = b.dataset.v;
+  $$('#fSize .fchip').forEach(x=>x.classList.toggle('active', x===b));
+  renderList();
+}));
+
+/* --- карточка выбранного корнера --- */
+function renderDetail(){
+  const c = CELLS.find(x=>x.uid===S.sel);
+  const box = $('#cellDetail');
+  if(!c){ box.innerHTML = '<div class="detail empty">Выберите корнер на схеме или в списке</div>'; return; }
+  const st = STATUS[c.status];
+  const v  = VENUES.find(x=>x.id===c.venue);
+  let btn = '';
+  if(c.status === 'free')
+    btn = '<button class="btn btn-acc" style="width:100%" data-act="book" data-uid="'+c.uid+'">Забронировать точку '+c.num+'</button>';
+  else if(c.status === 'hold')
+    btn = '<button class="btn btn-light" style="width:100%" data-act="unbook" data-uid="'+c.uid+'">Снять бронь</button>';
+  else
+    btn = '<button class="btn btn-light" style="width:100%" disabled>Точка занята</button>';
+
+  box.innerHTML = '<div class="detail">'+
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px">'+
+      '<div><div style="font-size:17px;font-weight:800;letter-spacing:-.3px">'+c.blockLabel+' · точка '+c.num+'</div>'+
+      '<div style="font-size:11.5px;color:var(--muted-2);margin-top:3px">'+v.name+'</div></div>'+
+      '<span class="pill" style="background:'+st.fill+';color:'+st.txt+'"><span class="dot"></span>'+st.t+'</span></div>'+
+    '<div class="kv"><span>Площадь</span><b>'+c.size+' м</b></div>'+
+    '<div class="kv"><span>Стоимость</span><b style="color:var(--accent)">'+money(c.price)+'</b></div>'+
+    '<div class="kv"><span>Арендатор</span><b>'+(c.tenant || '—')+'</b></div>'+
+    '<div class="kv"><span>Электричество</span><b>до 7 кВт</b></div>'+
+    '<div style="margin-top:14px">'+btn+'</div></div>';
+}
+
+/* --- бронирование --- */
+function book(uid){
+  const c = CELLS.find(x=>x.uid===uid);
+  if(!c || c.status !== 'free') return;
+  c.status = 'hold';
+  c.tenant = 'Бронь · Underdog';
+  refreshAll();
+  toast('Точка забронирована', c.blockLabel+' · точка '+c.num+' · '+money(c.price)+' · бронь 3 дня');
+}
+function unbook(uid){
+  const c = CELLS.find(x=>x.uid===uid);
+  if(!c || c.status !== 'hold') return;
+  c.status = 'free';
+  c.tenant = null;
+  refreshAll();
+  toast('Бронь снята', c.blockLabel+' · точка '+c.num+' снова доступна', true);
+}
+
+/* ============================================================
+   ГОРОДА
+   ============================================================ */
+function renderCityTabs(){
+  $('#cityTabs').innerHTML = CITIES.map(c=>{
+    const free = cityCells(c.id).filter(x=>x.status==='free').length;
+    return '<button class="ctab '+(S.city===c.id?'active':'')+'" data-c="'+c.id+'">'+c.name+
+           ' · '+free+' своб.</button>';
+  }).join('');
+  $$('#cityTabs .ctab').forEach(b=>b.addEventListener('click', ()=>{
+    S.city = b.dataset.c; S.sel = null;
+    renderCityTabs(); renderVenues(); renderList(); renderDetail();
+  }));
+  $('#anCityTabs').innerHTML = CITIES.map(c=>
+    '<button class="ctab '+(S.anCity===c.id?'active':'')+'" data-c="'+c.id+'">'+c.name+'</button>').join('');
+  $$('#anCityTabs .ctab').forEach(b=>b.addEventListener('click', ()=>{
+    S.anCity = b.dataset.c; renderCityTabs(); renderAnalytics();
+  }));
+}
+
+/* ============================================================
+   РАЗДЕЛ 3 — АНАЛИТИКА
+   ============================================================ */
+function renderAnalytics(){
+  const city  = CITIES.find(c=>c.id===S.anCity);
+  const cells = cityCells(S.anCity);
+  const sold  = cells.filter(c=>c.status==='taken').reduce((s,c)=>s+c.price,0);
+  const hold  = cells.filter(c=>c.status==='hold').reduce((s,c)=>s+c.price,0);
+  const free  = cells.filter(c=>c.status==='free');
+  const done  = Math.round(sold/city.plan*100);
+
+  $('#anKpi').innerHTML =
+    '<div class="k"><span>Продано</span><b>'+mln(sold)+'</b><div class="d">план '+mln(city.plan)+' · <em>'+done+'%</em></div></div>'+
+    '<div class="k"><span>В брони</span><b style="color:var(--warn)">'+mln(hold)+'</b><div class="d">'+
+      cells.filter(c=>c.status==='hold').length+' точек ждут оплаты</div></div>'+
+    '<div class="k"><span>Доступно точек</span><b style="color:var(--accent)">'+free.length+'</b><div class="d">остаток '+
+      mln(free.reduce((s,c)=>s+c.price,0))+'</div></div>'+
+    '<div class="k"><span>Дедлайн брони</span><b>'+city.deadline+'</b><div class="d">'+
+      cells.length+' точек в городе</div></div>';
+
+  /* прогресс по блокам */
+  let rows = '';
+  VENUES.filter(v=>v.city===S.anCity).forEach(v=>{
+    const blocks = [...new Set(CELLS.filter(c=>c.venue===v.id && !c.tech).map(c=>c.block))];
+    blocks.forEach(b=>{
+      const bc = CELLS.filter(c=>c.venue===v.id && c.block===b && !c.tech);
+      const t  = bc.filter(c=>c.status!=='free').length;
+      const p  = Math.round(t/bc.length*100);
+      const col = p >= 70 ? 'var(--accent)' : (p >= 40 ? '#5F5F6B' : 'var(--danger)');
+      rows += '<div class="chart-row"><div class="lbl">'+bc[0].blockLabel+
+        '<small>'+v.name+' · '+bc[0].size+' м</small></div>'+
+        '<div class="track"><i data-w="'+p+'" style="background:'+col+'"></i></div>'+
+        '<div class="val" style="color:'+col+'">'+t+'/'+bc.length+'</div></div>';
+    });
+  });
+  $('#chartBlocks').innerHTML = rows;
+
+  /* продажи по площадям */
+  const groups = {};
+  cells.forEach(c=>{
+    const key = c.venue === 'spb-ft' ? 'Фудтрак СПб' : 'Корнер ' + c.size;
+    groups[key] = groups[key] || {n:0, sold:0, pot:0, price:c.price};
+    groups[key].n++;
+    groups[key].pot += c.price;
+    if(c.status === 'taken') groups[key].sold += c.price;
+  });
+  $('#chartSizes').innerHTML = Object.entries(groups).map(([k,g])=>{
+    const p = Math.round(g.sold/g.pot*100);
+    const col = p >= 60 ? 'var(--accent)' : (p >= 25 ? '#5F5F6B' : 'var(--danger)');
+    return '<div class="chart-row"><div class="lbl">'+k+'<small>'+g.n+' точек · '+(g.price/1000)+' тыс ₽</small></div>'+
+      '<div class="track"><i data-w="'+p+'" style="background:'+col+'"></i></div>'+
+      '<div class="val" style="color:'+col+'">'+tys(g.sold)+'</div></div>';
+  }).join('');
+
+  /* задачи департамента */
+  const d = TODOS.filter(t=>t.done).length;
+  $('#todoHint').textContent = d + ' из ' + TODOS.length + ' выполнено';
+  $('#todoList').innerHTML = TODOS.map((t,i)=>
+    '<div class="todo '+(t.done?'done':'')+'" data-t="'+i+'">'+
+      '<div class="chk" style="'+(t.done?'background:var(--accent);border-color:var(--accent);color:#0A0A0A':'')+'">✓</div>'+
+      '<div class="tx">'+t.t+'<div style="font-size:11px;color:var(--muted-2);font-weight:500;margin-top:2px">'+t.d+'</div></div>'+
+    '</div>').join('');
+  $$('#todoList .todo').forEach(el=>el.addEventListener('click', ()=>{
+    const t = TODOS[+el.dataset.t];
+    t.done = !t.done;
+    renderAnalytics();
+    toast(t.done ? 'Задача закрыта' : 'Задача открыта', t.t);
+  }));
+  $('#todoBar').style.width = Math.round(d/TODOS.length*100) + '%';
+
+  /* локации */
+  $('#locGrid').innerHTML = VENUES.map(v=>{
+    const vc = CELLS.filter(c=>c.venue===v.id && !c.tech);
+    const f  = vc.filter(c=>c.status==='free').length;
+    const h  = vc.filter(c=>c.status==='hold').length;
+    const s  = vc.filter(c=>c.status==='taken').reduce((a,c)=>a+c.price,0);
+    const cityName = CITIES.find(c=>c.id===v.city).name;
+    const nb = new Set(vc.map(c=>c.block)).size;
+    const sizes = [...new Set(vc.map(c=>c.size))].join(' / ') + ' м';
+    return '<div class="loc"><div class="loc-t"><div><b>'+v.name+'</b><span>'+cityName+' · '+
+      nb+(nb===1?' блок · ':' блока · ')+sizes+'</span></div>'+
+      '<span class="pill '+(f?'p-ok':'p-bad')+'"><span class="dot"></span>'+(f?'есть места':'всё продано')+'</span></div>'+
+      '<div class="loc-n"><div><span>Свободно</span><b style="color:var(--accent)">'+f+'</b></div>'+
+      '<div><span>Бронь</span><b style="color:var(--warn)">'+h+'</b></div>'+
+      '<div><span>Продано</span><b>'+mln(s)+'</b></div></div>'+
+      '<div class="loc-tags">'+
+        (h ? '<span class="pill p-warn">бронь '+h+'</span>' : '')+
+        '<span class="pill p-mute">тех. карта</span>'+
+        '<span class="pill p-mute">'+vc.length+' точек</span></div>'+
+      '<button class="btn btn-light btn-sm" style="width:100%" data-act="open-venue" data-v="'+v.id+'">Открыть схему</button></div>';
+  }).join('');
+
+  requestAnimationFrame(()=>$$('#chartBlocks .track i, #chartSizes .track i')
+    .forEach(i=>{ i.style.width = i.dataset.w + '%'; }));
+}
+
+/* ============================================================
+   ДЕЙСТВИЯ
+   ============================================================ */
+function refreshAll(){
+  renderCityTabs(); renderVenues(); renderList(); renderDetail();
+  renderAnalytics(); renderSummary(); renderAlerts();
+}
+function openVenue(id){
+  const v = VENUES.find(x=>x.id===id);
+  S.city = v.city;
+  renderCityTabs(); renderVenues(); renderList(); renderDetail();
+  go('map');
+  setTimeout(()=>{ const el = $('#v-'+id); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }, 220);
+}
+
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-act]');
+  if(!b) return;
+  const a = b.dataset.act;
+
+  if(a === 'book')   return book(b.dataset.uid);
+  if(a === 'unbook') return unbook(b.dataset.uid);
+  if(a === 'tomap')  return go('map');
+  if(a === 'open-venue') return openVenue(b.dataset.v);
+
+  if(a === 'pick-fk2') return openVenue('msk-fk2');
+
+  if(a === 'book-4'){
+    const c = CELLS.find(x=>x.venue==='msk-fk1' && x.num===4);
+    if(c && c.status === 'free'){ S.city='msk'; S.sel=c.uid; book(c.uid); go('map'); }
+    else toast('Точка 4 недоступна', 'Статус: ' + STATUS[c.status].t, true);
+    return;
+  }
+
+  if(a === 'pay'){
+    if(S.paid) return toast('Счёт уже оплачен', 'Повторная оплата не требуется', true);
+    modal('Загрузить платёжку',
+      'Счёт №UD-2026-112 на сумму '+money((CELLS.find(c=>c.tenant==='Underdog')||{price:180000}).price + 39000)+
+      '. После загрузки платёжного поручения статус обновится автоматически.',
+      '<button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
+      '<button class="btn btn-acc" data-act="pay-ok">Загрузить платёжку</button>');
+    return;
+  }
+  if(a === 'pay-ok'){
+    const st = STAGES.find(s=>s.id==='vhod');
+    const i  = st.tasks.findIndex(t=>t.key==='pay');
+    st.tasks[i].done = true; S.paid = true;
+    S.stage = 'vhod';
+    renderStageTabs(); renderTasks(); paintProgress(); renderAlerts(); renderSummary();
+    closeModal();
+    toast('Платёж принят', 'Счёт оплачен · бронь точки подтверждена');
+    return;
+  }
+  if(a === 'invoice'){
+    const c = CELLS.find(x=>x.tenant==='Underdog') || {price:180000, num:12};
+    modal('Счёт №UD-2026-112',
+      'Аренда корнера — '+money(c.price)+'<br>Электричество (7 кВт) — 24 000 ₽<br>Сервисный сбор — 15 000 ₽<br><br>'+
+      '<b style="color:var(--accent);font-size:16px">Итого: '+money(c.price+39000)+'</b><br>'+
+      'Срок оплаты — 2 рабочих дня.',
+      '<button class="btn btn-light" onclick="closeModal()">Закрыть</button>'+
+      '<button class="btn btn-acc" data-act="pay-ok">Оплатить</button>');
+    return;
+  }
+  if(a === 'curator'){
+    modal('Консультация с куратором',
+      'Наталья Арсентьева · куратор фуд-кортов Москвы.<br>Ответ в рабочее время — в течение 2 часов. Запрос попадёт в очередь департамента торговли.',
+      '<button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
+      '<button class="btn btn-acc" data-act="curator-ok">Отправить запрос</button>');
+    return;
+  }
+  if(a === 'curator-ok'){
+    closeModal();
+    toast('Запрос отправлен', 'Наталья Арсентьева ответит в течение 2 часов');
+    return;
+  }
+  if(a === 'area'){
+    modal('Сменить площадь',
+      'Текущий корнер — 4,5 × 3 м, ФК1 блок B, точка 12.<br>Доступные форматы: 3×3 (150 000 ₽), 4,5×3 (180 000 ₽), 5×3 (200 000 ₽). '+
+      'Выберите свободную точку на схеме — заявка на смену уйдёт куратору.',
+      '<button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
+      '<button class="btn btn-acc" data-act="area-ok">Выбрать на карте</button>');
+    return;
+  }
+  if(a === 'area-ok'){
+    closeModal(); S.fStatus = 'free';
+    $$('#fStatus .fchip').forEach(x=>x.classList.toggle('active', x.dataset.v==='free'));
+    renderList(); go('map');
+    toast('Показаны свободные точки', 'Выберите новый корнер и нажмите «Забронировать»');
+    return;
+  }
+  if(a === 'report'){
+    const t = CITIES.map(c=>{
+      const cc = cityCells(c.id);
+      return c.name+': продано '+mln(cc.filter(x=>x.status==='taken').reduce((s,x)=>s+x.price,0))+
+             ', свободно '+cc.filter(x=>x.status==='free').length+' точек';
+    }).join(' · ');
+    toast('Отчёт сформирован', t);
+    return;
+  }
+});
+window.closeModal = closeModal;
+
+/* ============================================================
+   СТАРТ
+   ============================================================ */
+renderStageTabs();
+renderTasks();
+paintProgress();
+renderAlerts();
+renderSummary();
+renderCityTabs();
+renderVenues();
+renderList();
+renderDetail();
+renderAnalytics();
+</script>
+</body>
+</html>
