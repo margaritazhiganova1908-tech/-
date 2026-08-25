@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Underdog — План автоматизации · Личный кабинет арендатора</title>
+<title>Пикник Афиши 2027 — План автоматизации · Кабинет резидента</title>
 <style>
 :root{
   --bg:#08080A;
@@ -100,8 +100,10 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 .hero-num span{font-size:11.5px;color:var(--muted-2);font-weight:600}
 .hero-prog{margin-top:20px}
 .hero-prog .row{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:600}
-.steps{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
-.step{flex:1;min-width:88px;padding:9px 10px;border-radius:9px;background:var(--surface-3);border:1px solid var(--line-soft);font-size:11px;font-weight:700;color:var(--muted-2);text-align:center;transition:.2s}
+.steps{display:flex;gap:6px;margin-top:12px;overflow-x:auto;padding-bottom:6px}
+.steps::-webkit-scrollbar{height:5px}
+.steps::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:99px}
+.step{flex:none;min-width:104px;max-width:132px;padding:9px 10px;border-radius:9px;background:var(--surface-3);border:1px solid var(--line-soft);font-size:11px;font-weight:700;color:var(--muted-2);text-align:center;transition:.2s}
 .step.done{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-line)}
 .step.cur{background:var(--surface-3);color:var(--text);border-color:var(--accent)}
 
@@ -146,6 +148,17 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 .place .big{font-size:20px;font-weight:800;letter-spacing:-.4px}
 .place .sm{font-size:11.5px;color:var(--muted);margin-top:4px}
 
+.host-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.host{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:var(--r-sm);padding:15px}
+.host-h{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.host-ic{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-size:13px;background:var(--accent-dim);color:var(--accent);flex:none}
+.host-h b{font-size:13.5px;font-weight:700}
+.host ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.host li{position:relative;padding-left:14px;font-size:12.5px;color:var(--muted);line-height:1.55}
+.host li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
+.host-note{font-size:12px;color:var(--muted-2);border-left:2px solid var(--accent);padding:9px 12px;background:rgba(255,255,255,.03);border-radius:0 8px 8px 0;margin-bottom:16px}
+@media(max-width:860px){.host-grid{grid-template-columns:1fr}}
+
 /* ---------------- РАЗДЕЛ 2: КАРТА ---------------- */
 .map-grid{display:grid;grid-template-columns:1fr 380px;gap:16px;align-items:start}
 .city-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
@@ -156,6 +169,14 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 .venue-h h3{font-size:16px;font-weight:800;letter-spacing:-.3px}
 .venue-h .sub{font-size:11.5px;color:var(--muted-2)}
 .venue-h .right{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.partner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;padding:12px 14px;
+  border:1px dashed var(--line);border-radius:var(--r-sm);background:var(--surface-2)}
+.partner>span{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted-2);flex:none}
+.partner input{flex:1;min-width:170px;background:transparent;border:0;border-bottom:1px solid var(--line);
+  color:var(--text);font-size:14px;font-weight:700;padding:6px 2px;outline:none}
+.partner input:focus{border-color:var(--accent)}
+.partner.kuper{border-style:solid;border-color:var(--accent-line);background:rgba(200,245,49,.05)}
+.partner.kuper .btn{margin-left:auto}
 svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0C0F;border:1px solid var(--line-soft)}
 .cell{cursor:pointer}
 .cell rect{transition:.15s}
@@ -236,6 +257,11 @@ svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0
 .todo .tx{flex:1;font-size:13px;font-weight:600}
 .todo.done .tx{text-decoration:line-through}
 
+.dept{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:var(--r-sm);padding:15px}
+.dept-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+.dept-row span{font-size:13px;font-weight:600;color:var(--muted)}
+.dept-row b{font-size:26px;font-weight:800;letter-spacing:-1px;color:var(--accent)}
+
 /* ---------------- ТОСТЫ ---------------- */
 #toasts{position:fixed;right:18px;bottom:18px;z-index:300;display:flex;flex-direction:column;gap:9px;max-width:330px}
 .toast{background:var(--surface-2);border:1px solid var(--accent-line);border-left:3px solid var(--accent);border-radius:11px;padding:13px 15px;box-shadow:0 14px 36px rgba(0,0,0,.6);animation:tin .28s ease}
@@ -289,10 +315,10 @@ svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0
 <header>
   <div class="nav">
     <div class="brand">
-      <div class="mark">UD</div>
+      <div class="mark">ПА</div>
       <div>
-        <b>План автоматизации · Фестиваль Underdog</b>
-        <span>Личный кабинет арендатора · сезон 2026</span>
+        <b>Пикник Афиши 2027 · План автоматизации</b>
+        <span>Личный кабинет резидента · Underdog</span>
       </div>
     </div>
     <nav class="tabs">
@@ -474,6 +500,12 @@ svg.plan{width:100%;height:auto;display:block;border-radius:12px;background:#0C0
         <h3>Департамент торговли</h3>
         <span class="hint" id="todoHint"></span>
       </div>
+      <div class="dept">
+        <div class="dept-row"><span>Данные собраны на</span><b id="dataPct">18%</b></div>
+        <div class="bar"><i id="dataBar"></i></div>
+        <button class="btn btn-acc btn-sm" style="width:100%;margin-top:12px" data-act="send-pres">Отправить данные для презентации</button>
+      </div>
+      <div class="sec-title" style="margin:16px 0 10px">Задачи на сегодня и неделю</div>
       <div id="todoList"></div>
       <div class="bar" style="margin-top:12px"><i id="todoBar"></i></div>
     </div>
@@ -525,15 +557,15 @@ const BLOCK_DATA = {
       ['taken','Teremok'],['hold','Бронь · Вок Стрит'],['free'],['taken','Underdog'],['tech'],
       ['free'],['free'],['free'],['free']]},
     {id:'C', label:'Блок C', price:150000, size:'3×3',   ox:34,  oy:396, cells:[
-      ['taken','Coffix'],['taken','Вареничная'],['taken','Дюжина'],['hold','Бронь · Лаваш'],['tech'],
+      ['taken','Cofix'],['taken','BOLO'],['taken','SALATNICA'],['hold','Бронь · Лаваш'],['tech'],
       ['hold','Бронь · Мороженое'],['free'],['free'],['free']]},
     {id:'D', label:'Блок D', price:150000, size:'3×3',   ox:546, oy:396, cells:[
-      ['taken','Крошка Картошка'],['taken','Шаверма №1'],['taken','Пян-Се'],['taken','Донер Хауз'],['tech'],
-      ['taken','Блинная'],['taken','Хинкальная'],['hold','Бронь · Лимонад'],['free']]}
+      ['taken','Крошка Картошка'],['taken','Technodoner'],['taken','Пян-Се'],['taken','Popmeal'],['tech'],
+      ['taken','Skuratov'],['taken','Rusty'],['hold','Бронь · Лимонад'],['free']]}
   ],
   'spb-fk1':[
     {id:'А', label:'Блок А', price:170000, size:'4,5×3', ox:34,  oy:64, cells:[
-      ['taken','Пышки СПб'],['taken','Coffix'],['hold','Бронь · Корюшка'],['free'],['tech'],
+      ['taken','Пышки СПб'],['taken','Cofix'],['hold','Бронь · Корюшка'],['free'],['tech'],
       ['free'],['taken','Шаурма Питер'],['free'],['hold','Бронь · Смузи']]},
     {id:'Б', label:'Блок Б', price:140000, size:'3×3',   ox:546, oy:64, cells:[
       ['taken','Пельменная'],['free'],['free'],['hold','Бронь · Чебуречная'],['tech'],
@@ -543,7 +575,11 @@ const BLOCK_DATA = {
 
 /* ФК2 — планировка буквой «Г», 8 корнеров 4,5×3 по 180 000 ₽ */
 const FK2_CELLS = [
-  ['free'],['taken','Coffix'],['free'],['free'],['hold','Бронь · Гриль'],['free'],['free'],['free']
+  ['free'],['taken','Cofix'],['free'],['free'],['hold','Бронь · JNKL'],['free'],['free'],['free']
+];
+/* ФК3 — фуд-корт Купер (сервис доставки), 5 корнеров 4,5×3 */
+const FK3_CELLS = [
+  ['free'],['taken','Cofix'],['free'],['hold','Бронь · SALATNICA'],['free']
 ];
 /* Фудтраки СПб — 12 точек */
 const TRUCK_CELLS = [
@@ -554,6 +590,7 @@ const TRUCK_CELLS = [
 const VENUES = [
   {id:'msk-fk1', city:'msk', name:'Москва ФК1', sub:'Фуд-корт главной сцены · 4 блока по 9 корнеров', kind:'quad'},
   {id:'msk-fk2', city:'msk', name:'Москва ФК2', sub:'Фуд-корт второй сцены · планировка «Г» · 8 корнеров 4,5×3', kind:'L'},
+  {id:'msk-fk3', city:'msk', name:'ФК3 · Фуд-корт Купер', sub:'Сервис доставки · 5 корнеров 4,5×3', kind:'line', kuper:true},
   {id:'spb-fk1', city:'spb', name:'Питер ФК1',  sub:'Фуд-корт главной сцены · 2 блока по 9 корнеров', kind:'quad'},
   {id:'spb-ft',  city:'spb', name:'Питер · Фудтраки', sub:'Линия фудтраков · 12 точек', kind:'line'}
 ];
@@ -591,6 +628,12 @@ FK2_CELLS.forEach((c,i)=>{
   push({venue:'msk-fk2', block:'Г', blockLabel:'Блок Г', tech:false, num:i+1,
         size:'4,5×3', price:180000, status:c[0], tenant:c[1]||null, x, y, w:84, h:84});
 });
+/* ФК3 Купер — линия из 5 корнеров */
+FK3_CELLS.forEach((c,i)=>{
+  push({venue:'msk-fk3', block:'КУПЕР', blockLabel:'Блок Купер', tech:false, num:i+1,
+        size:'4,5×3', price:0, status:c[0], tenant:c[1]||null,
+        x:52 + i*132, y:82, w:112, h:96});
+});
 /* Фудтраки — линия 12 точек */
 TRUCK_CELLS.forEach((c,i)=>{
   const col = i%6, row = (i/6)|0;
@@ -609,34 +652,80 @@ const STATUS = {
 /* ---- задачи кабинета ---- */
 const STAGES = [
   {id:'zayavka', name:'Заявка', tasks:[
-    {t:'Заполнить анкету участника', d:'Отправлено 12 марта', done:true},
-    {t:'Согласовать концепцию корнера', d:'Одобрено куратором', done:true},
-    {t:'Получить подтверждение места', d:'ФК1 · блок B · точка 12', done:true}
+    {t:'Заполнить анкету резидента', d:'Отправлено 12 марта', done:true},
+    {t:'Отправить концепцию корнера', d:'Меню, оборудование, визуал', done:true},
+    {t:'Указать желаемый фуд-корт', d:'ФК1 · главная сцена', done:true}
   ]},
-  {id:'vhod', name:'Вход', tasks:[
-    {t:'Подписать договор участия', d:'Договор №UD-2026-112', done:true},
-    {t:'Загрузить реквизиты компании', d:'ИНН, КПП, банк', done:true},
-    {t:'Открыть счёт на оплату', d:'Счёт сформирован 6 мая', done:true},
-    {t:'Оплатить счёт', d:'Срок — 2 рабочих дня', done:false, key:'pay'}
+  {id:'odobrenie', name:'Одобрение заявки', tasks:[
+    {t:'Проверка департаментом торговли', d:'Одобрено 21 марта', done:true},
+    {t:'Согласование меню и цен', d:'Одобрено куратором', done:true},
+    {t:'Подтверждение места', d:'ФК1 · блок B · точка 12', done:true}
   ]},
-  {id:'komm', name:'Коммерция', tasks:[
-    {t:'Загрузить списки на аккредитацию', d:'ФИО и должности персонала', done:true, upload:true},
-    {t:'Загрузить меню', d:'PDF или таблица с ценами', done:false, upload:true},
-    {t:'Загрузить информацию для промо', d:'Логотип, описание, фото', done:false, upload:true},
-    {t:'Согласовать ассортимент и цены', d:'Проверяет департамент торговли', done:true}
+  {id:'dannye', name:'Загрузка данных резидента', tasks:[
+    {t:'Загрузить списки на аккредитацию', d:'ФИО и должности персонала · до 20 июня', done:true, upload:true},
+    {t:'Загрузить меню', d:'PDF или таблица с ценами · до 28 мая', done:false, upload:true},
+    {t:'Загрузить информацию для промо', d:'Логотип, описание, фото корнера', done:false, upload:true},
+    {t:'Загрузить реквизиты', d:'ИНН, КПП, банковские реквизиты', done:false, upload:true}
   ]},
-  {id:'podg', name:'Подготовка', tasks:[
-    {t:'Электричество', d:'Заявка на 7 кВт · подтверждено', done:true},
-    {t:'Тех. карта корнера', d:'Схема оборудования и подключений', done:false},
-    {t:'Схема выкладки товара', d:'Планограмма витрины', done:false},
-    {t:'Инструктаж персонала', d:'Онлайн, 2 июля', done:false},
-    {t:'Пропуска на монтаж', d:'Список авто и людей', done:false}
+  {id:'oplata', name:'Оплата', tasks:[
+    {t:'Открыть счёт на оплату', d:'Счёт №ПА-2027-112 сформирован 6 мая', done:true},
+    {t:'Оплатить счёт', d:'Срок — 2 рабочих дня', done:false, key:'pay'},
+    {t:'Загрузить платёжное поручение', d:'Скан с отметкой банка', done:false, upload:true}
   ]},
-  {id:'mont', name:'Монтаж', tasks:[
-    {t:'Заезд на площадку', d:'10 июля, окно 08:00–12:00', done:false},
-    {t:'Монтаж оборудования', d:'10–11 июля', done:false},
-    {t:'Приёмка корнера', d:'12 июля, чек-лист куратора', done:false},
-    {t:'Демонтаж', d:'14 июля, до 23:00', done:false}
+  {id:'hosting', name:'Тех Хостинг', info:true, tasks:[
+    {t:'Подать заявку на электричество', d:'Расчёт мощности по оборудованию', done:false},
+    {t:'Согласовать тех. карту корнера', d:'Схема подключений и выкладки', done:false},
+    {t:'Подтвердить состав оборудования', d:'Список с паспортами и мощностью', done:false}
+  ]},
+  {id:'montazh', name:'Монтаж', tasks:[
+    {t:'Заказать пропуска на монтаж', d:'Список авто и людей', done:false},
+    {t:'Заезд на площадку', d:'Окно 08:00–12:00', done:false},
+    {t:'Монтаж оборудования', d:'2 дня до открытия', done:false},
+    {t:'Приёмка корнера куратором', d:'Чек-лист готовности', done:false}
+  ]},
+  {id:'demontazh', name:'Демонтаж', tasks:[
+    {t:'Демонтаж оборудования', d:'В день закрытия, до 23:00', done:false},
+    {t:'Вывоз мусора и упаковки', d:'По регламенту площадки', done:false},
+    {t:'Сдать зону куратору', d:'Акт приёма территории', done:false}
+  ]},
+  {id:'vyruchka', name:'Загрузка данных по выручке', tasks:[
+    {t:'Загрузить отчёт по выручке', d:'Выгрузка из кассы за все дни', done:false, upload:true},
+    {t:'Загрузить данные по среднему чеку', d:'Для аналитики фуд-корта', done:false, upload:true},
+    {t:'Сверка с организатором', d:'Подтверждение сумм', done:false}
+  ]},
+  {id:'zakryvashki', name:'Закрывающие документы', tasks:[
+    {t:'Загрузить подписанные акты', d:'Акт оказанных услуг', done:false, upload:true},
+    {t:'Подписать УПД', d:'ЭДО или оригинал', done:false},
+    {t:'Закрыть взаиморасчёты', d:'Финальная сверка', done:false}
+  ]},
+  {id:'feedback', name:'Обратная связь', tasks:[
+    {t:'Заполнить анкету обратной связи', d:'Оценка площадки и организации', done:false},
+    {t:'Оценить работу куратора', d:'Наталья Арсентьева', done:false},
+    {t:'Заявка на следующий сезон', d:'Приоритет для действующих резидентов', done:false}
+  ]}
+];
+
+/* Информация по этапу «Тех Хостинг» — смысловые блоки */
+const HOSTING = [
+  {ic:'⚡', t:'Электричество', items:[
+    'Мощность рассчитывается по списку оборудования — заявку подаём заранее, на площадке увеличить нельзя.',
+    'Подключение — через щит организатора, кабель и автомат от резидента.',
+    'Все приборы должны иметь паспорт и соответствовать заявленной мощности.'
+  ]},
+  {ic:'◫', t:'Корнер и оборудование', items:[
+    'Тех. карта корнера согласуется до монтажа: планировка, точки подключения, витрина.',
+    'Габариты оборудования не должны выходить за границы точки.',
+    'Открытый огонь и газ — только по отдельному согласованию.'
+  ]},
+  {ic:'◷', t:'Монтаж и график', items:[
+    'Заезд по пропускам в назначенное окно, машины разгружаются и сразу уезжают.',
+    'К моменту открытия корнер должен пройти приёмку куратора.',
+    'Демонтаж — в день закрытия, зона сдаётся по акту.'
+  ]},
+  {ic:'✓', t:'Требования и документы', items:[
+    'Персонал проходит аккредитацию по спискам, поданным заранее.',
+    'На площадке — медкнижки, форма и бейджи резидента.',
+    'Нарушение регламента фиксируется куратором и влияет на участие в следующем сезоне.'
   ]}
 ];
 
@@ -653,13 +742,15 @@ const TODOS = [
    ============================================================ */
 const S = {
   view:'cab',
-  stage:'vhod',
+  stage:'dannye',
   city:'msk',
   anCity:'msk',
   fStatus:'all',
   fSize:'all',
   sel:null,
-  paid:false
+  paid:false,
+  partner:'',
+  dataCollected:18
 };
 
 /* ============================================================
@@ -736,10 +827,16 @@ function renderStageTabs(){
     S.stage = b.dataset.s; renderStageTabs(); renderTasks();
   }));
 }
+function hostingHTML(){
+  return '<div class="host-grid">' + HOSTING.map(h=>
+    '<div class="host"><div class="host-h"><span class="host-ic">'+h.ic+'</span><b>'+h.t+'</b></div>'+
+    '<ul>'+h.items.map(i=>'<li>'+i+'</li>').join('')+'</ul></div>').join('') +
+    '</div><div class="host-note">Регламент тех. хостинга · вопросы — куратору Наталье Арсентьевой</div>';
+}
 function renderTasks(){
   const st = STAGES.find(s=>s.id===S.stage);
   $('#taskHint').textContent = st.tasks.filter(t=>t.done).length + ' из ' + st.tasks.length + ' выполнено';
-  $('#taskList').innerHTML = st.tasks.map((t,i)=>
+  $('#taskList').innerHTML = (st.info ? hostingHTML() : '') + st.tasks.map((t,i)=>
     '<div class="task '+(t.done?'done':'')+'" data-i="'+i+'">'+
       '<div class="chk">✓</div>'+
       '<div class="body"><div class="tt">'+t.t+'</div><div class="td">'+t.d+'</div></div>'+
@@ -777,10 +874,10 @@ function renderAlerts(){
   items.push(S.paid
     ? {c:'g', ic:'✓', b:'Счёт оплачен', s:'Платёж подтверждён · место закреплено за вами'}
     : {c:'w', ic:'!', b:'Счёт не оплачен — 2 раб. дня', s:'После оплаты бронь точки 12 станет подтверждённой'});
-  const komm = STAGES.find(s=>s.id==='komm');
-  const left = komm.tasks.filter(t=>!t.done).length;
-  if(left) items.push({c:'w', ic:'↑', b:'Не сданы документы коммерции — '+left,
-                       s:'Списки на аккредитацию, меню, промо · дедлайн 28 мая'});
+  const dan = STAGES.find(s=>s.id==='dannye');
+  const left = dan.tasks.filter(t=>!t.done).length;
+  if(left) items.push({c:'w', ic:'↑', b:'Не загружены данные резидента — '+left,
+                       s:'Меню, промо, реквизиты · дедлайн 28 мая'});
   items.push({c:'', ic:'◷', b:'Бронь места действует до 14 мая',
               s:'ФК1 · блок B · точка 12 · 4,5 × 3 м'});
   items.push({c:'', ic:'%', b:'Этап '+(p.cur+1)+' из '+STAGES.length+' · '+STAGES[p.cur].name,
@@ -810,7 +907,8 @@ function renderSummary(){
    ============================================================ */
 const PLAN = {
   'msk-fk1':{vb:'0 0 760 620', nav:{x:380,y:320,r:46}, rings:[{r:112,n:8},{r:160,n:12}], entry:{x:380,y:600}},
-  'msk-fk2':{vb:'0 0 760 500', nav:{x:470,y:320,r:44}, rings:[{r:108,n:9}],              entry:{x:640,y:120}},
+  'msk-fk2':{vb:'0 0 760 500', nav:{x:470,y:320,r:44}, rings:[{r:108,n:9},{r:56,n:5}], hideNav:true, entry:{x:640,y:120}},
+  'msk-fk3':{vb:'0 0 760 250', nav:{x:380,y:210,r:0},  rings:[], hideNav:true,           entry:{x:380,y:212}},
   'spb-fk1':{vb:'0 0 760 300', nav:{x:380,y:154,r:38}, rings:[{r:76,n:8}],               entry:{x:380,y:284}},
   'spb-ft' :{vb:'0 0 760 430', nav:{x:380,y:362,r:32}, rings:[{r:60,n:7}],               entry:{x:120,y:362}}
 };
@@ -846,11 +944,13 @@ function venueSVG(v){
   s += tables(cfg);
 
   /* навигация */
+  if(!cfg.hideNav){
   const nf = cfg.nav.r >= 44 ? 11 : 10;
   const ny = cfg.nav.r >= 44 ? cfg.nav.y + 4 : cfg.nav.y + cfg.nav.r + 15;
   s += '<circle cx="'+cfg.nav.x+'" cy="'+cfg.nav.y+'" r="'+cfg.nav.r+'" fill="rgba(200,245,49,.10)" stroke="#C8F531" stroke-width="1.6" stroke-dasharray="5 4"/>'+
        (cfg.nav.r < 44 ? '<circle cx="'+cfg.nav.x+'" cy="'+cfg.nav.y+'" r="5" fill="#C8F531" opacity=".65"/>' : '')+
        '<text class="static-txt" x="'+cfg.nav.x+'" y="'+ny+'" text-anchor="middle" font-size="'+nf+'" fill="#C8F531" letter-spacing="1">НАВИГАЦИЯ</text>';
+  }
 
   /* вход */
   s += '<g opacity=".9"><rect x="'+(cfg.entry.x-42)+'" y="'+(cfg.entry.y-13)+'" width="84" height="26" rx="8" fill="rgba(255,255,255,.06)" stroke="#2B2B33"/>'+
@@ -865,7 +965,7 @@ function venueSVG(v){
     const price = (bc.find(c=>!c.tech)||{}).price || 0;
     const size  = (bc.find(c=>!c.tech)||{}).size  || '';
     s += '<text class="static-txt" x="'+x+'" y="'+(y-12)+'" font-size="12.5" fill="#8A8A94">'+
-         (bc[0].blockLabel).toUpperCase()+' · '+size+' м · '+price.toLocaleString('ru-RU')+' ₽</text>';
+         (bc[0].blockLabel).toUpperCase()+' · '+size+' м · '+(price ? price.toLocaleString('ru-RU')+' ₽' : 'по договору')+'</text>';
   });
 
   /* корнеры */
@@ -880,7 +980,7 @@ function venueSVG(v){
     }else{
       s += '<text x="'+(c.x+c.w/2)+'" y="'+(c.y+c.h/2+(big?-2:5))+'" text-anchor="middle" font-size="'+(big?19:16)+'" fill="'+st.txt+'">'+c.num+'</text>';
       if(big) s += '<text x="'+(c.x+c.w/2)+'" y="'+(c.y+c.h/2+16)+'" text-anchor="middle" font-size="9.5" fill="'+st.txt+'" opacity=".85">'+
-                   (c.tenant ? c.tenant.replace('Бронь · ','') : (c.price/1000)+' тыс')+'</text>';
+                   (c.tenant ? c.tenant.replace('Бронь · ','') : (c.price ? (c.price/1000)+' тыс' : 'по договору'))+'</text>';
     }
     s += '</g>';
   });
@@ -896,6 +996,10 @@ function renderVenues(){
       '<div class="venue-h"><div><h3>'+v.name+'</h3><div class="sub">'+v.sub+'</div></div>'+
       '<div class="right"><span class="pill p-ok"><span class="dot"></span>Свободно '+free+'</span>'+
       '<span class="pill p-mute">Всего '+cells.length+'</span></div></div>'+
+      (v.id==='msk-fk2' ? '<div class="partner"><span>Партнёр фуд-корта</span>'+
+        '<input id="fk2partner" value="'+(S.partner||'')+'" placeholder="________________________" spellcheck="false"></div>' : '')+
+      (v.kuper ? '<div class="partner kuper"><span>Сервис доставки Купер</span>'+
+        '<button class="btn btn-acc btn-sm" data-act="kuper">Онбординг на платформу Купер — загрузка документов</button></div>' : '')+
       venueSVG(v)+
       '<div class="legend">'+
         '<div><span class="sw" style="background:#C8F531"></span> Свободна</div>'+
@@ -905,6 +1009,8 @@ function renderVenues(){
       '</div></div>';
   }).join('');
   bindCells();
+  const pin = $('#fk2partner');
+  if(pin) pin.addEventListener('input', e=>{ S.partner = e.target.value; });
 }
 
 /* --- ховер и клик по корнерам --- */
@@ -914,7 +1020,7 @@ function showTip(c, e){
   tip.innerHTML =
     '<div class="t1">'+c.blockLabel+' · корнер '+c.num+'</div>'+
     '<div class="t2">'+c.size+' м · '+VENUES.find(v=>v.id===c.venue).name+'</div>'+
-    '<div class="t3">'+money(c.price)+'</div>'+
+    '<div class="t3">'+(c.price ? money(c.price) : 'По договору')+'</div>'+
     '<div class="t4" style="color:'+st.txt+'"><b>'+st.t+'</b>'+(c.tenant?' · '+c.tenant:'')+'</div>';
   tip.classList.add('on');
   moveTip(e);
@@ -974,7 +1080,7 @@ function renderList(){
           '<div class="n" style="background:'+st.fill+';color:'+st.txt+'">'+c.num+'</div>'+
           '<div class="info"><b>'+(c.tenant || 'Свободна')+'</b>'+
           '<span>'+st.t+' · '+c.size+' м</span></div>'+
-          '<div class="price">'+(c.price/1000)+' тыс</div></div>';
+          '<div class="price">'+(c.price ? (c.price/1000)+' тыс' : 'договор')+'</div></div>';
       }).join('');
     });
   });
@@ -1014,7 +1120,7 @@ function renderDetail(){
       '<div style="font-size:11.5px;color:var(--muted-2);margin-top:3px">'+v.name+'</div></div>'+
       '<span class="pill" style="background:'+st.fill+';color:'+st.txt+'"><span class="dot"></span>'+st.t+'</span></div>'+
     '<div class="kv"><span>Площадь</span><b>'+c.size+' м</b></div>'+
-    '<div class="kv"><span>Стоимость</span><b style="color:var(--accent)">'+money(c.price)+'</b></div>'+
+    '<div class="kv"><span>Стоимость</span><b style="color:var(--accent)">'+(c.price ? money(c.price) : 'По договору')+'</b></div>'+
     '<div class="kv"><span>Арендатор</span><b>'+(c.tenant || '—')+'</b></div>'+
     '<div class="kv"><span>Электричество</span><b>до 7 кВт</b></div>'+
     '<div style="margin-top:14px">'+btn+'</div></div>';
@@ -1127,6 +1233,8 @@ function renderAnalytics(){
     toast(t.done ? 'Задача закрыта' : 'Задача открыта', t.t);
   }));
   $('#todoBar').style.width = Math.round(d/TODOS.length*100) + '%';
+  $('#dataPct').textContent = S.dataCollected + '%';
+  requestAnimationFrame(()=>{ const db = $('#dataBar'); if(db) db.style.width = S.dataCollected + '%'; });
 
   /* локации */
   $('#locGrid').innerHTML = VENUES.map(v=>{
@@ -1191,17 +1299,17 @@ document.addEventListener('click', e=>{
   if(a === 'pay'){
     if(S.paid) return toast('Счёт уже оплачен', 'Повторная оплата не требуется', true);
     modal('Загрузить платёжку',
-      'Счёт №UD-2026-112 на сумму '+money((CELLS.find(c=>c.tenant==='Underdog')||{price:180000}).price + 39000)+
+      'Счёт №ПА-2027-112 на сумму '+money((CELLS.find(c=>c.tenant==='Underdog')||{price:180000}).price + 39000)+
       '. После загрузки платёжного поручения статус обновится автоматически.',
       '<button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
       '<button class="btn btn-acc" data-act="pay-ok">Загрузить платёжку</button>');
     return;
   }
   if(a === 'pay-ok'){
-    const st = STAGES.find(s=>s.id==='vhod');
+    const st = STAGES.find(s=>s.id==='oplata');
     const i  = st.tasks.findIndex(t=>t.key==='pay');
     st.tasks[i].done = true; S.paid = true;
-    S.stage = 'vhod';
+    S.stage = 'oplata';
     renderStageTabs(); renderTasks(); paintProgress(); renderAlerts(); renderSummary();
     closeModal();
     toast('Платёж принят', 'Счёт оплачен · бронь точки подтверждена');
@@ -1209,7 +1317,7 @@ document.addEventListener('click', e=>{
   }
   if(a === 'invoice'){
     const c = CELLS.find(x=>x.tenant==='Underdog') || {price:180000, num:12};
-    modal('Счёт №UD-2026-112',
+    modal('Счёт №ПА-2027-112',
       'Аренда корнера — '+money(c.price)+'<br>Электричество (7 кВт) — 24 000 ₽<br>Сервисный сбор — 15 000 ₽<br><br>'+
       '<b style="color:var(--accent);font-size:16px">Итого: '+money(c.price+39000)+'</b><br>'+
       'Срок оплаты — 2 рабочих дня.',
@@ -1242,6 +1350,25 @@ document.addEventListener('click', e=>{
     $$('#fStatus .fchip').forEach(x=>x.classList.toggle('active', x.dataset.v==='free'));
     renderList(); go('map');
     toast('Показаны свободные точки', 'Выберите новый корнер и нажмите «Забронировать»');
+    return;
+  }
+  if(a === 'kuper'){
+    modal('Онбординг на платформу Купер',
+      'Сервис доставки Купер · ФК3.<br>Для подключения корнера к доставке загрузите документы:<br><br>'+
+      '• карточка компании и реквизиты<br>• меню с ценами для доставки<br>• фото блюд и логотип<br>• сертификаты и декларации<br>• договор оферты с подписью',
+      '<button class="btn btn-light" onclick="closeModal()">Позже</button>'+
+      '<button class="btn btn-acc" data-act="kuper-ok">Загрузить документы</button>');
+    return;
+  }
+  if(a === 'kuper-ok'){
+    closeModal();
+    S.dataCollected = Math.min(100, S.dataCollected + 12);
+    renderAnalytics();
+    toast('Документы отправлены', 'Заявка на онбординг Купер принята · данные собраны на ' + S.dataCollected + '%');
+    return;
+  }
+  if(a === 'send-pres'){
+    toast('Данные отправлены', 'Сводка по резидентам ушла в презентацию · собрано ' + S.dataCollected + '%');
     return;
   }
   if(a === 'report'){
