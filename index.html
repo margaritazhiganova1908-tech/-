@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Пикник Афиши 2027 — План автоматизации · Кабинет резидента</title>
+<title>Пикник Афиши 2027 — Кабинет резидента</title>
 <style>
 /* Палитра и типографика — по гайду «Пикник Афиши» (picnic24_guide) */
 :root{
@@ -236,6 +236,30 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 70px}
 .h-check li::before{content:"☑";position:absolute;left:0;top:0;color:var(--accent-ink);font-size:12px}
 @media(max-width:860px){.h-facts{grid-template-columns:1fr}}
 
+.calc{border:1px solid var(--line-soft);background:var(--surface-2);border-radius:var(--r-sm);padding:13px 14px;margin-bottom:10px}
+.calc-t{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
+.calc-t b{font-size:13.5px;font-weight:700}
+.calc-t span{font-size:11px;color:var(--muted-2);font-weight:600}
+.calc-row{display:flex;align-items:center;gap:8px}
+.step-btn{width:30px;height:30px;flex:none;border-radius:9px;border:1px solid var(--line);background:var(--surface-3);
+  font-size:16px;font-weight:800;line-height:1;transition:.14s}
+.step-btn:hover{border-color:var(--accent-line)}
+.calc-row input{width:62px;flex:none;background:var(--surface);border:1px solid var(--line);border-radius:9px;
+  color:var(--text);font-family:var(--font-display);font-size:16px;font-weight:800;text-align:center;padding:6px 4px;outline:none}
+.calc-row input:focus{border-color:var(--accent)}
+.calc-row .unit{font-size:12px;color:var(--muted-2);font-weight:700}
+.calc-row b{margin-left:auto;font-family:var(--font-display);font-size:16px;font-weight:800}
+.calc-total{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;
+  border-radius:var(--r-sm);background:var(--ok-bg);border:1px solid var(--accent-line)}
+.calc-total span{font-size:12.5px;font-weight:700}
+.calc-total b{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--accent-ink)}
+
+.tk-num{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.tk-num b{font-family:var(--font-display);font-size:38px;font-weight:900;line-height:1;letter-spacing:-1px}
+.tk-num span{font-size:12px;color:var(--muted-2);font-weight:600}
+.tk-num i{font-style:normal;font-weight:800;color:var(--muted)}
+.tk-hint{font-size:11.5px;color:var(--muted-2);font-weight:600}
+
 /* ---------------- РАЗДЕЛ 2: КАРТА ---------------- */
 .map-grid{display:grid;grid-template-columns:1fr 380px;gap:16px;align-items:start}
 .city-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
@@ -351,7 +375,7 @@ svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(
 #modal{position:fixed;inset:0;z-index:250;background:rgba(20,12,10,.62);backdrop-filter:blur(5px);display:none;place-items:center;padding:20px}
 #modal.on{display:grid}
 .mbox{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;max-width:430px;width:100%;animation:in .25s ease}
-.mbox h3{font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:8px;text-transform:lowercase}
+.mbox h3{font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:8px}
 .mbox p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:18px}
 .mbox .mrow{display:flex;gap:9px}
 .mbox .mrow .btn{flex:1}
@@ -381,6 +405,8 @@ svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(
   #toasts{left:14px;right:14px;max-width:none}
 }
 @media(max-width:560px){
+  .calc-row input{width:52px}
+  .calc-row b{font-size:14px}
   .an-kpi{grid-template-columns:1fr}
   .chart-row .lbl{width:100px;font-size:11.5px}
   .hero-id h1{font-size:20px}
@@ -395,7 +421,7 @@ svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(
     <div class="brand">
       <div class="mark">ПА</div>
       <div>
-        <b>Пикник Афиши 2027 · План автоматизации</b>
+        <b>Пикник Афиши 2027</b>
         <span>Личный кабинет резидента · Underdog</span>
       </div>
     </div>
@@ -462,10 +488,59 @@ svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(
         <div class="actions">
           <button class="btn btn-acc" data-act="pay">Платёжка</button>
           <button class="btn btn-acc" data-act="curator">Консультация</button>
-          <button class="btn btn-light" data-act="invoice">Открыть счёт</button>
-          <button class="btn btn-light" data-act="area">Сменить площадь</button>
+          <button class="btn btn-light" style="grid-column:1/-1" data-act="invoice">Оплатить счёт</button>
         </div>
         <button class="btn btn-light" style="width:100%" data-act="tomap">Перейти к выбору места →</button>
+      </div>
+
+      <div class="card side-card">
+        <div class="card-h"><h3>Калькулятор услуг</h3><span class="hint">тариф фестиваля</span></div>
+
+        <div class="calc">
+          <div class="calc-t"><b>Электричество</b><span>3 000 ₽ за 1 кВт</span></div>
+          <div class="calc-row">
+            <button class="step-btn" data-act="kw-" aria-label="меньше">−</button>
+            <input id="kwInput" type="number" min="0" max="60" step="1" value="8" aria-label="киловатты">
+            <button class="step-btn" data-act="kw+" aria-label="больше">+</button>
+            <span class="unit">кВт</span>
+            <b id="kwSum">24 000 ₽</b>
+          </div>
+        </div>
+
+        <div class="calc">
+          <div class="calc-t"><b>Аккредитации</b><span>1 500 ₽ за 1 бейдж</span></div>
+          <div class="calc-row">
+            <button class="step-btn" data-act="acc-" aria-label="меньше">−</button>
+            <input id="accInput" type="number" min="0" max="80" step="1" value="6" aria-label="аккредитации">
+            <button class="step-btn" data-act="acc+" aria-label="больше">+</button>
+            <span class="unit">шт</span>
+            <b id="accSum">9 000 ₽</b>
+          </div>
+        </div>
+
+        <div class="calc-total">
+          <span>Итого по услугам</span>
+          <b id="extraSum">33 000 ₽</b>
+        </div>
+        <button class="btn btn-acc" style="width:100%;margin-top:12px" data-act="invoice">Выставить счёт</button>
+      </div>
+
+      <div class="card side-card">
+        <div class="card-h"><h3>Пригласительные билеты</h3><span class="hint">от организатора</span></div>
+        <div class="tickets">
+          <div class="tk-num"><b id="tkLeft">12</b><span>осталось из <i id="tkTotal">12</i></span></div>
+          <div class="tk-meta">
+            <div class="kv"><span>Отправил</span><b>Организатор фестиваля</b></div>
+            <div class="kv"><span>Дата выдачи</span><b>20 июня</b></div>
+            <div class="kv"><span>Статус</span><b><span class="pill p-ok"><span class="dot"></span>доступны</span></b></div>
+          </div>
+          <div class="bar" style="margin:12px 0 6px"><i id="tkBar"></i></div>
+          <div class="tk-hint" id="tkHint">Передано гостям: 0 из 12</div>
+          <div class="actions" style="margin:12px 0 0">
+            <button class="btn btn-acc btn-sm" data-act="tk-send">Передать гостю</button>
+            <button class="btn btn-light btn-sm" data-act="tk-download">Скачать PDF</button>
+          </div>
+        </div>
       </div>
 
       <div class="card side-card">
@@ -477,7 +552,8 @@ svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(
         </div>
         <div class="kv"><span>Смета</span><b id="sumTotal">—</b></div>
         <div class="kv"><span>Аренда корнера</span><b id="sumRent">—</b></div>
-        <div class="kv"><span>Электричество</span><b>24 000 ₽</b></div>
+        <div class="kv"><span>Электричество</span><b id="sumKw">24 000 ₽</b></div>
+        <div class="kv"><span>Аккредитации</span><b id="sumAcc">9 000 ₽</b></div>
         <div class="kv"><span>Оплата</span><b id="sumPay">—</b></div>
         <div class="kv"><span>Монтаж</span><b>10–11 июля</b></div>
         <div class="kv"><span>Демонтаж</span><b>14 июля, до 23:00</b></div>
@@ -638,11 +714,11 @@ const BLOCK_DATA = {
       ['taken','Teremok'],['hold','Бронь · Вок Стрит'],['free'],['taken','Underdog'],['tech'],
       ['free'],['free'],['free'],['free']]},
     {id:'C', label:'Блок C', price:150000, size:'3×3',   ox:34,  oy:396, cells:[
-      ['taken','Cofix'],['taken','BOLO'],['taken','SALATNICA'],['hold','Бронь · Лаваш'],['tech'],
+      ['taken','Cofix'],['taken','BOLO'],['taken','SALATNICA'],['hold','Бронь · AAARC'],['tech'],
       ['hold','Бронь · Мороженое'],['free'],['free'],['free']]},
     {id:'D', label:'Блок D', price:150000, size:'3×3',   ox:546, oy:396, cells:[
       ['taken','Крошка Картошка'],['taken','Technodoner'],['taken','Пян-Се'],['taken','Popmeal'],['tech'],
-      ['taken','Skuratov'],['taken','Rusty'],['hold','Бронь · Лимонад'],['free']]}
+      ['taken','Skuratov'],['taken','Rusty'],['hold','Бронь · Лапочка'],['free']]}
   ],
   'spb-fk1':[
     {id:'А', label:'Блок А', price:170000, size:'4,5×3', ox:34,  oy:64, cells:[
@@ -665,7 +741,7 @@ const FK3_CELLS = [
 /* Фудтраки СПб — 12 точек */
 const TRUCK_CELLS = [
   ['taken','Бургер Трак'],['free'],['hold','Бронь · Тако'],['free'],['taken','Кофе на колёсах'],['free'],
-  ['taken','Вафли'],['free'],['hold','Бронь · Лимонад'],['free'],['taken','Хот-дог Бус'],['free']
+  ['taken','Вафли'],['free'],['hold','Бронь · Лапочка'],['free'],['taken','Хот-дог Бус'],['free']
 ];
 
 const VENUES = [
@@ -751,6 +827,10 @@ const THEMES = {
 };
 let TH = THEMES.picnic;
 const STATUS = Object.assign({}, TH.status);
+
+/* ---- тарифы услуг и пригласительные билеты ---- */
+const RATES = {kw:3000, acc:1500, service:15000};
+const TICKETS = {total:12, from:'Организатор фестиваля', sentAt:'20 июня'};
 
 /* ---- задачи кабинета ---- */
 const STAGES = [
@@ -993,6 +1073,9 @@ const S = {
   partner:'',
   hostOpen:new Set(['01']),
   theme:'picnic',
+  kw:8,
+  acc:6,
+  tkSent:0,
   dataCollected:18
 };
 
@@ -1148,6 +1231,9 @@ function renderAlerts(){
   const left = dan.tasks.filter(t=>!t.done).length;
   if(left) items.push({c:'w', ic:'↑', b:'Не загружены данные резидента — '+left,
                        s:'Меню, промо, реквизиты · дедлайн 28 мая'});
+  const tkLeft = TICKETS.total - S.tkSent;
+  items.push({c:'g', ic:'✦', b:'Организатор прислал пригласительные билеты — ' + TICKETS.total,
+              s:'Выданы '+TICKETS.sentAt+' · доступно к передаче гостям: '+tkLeft});
   items.push({c:'', ic:'◷', b:'Бронь места действует до 14 мая',
               s:'ФК1 · блок B · точка 12 · 4,5 × 3 м'});
   items.push({c:'', ic:'%', b:'Этап '+(p.cur+1)+' из '+STAGES.length+' · '+STAGES[p.cur].name,
@@ -1156,11 +1242,35 @@ function renderAlerts(){
     '<div class="alert '+a.c+'"><div class="ic">'+a.ic+'</div>'+
     '<div class="txt"><b>'+a.b+'</b><span>'+a.s+'</span></div></div>').join('');
 }
+function rent(){ const my = CELLS.find(c=>c.tenant === 'Underdog'); return my ? my.price : 180000; }
+function extras(){ return S.kw*RATES.kw + S.acc*RATES.acc; }
+function estimate(){ return rent() + extras() + RATES.service; }
+
+function renderCalc(){
+  $('#kwInput').value = S.kw;
+  $('#accInput').value = S.acc;
+  $('#kwSum').textContent  = money(S.kw*RATES.kw);
+  $('#accSum').textContent = money(S.acc*RATES.acc);
+  $('#extraSum').textContent = money(extras());
+  $('#sumKw').textContent  = money(S.kw*RATES.kw);
+  $('#sumAcc').textContent = money(S.acc*RATES.acc);
+}
+function setKw(v){  S.kw  = Math.max(0, Math.min(60, v|0)); renderCalc(); renderSummary(); }
+function setAcc(v){ S.acc = Math.max(0, Math.min(80, v|0)); renderCalc(); renderSummary(); }
+
+function renderTickets(){
+  const left = TICKETS.total - S.tkSent;
+  $('#tkLeft').textContent  = left;
+  $('#tkTotal').textContent = TICKETS.total;
+  $('#tkHint').textContent  = 'Передано гостям: ' + S.tkSent + ' из ' + TICKETS.total;
+  $('#tkBar').style.width   = Math.round(S.tkSent/TICKETS.total*100) + '%';
+  $('[data-act="tk-send"]').disabled = left === 0;
+}
+
 function renderSummary(){
   const my = CELLS.find(c=>c.tenant === 'Underdog');
-  const rent = my ? my.price : 180000;
-  $('#sumRent').textContent  = money(rent);
-  $('#sumTotal').textContent = money(rent + 24000 + 15000);
+  $('#sumRent').textContent  = money(rent());
+  $('#sumTotal').textContent = money(estimate());
   $('#sumPay').innerHTML = S.paid
     ? '<span class="pill p-ok"><span class="dot"></span>Оплачено</span>'
     : '<span class="pill p-warn"><span class="dot"></span>Ожидает оплаты</span>';
@@ -1177,26 +1287,38 @@ function renderSummary(){
    ============================================================ */
 const PLAN = {
   'msk-fk1':{vb:'0 0 760 620', nav:{x:380,y:320,r:46}, rings:[{r:112,n:8},{r:160,n:12}], entry:{x:380,y:600}},
-  'msk-fk2':{vb:'0 0 760 500', nav:{x:470,y:320,r:44}, rings:[{r:108,n:9},{r:56,n:5}], hideNav:true, entry:{x:640,y:120}},
+  'msk-fk2':{vb:'0 0 760 500', nav:{x:470,y:320,r:44}, rings:[], hideNav:true, entry:{x:640,y:120},
+             grid:{x:250,y:232,cols:5,rows:3,step:104}},
   'msk-fk3':{vb:'0 0 760 250', nav:{x:380,y:210,r:0},  rings:[], hideNav:true,           entry:{x:380,y:212}},
   'spb-fk1':{vb:'0 0 760 300', nav:{x:380,y:154,r:38}, rings:[{r:76,n:8}],               entry:{x:380,y:284}},
   'spb-ft' :{vb:'0 0 760 430', nav:{x:380,y:362,r:32}, rings:[{r:60,n:7}],               entry:{x:120,y:362}}
 };
 
+function table(x,y){
+  return '<g opacity=".85">'+
+    '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="12" fill="'+TH.tableFill+'" stroke="'+TH.tableStroke+'" stroke-width="1.2"/>'+
+    '<circle cx="'+x.toFixed(1)+'" cy="'+(y-18).toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
+    '<circle cx="'+x.toFixed(1)+'" cy="'+(y+18).toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
+    '<circle cx="'+(x-18).toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
+    '<circle cx="'+(x+18).toFixed(1)+'" cy="'+y.toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
+  '</g>';
+}
 function tables(cfg){
   let s = '';
+  if(cfg.grid){
+    const g = cfg.grid;
+    for(let r=0;r<g.rows;r++)
+      for(let c=0;c<g.cols;c++)
+        s += table(g.x + c*g.step, g.y + r*g.step);
+    s += '<text class="static-txt" x="'+(g.x-24)+'" y="'+(g.y-26)+'" font-size="11" fill="'+TH.label+'" letter-spacing="1">ПОСАДКА ГОСТЕЙ</text>';
+    return s;
+  }
   cfg.rings.forEach(ring=>{
     for(let i=0;i<ring.n;i++){
       const a = (Math.PI*2/ring.n)*i - Math.PI/2;
       const x = cfg.nav.x + Math.cos(a)*ring.r;
       const y = cfg.nav.y + Math.sin(a)*ring.r;
-      s += '<g opacity=".8">'+
-           '<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="12" fill="'+TH.tableFill+'" stroke="'+TH.tableStroke+'" stroke-width="1.2"/>'+
-           '<circle cx="'+(x).toFixed(1)+'" cy="'+(y-18).toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
-           '<circle cx="'+(x).toFixed(1)+'" cy="'+(y+18).toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
-           '<circle cx="'+(x-18).toFixed(1)+'" cy="'+(y).toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
-           '<circle cx="'+(x+18).toFixed(1)+'" cy="'+(y).toFixed(1)+'" r="4" fill="'+TH.seat+'"/>'+
-           '</g>';
+      s += table(x, y);
     }
   });
   return s;
@@ -1579,7 +1701,7 @@ document.addEventListener('click', e=>{
   if(a === 'pay'){
     if(S.paid) return toast('Счёт уже оплачен', 'Повторная оплата не требуется', true);
     modal('Загрузить платёжку',
-      'Счёт №ПА-2027-112 на сумму '+money((CELLS.find(c=>c.tenant==='Underdog')||{price:180000}).price + 39000)+
+      'Счёт №ПА-2027-112 на сумму '+money(estimate())+
       '. После загрузки платёжного поручения статус обновится автоматически.',
       '<button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
       '<button class="btn btn-acc" data-act="pay-ok">Загрузить платёжку</button>');
@@ -1596,18 +1718,20 @@ document.addEventListener('click', e=>{
     return;
   }
   if(a === 'invoice'){
-    const c = CELLS.find(x=>x.tenant==='Underdog') || {price:180000, num:12};
     modal('Счёт №ПА-2027-112',
-      'Аренда корнера — '+money(c.price)+'<br>Электричество (7 кВт) — 24 000 ₽<br>Сервисный сбор — 15 000 ₽<br><br>'+
-      '<b style="color:var(--accent);font-size:16px">Итого: '+money(c.price+39000)+'</b><br>'+
+      'Аренда корнера — '+money(rent())+'<br>'+
+      'Электричество, '+S.kw+' кВт × 3 000 ₽ — '+money(S.kw*RATES.kw)+'<br>'+
+      'Аккредитации, '+S.acc+' шт × 1 500 ₽ — '+money(S.acc*RATES.acc)+'<br>'+
+      'Сервисный сбор — '+money(RATES.service)+'<br><br>'+
+      '<b style="color:var(--accent-ink);font-size:17px">Итого: '+money(estimate())+'</b><br>'+
       'Срок оплаты — 2 рабочих дня.',
       '<button class="btn btn-light" onclick="closeModal()">Закрыть</button>'+
-      '<button class="btn btn-acc" data-act="pay-ok">Оплатить</button>');
+      '<button class="btn btn-acc" data-act="pay-ok">Оплатить счёт</button>');
     return;
   }
   if(a === 'curator'){
     modal('Консультация с куратором',
-      'Наталья Арсентьева · куратор фуд-кортов Москвы.<br>Ответ в рабочее время — в течение 2 часов. Запрос попадёт в очередь департамента торговли.',
+      'Наталья Арсентьева · куратор фуд-кортов Москвы.<br>Ответ в рабочее время — в течение 2 часов.',
       '<button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
       '<button class="btn btn-acc" data-act="curator-ok">Отправить запрос</button>');
     return;
@@ -1617,26 +1741,29 @@ document.addEventListener('click', e=>{
     toast('Запрос отправлен', 'Наталья Арсентьева ответит в течение 2 часов');
     return;
   }
-  if(a === 'area'){
-    modal('Сменить площадь',
-      'Текущий корнер — 4,5 × 3 м, ФК1 блок B, точка 12.<br>Доступные форматы: 3×3 (150 000 ₽), 4,5×3 (180 000 ₽), 5×3 (200 000 ₽). '+
-      'Выберите свободную точку на схеме — заявка на смену уйдёт куратору.',
-      '<button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
-      '<button class="btn btn-acc" data-act="area-ok">Выбрать на карте</button>');
-    return;
-  }
-  if(a === 'area-ok'){
-    closeModal(); S.fStatus = 'free';
-    $$('#fStatus .fchip').forEach(x=>x.classList.toggle('active', x.dataset.v==='free'));
-    renderList(); go('map');
-    toast('Показаны свободные точки', 'Выберите новый корнер и нажмите «Забронировать»');
-    return;
-  }
   if(a === 'theme'){ applyTheme(S.theme === 'picnic' ? 'dark' : 'picnic'); return; }
+
+  if(a === 'kw-'){  setKw(S.kw - 1);   return; }
+  if(a === 'kw+'){  setKw(S.kw + 1);   return; }
+  if(a === 'acc-'){ setAcc(S.acc - 1); return; }
+  if(a === 'acc+'){ setAcc(S.acc + 1); return; }
+
+  if(a === 'tk-send'){
+    if(S.tkSent >= TICKETS.total) return;
+    S.tkSent++; renderTickets(); renderAlerts();
+    toast('Билет передан', 'Пригласительный отправлен гостю · осталось ' + (TICKETS.total - S.tkSent));
+    return;
+  }
+  if(a === 'tk-download'){
+    toast('Билеты выгружены', TICKETS.total + ' пригласительных в PDF · от «' + TICKETS.from + '»');
+    return;
+  }
+
   if(a === 'kuper'){
     modal('Онбординг на платформу Купер',
       'Сервис доставки Купер · ФК3.<br>Для подключения корнера к доставке загрузите документы:<br><br>'+
-      '• карточка компании и реквизиты<br>• меню с ценами для доставки<br>• фото блюд и логотип<br>• сертификаты и декларации<br>• договор оферты с подписью',
+      '• карточка компании и реквизиты<br>• меню с ценами для доставки<br>• фото блюд и логотип<br>'+
+      '• сертификаты и декларации<br>• договор оферты с подписью',
       '<button class="btn btn-light" onclick="closeModal()">Позже</button>'+
       '<button class="btn btn-acc" data-act="kuper-ok">Загрузить документы</button>');
     return;
@@ -1674,14 +1801,19 @@ Object.assign(STATUS, TH.status);
 S.theme = saved;
 document.documentElement.dataset.theme = saved;
 
-const STRIP = 'пикник афиши 2027 / фудкорты / резиденты / тех хостинг / монтаж / аккредитация / выручка / аналитика / ';
+const STRIP = 'picnic.afisha.ru / festival food / market / vibe / ';
 $('#stripLine').innerHTML = ('<span>'+STRIP.split(' / ').filter(Boolean).join(' /</span><span>')+' /</span>').repeat(2);
 
 renderStageTabs();
 renderTasks();
 paintProgress();
 renderAlerts();
+renderCalc();
+renderTickets();
 renderSummary();
+$('#kwInput').addEventListener('input', e=>setKw(+e.target.value || 0));
+$('#accInput').addEventListener('input', e=>setAcc(+e.target.value || 0));
+$('#kwInput').addEventListener('wheel', e=>e.preventDefault(), {passive:false});
 renderCityTabs();
 renderVenues();
 renderList();
