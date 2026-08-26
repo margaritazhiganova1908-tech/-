@@ -78,74 +78,64 @@ input,select,textarea{font-family:inherit}
 a{color:inherit}
 
 /* ============ СПЛЭШ ============ */
-#splash{position:fixed;inset:0;z-index:400;background:#08090A;display:grid;place-items:center;overflow:hidden;
-  --neon:#00E01E}
-#splash.hide{animation:splashOut .8s cubic-bezier(.76,0,.24,1) forwards;pointer-events:none}
+#splash{position:fixed;inset:0;z-index:400;background:#00E01E;display:grid;place-items:center;overflow:hidden}
+#splash.hide{animation:splashOut 1.1s cubic-bezier(.65,0,.35,1) forwards;pointer-events:none}
 @keyframes splashOut{
-  0%{clip-path:inset(0 0 0 0)}
-  100%{clip-path:inset(50% 0 50% 0);opacity:0;visibility:hidden}
+  0%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.03);visibility:hidden}
 }
-.sp-bg{position:absolute;inset:0;background:var(--neon);transform:scale(0);border-radius:50%;
-  animation:bgIn .85s cubic-bezier(.7,0,.2,1) .1s forwards}
-@keyframes bgIn{to{transform:scale(2.4);border-radius:0}}
-.sp-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;mix-blend-mode:overlay}
-.sp-flash.on{animation:flash .38s ease}
-@keyframes flash{0%{opacity:.9}100%{opacity:0}}
+.sp-bg{position:absolute;inset:0;background:#00E01E;opacity:0;animation:bgIn 1.1s ease forwards}
+@keyframes bgIn{to{opacity:1}}
 
-.sp-stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:26px;
-  transform:scale(.94);opacity:0;animation:stageIn .7s cubic-bezier(.2,.9,.2,1) .35s forwards}
-@keyframes stageIn{to{transform:scale(1);opacity:1}}
-.sp-stage.blast{animation:blast .9s cubic-bezier(.6,0,.2,1) forwards}
-@keyframes blast{60%{transform:scale(1.06)}100%{transform:scale(1.5);opacity:0;filter:blur(3px)}}
+/* один цветной блок — паттерн из палитры */
+.sp-panel{position:absolute;width:min(78vw,900px);height:min(58vh,540px);border-radius:4px;opacity:0;
+  transform:scale(.94);filter:blur(26px);
+  background:
+    radial-gradient(58% 62% at 18% 26%, #A8FFD2 0%, rgba(168,255,210,0) 62%),
+    radial-gradient(52% 58% at 74% 22%, #FBD9BE 0%, rgba(251,217,190,0) 60%),
+    radial-gradient(56% 60% at 82% 74%, #FF2D55 0%, rgba(255,45,85,0) 58%),
+    radial-gradient(60% 64% at 30% 80%, #9A8FEA 0%, rgba(154,143,234,0) 60%),
+    radial-gradient(48% 52% at 54% 52%, #FFC93C 0%, rgba(255,201,60,0) 62%),
+    linear-gradient(126deg, #E8F0FF 0%, #F7E7A8 34%, #E8621F 66%, #7EC8E3 100%);
+  animation:panelIn 2.6s cubic-bezier(.33,0,.2,1) 2.5s forwards}
+@keyframes panelIn{
+  0%{opacity:0;transform:scale(.94);filter:blur(26px)}
+  60%{opacity:.92;transform:scale(1.005);filter:blur(6px)}
+  100%{opacity:1;transform:scale(1.01);filter:blur(2px)}
+}
 
-.sp-face{position:relative;width:min(72vw,620px)}
+.sp-stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:30px;
+  opacity:0;transform:scale(.985);animation:stageIn 1.5s cubic-bezier(.25,.9,.25,1) .45s forwards}
+@keyframes stageIn{to{opacity:1;transform:scale(1)}}
+.sp-face{width:min(70vw,600px)}
 .sp-face svg{width:100%;height:auto;display:block;overflow:visible}
-.sp-eye{opacity:0;transform-origin:center}
-.sp-eye.l{animation:eyeCut .55s cubic-bezier(.2,1.4,.3,1) .5s forwards}
-.sp-eye.r{animation:eyeCut .55s cubic-bezier(.2,1.4,.3,1) .64s forwards}
-@keyframes eyeCut{
-  0%{opacity:0;transform:translateX(-90px) rotate(-38deg) scale(.5)}
-  55%{opacity:1;transform:translateX(10px) rotate(6deg) scale(1.08)}
-  100%{opacity:1;transform:none}
+
+/* блик по крестикам — «подмигивание» */
+.sp-sheen{mix-blend-mode:normal;opacity:.9}
+.sp-sheen-rect{animation:sheen 2.3s cubic-bezier(.5,0,.5,1) 1.7s 2}
+@keyframes sheen{
+  0%{transform:translateX(0)}
+  55%{transform:translateX(1500px)}
+  100%{transform:translateX(1500px)}
 }
-.sp-mouth{stroke:#0A0A0A;stroke-width:46;stroke-linecap:round;fill:none;
-  stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw .95s cubic-bezier(.3,0,.15,1) .82s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-.sp-ghost{opacity:0;mix-blend-mode:multiply}
-.sp-ghost.g1{animation:gh1 .5s steps(2) 1.75s 2}
-.sp-ghost.g2{animation:gh2 .5s steps(2) 1.75s 2}
-@keyframes gh1{0%{opacity:0;transform:none}40%{opacity:.85;transform:translate(-14px,6px)}100%{opacity:0;transform:none}}
-@keyframes gh2{0%{opacity:0;transform:none}40%{opacity:.85;transform:translate(15px,-7px)}100%{opacity:0;transform:none}}
 
 .sp-word{display:flex;align-items:baseline;gap:12px;font-family:var(--font-display);color:#0A0A0A;
-  opacity:0;animation:wordIn .55s cubic-bezier(.2,.9,.2,1) 1.55s forwards}
+  opacity:0;animation:wordIn 1.1s cubic-bezier(.25,.9,.25,1) 1.25s forwards}
 .sp-word span{font-size:14px;font-weight:800;letter-spacing:5px}
 .sp-word b{font-size:30px;font-weight:900;letter-spacing:-.5px;line-height:1}
-@keyframes wordIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes wordIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-.sp-tiles{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);
-  gap:12px;padding:12px;opacity:0;z-index:3;pointer-events:none}
-.sp-tiles.on{opacity:1}
-.sp-tile{border-radius:3px;opacity:0;transform:scale(.2) rotate(-8deg);filter:blur(18px)}
-.sp-tiles.on .sp-tile{animation:tileBlast .75s cubic-bezier(.2,.85,.25,1) forwards}
-@keyframes tileBlast{
-  0%{opacity:0;transform:scale(.2) rotate(-8deg);filter:blur(18px)}
-  70%{opacity:1;transform:scale(1.03) rotate(1deg);filter:blur(4px)}
-  100%{opacity:1;transform:none;filter:blur(0)}
-}
 .sp-logo{position:absolute;top:22px;left:22px;z-index:5;font-family:var(--font-display);font-size:13px;font-weight:800;
-  letter-spacing:.6px;color:#0A0A0A;background:var(--neon);padding:7px 12px;border-radius:8px;
-  opacity:0;animation:spFade .5s .55s forwards}
-.sp-skip{position:absolute;bottom:22px;right:22px;z-index:5;background:var(--neon);font-size:12px;font-weight:700;
+  letter-spacing:.6px;color:#0A0A0A;background:#00E01E;padding:7px 12px;border-radius:8px;
+  opacity:0;animation:spFade .9s .5s forwards}
+.sp-skip{position:absolute;bottom:22px;right:22px;z-index:5;background:#00E01E;font-size:12px;font-weight:700;
   color:rgba(10,10,10,.65);border:1px solid rgba(10,10,10,.3);border-radius:99px;padding:8px 16px;
-  opacity:0;animation:spFade .4s 1s forwards}
+  opacity:0;animation:spFade .8s 1.2s forwards}
 .sp-skip:hover{color:#0A0A0A;border-color:#0A0A0A}
 @keyframes spFade{to{opacity:1}}
 @media(prefers-reduced-motion:reduce){
-  #splash *{animation:none!important;opacity:1!important;transform:none!important;
-    stroke-dashoffset:0!important;filter:none!important}
-  .sp-bg{transform:scale(2.4)!important;border-radius:0!important}
-  .sp-ghost{opacity:0!important}
+  #splash *{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
+  .sp-sheen{opacity:0!important}
 }
 
 /* ============ ШАПКА ============ */
@@ -177,7 +167,7 @@ header{position:sticky;top:0;z-index:60;background:color-mix(in srgb, var(--bg) 
 
 .strip{background:var(--text);color:var(--bg);overflow:hidden;white-space:nowrap}
 .strip div{display:inline-block;padding:7px 0;font-family:var(--font-display);font-size:12px;font-weight:800;
-  letter-spacing:1.4px;white-space:nowrap;animation:run 34s linear infinite}
+  letter-spacing:1.4px;white-space:nowrap;animation:run 58s linear infinite}
 .strip span{padding:0 13px;opacity:.94}
 .strip em{font-style:normal;color:var(--accent);opacity:.85;font-size:10px;vertical-align:middle}
 @keyframes run{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -228,6 +218,31 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 90px}
 .kv span{color:var(--muted)}
 .kv b{font-weight:700;text-align:right}
 .empty{text-align:center;padding:30px 14px;color:var(--muted-2);font-size:12.5px}
+
+/* ============ СЧЁТЧИК ============ */
+.cdown{display:flex;align-items:baseline;gap:7px;padding:7px 13px;border-radius:99px;
+  border:1px solid var(--accent-line);background:var(--ok-bg)}
+.cdown b{font-family:var(--font-display);font-size:15px;font-weight:900;color:var(--accent-ink);
+  font-variant-numeric:tabular-nums}
+.cdown span{font-size:10.5px;font-weight:700;color:var(--muted-2);letter-spacing:.3px}
+.countdown{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  padding:22px 24px;border-radius:var(--r);margin-bottom:18px;border:1px solid var(--accent-line);
+  background:linear-gradient(120deg,var(--ok-bg),var(--warn-bg))}
+.countdown h3{font-family:var(--font-display);font-size:clamp(20px,2.4vw,26px);font-weight:900;
+  letter-spacing:-.3px;text-transform:lowercase;margin-top:6px}
+.cd-nums{display:flex;gap:10px}
+.cd-cell{min-width:78px;text-align:center;padding:12px 10px;border-radius:var(--r-sm);
+  background:var(--surface);border:1px solid var(--line-soft)}
+.cd-cell b{display:block;font-family:var(--font-display);font-size:30px;font-weight:900;line-height:1;
+  letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.cd-cell span{display:block;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--muted-2);margin-top:6px}
+@media(max-width:860px){
+  .cdown{display:none}
+  .countdown{gap:14px}
+  .cd-cell{min-width:64px;padding:10px 8px}
+  .cd-cell b{font-size:24px}
+}
 
 /* ============ МЕНЮ ============ */
 .menu-hero{text-align:center;padding:26px 0 34px}
@@ -626,9 +641,45 @@ svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-wid
 .perk .p-num{font-family:var(--font-display);font-size:22px;font-weight:900;color:var(--accent-ink);margin-top:10px;display:block}
 
 /* ============ ДАЙДЖЕСТ ============ */
-.nw-hero{display:grid;grid-template-columns:320px 1fr;gap:28px;align-items:center;padding:26px;border-radius:var(--r);
+.nw-hero{display:grid;grid-template-columns:210px 1fr;gap:30px;align-items:center;padding:26px;border-radius:var(--r);
   background:linear-gradient(120deg,var(--surface),var(--surface-2));border:1px solid var(--line);margin-bottom:22px;overflow:hidden}
-.nw-hero .mascot{width:100%;max-width:320px;filter:drop-shadow(0 22px 34px rgba(36,23,21,.22))}
+.nw-hero .mascot{width:100%;max-width:168px;margin:0 auto;filter:drop-shadow(0 22px 34px rgba(36,23,21,.22));
+  will-change:transform;animation:hop 5.2s cubic-bezier(.42,0,.5,1) infinite}
+@keyframes hop{
+  0%   {transform:translate(0,0) rotate(0)}
+  10%  {transform:translate(5%,-8%) rotate(-3deg)}
+  20%  {transform:translate(11%,0) rotate(0)}
+  30%  {transform:translate(17%,-7%) rotate(2deg)}
+  40%  {transform:translate(22%,0) rotate(0)}
+  52%  {transform:translate(13%,-9%) rotate(3deg)}
+  64%  {transform:translate(4%,0) rotate(0)}
+  76%  {transform:translate(-5%,-7%) rotate(-2deg)}
+  88%  {transform:translate(-2%,0) rotate(0)}
+  100% {transform:translate(0,0) rotate(0)}
+}
+.mascot .m-body{transform-origin:180px 215px;animation:jiggle 1.3s ease-in-out infinite}
+@keyframes jiggle{
+  0%,100%{transform:scale(1,1)}
+  22%{transform:scale(1.035,.965)}
+  46%{transform:scale(.975,1.025)}
+  72%{transform:scale(1.018,.988)}
+}
+.mascot .m-pom{transform-origin:180px 82px;animation:pom 5.2s cubic-bezier(.42,0,.5,1) infinite}
+@keyframes pom{
+  0%,20%,40%,64%,88%,100%{transform:translate(0,0) rotate(0)}
+  10%{transform:translate(-6px,7px) rotate(-8deg)}
+  30%{transform:translate(5px,6px) rotate(6deg)}
+  52%{transform:translate(-4px,8px) rotate(-6deg)}
+  76%{transform:translate(6px,6px) rotate(7deg)}
+}
+.mascot .m-shadow{transform-origin:180px 446px;animation:mshadow 5.2s cubic-bezier(.42,0,.5,1) infinite}
+@keyframes mshadow{
+  0%,20%,40%,64%,88%,100%{transform:scale(1);opacity:.9}
+  10%,30%,52%,76%{transform:scale(.78);opacity:.5}
+}
+@media(prefers-reduced-motion:reduce){
+  .nw-hero .mascot,.mascot .m-body,.mascot .m-pom,.mascot .m-shadow{animation:none}
+}
 .nw-hero .nw-t .kicker{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;font-weight:800;letter-spacing:1.4px;
   text-transform:uppercase;color:var(--accent-ink);background:var(--ok-bg);padding:5px 11px;border-radius:99px;margin-bottom:14px}
 .nw-hero h3{font-family:var(--font-display);font-size:clamp(26px,3.4vw,40px);line-height:1;font-weight:900;
@@ -652,7 +703,7 @@ svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-wid
 .item .date{font-size:11px;color:var(--muted-2);font-weight:700}
 @media(max-width:860px){
   .nw-hero{grid-template-columns:1fr;gap:18px}
-  .nw-hero .mascot{max-width:210px;margin:0 auto}
+  .nw-hero .mascot{max-width:150px;margin:0 auto}
   .item{grid-template-columns:1fr;gap:10px;padding:18px 4px}
   .item .side{flex-direction:row;align-items:center;text-align:left}
 }
@@ -766,30 +817,34 @@ footer a:hover{text-decoration:underline}
 <!-- ==================== СПЛЭШ ==================== -->
 <div id="splash">
   <div class="sp-bg"></div>
-  <div class="sp-flash"></div>
-  <div class="sp-tiles" id="spTiles"></div>
+  <div class="sp-panel" id="spPanel"></div>
 
   <div class="sp-stage" id="spStage">
-    <div class="sp-face" id="spFace">
+    <div class="sp-face">
       <svg viewBox="0 0 760 640" aria-label="Пикник Афиши 2027">
-        <g class="sp-ghost g1">
-          <path d="M140 110 L320 300 M320 110 L140 300" stroke="#FF6FD8" stroke-width="92" stroke-linecap="round"/>
-          <path d="M440 110 L620 300 M620 110 L440 300" stroke="#FF6FD8" stroke-width="92" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="spSheen" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0"   stop-color="#FFFFFF" stop-opacity="0"/>
+            <stop offset="0.42" stop-color="#FFFFFF" stop-opacity="0.85"/>
+            <stop offset="0.58" stop-color="#FFFFFF" stop-opacity="0.85"/>
+            <stop offset="1"   stop-color="#FFFFFF" stop-opacity="0"/>
+          </linearGradient>
+          <mask id="spSheenMask">
+            <rect class="sp-sheen-rect" x="-560" y="-40" width="360" height="720" fill="url(#spSheen)"/>
+          </mask>
+        </defs>
+
+        <g class="sp-art">
+          <path d="M140 110 L320 300 M320 110 L140 300" stroke="#0A0A0A" stroke-width="92" stroke-linecap="round"/>
+          <path d="M440 110 L620 300 M620 110 L440 300" stroke="#0A0A0A" stroke-width="92" stroke-linecap="round"/>
           <path d="M58 392 C58 344 122 332 146 380 C206 566 554 566 614 380 C638 332 702 344 702 392"
-                stroke="#FF6FD8" stroke-width="46" fill="none" stroke-linecap="round"/>
-        </g>
-        <g class="sp-ghost g2">
-          <path d="M140 110 L320 300 M320 110 L140 300" stroke="#12E0FF" stroke-width="92" stroke-linecap="round"/>
-          <path d="M440 110 L620 300 M620 110 L440 300" stroke="#12E0FF" stroke-width="92" stroke-linecap="round"/>
-          <path d="M58 392 C58 344 122 332 146 380 C206 566 554 566 614 380 C638 332 702 344 702 392"
-                stroke="#12E0FF" stroke-width="46" fill="none" stroke-linecap="round"/>
+                stroke="#0A0A0A" stroke-width="46" fill="none" stroke-linecap="round"/>
         </g>
 
-        <g class="sp-eye l"><path d="M140 110 L320 300 M320 110 L140 300"
-            stroke="#0A0A0A" stroke-width="92" stroke-linecap="round"/></g>
-        <g class="sp-eye r"><path d="M440 110 L620 300 M620 110 L440 300"
-            stroke="#0A0A0A" stroke-width="92" stroke-linecap="round"/></g>
-        <path class="sp-mouth" d="M58 392 C58 344 122 332 146 380 C206 566 554 566 614 380 C638 332 702 344 702 392"/>
+        <g mask="url(#spSheenMask)" class="sp-sheen">
+          <path d="M140 110 L320 300 M320 110 L140 300" stroke="#FFFFFF" stroke-width="92" stroke-linecap="round" opacity=".55"/>
+          <path d="M440 110 L620 300 M620 110 L440 300" stroke="#FFFFFF" stroke-width="92" stroke-linecap="round" opacity=".55"/>
+        </g>
       </svg>
     </div>
     <div class="sp-word"><span>ПИКНИК АФИШИ</span><b>2027</b><span>× СБЕР</span></div>
@@ -817,6 +872,7 @@ footer a:hover{text-decoration:underline}
       </div>
       <span class="pill p-gold" id="uTier">GOLD · 80°</span>
     </div>
+    <div class="cdown" id="cdownChip"><b id="cdDays">—</b><span>дней до фестиваля</span></div>
     <nav class="tabs" id="tabs"></nav>
     <button class="btn-ghost" id="themeBtn" data-act="theme">Тема: Пикник</button>
   </div>
@@ -828,6 +884,14 @@ footer a:hover{text-decoration:underline}
 
 <!-- ==================== МЕНЮ ==================== -->
 <section class="view active" id="view-menu">
+  <div class="countdown" id="countdown">
+    <div class="cd-t">
+      <span class="sec-title">До Пикника Афиши 2027</span>
+      <h3 id="cdTitle">7 августа 2027 · Москва, Коломенское</h3>
+    </div>
+    <div class="cd-nums" id="cdNums"></div>
+  </div>
+
   <div class="menu-grid">
     <button class="mcard" data-act="go-rent">
       <div class="mc-ic">◫</div>
@@ -2439,6 +2503,35 @@ function renderClub(){
 }
 
 /* ============================================================
+   ОБРАТНЫЙ ОТСЧЁТ ДО ФЕСТИВАЛЯ
+   ============================================================ */
+const FEST = {date:new Date('2027-08-07T12:00:00+03:00'), place:'7 августа 2027 · Москва, Коломенское'};
+function plural(n, one, few, many){
+  const n10 = n % 10, n100 = n % 100;
+  if(n10 === 1 && n100 !== 11) return one;
+  if(n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) return few;
+  return many;
+}
+function renderCountdown(){
+  const ms = Math.max(0, FEST.date - Date.now());
+  const d  = Math.floor(ms / 86400000);
+  const h  = Math.floor(ms % 86400000 / 3600000);
+  const mi = Math.floor(ms % 3600000 / 60000);
+  const se = Math.floor(ms % 60000 / 1000);
+  const cells = [
+    [d,  plural(d, 'день','дня','дней')],
+    [h,  plural(h, 'час','часа','часов')],
+    [mi, plural(mi,'минута','минуты','минут')],
+    [se, plural(se,'секунда','секунды','секунд')]
+  ];
+  $('#cdNums').innerHTML = cells.map(([v,l])=>
+    '<div class="cd-cell"><b>'+String(v).padStart(2,'0')+'</b><span>'+l+'</span></div>').join('');
+  $('#cdDays').textContent = d;
+  $('#cdownChip').lastElementChild.textContent = plural(d,'день','дня','дней') + ' до фестиваля';
+  $('#cdTitle').textContent = FEST.place;
+}
+
+/* ============================================================
    ДАЙДЖЕСТ
    ============================================================ */
 function mascotSVG(){
@@ -2454,7 +2547,7 @@ function mascotSVG(){
     '<clipPath id="ballClip"><circle cx="180" cy="215" r="118"/></clipPath>'+
   '</defs>'+
 
-  '<ellipse cx="180" cy="446" rx="118" ry="16" fill="rgba(36,23,21,.16)"/>'+
+  '<ellipse class="m-shadow" cx="180" cy="446" rx="118" ry="16" fill="rgba(36,23,21,.16)"/>'+
 
   '<rect x="150" y="316" width="20" height="86" rx="10" fill="#14100F"/>'+
   '<rect x="192" y="316" width="20" height="86" rx="10" fill="#14100F"/>'+
@@ -2463,7 +2556,7 @@ function mascotSVG(){
   '<path d="M118 424h64v8h-64zM178 424h68v8h-68z" fill="#3A3A3F"/>'+
   '<circle cx="142" cy="428" r="3.4" fill="#B7DC1E"/><circle cx="236" cy="428" r="3.4" fill="#B7DC1E"/>'+
 
-  '<g filter="url(#fur)">'+
+  '<g class="m-body" filter="url(#fur)">'+
     '<circle cx="180" cy="215" r="118" fill="#B7DC1E"/>'+
     '<g clip-path="url(#ballClip)">'+
       '<ellipse cx="120" cy="150" rx="52" ry="44" fill="#8E86E8"/>'+
@@ -2478,7 +2571,7 @@ function mascotSVG(){
 
   '<path d="M92 128c8-38 40-62 88-62s80 24 88 62c-24-14-54-22-88-22s-64 8-88 22z" fill="#14100F"/>'+
   '<ellipse cx="180" cy="128" rx="92" ry="24" fill="#14100F"/>'+
-  '<circle cx="180" cy="56" r="26" fill="#14100F"/>'+
+  '<circle class="m-pom" cx="180" cy="56" r="26" fill="#14100F"/>'+
 
   '<g>'+
     '<circle cx="140" cy="200" r="34" fill="url(#lens)" stroke="#F6F6F2" stroke-width="6"/>'+
@@ -2899,44 +2992,16 @@ document.addEventListener('click', e=>{
 /* ============================================================
    СПЛЭШ
    ============================================================ */
-const TILE_COLORS = [
-  'radial-gradient(circle at 30% 30%, #A8FFD2, #E8F0FF 70%)',
-  'radial-gradient(circle at 60% 40%, #F7E7A8, #FBD9BE 75%)',
-  'radial-gradient(circle at 40% 35%, #F0A93C, #8B7FD4 80%)',
-  'radial-gradient(circle at 50% 45%, #FF6B4A, #FFE55C 78%)',
-  'radial-gradient(circle at 35% 55%, #7FD4C1, #FF8FB1 80%)',
-  'radial-gradient(circle at 50% 60%, #9A8FEA, #FFC93C 78%)',
-  'radial-gradient(circle at 45% 40%, #E8621F, #7EC8E3 82%)',
-  'radial-gradient(circle at 55% 50%, #FF2D55, #FFD93D 80%)'
-];
 function runSplash(){
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const T = [];
-  const at = (ms, fn)=> T.push(setTimeout(fn, ms));
-
-  $('#spTiles').innerHTML = TILE_COLORS.map((g,i)=>{
-    const d = [3,1,4,0,6,2,7,5][i] * 0.055;
-    return '<div class="sp-tile" style="background:'+g+';animation-delay:'+d+'s"></div>';
-  }).join('');
-
-  if(reduced){ at(900, closeSplash); }
-  else{
-    at(1740, ()=>{ $('#spFlash') && 0; $('.sp-flash').classList.add('on'); });
-    at(2280, ()=>{ $('.sp-flash').classList.remove('on'); void $('.sp-flash').offsetWidth; });
-    at(2320, ()=>{
-      $('#spStage').classList.add('blast');
-      $('#spTiles').classList.add('on');
-      $('.sp-flash').classList.add('on');
-    });
-    at(3260, closeSplash);
-  }
-  $('#spSkip').addEventListener('click', ()=>{ T.forEach(clearTimeout); closeSplash(); });
+  const end = setTimeout(closeSplash, reduced ? 1200 : 6100);
+  $('#spSkip').addEventListener('click', ()=>{ clearTimeout(end); closeSplash(); });
 }
 function closeSplash(){
   const sp = $('#splash');
   if(!sp || sp.classList.contains('hide')) return;
   sp.classList.add('hide');
-  setTimeout(()=>sp.remove(), 820);
+  setTimeout(()=>sp.remove(), 1150);
 }
 
 /* ============================================================
@@ -2958,6 +3023,8 @@ $('#stripLine').innerHTML = (STRIP_BRANDS.map(b=>'<span>'+b+' <em>✦</em></span
 
 renderTabs();
 refreshAll();
+renderCountdown();
+setInterval(renderCountdown, 1000);
 renderChat();
 $('#kwInput').addEventListener('input', e=>setKw(+e.target.value || 0));
 $('#accInput').addEventListener('input', e=>setAcc(+e.target.value || 0));
