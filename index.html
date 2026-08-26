@@ -202,15 +202,18 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 90px}
 .cdown b{font-family:var(--font-display);font-size:15px;font-weight:900;color:var(--accent-ink);
   font-variant-numeric:tabular-nums}
 .cdown span{font-size:10.5px;font-weight:700;color:var(--muted-2);letter-spacing:.3px}
-.countdown{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
-  padding:22px 24px;border-radius:var(--r);margin-bottom:18px;border:1px solid var(--accent-line);
+.countdown{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.cd-card{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  padding:20px 22px;border-radius:var(--r);border:1px solid var(--accent-line);
   background:linear-gradient(120deg,var(--ok-bg),var(--warn-bg))}
-.countdown h3{font-family:var(--font-display);font-size:clamp(20px,2.4vw,26px);font-weight:900;
+.cd-place{font-size:11.5px;color:var(--muted);font-weight:700;margin-top:4px}
+@media(max-width:1100px){.countdown{grid-template-columns:1fr}}
+.cd-card h3{font-family:var(--font-display);font-size:clamp(18px,1.9vw,23px);font-weight:900;
   letter-spacing:-.3px;text-transform:lowercase;margin-top:6px}
 .cd-nums{display:flex;gap:10px}
-.cd-cell{min-width:78px;text-align:center;padding:12px 10px;border-radius:var(--r-sm);
+.cd-cell{min-width:66px;text-align:center;padding:12px 10px;border-radius:var(--r-sm);
   background:var(--surface);border:1px solid var(--line-soft)}
-.cd-cell b{display:block;font-family:var(--font-display);font-size:30px;font-weight:900;line-height:1;
+.cd-cell b{display:block;font-family:var(--font-display);font-size:25px;font-weight:900;line-height:1;
   letter-spacing:-1px;font-variant-numeric:tabular-nums}
 .cd-cell span{display:block;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;
   color:var(--muted-2);margin-top:6px}
@@ -810,7 +813,7 @@ footer a:hover{text-decoration:underline}
 
         <g class="sp-eye l"><path d="M188 108 L351 239 M351 108 L188 239" stroke="#0A0A0A" stroke-width="76" stroke-linecap="round"/></g>
         <g class="sp-eye r"><path d="M436 108 L580 239 M580 108 L436 239" stroke="#0A0A0A" stroke-width="76" stroke-linecap="round"/></g>
-        <path class="sp-mouth" d="M72 338 C68 292 128 268 160 316 C214 560 546 560 600 316 C632 268 692 292 688 338" stroke="#0A0A0A" stroke-width="50" stroke-linecap="round" fill="none"/>
+        <path class="sp-mouth" d="M90 372 C124 372 142 330 172 330 C236 560 524 560 588 330 C618 330 636 372 670 372" stroke="#0A0A0A" stroke-width="50" stroke-linecap="round" fill="none"/>
 
         <g mask="url(#spSheenMask)" class="sp-sheen">
           <path d="M188 108 L351 239 M351 108 L188 239" stroke="#FFFFFF" stroke-width="76" stroke-linecap="round" opacity=".5"/>
@@ -855,13 +858,7 @@ footer a:hover{text-decoration:underline}
 
 <!-- ==================== МЕНЮ ==================== -->
 <section class="view active" id="view-menu">
-  <div class="countdown" id="countdown">
-    <div class="cd-t">
-      <span class="sec-title">До Пикника Афиши 2027</span>
-      <h3 id="cdTitle">7 августа 2027 · Москва, Коломенское</h3>
-    </div>
-    <div class="cd-nums" id="cdNums"></div>
-  </div>
+  <div class="countdown" id="countdown"></div>
 
   <div class="menu-grid">
     <button class="mcard" data-act="go-rent">
@@ -2476,30 +2473,41 @@ function renderClub(){
 /* ============================================================
    ОБРАТНЫЙ ОТСЧЁТ ДО ФЕСТИВАЛЯ
    ============================================================ */
-const FEST = {date:new Date('2027-08-07T12:00:00+03:00'), place:'7 августа 2027 · Москва, Коломенское'};
+const FESTS = [
+  {city:'Москва', gen:'Москвы', place:'Коломенское',
+   date:new Date('2027-06-26T12:00:00+03:00'), d:'26 июня 2027'},
+  {city:'Санкт-Петербург', gen:'Петербурга', place:'Елагин парк',
+   date:new Date('2027-08-07T12:00:00+03:00'), d:'7 августа 2027'}
+];
 function plural(n, one, few, many){
   const n10 = n % 10, n100 = n % 100;
   if(n10 === 1 && n100 !== 11) return one;
   if(n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) return few;
   return many;
 }
+function parts(ms){
+  return {d:Math.floor(ms/86400000), h:Math.floor(ms%86400000/3600000),
+          m:Math.floor(ms%3600000/60000), s:Math.floor(ms%60000/1000)};
+}
 function renderCountdown(){
-  const ms = Math.max(0, FEST.date - Date.now());
-  const d  = Math.floor(ms / 86400000);
-  const h  = Math.floor(ms % 86400000 / 3600000);
-  const mi = Math.floor(ms % 3600000 / 60000);
-  const se = Math.floor(ms % 60000 / 1000);
-  const cells = [
-    [d,  plural(d, 'день','дня','дней')],
-    [h,  plural(h, 'час','часа','часов')],
-    [mi, plural(mi,'минута','минуты','минут')],
-    [se, plural(se,'секунда','секунды','секунд')]
-  ];
-  $('#cdNums').innerHTML = cells.map(([v,l])=>
-    '<div class="cd-cell"><b>'+String(v).padStart(2,'0')+'</b><span>'+l+'</span></div>').join('');
-  $('#cdDays').textContent = d;
-  $('#cdownChip').lastElementChild.textContent = plural(d,'день','дня','дней') + ' до фестиваля';
-  $('#cdTitle').textContent = FEST.place;
+  const now = Date.now();
+  $('#countdown').innerHTML = FESTS.map(f=>{
+    const p = parts(Math.max(0, f.date - now));
+    const cells = [[p.d, plural(p.d,'день','дня','дней')], [p.h, plural(p.h,'час','часа','часов')],
+                   [p.m, plural(p.m,'минута','минуты','минут')], [p.s, plural(p.s,'секунда','секунды','секунд')]];
+    return '<div class="cd-card">'+
+      '<div class="cd-t"><span class="sec-title">До Пикника Афиши 2027</span>'+
+        '<h3>'+f.city.toLowerCase()+' · '+f.d.toLowerCase()+'</h3>'+
+        '<div class="cd-place">'+f.place+'</div></div>'+
+      '<div class="cd-nums">'+ cells.map(([v,l])=>
+        '<div class="cd-cell"><b>'+String(v).padStart(2,'0')+'</b><span>'+l+'</span></div>').join('') +
+      '</div></div>';
+  }).join('');
+
+  const next = FESTS.filter(f=>f.date > now).sort((a,b)=>a.date-b.date)[0] || FESTS[0];
+  const nd = parts(Math.max(0, next.date - now)).d;
+  $('#cdDays').textContent = nd;
+  $('#cdownChip').lastElementChild.textContent = plural(nd,'день','дня','дней') + ' до ' + next.gen;
 }
 
 /* ============================================================
