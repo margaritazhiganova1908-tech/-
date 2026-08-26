@@ -80,61 +80,38 @@ a{color:inherit}
 /* ============ СПЛЭШ ============ */
 #splash{position:fixed;inset:0;z-index:400;background:#00E01E;display:grid;place-items:center;overflow:hidden}
 #splash.hide{animation:splashOut 1.1s cubic-bezier(.65,0,.35,1) forwards;pointer-events:none}
-@keyframes splashOut{
-  0%{opacity:1;transform:scale(1)}
-  100%{opacity:0;transform:scale(1.03);visibility:hidden}
-}
-.sp-bg{position:absolute;inset:0;background:#00E01E;opacity:0;animation:bgIn 1.1s ease forwards}
-@keyframes bgIn{to{opacity:1}}
+@keyframes splashOut{0%{opacity:1}100%{opacity:0;visibility:hidden}}
 
-/* один цветной блок — паттерн из палитры */
-.sp-panel{position:absolute;width:min(78vw,900px);height:min(58vh,540px);border-radius:4px;opacity:0;
-  transform:scale(.94);filter:blur(26px);
-  background:
-    radial-gradient(58% 62% at 18% 26%, #A8FFD2 0%, rgba(168,255,210,0) 62%),
-    radial-gradient(52% 58% at 74% 22%, #FBD9BE 0%, rgba(251,217,190,0) 60%),
-    radial-gradient(56% 60% at 82% 74%, #FF2D55 0%, rgba(255,45,85,0) 58%),
-    radial-gradient(60% 64% at 30% 80%, #9A8FEA 0%, rgba(154,143,234,0) 60%),
-    radial-gradient(48% 52% at 54% 52%, #FFC93C 0%, rgba(255,201,60,0) 62%),
-    linear-gradient(126deg, #E8F0FF 0%, #F7E7A8 34%, #E8621F 66%, #7EC8E3 100%);
-  animation:panelIn 2.6s cubic-bezier(.33,0,.2,1) 2.5s forwards}
-@keyframes panelIn{
-  0%{opacity:0;transform:scale(.94);filter:blur(26px)}
-  60%{opacity:.92;transform:scale(1.005);filter:blur(6px)}
-  100%{opacity:1;transform:scale(1.01);filter:blur(2px)}
-}
-
-.sp-stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:30px;
-  opacity:0;transform:scale(.985);animation:stageIn 1.5s cubic-bezier(.25,.9,.25,1) .45s forwards}
-@keyframes stageIn{to{opacity:1;transform:scale(1)}}
-.sp-face{width:min(70vw,600px)}
+.sp-stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:34px}
+.sp-face{width:min(70vw,620px)}
 .sp-face svg{width:100%;height:auto;display:block;overflow:visible}
 
-/* блик по крестикам — «подмигивание» */
-.sp-sheen{mix-blend-mode:normal;opacity:.9}
-.sp-sheen-rect{animation:sheen 2.3s cubic-bezier(.5,0,.5,1) 1.7s 2}
-@keyframes sheen{
-  0%{transform:translateX(0)}
-  55%{transform:translateX(1500px)}
-  100%{transform:translateX(1500px)}
-}
+/* элементы проявляются из зелёного фона — форма не меняется */
+.sp-eye,.sp-mouth{opacity:0}
+.sp-eye.l{animation:inkIn 1.1s ease-out .45s forwards}
+.sp-eye.r{animation:inkIn 1.1s ease-out .95s forwards}
+.sp-mouth{animation:inkIn 1.4s ease-out 1.5s forwards}
+@keyframes inkIn{to{opacity:1}}
+
+.sp-sheen{opacity:.9}
+.sp-sheen-rect{animation:sheen 2.6s cubic-bezier(.5,0,.5,1) 3.1s 2}
+@keyframes sheen{0%{transform:translateX(0)}55%{transform:translateX(1320px)}100%{transform:translateX(1320px)}}
 
 .sp-word{display:flex;align-items:baseline;gap:12px;font-family:var(--font-display);color:#0A0A0A;
-  opacity:0;animation:wordIn 1.1s cubic-bezier(.25,.9,.25,1) 1.25s forwards}
+  opacity:0;animation:wordIn 1.2s cubic-bezier(.25,.9,.25,1) 2.5s forwards}
 .sp-word span{font-size:14px;font-weight:800;letter-spacing:5px}
 .sp-word b{font-size:30px;font-weight:900;letter-spacing:-.5px;line-height:1}
 @keyframes wordIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
 .sp-logo{position:absolute;top:22px;left:22px;z-index:5;font-family:var(--font-display);font-size:13px;font-weight:800;
-  letter-spacing:.6px;color:#0A0A0A;background:#00E01E;padding:7px 12px;border-radius:8px;
-  opacity:0;animation:spFade .9s .5s forwards}
-.sp-skip{position:absolute;bottom:22px;right:22px;z-index:5;background:#00E01E;font-size:12px;font-weight:700;
-  color:rgba(10,10,10,.65);border:1px solid rgba(10,10,10,.3);border-radius:99px;padding:8px 16px;
-  opacity:0;animation:spFade .8s 1.2s forwards}
+  letter-spacing:.6px;color:#0A0A0A;opacity:0;animation:spFade 1s .25s forwards}
+.sp-skip{position:absolute;bottom:22px;right:22px;z-index:5;font-size:12px;font-weight:700;
+  color:rgba(10,10,10,.6);border:1px solid rgba(10,10,10,.28);border-radius:99px;padding:8px 16px;
+  opacity:0;animation:spFade .9s 1.4s forwards}
 .sp-skip:hover{color:#0A0A0A;border-color:#0A0A0A}
 @keyframes spFade{to{opacity:1}}
 @media(prefers-reduced-motion:reduce){
-  #splash *{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
+  #splash *{animation:none!important;opacity:1!important;transform:none!important}
   .sp-sheen{opacity:0!important}
 }
 
@@ -816,34 +793,28 @@ footer a:hover{text-decoration:underline}
 
 <!-- ==================== СПЛЭШ ==================== -->
 <div id="splash">
-  <div class="sp-bg"></div>
-  <div class="sp-panel" id="spPanel"></div>
-
   <div class="sp-stage" id="spStage">
     <div class="sp-face">
-      <svg viewBox="0 0 760 640" aria-label="Пикник Афиши 2027">
+      <svg viewBox="0 0 760 560" aria-label="Пикник Афиши 2027">
         <defs>
           <linearGradient id="spSheen" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0"   stop-color="#FFFFFF" stop-opacity="0"/>
-            <stop offset="0.42" stop-color="#FFFFFF" stop-opacity="0.85"/>
-            <stop offset="0.58" stop-color="#FFFFFF" stop-opacity="0.85"/>
-            <stop offset="1"   stop-color="#FFFFFF" stop-opacity="0"/>
+            <stop offset="0"    stop-color="#FFFFFF" stop-opacity="0"/>
+            <stop offset="0.42" stop-color="#FFFFFF" stop-opacity="0.8"/>
+            <stop offset="0.58" stop-color="#FFFFFF" stop-opacity="0.8"/>
+            <stop offset="1"    stop-color="#FFFFFF" stop-opacity="0"/>
           </linearGradient>
           <mask id="spSheenMask">
-            <rect class="sp-sheen-rect" x="-560" y="-40" width="360" height="720" fill="url(#spSheen)"/>
+            <rect class="sp-sheen-rect" x="-460" y="-40" width="300" height="640" fill="url(#spSheen)"/>
           </mask>
         </defs>
 
-        <g class="sp-art">
-          <path d="M140 110 L320 300 M320 110 L140 300" stroke="#0A0A0A" stroke-width="92" stroke-linecap="round"/>
-          <path d="M440 110 L620 300 M620 110 L440 300" stroke="#0A0A0A" stroke-width="92" stroke-linecap="round"/>
-          <path d="M58 392 C58 344 122 332 146 380 C206 566 554 566 614 380 C638 332 702 344 702 392"
-                stroke="#0A0A0A" stroke-width="46" fill="none" stroke-linecap="round"/>
-        </g>
+        <g class="sp-eye l"><path d="M188 108 L351 239 M351 108 L188 239" stroke="#0A0A0A" stroke-width="76" stroke-linecap="round"/></g>
+        <g class="sp-eye r"><path d="M436 108 L580 239 M580 108 L436 239" stroke="#0A0A0A" stroke-width="76" stroke-linecap="round"/></g>
+        <path class="sp-mouth" d="M72 338 C68 292 128 268 160 316 C214 560 546 560 600 316 C632 268 692 292 688 338" stroke="#0A0A0A" stroke-width="50" stroke-linecap="round" fill="none"/>
 
         <g mask="url(#spSheenMask)" class="sp-sheen">
-          <path d="M140 110 L320 300 M320 110 L140 300" stroke="#FFFFFF" stroke-width="92" stroke-linecap="round" opacity=".55"/>
-          <path d="M440 110 L620 300 M620 110 L440 300" stroke="#FFFFFF" stroke-width="92" stroke-linecap="round" opacity=".55"/>
+          <path d="M188 108 L351 239 M351 108 L188 239" stroke="#FFFFFF" stroke-width="76" stroke-linecap="round" opacity=".5"/>
+          <path d="M436 108 L580 239 M580 108 L436 239" stroke="#FFFFFF" stroke-width="76" stroke-linecap="round" opacity=".5"/>
         </g>
       </svg>
     </div>
@@ -2994,7 +2965,7 @@ document.addEventListener('click', e=>{
    ============================================================ */
 function runSplash(){
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const end = setTimeout(closeSplash, reduced ? 1200 : 6100);
+  const end = setTimeout(closeSplash, reduced ? 1200 : 6600);
   $('#spSkip').addEventListener('click', ()=>{ clearTimeout(end); closeSplash(); });
 }
 function closeSplash(){
