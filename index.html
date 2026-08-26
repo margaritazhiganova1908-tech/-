@@ -269,60 +269,20 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 90px}
 .ab-hero .btn-acc{background:#0A0A0A;color:#fff}
 .ab-hero .btn-light{background:rgba(255,255,255,.86);color:#0A0A0A;border-color:transparent}
 
-.ab-nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin-bottom:16px}
-.ab-num{padding:20px 18px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)}
-.ab-num b{display:block;font-family:var(--font-display);font-size:clamp(26px,3.4vw,38px);font-weight:900;
-  letter-spacing:-1.4px;line-height:1;color:var(--accent-ink)}
-.ab-num span{display:block;font-size:11.5px;color:var(--muted);font-weight:700;margin-top:8px;line-height:1.4}
-
-.ab-shots{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.ab-shots{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.shot.wide{grid-column:span 2}
 @media(max-width:1000px){.ab-shots{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.ab-shots{grid-template-columns:1fr}}
+@media(max-width:600px){.ab-shots{grid-template-columns:1fr}.shot.wide{grid-column:span 1}}
 .shot{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--surface-2);
   aspect-ratio:4/3;transition:.2s}
+.shot.wide{aspect-ratio:8/3}
+@media(max-width:600px){.shot.wide{aspect-ratio:4/3}}
 .shot:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(36,23,21,.16)}
-.shot svg{width:100%;height:100%;display:block}
+.shot svg,.shot img{width:100%;height:100%;display:block;object-fit:cover}
 .shot figcaption{position:absolute;left:12px;bottom:12px;right:12px;background:rgba(10,10,10,.8);color:#fff;
   border-radius:12px;padding:10px 13px;font-size:12.5px;font-weight:800;letter-spacing:.2px;
   backdrop-filter:blur(3px)}
 .shot figcaption i{display:block;font-style:normal;opacity:.72;font-weight:700;font-size:11px;margin-top:3px}
-
-.ab-sec{margin-bottom:16px}
-.ab-sec>h3{font-family:var(--font-display);font-size:clamp(20px,2.4vw,28px);font-weight:900;letter-spacing:-.4px;
-  text-transform:lowercase;margin-bottom:4px}
-.ab-sec>p.lead{font-size:13px;color:var(--muted);margin-bottom:14px;max-width:78ch;line-height:1.6}
-.ab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.ab-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
-.ab-card h4{font-family:var(--font-display);font-size:17px;font-weight:900;margin-bottom:4px}
-.ab-card .n{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--accent-ink);
-  margin-bottom:9px;display:block}
-.ab-card p{font-size:12.5px;color:var(--muted);line-height:1.6}
-.ab-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
-.ab-chips span{font-size:10.5px;font-weight:800;padding:5px 10px;border-radius:99px;background:var(--surface-2);
-  border:1px solid var(--line-soft)}
-.ab-list{display:flex;flex-direction:column;gap:9px}
-.ab-item{display:grid;grid-template-columns:34px 1fr;gap:13px;align-items:start;background:var(--surface);
-  border:1px solid var(--line);border-radius:var(--r-sm);padding:15px 17px}
-.ab-item i{font-style:normal;font-family:var(--font-display);font-size:19px;font-weight:900;color:var(--accent-ink);
-  line-height:1}
-.ab-item b{display:block;font-size:13.5px;font-weight:800;margin-bottom:3px}
-.ab-item span{font-size:12.5px;color:var(--muted);line-height:1.55}
-.ab-brands{display:flex;flex-wrap:wrap;gap:8px}
-.ab-brands span{font-family:var(--font-display);font-size:14px;font-weight:900;padding:9px 15px;border-radius:12px;
-  background:var(--surface);border:1px solid var(--line)}
-.ab-book{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-.ab-book .b{padding:18px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface)}
-.ab-book .b.hot{border-color:var(--accent);background:var(--ok-bg)}
-.ab-book .b b{display:block;font-family:var(--font-display);font-size:16px;font-weight:900;margin-bottom:6px}
-.ab-book .b span{display:block;font-size:12px;color:var(--muted);line-height:1.55}
-.ab-book .b em{display:block;font-style:normal;font-family:var(--font-display);font-size:22px;font-weight:900;
-  color:var(--accent-ink);margin-top:10px}
-.ab-final{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
-  padding:26px;border-radius:var(--r);background:#0A0A0A;color:#fff}
-.ab-final h3{font-family:var(--font-display);font-size:clamp(22px,3vw,32px);font-weight:900;text-transform:lowercase;
-  letter-spacing:-.5px;line-height:1.05}
-.ab-final p{font-size:12.5px;color:rgba(255,255,255,.7);margin-top:8px;line-height:1.6}
-.ab-final .btn-acc{background:var(--accent);color:#0A0A0A}
 
 /* ============ КАБИНЕТ ============ */
 .g-main{display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
@@ -388,6 +348,23 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 90px}
 .place{background:var(--surface-2);border:1px solid var(--accent-line);border-radius:var(--r-sm);padding:14px;margin-bottom:14px}
 .place .big{font-family:var(--font-display);font-size:21px;font-weight:800;letter-spacing:-.2px}
 .place .sm{font-size:11.5px;color:var(--muted);margin-top:4px}
+
+/* оплаченный счёт: свёрнутая полоса с доплатой */
+.paid-strip{display:grid;grid-template-columns:38px 1fr;gap:13px;align-items:center;
+  padding:16px 18px;margin-bottom:16px;border-radius:var(--r);background:var(--ok-bg);
+  border:1px solid var(--accent-line)}
+.paid-strip .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  background:var(--accent);color:var(--btn-ink);font-size:17px;font-weight:900}
+.paid-strip b{display:block;font-size:13.5px;font-weight:800}
+.paid-strip span{display:block;font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+.paid-strip .acts{grid-column:1 / -1;display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.paid-strip .acts .btn{flex:1;min-width:130px}
+.surch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;
+  border-top:1px dashed var(--line-soft);font-size:12.5px}
+.surch-row b{font-weight:800;white-space:nowrap}
+.surch-row span{color:var(--muted)}
+.paid-note{display:flex;align-items:center;gap:9px;padding:10px 13px;margin-bottom:12px;border-radius:var(--r-sm);
+  background:var(--ok-bg);border:1px solid var(--accent-line);font-size:11.5px;font-weight:700;color:var(--accent-ink)}
 
 /* корнеры в счёте */
 .spots{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}
@@ -1170,8 +1147,8 @@ footer a:hover{text-decoration:underline}
     <button class="mcard sun" data-act="go-about">
       <div class="mc-ic">☀</div>
       <h3>о фестивале</h3>
-      <p>Что такое Пикник Афиши: две площадки, 50 000 гостей за лето, три фуд-корта, VIP-зона и гастрорынок. Цифры, форматы и всё, ради чего сюда стоит попасть.</p>
-      <span class="mc-go">Узнать про фестиваль →</span>
+      <p>Музыкальный фестиваль в двух городах: Коломенское и Елагин остров, две даты лета 2027 года и фотографии с площадок — всё, ради чего сюда стоит приехать.</p>
+      <span class="mc-go">Смотреть фотографии →</span>
     </button>
 
     <button class="mcard blue" data-act="go-news">
@@ -1310,6 +1287,7 @@ footer a:hover{text-decoration:underline}
         <div class="kv" id="comboRow" hidden><span>Комбо-пакет Москва + Петербург</span><b id="sumCombo">—</b></div>
         <div class="kv"><span>Итого за места</span><b id="sumTotal">—</b></div>
         <div class="kv"><span>Оплата мест</span><b id="sumPay">—</b></div>
+        <div id="surchPlace"></div>
 
         <div class="curator-box">
           <div class="cb-head">
@@ -1324,6 +1302,7 @@ footer a:hover{text-decoration:underline}
           <button class="btn btn-light" data-act="pay-place">Загрузить платёжку</button>
         </div>
       </div>
+      <div id="placeDone"></div>
 
       <div class="card side-card" id="cardServ">
         <div class="card-h"><h3>Калькулятор услуг · счёт №ПА-2027-112-У</h3><span class="hint">электричество и аккредитации</span></div>
@@ -1349,11 +1328,13 @@ footer a:hover{text-decoration:underline}
         </div>
         <div class="calc-total"><span>Итого по услугам</span><b id="extraSum">33 000 ₽</b></div>
         <div class="kv" style="margin-top:6px"><span>Оплата услуг</span><b id="servPay">—</b></div>
+        <div id="surchServ"></div>
         <div class="actions" style="margin-top:12px">
           <button class="btn btn-acc" data-act="invoice-serv">Оплатить счёт за услуги</button>
           <button class="btn btn-light" data-act="pay-serv">Загрузить платёжку</button>
         </div>
       </div>
+      <div id="servDone"></div>
 
       <div class="card">
         <div class="card-h">
@@ -1924,6 +1905,9 @@ const S = {
   spots:[],
   paidPlace:false,
   paidServ:false,
+  openPlace:false,
+  openServ:false,
+  surch:[],
   kw:8, acc:6,
   tkSent:0,
   partner:'',
@@ -2671,6 +2655,64 @@ function renderDiscount(){
   $('#discRow').hidden = !on;
   if(on) $('#sumDisc').textContent = '−' + money(discount()) + '  ·  ' + S.disc + '%';
 }
+/* --- доплаты по уже оплаченным счетам --- */
+function surchSum(kind){ return S.surch.filter(x=>x.kind===kind).reduce((t,x)=>t+x.sum, 0); }
+function surchRows(kind){
+  return S.surch.filter(x=>x.kind===kind).map(x=>
+    '<div class="surch-row"><span>Доплата · '+x.note+'<br><i style="font-style:normal;font-size:11px;opacity:.7">'+
+    x.date+'</i></span><b>'+money(x.sum)+'</b></div>').join('');
+}
+function paidStrip(kind){
+  const place = kind === 'place';
+  const paid  = (place ? placeTotal() : servTotal()) + surchSum(kind);
+  const extra = surchSum(kind);
+  return '<div class="paid-strip"><div class="ic">✓</div>'+
+    '<div><b>'+(place ? 'Счёт за места оплачен' : 'Счёт за услуги оплачен')+'</b>'+
+    '<span>'+money(paid)+' · счёт №ПА-2027-112-'+(place?'М':'У')+
+      (extra ? ' · включая доплаты '+money(extra) : '')+
+      '<br>Счёт можно открыть снова и внести доплату — за новый корнер, дополнительное электричество или бейджи.</span></div>'+
+    '<div class="acts">'+
+      '<button class="btn btn-acc btn-sm" data-act="surch" data-k="'+kind+'">Внести доплату</button>'+
+      '<button class="btn btn-light btn-sm" data-act="open-bill" data-k="'+kind+'">Открыть счёт</button>'+
+    '</div></div>';
+}
+function renderPaidBlocks(){
+  const cp = $('#cardPlace'), cs = $('#cardServ');
+  if(cp) cp.hidden = S.paidPlace && !S.openPlace;
+  if(cs) cs.hidden = S.paidServ && !S.openServ;
+  $('#placeDone').innerHTML = (S.paidPlace && !S.openPlace) ? paidStrip('place') : '';
+  $('#servDone').innerHTML  = (S.paidServ  && !S.openServ)  ? paidStrip('serv')  : '';
+  $('#surchPlace').innerHTML = surchRows('place') +
+    (S.paidPlace && S.openPlace ? '<div class="paid-note">Счёт оплачен · можно внести доплату</div>'+
+      '<div class="actions"><button class="btn btn-acc btn-sm" data-act="surch" data-k="place">Внести доплату</button>'+
+      '<button class="btn btn-light btn-sm" data-act="close-bill" data-k="place">Свернуть счёт</button></div>' : '');
+  $('#surchServ').innerHTML = surchRows('serv') +
+    (S.paidServ && S.openServ ? '<div class="paid-note">Счёт оплачен · можно внести доплату</div>'+
+      '<div class="actions"><button class="btn btn-acc btn-sm" data-act="surch" data-k="serv">Внести доплату</button>'+
+      '<button class="btn btn-light btn-sm" data-act="close-bill" data-k="serv">Свернуть счёт</button></div>' : '');
+}
+const SURCH_REASONS = {
+  place:['Дополнительный корнер','Увеличение площади точки','Смена места на более проходное','Прочее по аренде'],
+  serv: ['Дополнительное электричество','Дополнительные аккредитации','Хранение продуктов ночью','Прочие услуги']
+};
+function openSurcharge(kind){
+  const place = kind === 'place';
+  const debt = place
+    ? mySpots().filter(x=>!x.sp.paid).reduce((t,x)=>t+spotPrice(x.c), 0)
+    : 0;
+  modal('<h3>Доплата по счёту №ПА-2027-112-'+(place?'М':'У')+'</h3>'+
+    '<p>Счёт уже оплачен, но по нему можно внести доплату: за новый корнер, дополнительную мощность '+
+    'или бейджи. Доплата уходит тем же счётом, закрывающие документы придут одним пакетом.</p>'+
+    (debt ? '<div class="calc-total"><span>Неоплаченный остаток по счёту</span><b>'+money(debt)+'</b></div>' : '')+
+    '<div class="form-grid">'+
+      '<div class="field"><label>Назначение доплаты</label><select id="scNote">'+
+        SURCH_REASONS[kind].map(r=>'<option>'+r+'</option>').join('')+'</select></div>'+
+      '<div class="field"><label>Сумма доплаты, ₽</label>'+
+        '<input id="scSum" type="number" min="1" step="1000" value="'+(debt || (place ? 180000 : 3000))+'"></div>'+
+    '</div>'+
+    '<div class="mrow"><button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
+    '<button class="btn btn-acc" data-act="surch-ok" data-k="'+kind+'">Оплатить доплату</button></div>');
+}
 function renderSpots(){
   const sp = mySpots();
   $('#spotList').innerHTML = sp.map(({sp:st, c})=>{
@@ -2735,9 +2777,7 @@ function renderSummary(){
                          : '<span class="pill p-warn"><span class="dot"></span>Ожидает оплаты</span>';
   $('#sumPay').innerHTML  = badge(S.paidPlace);
   $('#servPay').innerHTML = badge(S.paidServ);
-  const cp = $('#cardPlace'), cs = $('#cardServ');
-  if(cp) cp.hidden = S.paidPlace;
-  if(cs) cs.hidden = S.paidServ;
+  renderPaidBlocks();
   if(my){
     const n = mySpots().length;
     const txt = spotName(my) + (n > 1 ? '  +' + (n-1) + ' ' + plural(n-1,'корнер','корнера','корнеров') : '');
@@ -3309,6 +3349,78 @@ function shot(kind){
     '<ellipse cx="88" cy="240" rx="15" ry="10" transform="rotate(15 88 240)"/>'+
     '<ellipse cx="336" cy="228" rx="15" ry="10" transform="rotate(35 336 228)"/></g>'+
     '</svg>';
+  if(kind === 'crowd') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
+    head('sky7','#FFD98A','#FFF3DC')+
+    '<rect width="400" height="300" fill="url(#sky7)"/>'+
+    '<circle cx="200" cy="150" r="86" fill="'+P.sun+'"/>'+
+    '<path d="M0 226 C70 200 130 226 200 218 C270 210 330 230 400 212 V300 H0 Z" fill="'+P.lime+'"/>'+
+    '<g fill="'+P.ink+'">'+
+      '<path d="M56 300 v-64 a12 12 0 0 1 24 0 v64 z"/><circle cx="68" cy="226" r="11"/>'+
+      '<path d="M62 236 l-16 -34" stroke="'+P.ink+'" stroke-width="7" stroke-linecap="round"/>'+
+      '<path d="M150 300 v-76 a12 12 0 0 1 24 0 v76 z"/><circle cx="162" cy="214" r="11"/>'+
+      '<path d="M170 224 l18 -38" stroke="'+P.ink+'" stroke-width="7" stroke-linecap="round"/>'+
+      '<path d="M240 300 v-68 a12 12 0 0 1 24 0 v68 z"/><circle cx="252" cy="222" r="11"/>'+
+      '<path d="M330 300 v-80 a12 12 0 0 1 24 0 v80 z"/><circle cx="342" cy="210" r="11"/>'+
+      '<path d="M336 220 l-18 -36" stroke="'+P.ink+'" stroke-width="7" stroke-linecap="round"/>'+
+    '</g>'+
+    '<g fill="'+P.ink+'" opacity=".35">'+
+      '<path d="M104 300 v-54 a11 11 0 0 1 22 0 v54 z"/><circle cx="115" cy="238" r="10"/>'+
+      '<path d="M196 300 v-50 a11 11 0 0 1 22 0 v50 z"/><circle cx="207" cy="242" r="10"/>'+
+      '<path d="M288 300 v-56 a11 11 0 0 1 22 0 v56 z"/><circle cx="299" cy="236" r="10"/>'+
+    '</g></svg>';
+  if(kind === 'picnic') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
+    head('sky8','#BFE8FF','#E7FFD2')+
+    '<rect width="400" height="300" fill="url(#sky8)"/>'+
+    '<circle cx="66" cy="52" r="30" fill="'+P.sun+'"/>'+
+    '<path d="M0 150 C80 128 140 152 210 142 C280 132 340 152 400 138 V300 H0 Z" fill="'+P.lime+'"/>'+
+    '<g stroke="'+P.ink+'" stroke-width="4" fill="'+P.neon+'">'+
+    '<circle cx="330" cy="120" r="30"/><path d="M330 150 v34" /></g>'+
+    '<g transform="rotate(-6 200 230)">'+
+      '<rect x="86" y="196" width="228" height="86" rx="10" fill="'+P.cream+'" stroke="'+P.ink+'" stroke-width="4"/>'+
+      '<g stroke="'+P.pink+'" stroke-width="8" opacity=".9">'+
+        '<path d="M110 196 v86"/><path d="M158 196 v86"/><path d="M206 196 v86"/><path d="M254 196 v86"/><path d="M296 196 v86"/>'+
+        '<path d="M86 216 h228"/><path d="M86 248 h228"/></g>'+
+      '<rect x="86" y="196" width="228" height="86" rx="10" fill="none" stroke="'+P.ink+'" stroke-width="4"/>'+
+    '</g>'+
+    '<g transform="translate(150 168)">'+
+      '<path d="M0 22 h64 l-6 34 h-52 z" fill="'+P.sun+'" stroke="'+P.ink+'" stroke-width="4"/>'+
+      '<path d="M8 22 a24 20 0 0 1 48 0" fill="none" stroke="'+P.ink+'" stroke-width="4"/></g>'+
+    '<g fill="'+P.ink+'"><circle cx="86" cy="182" r="14"/><path d="M66 240 v-40 a20 20 0 0 1 40 0 v40 z"/></g>'+
+    '<g fill="'+P.ink+'" opacity=".75"><circle cx="308" cy="188" r="13"/><path d="M290 244 v-38 a18 18 0 0 1 36 0 v38 z"/></g>'+
+    '</svg>';
+  if(kind === 'food') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
+    head('skyA','#FFE9B8', P.cream)+
+    '<rect width="400" height="300" fill="url(#skyA)"/>'+
+    '<circle cx="200" cy="160" r="118" fill="'+P.cream+'" stroke="'+P.ink+'" stroke-width="5"/>'+
+    '<circle cx="200" cy="160" r="96" fill="none" stroke="'+P.ink+'" stroke-width="2" opacity=".35"/>'+
+    '<g transform="translate(200 160)">'+
+      '<path d="M-62 6 a62 44 0 0 1 124 0 z" fill="'+P.sun+'" stroke="'+P.ink+'" stroke-width="5"/>'+
+      '<path d="M-66 10 h132 a10 10 0 0 1 0 20 h-132 a10 10 0 0 1 0 -20 z" fill="'+P.neon+'" stroke="'+P.ink+'" stroke-width="5"/>'+
+      '<path d="M-64 32 h128 a12 12 0 0 1 0 24 h-128 a12 12 0 0 1 0 -24 z" fill="'+P.pink+'" stroke="'+P.ink+'" stroke-width="5"/>'+
+      '<path d="M-62 56 a62 34 0 0 0 124 0 z" fill="'+P.sun+'" stroke="'+P.ink+'" stroke-width="5"/>'+
+      '<g fill="'+P.ink+'" opacity=".8"><circle cx="-28" cy="-14" r="3.5"/><circle cx="6" cy="-22" r="3.5"/>'+
+      '<circle cx="34" cy="-12" r="3.5"/></g>'+
+    '</g>'+
+    '<g stroke="'+P.ink+'" stroke-width="5" stroke-linecap="round" fill="none">'+
+      '<path d="M44 96 v108"/><path d="M34 96 v34"/><path d="M54 96 v34"/>'+
+      '<path d="M356 96 v108"/><path d="M356 96 a14 22 0 0 0 0 44"/></g>'+
+    '</svg>';
+  if(kind === 'night') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
+    head('sky9','#123A5C','#2B6E8F')+
+    '<rect width="400" height="300" fill="url(#sky9)"/>'+
+    '<g fill="#FFF3DC" opacity=".9"><circle cx="42" cy="42" r="3"/><circle cx="120" cy="26" r="2.4"/>'+
+    '<circle cx="228" cy="38" r="2.6"/><circle cx="330" cy="24" r="3"/><circle cx="372" cy="70" r="2.2"/>'+
+    '<circle cx="76" cy="90" r="2.2"/></g>'+
+    '<circle cx="340" cy="62" r="22" fill="#FFF3DC"/>'+
+    '<g stroke="'+P.neon+'" stroke-width="6" opacity=".55" stroke-linecap="round">'+
+    '<path d="M120 176 L44 54"/><path d="M170 176 L150 44"/><path d="M230 176 L252 44"/><path d="M280 176 L356 58"/></g>'+
+    '<path d="M92 200 v-46 a108 56 0 0 1 216 0 v46 z" fill="'+P.ink+'"/>'+
+    '<path d="M120 198 v-36 a80 44 0 0 1 160 0 v36 z" fill="'+P.pink+'" opacity=".92"/>'+
+    '<rect x="164" y="170" width="72" height="28" rx="6" fill="'+P.ink+'"/>'+
+    '<circle cx="200" cy="162" r="11" fill="'+P.ink+'"/>'+
+    '<rect y="200" width="400" height="100" fill="#0E2438"/>'+
+    crowd(300, '#071726')+
+    '</svg>';
   return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
     head('sky6', P.blue,'#E9FFD0')+
     '<rect width="400" height="300" fill="url(#sky6)"/>'+
@@ -3324,60 +3436,26 @@ function shot(kind){
     '</svg>';
 }
 
-const ABOUT_NUMS = [
-  ['30 000', 'гостей в день в Москве, Коломенское'],
-  ['20 000', 'гостей в день в Петербурге, Елагин остров'],
-  ['70 / 45', 'точек питания: Москва и Петербург'],
-  ['50+ млн', 'медиаохватов: «Афиша», партнёры, соцсети'],
-  ['3 000+', 'гостей VIP-зоны главной сцены'],
-  ['+20%', 'к NPS гостя по сравнению с прошлым сезоном']
-];
 const ABOUT_SHOTS = [
-  ['stage',  'Главная сцена', 'хедлайнеры и 30 000 гостей'],
-  ['court',  'Фуд-корт №1',   '35 корнеров, BBQ и стрит-фуд'],
-  ['vip',    'VIP-зона',      'шеф-столы и средний чек 2 500 ₽'],
-  ['market', 'Фермерский рынок', 'дегустации и мастер-классы'],
-  ['coffee', 'Гастрохаб',     'кофе-корнеры, боулы, мороженое'],
-  ['kids',   'Семейный фуд-корт', 'детская зона и безопасное меню']
+  {k:'stage',  src:'', t:'Главная сцена',     s:'Коломенское · день фестиваля', wide:true},
+  {k:'crowd',  src:'', t:'Танцпол на закате', s:'30 000 гостей в Москве'},
+  {k:'court',  src:'', t:'Фуд-корт у сцены',  s:'корнеры, дым и очередь за бургером'},
+  {k:'picnic', src:'', t:'Пикник на траве',   s:'Елагин остров, Петербург'},
+  {k:'vip',    src:'', t:'VIP-зона',          s:'лаунжи и шеф-столы'},
+  {k:'market', src:'', t:'Фермерский рынок',  s:'дегустации и мастер-классы'},
+  {k:'coffee', src:'', t:'Кофе с утра до ночи', s:'кофе-корнеры и мороженое'},
+  {k:'kids',   src:'', t:'Семейный фуд-корт', s:'детская зона и своя сцена'},
+  {k:'night',  src:'', t:'Вечерний сет',      s:'финал фестивального дня', wide:true},
+  {k:'food',   src:'', t:'Гастрономия крупным планом', s:'фирменные спешлы резидентов'}
 ];
-const ABOUT_COURTS = [
-  ['Фуд-корт №1', 'главный', '35 мест', 'Сердце гастрономии фестиваля рядом с главной сценой: живой огонь, скорость и максимальный трафик.',
-   ['BBQ-зона','сэндвич-бары','паста-бар','пицца','пекарни','анимационные блюда']],
-  ['Фуд-корт №2', 'гастроквартал', '20 мест', 'Мультикультурная карта мира в одном пространстве — кухни, за которыми гости идут специально.',
-   ['Азия','Грузия','Америка','Турция','Россия','Индия']],
-  ['Фуд-корт №3', 'гастрохаб', '15 мест', 'Для кофеманов, адептов ЗОЖ и любителей фишек: лёгкие форматы и напитки без очередей.',
-   ['кофе-корнеры','bubble tea','wellness food','мороженое','смузи']]
-];
-const ABOUT_WHY = [
-  ['₽','Рентабельная выручка за два дня','40 000+ уникальных гостей в Москве и 25 000+ в Петербурге — массовая аудитория, которая приходит пробовать новое.'],
-  ['◎','Запуск нового продукта сразу на два города','Идеальная площадка, чтобы протестировать блюдо, формат и цену на живой аудитории 18–45 лет.'],
-  ['✦','Медиа и контент','Воронка из 50+ млн охватов, гид в «Афиша Рестораны», репосты фестиваля и готовый фото/видео-пакет для ваших соцсетей.'],
-  ['⚙','Управляемый процесс, а не риск','Гарантированный трафик, тех. поддержка 24/7, прогноз по продажам и нагрузке на вашу точку из опыта прошлых фестивалей.']
-];
-const ABOUT_RULES = [
-  ['1','Скорость и простота','Блюда с предсказуемо коротким временем сборки — 2–3 минуты. Высокая оборачиваемость и короткие очереди в пик.'],
-  ['2','Сильное УТП и «фестивальный спешл»','Одно уникальное блюдо, за которым приходят именно к вам и которое активно продвигают соцсети фестиваля.'],
-  ['3','Адекватная ценовая вилка','650–800 ₽ за сытную позицию, которая читается как полноценный обед. Высокий средний чек с одного гостя.'],
-  ['4','Операционная эффективность','Подготовленный персонал, отработанные процессы, простое оборудование. Стабильность качества даже в час-пик.'],
-  ['5','«Инстаграмность» подачи','Яркая, фотогеничная еда: боулы, бабл-ти, авторские лимонады. Бесплатная вирусная реклама и ажиотаж.']
-];
-const ABOUT_BOOK = [
-  ['Раннее бронирование', 'до 31 января 2026', '−10% от стоимости пакета, резидентам 2024 и 2025 годов — −15%', true],
-  ['Стандартная регистрация', '1 марта — 1 июня 2026', 'Стоимость по пакету, предоплата 100% в течение трёх дней', false],
-  ['Поздняя регистрация', '1 июня — 15 июля 2026', 'Стоимость пакета увеличивается на +15%', false]
-];
-const ABOUT_BRANDS = ['Underdog','Skuratov','Surf Coffee','Salatnica','Ozon fresh','Novikov Group',
-  'Smoke BBQ','Catch22','DFF','Mr.Kim','technodöner','Camper Coffee'];
-
 function renderAbout(){
   const f = FESTS;
   $('#aboutBody').innerHTML =
     '<div class="ab-hero">'+
-      '<div class="ab-kicker">музыкально-гастрономический фестиваль</div>'+
+      '<div class="ab-kicker">музыкальный фестиваль</div>'+
       '<h2>пикник афиши 2027 × сбер</h2>'+
       '<p>Точка притяжения локальных креативных сообществ, задающих вектор развития культуры. '+
-      'Два дня, два города, десятки тысяч гостей — и гастрономический фестиваль внутри Пикника: '+
-      'от высокой кухни до классических фуд-траков.</p>'+
+      'Два дня, два города, десятки тысяч гостей — музыка, парк и лето, ради которых сюда возвращаются.</p>'+
       '<div class="ab-dates">'+ f.map(x=>'<div class="ab-date"><b>'+x.d.toLowerCase()+'</b>'+
         '<span>'+x.city+' · '+x.place+' · '+(x.city==='Москва'?'14:00—23:00':'14:00—22:00')+'</span></div>').join('') +'</div>'+
       '<div class="ab-cta">'+
@@ -3385,42 +3463,10 @@ function renderAbout(){
         '<button class="btn btn-light" data-act="city-map">Открыть карту площадки</button>'+
       '</div>'+
     '</div>'+
-
-    '<div class="ab-nums">'+ ABOUT_NUMS.map(([n,t])=>
-      '<div class="ab-num"><b>'+n+'</b><span>'+t+'</span></div>').join('') +'</div>'+
-
-    '<div class="ab-shots">'+ ABOUT_SHOTS.map(([k,t,sub])=>
-      '<figure class="shot">'+shot(k)+
-      '<figcaption>'+t+'<i>'+sub+'</i></figcaption></figure>').join('') +'</div>'+
-
-    '<div class="ab-sec"><h3>три фуд-корта и целая гастроэкосистема</h3>'+
-      '<p class="lead">Для каждой категории гостей — свой подход: от стрит-фуда и фуд-траков до шеф-столов '+
-      'в VIP-зоне, микромаркетов, кофе-вендинга и фермерского рынка. Гость выбирает по вкусу и не стоит в очередях.</p>'+
-      '<div class="ab-grid">'+ ABOUT_COURTS.map(([n,role,size,txt,tags])=>
-        '<div class="ab-card"><span class="n">'+role+' · '+size+'</span><h4>'+n+'</h4><p>'+txt+'</p>'+
-        '<div class="ab-chips">'+tags.map(t=>'<span>'+t+'</span>').join('')+'</div></div>').join('') +'</div></div>'+
-
-    '<div class="ab-sec"><h3>что получает резидент</h3>'+
-      '<div class="ab-list">'+ ABOUT_WHY.map(([ic,t,d])=>
-        '<div class="ab-item"><i>'+ic+'</i><div><b>'+t+'</b><span>'+d+'</span></div></div>').join('') +'</div></div>'+
-
-    '<div class="ab-sec"><h3>пять факторов успеха на фестивале</h3>'+
-      '<p class="lead">Успешный резидент — не обязательно самый известный бренд. Это тот, чей продукт '+
-      'адаптирован к условиям фестиваля: высокий трафик, ограниченное время, конкуренция за внимание.</p>'+
-      '<div class="ab-list">'+ ABOUT_RULES.map(([n,t,d])=>
-        '<div class="ab-item"><i>'+n+'</i><div><b>'+t+'</b><span>'+d+'</span></div></div>').join('') +'</div></div>'+
-
-    '<div class="ab-sec"><h3>когда бронировать</h3>'+
-      '<div class="ab-book">'+ ABOUT_BOOK.map(([t,d,s,hot])=>
-        '<div class="b'+(hot?' hot':'')+'"><b>'+t+'</b><span>'+s+'</span><em>'+d+'</em></div>').join('') +'</div></div>'+
-
-    '<div class="ab-sec"><h3>нам доверяют</h3>'+
-      '<div class="ab-brands">'+ ABOUT_BRANDS.map(b=>'<span>'+b+'</span>').join('') +'</div></div>'+
-
-    '<div class="ab-final"><div><h3>увидимся на пикнике</h3>'+
-      '<p>Куратор фуд-кортов — Маргарита Жиганова · foodcourt@afisha.ru<br>'+
-      'Выберите корнер на схеме площадки и отправьте заявку: место закрепляем после согласования концепции.</p></div>'+
-      '<button class="btn btn-acc" data-act="go-rent">Выбрать место →</button></div>';
+    '<div class="ab-shots">'+ ABOUT_SHOTS.map(ph=>
+      '<figure class="shot'+(ph.wide?' wide':'')+'">'+
+        (ph.src ? '<img src="'+ph.src+'" alt="'+ph.t+'">' : shot(ph.k))+
+        '<figcaption>'+ph.t+'<i>'+ph.s+'</i></figcaption></figure>').join('') +'</div>';
 }
 
 /* ============================================================
@@ -3971,6 +4017,36 @@ document.addEventListener('click', e=>{
       '<button class="btn btn-acc" data-act="pay-place-ok">Оплатить</button></div>');
     return;
   }
+  if(a === 'open-bill'){
+    if(b.dataset.k === 'place') S.openPlace = true; else S.openServ = true;
+    renderPaidBlocks();
+    $(b.dataset.k === 'place' ? '#cardPlace' : '#cardServ').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  if(a === 'close-bill'){
+    if(b.dataset.k === 'place') S.openPlace = false; else S.openServ = false;
+    renderPaidBlocks();
+    return;
+  }
+  if(a === 'surch'){ openSurcharge(b.dataset.k); return; }
+  if(a === 'surch-ok'){
+    const kind = b.dataset.k;
+    const sum = +$('#scSum').value, note = $('#scNote').value;
+    if(!sum || sum < 1) return toast('Укажите сумму', 'Доплата должна быть больше нуля', true);
+    S.surch.push({kind, sum, note, date:new Date().toLocaleDateString('ru-RU') + ' · оплачено'});
+    if(kind === 'place') S.spots.forEach(sp=>{
+      sp.paid = true;
+      const c = CELLS.find(x=>x.uid===sp.uid);
+      if(c){ c.status = 'taken'; c.tenant = 'Underdog'; }
+    });
+    syncPaidPlace();
+    closeModal(); refreshAll();
+    trackAdd('Underdog', 'Внёс доплату по счёту · ' + note + ' — ' + money(sum), 'ok');
+    toast('Доплата принята', note + ' · ' + money(sum));
+    setTimeout(()=>pushMsg('them', 'Доплату получила: ' + note.toLowerCase() + ', ' + money(sum) +
+      '. Всё пройдёт одним пакетом закрывающих документов.'), 1000);
+    return;
+  }
   if(a === 'spot-add'){ openAddSpot(); return; }
   if(a === 'spot-add-ok'){
     const uid = $('#spotSel') && $('#spotSel').value;
@@ -3978,6 +4054,7 @@ document.addEventListener('click', e=>{
     const c = CELLS.find(x=>x.uid===uid);
     c.status = 'hold'; c.tenant = 'Underdog';
     S.spots.push({uid, paid:false});
+    S.openPlace = false;
     closeModal();
     const combo = comboOn();
     syncPaidPlace(); refreshAll();
@@ -4069,10 +4146,9 @@ document.addEventListener('click', e=>{
 /* цвет заставки меняется от захода к заходу: зелёный, розовый, жёлтый, голубой */
 const SPLASH_COLORS = [
   {bg:'#00E01E', name:'зелёный'},
-  {bg:'#FF2E93', name:'розовый'},
   {bg:'#FFC800', name:'жёлтый'},
   {bg:'#7CC7FF', name:'голубой'},
-  {bg:'#FF6B2C', name:'оранжевый'}
+  {bg:'#B7DC1E', name:'лаймовый'}
 ];
 function paintSplash(){
   const sp = $('#splash');
