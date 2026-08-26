@@ -137,7 +137,9 @@ header{position:sticky;top:0;z-index:60;background:color-mix(in srgb, var(--bg) 
 .p-gold{background:linear-gradient(100deg,#F2C230,#FFE9A3);color:#4A3606;border:1px solid rgba(74,54,6,.22)}
 .brand .x{display:inline;color:var(--accent-ink);font-weight:900}
 .ava{width:26px;height:26px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;
-  font-size:11px;font-weight:800;color:var(--accent-ink)}
+  font-size:11px;font-weight:800;color:var(--accent-ink);position:relative;overflow:hidden}
+.ava .ph,.ava .face{position:absolute;inset:0;border-radius:inherit;overflow:hidden}
+.ava .ph img,.ava .face svg{width:100%;height:100%;object-fit:cover;display:block}
 .user span{font-size:12px;color:var(--muted)}
 
 .strip{background:var(--text);color:var(--bg);overflow:hidden;white-space:nowrap}
@@ -201,14 +203,18 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 90px}
   font-variant-numeric:tabular-nums}
 .cdown span{font-size:10.5px;font-weight:700;color:var(--muted-2);letter-spacing:.3px}
 .countdown{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
-.cd-card{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+.countdown{align-items:stretch}
+.cd-card{display:grid;grid-template-rows:auto auto auto auto;row-gap:0;
   padding:20px 22px;border-radius:var(--r);border:1px solid var(--accent-line);
   background:linear-gradient(120deg,var(--ok-bg),var(--warn-bg))}
-.cd-place{font-size:11.5px;color:var(--muted);font-weight:700;margin-top:4px}
+.cd-card .sec-title{height:16px;line-height:16px;display:block}
+.cd-place{font-size:11.5px;color:var(--muted);font-weight:700;height:18px;line-height:18px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:1100px){.countdown{grid-template-columns:1fr}}
-.cd-card h3{font-family:var(--font-display);font-size:clamp(18px,1.9vw,23px);font-weight:900;
-  letter-spacing:-.3px;text-transform:lowercase;margin-top:6px}
-.cd-nums{display:flex;gap:10px}
+.cd-card h3{font-family:var(--font-display);font-size:clamp(15px,1.55vw,20px);font-weight:900;
+  letter-spacing:-.3px;text-transform:lowercase;margin:8px 0 0;height:26px;line-height:26px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cd-nums{display:flex;gap:10px;margin-top:16px;align-self:end}
 .cd-cell{min-width:66px;text-align:center;padding:12px 10px;border-radius:var(--r-sm);
   background:var(--surface);border:1px solid var(--line-soft)}
 .cd-cell b{display:block;font-family:var(--font-display);font-size:25px;font-weight:900;line-height:1;
@@ -480,15 +486,16 @@ svg.plan{width:100%;height:auto;display:block;border-radius:14px;background:var(
 svg.citymap{width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--line-soft)}
 .mapwrap{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line-soft);background:#fff}
 .mapimg{width:100%;height:auto;display:block}
-.pin{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:6px;
+.pin{position:absolute;transform:translate(-11px,-50%);display:flex;align-items:center;gap:6px;
   background:rgba(255,255,255,.92);border:1.5px solid var(--accent-ink);border-radius:99px;
   padding:4px 10px 4px 6px;font-size:10.5px;font-weight:800;color:#241715;white-space:nowrap;
   box-shadow:0 4px 12px rgba(0,0,0,.18);cursor:pointer;transition:.15s;z-index:2}
-.pin:hover{transform:translate(-50%,-50%) scale(1.08);z-index:4}
+.pin:hover{transform:translate(-11px,-50%) scale(1.08);z-index:4;transform-origin:11px 50%}
 .pin-dot{width:9px;height:9px;border-radius:50%;background:var(--accent-ink);flex:none}
 .pin.me{background:#F52016;border-color:#B3150E;color:#fff;z-index:5;animation:pinme 1.5s ease-in-out infinite}
 .pin.me .pin-dot{background:#fff}
-@keyframes pinme{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-58%) scale(1.06)}}
+@keyframes pinme{0%,100%{transform:translate(-11px,-50%) scale(1)}50%{transform:translate(-11px,-58%) scale(1.06)}}
+.pin.me{transform-origin:11px 50%}
 @media(prefers-reduced-motion:reduce){.pin.me{animation:none}}
 @media(max-width:860px){.pin{font-size:9px;padding:3px 7px 3px 5px}.pin-l{display:none}}
 svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-width:2.4px;stroke-linejoin:round}
@@ -529,14 +536,36 @@ svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-wid
   font-family:var(--font-display);font-size:clamp(22px,4vw,34px);font-weight:900;text-align:center;
   letter-spacing:1px;word-break:break-word}
 
-.ad{position:relative;border-radius:var(--r);padding:20px 22px;margin:18px 0}
+.ad-wrap{position:relative;margin:24px 0;padding:3px;border-radius:calc(var(--r) + 4px);
+  background:linear-gradient(115deg,#00E01E,#FF2E93,#FFC800,#00E01E);background-size:320% 320%;
+  animation:adFrame 9s linear infinite;box-shadow:0 16px 40px rgba(36,23,21,.16)}
+@keyframes adFrame{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.ad-wrap>.ad{margin:0}
+.ad-flag{position:absolute;top:-11px;left:20px;z-index:3;display:flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:99px;background:#0A0A0A;color:#fff;font-family:var(--font-display);
+  font-size:10px;font-weight:900;letter-spacing:1.6px;text-transform:uppercase;
+  box-shadow:0 6px 14px rgba(0,0,0,.28)}
+.ad-flag i{width:6px;height:6px;border-radius:50%;background:#00E01E;animation:adBlink 1.3s ease-in-out infinite}
+@keyframes adBlink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+.ad{position:relative;border-radius:var(--r);padding:22px 24px;margin:18px 0;overflow:hidden}
 .ad-mark{position:absolute;top:10px;right:14px;font-size:9.5px;font-weight:800;letter-spacing:1px;
   text-transform:uppercase;color:var(--muted-2)}
 .ad-mark.light{color:rgba(255,255,255,.65)}
-.ad-empty{border:1px dashed var(--line);background:var(--surface-2);display:flex;align-items:center;
-  justify-content:space-between;gap:16px;flex-wrap:wrap}
-.ad-e b{display:block;font-size:14px;font-weight:800}
-.ad-e span{display:block;font-size:11.5px;color:var(--muted-2);margin-top:4px}
+.ad-empty{border:2px dashed var(--accent);display:flex;align-items:center;
+  justify-content:space-between;gap:16px;flex-wrap:wrap;
+  background:
+    repeating-linear-gradient(135deg,var(--ok-bg) 0 14px,transparent 14px 28px),
+    var(--surface-2)}
+.ad-empty::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.55) 50%,transparent 62%);
+  transform:translateX(-120%);animation:adShine 4.4s ease-in-out infinite}
+@keyframes adShine{0%{transform:translateX(-120%)}55%,100%{transform:translateX(120%)}}
+.ad-e{position:relative;z-index:1}
+.ad-e b{display:block;font-family:var(--font-display);font-size:19px;font-weight:900;letter-spacing:-.3px}
+.ad-e span{display:block;font-size:11.5px;color:var(--muted-2);margin-top:5px;font-weight:600}
+.ad-empty .btn{position:relative;z-index:1}
+.ad-812{transition:transform .25s ease}
+.ad-wrap:hover .ad-812{transform:translateY(-2px)}
 
 .ad-812{background:linear-gradient(115deg,#0E1116 0%,#1B2430 46%,#2B1D3A 100%);color:#F4F4F6;overflow:hidden}
 .ad-812::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;
@@ -561,8 +590,10 @@ svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-wid
   .ad-812-logo b{font-size:48px}
 }
 
-#mascot{position:fixed;top:0;left:0;z-index:150;width:104px;pointer-events:none;
-  transition:transform 6.5s cubic-bezier(.45,0,.35,1)}
+#mascot{position:fixed;right:378px;bottom:14px;z-index:181;width:104px;pointer-events:none;
+  transition:right .3s ease,bottom .3s ease}
+#mascot.near-chat{right:24px;bottom:96px}
+#mascot.no-chat{right:24px;bottom:24px}
 #mascot .mc-body{pointer-events:auto;cursor:pointer;animation:mcFloat 3.4s ease-in-out infinite;
   filter:drop-shadow(0 14px 22px rgba(36,23,21,.22))}
 #mascot .mascot{width:104px;height:auto;display:block;animation:none}
@@ -580,17 +611,18 @@ svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-wid
   75%{transform:translate(2px,-3px) rotate(6deg)}
   100%{transform:translate(0,0) rotate(-6deg)}
 }
-#mascot .mс-bubble{position:absolute;left:50%;bottom:100%;transform:translate(-50%,-6px) scale(.7);
+#mascot .mc-bubble{position:absolute;left:50%;bottom:100%;transform:translate(-50%,-6px) scale(.7);
   background:var(--surface);border:1px solid var(--accent-line);border-radius:14px;padding:7px 12px;
   font-family:var(--font-display);font-size:13px;font-weight:800;color:var(--accent-ink);white-space:nowrap;
   opacity:0;transition:.2s cubic-bezier(.3,1.4,.5,1);box-shadow:0 10px 24px rgba(36,23,21,.18)}
-#mascot.tickle .mс-bubble{opacity:1;transform:translate(-50%,-10px) scale(1)}
+#mascot.tickle .mc-bubble{opacity:1;transform:translate(-50%,-10px) scale(1)}
 @media(prefers-reduced-motion:reduce){
   #mascot{transition:none}
   #mascot .mc-body{animation:none}
   #mascot.tickle .mc-body{animation:none}
 }
-@media(max-width:860px){#mascot{width:78px}#mascot .mascot{width:78px}}
+@media(max-width:1100px){#mascot{right:24px;bottom:96px}}
+@media(max-width:860px){#mascot{width:74px;right:16px;bottom:88px}#mascot .mascot{width:74px}}
 
 #tip{position:fixed;z-index:200;pointer-events:none;opacity:0;transform:translateY(4px);
   transition:opacity .12s,transform .12s;background:var(--surface);border:1px solid var(--accent-line);
@@ -657,14 +689,77 @@ svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-wid
 .todo.done{opacity:.55}
 .todo .tx{flex:1;font-size:13px;font-weight:600}
 .todo.done .tx{text-decoration:line-through}
-.cur-row{display:grid;grid-template-columns:38px 1.4fr 120px 1.2fr 84px 84px;gap:14px;align-items:center;
-  padding:12px 10px;border-bottom:1px solid var(--line-soft)}
+.cur-row{display:grid;grid-template-columns:44px 1.4fr 120px 1.2fr 84px 84px;gap:14px;align-items:center;
+  padding:16px 10px 12px;border-bottom:1px solid var(--line-soft)}
 .cur-row:last-child{border-bottom:0}
-.cur-ava{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:12px;font-weight:800;
-  background:var(--surface-3);color:var(--muted);position:relative}
+.cur-ava{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:12.5px;font-weight:900;
+  background:var(--surface-3);color:var(--muted);position:relative;overflow:visible}
 .cur-ava.on{background:var(--ok-bg);color:var(--accent-ink)}
-.cur-ava.on::after{content:"";position:absolute;right:-2px;bottom:-2px;width:11px;height:11px;border-radius:50%;
-  background:#2CB94A;border:2px solid var(--surface)}
+.cur-ava.on::after{content:"";position:absolute;right:-2px;bottom:-2px;width:12px;height:12px;border-radius:50%;
+  background:#2CB94A;border:2px solid var(--surface);z-index:3}
+.cur-ava .ph,.cur-ava .face{position:absolute;inset:0;border-radius:13px;overflow:hidden}
+.cur-ava .ph img,.cur-ava .face svg{width:100%;height:100%;object-fit:cover;display:block}
+/* анимированные реакции над аватаркой */
+.cur-ava .rx{position:absolute;left:50%;top:-4px;transform:translate(-50%,0);font-size:17px;line-height:1;
+  opacity:0;pointer-events:none;filter:drop-shadow(0 3px 5px rgba(0,0,0,.2))}
+.cur-ava.on .rx{animation:rxPop 6s cubic-bezier(.3,1.3,.5,1) infinite}
+.cur-ava .rx:nth-child(2){animation-delay:0s}
+.cur-ava .rx:nth-child(3){animation-delay:1.2s}
+.cur-ava .rx:nth-child(4){animation-delay:2.4s}
+.cur-ava .rx:nth-child(5){animation-delay:3.6s}
+.cur-ava .rx:nth-child(6){animation-delay:4.8s}
+@keyframes rxPop{
+  0%{opacity:0;transform:translate(-50%,6px) scale(.4) rotate(-12deg)}
+  6%{opacity:1;transform:translate(-50%,-10px) scale(1.15) rotate(6deg)}
+  13%{opacity:1;transform:translate(-50%,-16px) scale(1) rotate(-4deg)}
+  20%{opacity:0;transform:translate(-50%,-25px) scale(.75) rotate(8deg)}
+  100%{opacity:0;transform:translate(-50%,-25px) scale(.75)}
+}
+@media(prefers-reduced-motion:reduce){.cur-ava .rx{animation:none!important;opacity:0}}
+
+/* ============ ТРЕКИНГ ДЕЙСТВИЙ ============ */
+.trk{display:flex;flex-direction:column;gap:0;max-height:330px;overflow-y:auto}
+.trk::-webkit-scrollbar{width:6px}
+.trk::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:99px}
+.trk-row{display:grid;grid-template-columns:26px 1fr auto;gap:11px;align-items:start;
+  padding:10px 2px;border-bottom:1px solid var(--line-soft)}
+.trk-row:last-child{border-bottom:0}
+.trk-ic{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;font-size:12px;font-weight:900;
+  background:var(--ok-bg);color:var(--accent-ink)}
+.trk-ic.w{background:var(--warn-bg);color:var(--warn-ink)}
+.trk-ic.n{background:var(--surface-3);color:var(--muted)}
+.trk-t b{display:block;font-size:12.5px;font-weight:700;line-height:1.35}
+.trk-t span{display:block;font-size:11px;color:var(--muted-2);margin-top:3px}
+.trk-time{font-size:10.5px;font-weight:800;color:var(--muted-2);white-space:nowrap;letter-spacing:.3px}
+.trk-live{display:inline-flex;align-items:center;gap:5px}
+.trk-live i{width:6px;height:6px;border-radius:50%;background:#2CB94A;animation:adBlink 1.4s ease-in-out infinite}
+
+/* ============ ТЕХ ХОСТИНГ: ОБОРУДОВАНИЕ И ВЕБИНАР ============ */
+.eq-tbl{width:100%;border-collapse:collapse;margin-top:6px}
+.eq-tbl th{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted-2);
+  text-align:left;padding:0 8px 7px 0}
+.eq-tbl td{padding:0 8px 8px 0;vertical-align:top}
+.eq-tbl input,.eq-tbl select{width:100%;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:9px;color:var(--text);font-size:12.5px;padding:8px 10px;outline:none;font-family:inherit}
+.eq-tbl input:focus,.eq-tbl select:focus{border-color:var(--accent)}
+.eq-del{background:none;color:var(--muted-2);font-size:16px;font-weight:800;padding:6px 8px}
+.eq-sum{display:flex;justify-content:space-between;gap:12px;padding:11px 13px;border-radius:var(--r-sm);
+  background:var(--ok-bg);border:1px solid var(--accent-line);margin-top:4px;font-size:12.5px;font-weight:700}
+.eq-sum b{font-family:var(--font-display);font-size:16px;font-weight:900;color:var(--accent-ink)}
+.host-cur{display:flex;align-items:center;gap:11px;padding:12px 14px;border-radius:var(--r-sm);
+  background:var(--surface-2);border:1px solid var(--line-soft);margin-bottom:14px}
+.host-cur .ava{width:36px;height:36px;flex:none}
+.host-cur b{display:block;font-size:13px;font-weight:800}
+.host-cur span{display:block;font-size:11px;color:var(--muted-2);margin-top:2px}
+.host-cur .pill{margin-left:auto}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:9px;margin:12px 0 4px}
+.slot{text-align:left;padding:11px 13px;border-radius:var(--r-sm);border:1px solid var(--line);
+  background:var(--surface-2);cursor:pointer;transition:.15s}
+.slot:hover{border-color:var(--accent)}
+.slot.on{border-color:var(--accent);background:var(--ok-bg);box-shadow:0 0 0 3px var(--ok-bg)}
+.slot.off{opacity:.45;cursor:not-allowed}
+.slot b{display:block;font-family:var(--font-display);font-size:14px;font-weight:900}
+.slot span{display:block;font-size:11px;color:var(--muted-2);margin-top:3px;font-weight:700}
 .cur-i b{display:block;font-size:13px;font-weight:700}
 .cur-i span{display:block;font-size:11px;color:var(--muted-2);margin-top:2px}
 .cur-bar span{display:block;font-size:11px;color:var(--muted-2);font-weight:700;margin-top:6px}
@@ -672,7 +767,7 @@ svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-wid
 .cur-n b{display:block;font-family:var(--font-display);font-size:15px;font-weight:800}
 .cur-n span{font-size:10px;color:var(--muted-2);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
 @media(max-width:860px){
-  .cur-row{grid-template-columns:38px 1fr auto;gap:10px}
+  .cur-row{grid-template-columns:44px 1fr auto;gap:10px}
   .cur-bar,.cur-n{grid-column:2 / -1;text-align:left}
 }
 
@@ -791,16 +886,36 @@ svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-wid
 }
 
 /* ============ ЧАТ С КУРАТОРОМ ============ */
-#chat{position:fixed;right:20px;bottom:20px;z-index:180;width:340px;max-width:calc(100vw - 32px);
-  background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 44px rgba(36,23,21,.2);
-  display:flex;flex-direction:column;overflow:hidden}
+#chat{position:fixed;right:20px;bottom:20px;z-index:180;width:344px;max-width:calc(100vw - 32px);
+  background:var(--surface);border:2px solid var(--accent);border-radius:18px;
+  box-shadow:0 0 0 6px var(--ok-bg),0 22px 50px rgba(36,23,21,.28);
+  display:flex;flex-direction:column;animation:chatPulse 3.6s ease-in-out infinite}
+@keyframes chatPulse{
+  0%,100%{box-shadow:0 0 0 6px var(--ok-bg),0 22px 50px rgba(36,23,21,.28)}
+  50%{box-shadow:0 0 0 11px var(--ok-bg),0 22px 50px rgba(36,23,21,.28)}
+}
 #chat.min .ch-body,#chat.min .ch-foot{display:none}
-.ch-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface-2);
-  border-bottom:1px solid var(--line-soft);cursor:pointer}
-.ch-head .ava{width:30px;height:30px}
-.ch-head b{font-size:13px;font-weight:700;display:block}
-.ch-head span{font-size:11px;color:var(--accent-ink);font-weight:600}
-.ch-head .ch-toggle{margin-left:auto;font-size:15px;font-weight:800;color:var(--muted-2)}
+.ch-head{display:flex;align-items:center;gap:11px;padding:13px 15px;cursor:pointer;
+  border-radius:15px 15px 0 0;
+  background:linear-gradient(102deg,var(--accent) 0%,var(--accent-2,var(--accent)) 100%);
+  color:var(--btn-ink);position:relative;overflow:hidden}
+.ch-head::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.42) 50%,transparent 60%);
+  transform:translateX(-120%);animation:adShine 5s ease-in-out infinite}
+.ch-head .ava{width:34px;height:34px;border:2px solid var(--btn-ink);background:var(--surface);
+  color:var(--text);font-weight:900;overflow:hidden;flex:none}
+.ch-head .ava img{width:100%;height:100%;object-fit:cover;display:block}
+.ch-head b{font-size:13.5px;font-weight:900;display:block;color:var(--btn-ink);font-family:var(--font-display)}
+.ch-head span{font-size:11px;color:var(--btn-ink);font-weight:700;opacity:.82;
+  display:flex;align-items:center;gap:5px}
+.ch-head span i{width:6px;height:6px;border-radius:50%;background:var(--btn-ink);font-style:normal;
+  animation:adBlink 1.5s ease-in-out infinite}
+.ch-head .ch-toggle{margin-left:auto;font-size:17px;font-weight:900;color:var(--btn-ink);
+  width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.14);display:grid;place-items:center;
+  line-height:1;flex:none}
+.ch-badge{position:absolute;top:-9px;left:-9px;z-index:2;padding:3px 10px;border-radius:99px;
+  background:#FF2E93;color:#fff;font-family:var(--font-display);font-size:9.5px;font-weight:900;
+  letter-spacing:1px;text-transform:uppercase;box-shadow:0 6px 14px rgba(0,0,0,.25)}
 .ch-body{height:246px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
 .ch-body::-webkit-scrollbar{width:6px}
 .ch-body::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:99px}
@@ -808,7 +923,9 @@ svg.citymap text{paint-order:stroke fill;stroke:rgba(255,255,255,.55);stroke-wid
 .msg.them{background:var(--surface-2);border:1px solid var(--line-soft);border-bottom-left-radius:5px;align-self:flex-start}
 .msg.me{background:var(--accent);color:var(--btn-ink);border-bottom-right-radius:5px;align-self:flex-end;font-weight:600}
 .msg .t{display:block;font-size:10px;opacity:.6;margin-top:4px;font-weight:600}
-.ch-foot{display:flex;gap:8px;padding:11px;border-top:1px solid var(--line-soft)}
+.ch-foot{display:flex;gap:8px;padding:11px;border-top:1px solid var(--line-soft);
+  border-radius:0 0 15px 15px}
+#chat.min .ch-head{border-radius:15px}
 .ch-foot input{flex:1;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;
   color:var(--text);font-size:13px;padding:9px 12px;outline:none}
 .ch-foot input:focus{border-color:var(--accent)}
@@ -1074,7 +1191,7 @@ footer a:hover{text-decoration:underline}
         </div>
       </div>
 
-      <div class="card side-card">
+      <div class="card side-card" id="cardPlace">
         <div class="card-h"><h3>Счёт за место</h3><span class="hint">счёт №ПА-2027-112-М</span></div>
         <div class="place">
           <div class="sec-title">Ваше место</div>
@@ -1100,7 +1217,7 @@ footer a:hover{text-decoration:underline}
         </div>
       </div>
 
-      <div class="card side-card">
+      <div class="card side-card" id="cardServ">
         <div class="card-h"><h3>Калькулятор услуг · счёт №ПА-2027-112-У</h3><span class="hint">электричество и аккредитации</span></div>
         <div class="calc">
           <div class="calc-t"><b>Электричество</b><span>3 000 ₽ за 1 кВт</span></div>
@@ -1197,22 +1314,18 @@ footer a:hover{text-decoration:underline}
       <div class="bar" style="margin-top:12px"><i id="todoBar"></i></div>
     </div>
     <div class="card">
-      <div class="card-h"><h3>Быстрые действия</h3></div>
-      <div style="display:flex;flex-direction:column;gap:9px">
-        <button class="btn btn-acc" data-act="go-rent">Открыть карты площадок</button>
-        <button class="btn btn-light" data-act="report">Выгрузить отчёт по городам</button>
-      </div>
+      <div class="card-h"><h3>Трекинг последних действий на сайте</h3>
+        <span class="hint trk-live"><i></i><span id="trkHint">обновляется в реальном времени</span></span></div>
+      <div class="trk" id="trkList"></div>
       <div class="detail">
         <div class="sec-title" style="margin-bottom:10px">Дедлайны</div>
         <div class="kv"><span>Бронь мест</span><b>14 мая</b></div>
         <div class="kv"><span>Меню и тех. карты</span><b>28 мая</b></div>
         <div class="kv"><span>Аккредитация</span><b>20 июня</b></div>
-        <div class="kv"><span>Монтаж</span><b>10 июля</b></div>
+        <div class="kv"><span>Заезд и монтаж</span><b>10 июля</b></div>
       </div>
     </div>
   </div>
-
-  <div id="adAn"></div>
 
   <div class="card" style="margin-bottom:16px">
     <div class="card-h"><h3>Кураторы на смене</h3><span class="hint" id="curHint"></span></div>
@@ -1220,7 +1333,12 @@ footer a:hover{text-decoration:underline}
   </div>
 
   <div class="card">
-    <div class="card-h"><h3>Резиденты фестиваля</h3><span class="hint" id="resHint"></span></div>
+    <div class="card-h"><h3>Резиденты фестиваля</h3>
+      <div style="display:flex;align-items:center;gap:12px;margin-left:auto">
+        <span class="hint" id="resHint"></span>
+        <button class="btn btn-acc btn-sm" data-act="res-xls">Отправить (в экселе)</button>
+      </div>
+    </div>
     <div class="tbl-wrap"><table class="res-table" id="resTable"></table></div>
   </div>
 </section>
@@ -1233,11 +1351,12 @@ footer a:hover{text-decoration:underline}
 </footer>
 
 <div id="chat" class="min" hidden>
+  <span class="ch-badge">чат куратора</span>
   <div class="ch-head" data-act="chat-toggle">
-    <div class="ava">НА</div>
+    <div class="ava" id="chAva">НА</div>
     <div>
       <b>Наталья Арсентьева</b>
-      <span>куратор · онлайн</span>
+      <span><i></i>куратор · на связи</span>
     </div>
     <span class="ch-toggle" id="chToggle">+</span>
   </div>
@@ -1249,7 +1368,7 @@ footer a:hover{text-decoration:underline}
 </div>
 
 <div id="mascot" hidden>
-  <div class="mс-bubble" id="mcBubble">ха-ха-ха!</div>
+  <div class="mc-bubble" id="mcBubble">ха-ха-ха!</div>
   <div class="mc-body" id="mcBody"></div>
 </div>
 
@@ -1632,12 +1751,18 @@ const TODOS = [
   {t:'Обзвон брони', d:'5 мест с истекающей бронью', done:true}
 ];
 
+/* photo — сюда подставляются реальные фотографии кураторов (data:image/...) */
 const CURATORS = [
-  {n:'Наталья Арсентьева', c:'msk', role:'Фуд-корты Москвы',   online:true,  hrs:31.5, res:24, resp:'12 мин', last:'сейчас'},
-  {n:'Алина Пятакова',     c:'spb', role:'Монтаж и логистика',  online:true,  hrs:27.2, res:16, resp:'18 мин', last:'сейчас'},
-  {n:'Егор Лаптев',        c:'msk', role:'VIP и партнёры',      online:false, hrs:19.8, res:9,  resp:'40 мин', last:'14 минут назад'},
-  {n:'Дарья Соколова',     c:'spb', role:'Документы и счета',   online:true,  hrs:24.1, res:18, resp:'9 мин',  last:'сейчас'},
-  {n:'Иван Лебедев',       c:'msk', role:'Тех. хостинг',        online:false, hrs:16.4, res:12, resp:'55 мин', last:'вчера, 21:40'}
+  {n:'Наталья Арсентьева', c:'msk', role:'Фуд-корты Москвы',   online:true,  hrs:31.5, res:24, resp:'12 мин', last:'сейчас',
+   photo:'', face:{sk:'#F6D2B0', hr:'#4B2E1E', bg:'#D9F5CF', cl:'#1F2A37', long:true}},
+  {n:'Алина Пятакова',     c:'spb', role:'Тех хостинг · заезд и монтаж', online:true, hrs:27.2, res:16, resp:'18 мин', last:'сейчас',
+   photo:'', face:{sk:'#F3C9A6', hr:'#1F1A18', bg:'#FFE0EF', cl:'#25313F', long:true}},
+  {n:'Егор Лаптев',        c:'msk', role:'VIP и партнёры',      online:false, hrs:19.8, res:9,  resp:'40 мин', last:'14 минут назад',
+   photo:'', face:{sk:'#EFC59B', hr:'#2C2320', bg:'#E7EEF8', cl:'#33414F'}},
+  {n:'Дарья Соколова',     c:'spb', role:'Документы и счета',   online:true,  hrs:24.1, res:18, resp:'9 мин',  last:'сейчас',
+   photo:'', face:{sk:'#F7D7BB', hr:'#8A5A2B', bg:'#FFF3CC', cl:'#2B3A2E', long:true}},
+  {n:'Иван Лебедев',       c:'msk', role:'Оборудование и электрика', online:false, hrs:16.4, res:12, resp:'55 мин', last:'вчера, 21:40',
+   photo:'', face:{sk:'#EDBF95', hr:'#3D3733', bg:'#E4E9EC', cl:'#3A3F45'}}
 ];
 
 const RATES = {kw:3000, acc:1500};
@@ -1683,7 +1808,9 @@ const CLUB_PERKS = [
    СОСТОЯНИЕ
    ============================================================ */
 const S = {
-  host:{power:false, equip:false, accr:false},
+  host:{equip:false, webinar:false},
+  equip:[],
+  webinarSlot:'',
   docsDone:false,
   view:'menu',
   theme:'picnic',
@@ -1761,6 +1888,7 @@ function go(v){
   renderTabs();
   $('#chat').hidden = !(S.authed && v === 'cab');
   $('#toasts').classList.toggle('up', S.authed && v === 'cab' && !S.chatOpen);
+  mascotPlace();
   window.scrollTo({top:0, behavior:'smooth'});
   if(v==='cab') setTimeout(paintProgress, 60);
   if(v==='an')  renderAnalytics();
@@ -1902,7 +2030,11 @@ function bindCells(){
     g.addEventListener('mouseenter', e=>showTip(c, e));
     g.addEventListener('mousemove', moveTip);
     g.addEventListener('mouseleave', ()=>tip.classList.remove('on'));
-    g.addEventListener('click', ()=>select(c.uid));
+    g.addEventListener('click', ()=>{
+      select(c.uid);
+      tip.classList.remove('on');
+      openCityMap(VENUES.find(x=>x.id===c.venue).city, c.venue, c.uid);
+    });
   });
 }
 function select(uid){
@@ -1993,19 +2125,20 @@ const MAP_META = {
 const MAP_PINS = {
   'msk-fk1':{x:60.5, y:51.5, t:'ФК1'},
   'msk-fk2':{x:59.0, y:11.5, t:'ФК2'},
-  'msk-fk3':{x:68.5, y:47.5, t:'ФК3 Купер'},
-  'msk-family':{x:74.0, y:68.5, t:'Семейный фуд-корт'},
+  'msk-fk3':{x:74.1, y:55.1, t:'ФК3 Купер'},
+  'msk-family':{x:86.4, y:51.0, t:'Семейный фуд-корт'},
   'msk-vip':{x:35.0, y:57.0, t:'VIP фуд-корт'},
-  'msk-ice':{x:62.5, y:36.0, t:'Тележки мороженого'},
-  'msk-popup':{x:66.0, y:41.0, t:'PopUp'},
+  'msk-ice':{x:46.1, y:47.6, t:'Тележки мороженого',
+             extra:[[53.9,27.4],[70.2,58.3],[49.1,62.7],[85.5,56.1]]},
+  'msk-popup':{x:49.1, y:58.6, t:'PopUp'},
   'spb-fk1':{x:60.0, y:30.0, t:'ФК1'},
   'spb-fk2':{x:75.0, y:60.0, t:'ФК2'},
-  'spb-fk3':{x:56.0, y:65.0, t:'ФК3 Купер'},
+  'spb-fk3':{x:51.3, y:40.3, t:'ФК3 Купер'},
   'spb-family':{x:63.0, y:87.0, t:'Семейный фуд-корт'},
-  'spb-vip':{x:89.0, y:34.0, t:'VIP фуд-корт'},
-  'spb-truck':{x:70.0, y:38.0, t:'Фудтраки'},
-  'spb-ice':{x:62.0, y:38.0, t:'Тележки мороженого'},
-  'spb-popup':{x:52.0, y:41.0, t:'PopUp'}
+  'spb-vip':{x:39.5, y:53.5, t:'VIP фуд-корт'},
+  'spb-truck':{x:48.1, y:33.0, t:'Фудтраки'},
+  'spb-ice':{x:55.4, y:46.4, t:'Тележки мороженого', extra:[[60.6,38.2]]},
+  'spb-popup':{x:52.8, y:43.8, t:'PopUp'}
 };
 
 function openCityMap(city, hl, cellUid){
@@ -2024,10 +2157,11 @@ function openCityMap(city, hl, cellUid){
         const on = hl === id;
         const cells = CELLS.filter(x=>x.venue===id && !x.tech);
         const free = cells.filter(x=>x.status==='free').length;
-        return '<button class="pin'+(on?' me':'')+'" style="left:'+p.x+'%;top:'+p.y+'%" '+
+        const one = (x,y,lbl) => '<button class="pin'+(on?' me':'')+'" style="left:'+x+'%;top:'+y+'%" '+
           'data-act="cm-zone" data-v="'+id+'" title="'+p.t+' · свободно '+free+'">'+
           '<span class="pin-dot"></span>'+
-          '<span class="pin-l">'+(on ? 'ВЫ ЗДЕСЬ · '+p.t : p.t)+'</span></button>';
+          (lbl ? '<span class="pin-l">'+(on ? 'ВЫ ЗДЕСЬ · '+p.t : p.t)+'</span>' : '')+'</button>';
+        return one(p.x, p.y, true) + (p.extra||[]).map(([x,y])=>one(x,y,false)).join('');
       }).join('')+
     '</div>'+
     '<div class="legend" style="margin-top:12px">'+
@@ -2130,7 +2264,7 @@ function servTotal(){ return extras(); }
 function estimate(){ return placeTotal() + servTotal(); }
 
 function stageUnits(st){
-  if(st.kind === 'hosting')  return {done:Object.values(S.host).filter(Boolean).length, total:3};
+  if(st.kind === 'hosting')  return {done:Object.values(S.host).filter(Boolean).length, total:2};
   if(st.kind === 'revenue')  return {done:S.revenue ? 1 : 0, total:1};
   if(st.kind === 'docs')     return {done:S.docsDone ? 1 : 0, total:1};
   if(st.kind === 'feedback') return {done:S.fb.sent ? 1 : 0, total:1};
@@ -2169,8 +2303,8 @@ function paintProgress(){
 }
 function stagePreview(st){
   if(st.kind === 'hosting') return [
-    ['Заявка на электричество', S.host.power], ['Список оборудования', S.host.equip],
-    ['Списки на аккредитацию', S.host.accr]];
+    ['Список оборудования и мощности', S.host.equip],
+    ['Запись на вебинар по заезду', S.host.webinar]];
   if(st.kind === 'revenue')  return [['Сумма выручки и количество чеков', !!S.revenue]];
   if(st.kind === 'docs')     return [['УПД, акт, счёт-фактура от организатора', S.docsDone]];
   if(st.kind === 'feedback') return [['Отзыв, оценка куратору, заявка на сезон', S.fb.sent]];
@@ -2205,12 +2339,16 @@ function renderStageTabs(){
 function hostingHTML(){
   const facts = f => f && f.length ? '<div class="h-facts">' + f.map(x=>
       '<div class="h-fact"><span>'+x.k+'</span><b>'+x.v+'</b></div>').join('') + '</div>' : '';
-  return '<div class="actions" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">'+
-      '<button class="btn '+(S.host.power?'btn-light':'btn-acc')+' btn-sm" data-act="req-power">'+
-        (S.host.power?'✓ Заявка на электричество':'Подать заявку на электричество')+'</button>'+
-      '<button class="btn btn-light btn-sm" data-act="req-equip">'+(S.host.equip?'✓ Оборудование':'Оборудование')+'</button>'+
-      '<button class="btn btn-light btn-sm" data-act="req-accr">'+
-        (S.host.accr?'✓ Списки аккредитаций':'Отправить списки аккредитаций')+'</button>'+
+  return '<div class="host-cur">'+
+      '<div class="ava">'+curFace(CURATORS.find(c=>c.n==='Алина Пятакова'), 36)+'</div>'+
+      '<div><b>Алина Пятакова</b><span>куратор тех хостинга · заезд, монтаж, оборудование</span></div>'+
+      '<span class="pill p-ok"><span class="dot"></span>онлайн</span>'+
+    '</div>'+
+    '<div class="actions" style="grid-template-columns:repeat(2,1fr);margin-bottom:14px">'+
+      '<button class="btn '+(S.host.equip?'btn-light':'btn-acc')+' btn-sm" data-act="req-equip">'+
+        (S.host.equip?'✓ Оборудование подано ('+S.equip.length+')':'Подать оборудование')+'</button>'+
+      '<button class="btn '+(S.host.webinar?'btn-light':'btn-acc')+' btn-sm" data-act="req-webinar">'+
+        (S.host.webinar?'✓ Вебинар · '+S.webinarSlot:'Записаться на вебинар по заезду')+'</button>'+
     '</div>'+
     '<div class="h-top"><div><b>'+HOSTING_META.title+'</b><span>'+HOSTING_META.sub+'</span></div>'+
     '<span class="pill p-info">регламент площадки</span></div>' +
@@ -2333,9 +2471,11 @@ function renderStatus(){
     s:'К оплате '+money(servTotal())+' · электричество и аккредитации', act:'invoice-serv'});
   if(dan.length) rows.push({ic:'↑', ok:false, t:'Загрузить документы — '+dan.length,
     s:dan.map(t=>t.t.replace('Загрузить ','')).join(', ')+' · до 28 мая', act:'go-stage', v:'dannye'});
-  const hostLeft = 3 - Object.values(S.host).filter(Boolean).length;
-  if(hostLeft) rows.push({ic:'⚡', ok:false, t:'Тех хостинг — '+hostLeft+' заявки',
-    s:'Электричество, оборудование, списки аккредитаций', act:'go-stage', v:'hosting'});
+  const hostLeft = 2 - Object.values(S.host).filter(Boolean).length;
+  if(hostLeft) rows.push({ic:'⚡', ok:false, t:'Тех хостинг — '+hostLeft+
+    (hostLeft===1?' заявка':' заявки'),
+    s:'Оборудование и запись на вебинар по заезду · куратор Алина Пятакова',
+    act:'go-stage', v:'hosting'});
   if(!S.revenue) rows.push({ic:'₽', ok:false, t:'Сдать данные по выручке',
     s:'Сумма и количество чеков после фестиваля', act:'go-stage', v:'vyruchka'});
   if(!S.fb.sent) rows.push({ic:'✎', ok:false, t:'Оставить обратную связь',
@@ -2400,6 +2540,9 @@ function renderSummary(){
                          : '<span class="pill p-warn"><span class="dot"></span>Ожидает оплаты</span>';
   $('#sumPay').innerHTML  = badge(S.paidPlace);
   $('#servPay').innerHTML = badge(S.paidServ);
+  const cp = $('#cardPlace'), cs = $('#cardServ');
+  if(cp) cp.hidden = S.paidPlace;
+  if(cs) cs.hidden = S.paidServ;
   if(my){
     const v = VENUES.find(x=>x.id===my.venue);
     const txt = (v.id==='msk-fk1' ? 'ФК1 · ' + my.blockLabel.replace('Блок ','блок ') + ' · точка ' + my.num
@@ -2614,8 +2757,162 @@ function openReqForm(){
 }
 
 /* ============================================================
+   ТЕХ ХОСТИНГ: ОБОРУДОВАНИЕ И ВЕБИНАР ПО ЗАЕЗДУ
+   ============================================================ */
+const PLUGS = ['Евро C/F · 220 В 16 А','Schuko · 220 В 16 А','CEE 16 А · 380 В','CEE 32 А · 380 В','CEE 63 А · 380 В'];
+function readEquip(){
+  S.equip = S.equip.map((r,i)=>({
+    n : ($('#eqN'+i)  ? $('#eqN'+i).value  : r.n),
+    q : ($('#eqQ'+i)  ? +$('#eqQ'+i).value : r.q) || 1,
+    kw: ($('#eqK'+i)  ? +$('#eqK'+i).value : r.kw) || 0,
+    pl: ($('#eqP'+i)  ? $('#eqP'+i).value  : r.pl)
+  }));
+}
+function eqSum(){
+  let t = 0, i = 0;
+  while($('#eqK'+i)){ t += (+$('#eqK'+i).value || 0) * (+$('#eqQ'+i).value || 1); i++; }
+  if($('#eqTotal')) $('#eqTotal').textContent = t.toFixed(1).replace('.',',') + ' кВт';
+}
+window.eqSum = eqSum;
+function openEquipForm(){
+  if(!S.equip.length) S.equip = [{n:'Холодильный шкаф', q:1, kw:1.2, pl:PLUGS[0]}];
+  const total = S.equip.reduce((t,r)=>t + (+r.kw||0) * (+r.q||1), 0);
+  modal('<h3>Оборудование корнера</h3>'+
+    '<p>Укажите наименование, количество, мощность и формат розеток. По этому списку тех хостинг '+
+    'считает подключение — на площадке добавить мощность нельзя. Куратор хостинга — Алина Пятакова.</p>'+
+    '<div style="overflow-x:auto"><table class="eq-tbl"><thead><tr>'+
+      '<th style="min-width:170px">Наименование</th><th style="width:76px">Кол-во</th>'+
+      '<th style="width:88px">кВт (шт)</th><th style="min-width:150px">Формат розеток</th><th></th>'+
+    '</tr></thead><tbody>'+
+    S.equip.map((r,i)=>'<tr>'+
+      '<td><input id="eqN'+i+'" value="'+String(r.n).replace(/"/g,'&quot;')+'" placeholder="Холодильный шкаф"></td>'+
+      '<td><input id="eqQ'+i+'" type="number" min="1" step="1" value="'+r.q+'" oninput="eqSum()"></td>'+
+      '<td><input id="eqK'+i+'" type="number" min="0" step="0.1" value="'+r.kw+'" oninput="eqSum()"></td>'+
+      '<td><select id="eqP'+i+'">'+PLUGS.map(x=>
+        '<option'+(x===r.pl?' selected':'')+'>'+x+'</option>').join('')+'</select></td>'+
+      '<td><button class="eq-del" data-act="eq-del" data-i="'+i+'" aria-label="удалить">×</button></td>'+
+    '</tr>').join('')+
+    '</tbody></table></div>'+
+    '<button class="btn btn-light btn-sm" data-act="eq-add" style="margin:4px 0 12px">+ Добавить позицию</button>'+
+    '<div class="eq-sum"><span>Суммарная мощность по списку</span><b id="eqTotal">'+
+      total.toFixed(1).replace('.',',')+' кВт</b></div>'+
+    '<div class="mrow"><button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
+    '<button class="btn btn-acc" data-act="eq-save">Отправить в тех хостинг</button></div>', true);
+}
+const WEBINARS = [
+  {d:'6 июля, вт',  t:'11:00', p:'Коломенское · штаб фестиваля', left:9},
+  {d:'6 июля, вт',  t:'16:00', p:'Коломенское · штаб фестиваля', left:4},
+  {d:'7 июля, ср',  t:'12:00', p:'Коломенское · штаб фестиваля', left:0},
+  {d:'8 июля, чт',  t:'11:00', p:'Елагин парк · тех вход',       left:12},
+  {d:'8 июля, чт',  t:'18:00', p:'Елагин парк · тех вход',       left:6},
+  {d:'9 июля, пт',  t:'10:00', p:'Онлайн-трансляция для регионов', left:30}
+];
+function openWebinar(){
+  modal('<h3>Вебинар по заезду</h3>'+
+    '<p>Разбираем схему заезда, тайминги монтажа, пропуска на транспорт и требования площадки. '+
+    'Ведёт Алина Пятакова, куратор тех хостинга. Выберите удобные дату и время.</p>'+
+    '<div class="slots">'+ WEBINARS.map(w=>{
+      const key = w.d + ' · ' + w.t;
+      const off = w.left === 0;
+      return '<button class="slot'+(S.webinarSlot===key?' on':'')+(off?' off':'')+'"'+
+        (off?'':' data-act="wb-pick" data-v="'+key+'"')+'>'+
+        '<b>'+w.d+' · '+w.t+'</b><span>'+w.p+'</span>'+
+        '<span>'+(off ? 'мест нет' : 'свободно '+w.left+' мест')+'</span></button>';
+    }).join('') +'</div>'+
+    '<div class="mrow"><button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
+    '<button class="btn btn-acc" data-act="wb-save">Записаться</button></div>', true);
+}
+
+/* ============================================================
+   АВАТАРКИ КУРАТОРОВ И РЕАКЦИИ
+   ============================================================ */
+const REACTIONS = ['😄','👍','❤️','👎','🙂'];
+/* если у куратора есть фото — рисуем фото, иначе рисованный портрет */
+function curFace(c, size){
+  if(!c) return '';
+  if(c.photo) return '<span class="ph"><img src="'+c.photo+'" alt="'+c.n+'"></span>';
+  const f = c.face || {sk:'#F2C6A0', hr:'#3A2A22', bg:'#DFF6D8'};
+  return '<span class="face"><svg viewBox="0 0 48 48" aria-label="'+c.n+'">'+
+    '<rect width="48" height="48" fill="'+f.bg+'"/>'+
+    (f.long ? '<path d="M10 46 V26 a14 14 0 0 1 28 0 v20 z" fill="'+f.hr+'"/>' : '')+
+    '<circle cx="24" cy="21" r="11" fill="'+f.sk+'"/>'+
+    (f.long
+      ? '<path d="M13 21 a11 11 0 0 1 22 0 v-3 a11 11 0 0 0 -22 0 z" fill="'+f.hr+'"/>'+
+        '<path d="M13 19 c0-8 4-12 11-12 s11 4 11 12 c-3-6-7-7-11-7 s-8 1-11 7 z" fill="'+f.hr+'"/>'
+      : '<path d="M13 20 c0-9 5-13 11-13 s11 4 11 13 c-2-5-5-7-11-7 s-9 2-11 7 z" fill="'+f.hr+'"/>')+
+    '<circle cx="20" cy="21" r="1.6" fill="#2A1E1A"/><circle cx="28" cy="21" r="1.6" fill="#2A1E1A"/>'+
+    '<path d="M20.5 26 q3.5 3 7 0" stroke="#2A1E1A" stroke-width="1.6" fill="none" stroke-linecap="round"/>'+
+    '<path d="M6 48 v-4 c0-5 8-8 18-8 s18 3 18 8 v4 z" fill="'+(f.cl||'#1F2A37')+'"/>'+
+    '</svg></span>';
+}
+function curAva(c, i){
+  i = i || 0;
+  const list = REACTIONS.slice(i % REACTIONS.length).concat(REACTIONS.slice(0, i % REACTIONS.length));
+  return '<div class="cur-ava'+(c.online?' on':'')+'" title="'+c.n+'">'+
+    curFace(c)+ list.map((e,k)=>'<span class="rx" style="animation-delay:'+
+      ((k * 1.2 + i * 0.7) % 6).toFixed(1)+'s">'+e+'</span>').join('') +'</div>';
+}
+
+/* ============================================================
+   ТРЕКИНГ ПОСЛЕДНИХ ДЕЙСТВИЙ НА САЙТЕ
+   ============================================================ */
+const TRACK_SEED = [
+  ['Underdog',        'Открыл общую карту Москвы и посмотрел своё место', 'n',  2],
+  ['Наталья Арсентьева','Поставила скидку 10% резиденту Underdog',        'ok', 7],
+  ['Poly',            'Загрузил меню и технологические карты',            'ok', 12],
+  ['Smoke BBQ',       'Оплатил счёт за место · 180 000 ₽',                'ok', 18],
+  ['Mr.Kim',          'Подал список оборудования — 6 поз., 9 кВт',        'ok', 26],
+  ['Алина Пятакова',  'Открыла запись на вебинар по заезду',              'n',  35],
+  ['DIZENGOF99',      'Просрочил загрузку реквизитов',                    'w',  48],
+  ['Catch22',         'Забронировал VIP фуд-корт в Петербурге',           'ok', 62],
+  ['Дарья Соколова',  'Выставила счёт №ПА-2027-118-У',                    'n',  75],
+  ['technodöner',     'Оставил обратную связь · оценка 5',                'ok', 96],
+  ['Rusty',           'Записался на вебинар по заезду · 8 июля, 11:00',   'ok', 120],
+  ['SKURATOV',        'Отправил списки на аккредитацию — 9 бейджей',      'ok', 145]
+];
+const TRACK = TRACK_SEED.map(([who,txt,k,min])=>({who, txt, k, at:Date.now() - min*60000}));
+function agoTxt(ms){
+  const m = Math.round(ms/60000);
+  if(m < 1) return 'только что';
+  if(m < 60) return m + ' мин назад';
+  const h = Math.floor(m/60);
+  return h + ' ' + plural(h,'час','часа','часов') + ' назад';
+}
+function trackAdd(who, txt, k){
+  TRACK.unshift({who, txt, k:k||'n', at:Date.now()});
+  TRACK.length = Math.min(TRACK.length, 40);
+  renderTrack();
+}
+function renderTrack(){
+  const el = $('#trkList');
+  if(!el) return;
+  $('#trkHint').textContent = TRACK.length + ' событий за сутки';
+  el.innerHTML = TRACK.slice(0, 14).map(t=>
+    '<div class="trk-row"><div class="trk-ic '+(t.k==='ok'?'':t.k)+'">'+
+      (t.k==='w' ? '!' : t.k==='ok' ? '✓' : '•')+'</div>'+
+      '<div class="trk-t"><b>'+t.txt+'</b><span>'+t.who+'</span></div>'+
+      '<div class="trk-time">'+agoTxt(Date.now() - t.at)+'</div></div>').join('');
+}
+const TRACK_AUTO = [
+  ['Poly','Открыл схему ФК1 и выбрал точку 14','n'],
+  ['Наталья Арсентьева','Ответила в чате куратора','n'],
+  ['Mburger','Загрузил платёжку по счёту за услуги','ok'],
+  ['aaark','Заполнил форму промо-активности','ok'],
+  ['Янки','Посмотрел общую карту Петербурга','n'],
+  ['Дарья Соколова','Отправила закрывающие документы','ok'],
+  ['Camper Coffee','Подал заявку на резидентство','ok']
+];
+function trackTick(){
+  const [w,t,k] = TRACK_AUTO[Math.floor(Math.random()*TRACK_AUTO.length)];
+  trackAdd(w, t, k);
+}
+
+/* ============================================================
    РЕКЛАМНЫЕ МЕСТА
    ============================================================ */
+function adWrap(inner){
+  return '<div class="ad-wrap"><span class="ad-flag"><i></i>Реклама</span>'+inner+'</div>';
+}
 function adSlot(place, size){
   return '<div class="ad ad-empty '+(size||'')+'"><span class="ad-mark">Рекламное место</span>'+
     '<div class="ad-e"><b>Здесь может быть реклама спонсора</b>'+
@@ -2649,8 +2946,7 @@ function mascotInit(){
   const el = $('#mascot');
   el.hidden = false;
   $('#mcBody').innerHTML = mascotSVG();
-  mascotMove();
-  mcTimer = setInterval(mascotMove, 9000);
+  mascotPlace();
   const body = $('#mcBody');
   body.addEventListener('mouseenter', ()=>{
     el.classList.add('tickle');
@@ -2663,14 +2959,13 @@ function mascotInit(){
     setTimeout(()=>el.classList.remove('tickle'), 1400);
   });
 }
-function mascotMove(){
-  const el = $('#mascot');
-  const w = innerWidth, h = innerHeight;
-  const x = 20 + Math.random() * Math.max(60, w - 190);
-  const y = 120 + Math.random() * Math.max(80, h - 300);
-  el.style.transform = 'translate(' + Math.round(x) + 'px,' + Math.round(y) + 'px)';
+/* маскот живёт у окна чата с куратором */
+function mascotPlace(){
+  const el = $('#mascot'), ch = $('#chat');
+  if(!el) return;
+  el.classList.toggle('no-chat', !ch || ch.hidden);
 }
-addEventListener('resize', ()=>mascotMove());
+addEventListener('resize', mascotPlace);
 
 /* ============================================================
    ОБРАТНЫЙ ОТСЧЁТ ДО ФЕСТИВАЛЯ
@@ -2698,9 +2993,9 @@ function renderCountdown(){
     const cells = [[p.d, plural(p.d,'день','дня','дней')], [p.h, plural(p.h,'час','часа','часов')],
                    [p.m, plural(p.m,'минута','минуты','минут')], [p.s, plural(p.s,'секунда','секунды','секунд')]];
     return '<div class="cd-card">'+
-      '<div class="cd-t"><span class="sec-title">До Пикника Афиши 2027</span>'+
-        '<h3>'+f.city.toLowerCase()+' · '+f.d.toLowerCase()+'</h3>'+
-        '<div class="cd-place">'+f.place+'</div></div>'+
+      '<span class="sec-title">До Пикника Афиши 2027</span>'+
+      '<h3>'+f.city.toLowerCase()+' · '+f.d.toLowerCase()+'</h3>'+
+      '<div class="cd-place">'+f.place+'</div>'+
       '<div class="cd-nums">'+ cells.map(([v,l])=>
         '<div class="cd-cell"><b>'+String(v).padStart(2,'0')+'</b><span>'+l+'</span></div>').join('') +
       '</div></div>';
@@ -2809,7 +3104,7 @@ function renderNews(){
       '<div class="nw-meta">'+NEWS_HERO.meta.map(m=>'<span>'+m+'</span>').join('')+'</div></div>'+
     '</div>'+
     '<div class="feed">'+ NEWS.map((n,i)=>
-      (i === 3 ? '<div class="ad-in-feed">'+adClub()+'</div>' : '') +
+      (i === 3 ? '<div class="ad-in-feed">'+adWrap(adClub())+'</div>' : '') +
       '<button class="item" data-act="news-open" data-i="'+i+'">'+
         '<div class="num">'+String(i+1).padStart(2,'0')+'</div>'+
         '<div><h4>'+n.h+'</h4><p>'+n.p+'</p></div>'+
@@ -2898,6 +3193,7 @@ function renderAnalytics(){
   });
   renderResidents();
   renderCurators();
+  renderTrack();
 }
 function renderCurators(){
   const on = CURATORS.filter(c=>c.online).length;
@@ -2905,10 +3201,9 @@ function renderCurators(){
   const max = Math.max(...CURATORS.map(c=>c.hrs));
   $('#curHint').textContent = on + ' из ' + CURATORS.length + ' онлайн · ' +
     total.toFixed(1).replace('.',',') + ' ч на сайте за неделю';
-  $('#curatorList').innerHTML = CURATORS.map(c=>{
+  $('#curatorList').innerHTML = CURATORS.map((c,i)=>{
     const city = CITIES.find(x=>x.id===c.c).name;
-    return '<div class="cur-row">'+
-      '<div class="cur-ava'+(c.online?' on':'')+'">'+c.n.split(' ').map(w=>w[0]).join('')+'</div>'+
+    return '<div class="cur-row">'+ curAva(c, i) +
       '<div class="cur-i"><b>'+c.n+'</b><span>'+c.role+' · '+city+'</span></div>'+
       '<div class="cur-st">'+(c.online
         ? '<span class="pill p-ok"><span class="dot"></span>онлайн</span>'
@@ -2920,7 +3215,7 @@ function renderCurators(){
     '</div>';
   }).join('');
 }
-function renderResidents(){
+function residentRows(){
   const rows = [];
   CITIES.forEach(city=>{
     cityCells(city.id).filter(c=>c.status!=='free').forEach(c=>{
@@ -2930,6 +3225,38 @@ function renderResidents(){
     });
   });
   rows.sort((a,b)=> a.city.localeCompare(b.city) || a.name.localeCompare(b.name));
+  return rows;
+}
+function sendResidents(){
+  const rows = residentRows();
+  modal('<h3>Выгрузка «Резиденты фестиваля»</h3>'+
+    '<p>Таблица со всеми резидентами Москвы и Петербурга: площадка, место, площадь, стоимость и статус. '+
+    'Файл формируется в Excel и уходит на почту департамента торговли.</p>'+
+    '<div class="kv"><span>Строк в выгрузке</span><b>'+rows.length+'</b></div>'+
+    '<div class="kv"><span>Формат</span><b>XLS · Excel</b></div>'+
+    '<div class="kv"><span>Получатели</span><b>Наталья Арсентьева, Маргарита Жиганова</b></div>'+
+    '<div class="mrow"><button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
+    '<button class="btn btn-acc" data-act="res-xls-go">Отправить в Excel</button></div>');
+}
+function downloadResidents(){
+  const rows = residentRows();
+  const head = ['Резидент','Город','Площадка','Место','Площадь','Стоимость, ₽','Статус'];
+  const body = rows.map(r=>[r.name, r.city, r.venue, r.place, r.size,
+    (r.price || ''), STATUS[r.st].t]);
+  const html = '<table border="1"><tr>'+head.map(h=>'<th>'+h+'</th>').join('')+'</tr>'+
+    body.map(r=>'<tr>'+r.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join('')+'</table>';
+  try{
+    const blob = new Blob(['\ufeff<html><head><meta charset="utf-8"></head><body>'+html+'</body></html>'],
+      {type:'application/vnd.ms-excel'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'rezidenty-picnic-2027.xls';
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1200);
+  }catch(e){}
+}
+function renderResidents(){
+  const rows = residentRows();
   $('#resHint').textContent = rows.length + ' резидентов · Москва и Санкт-Петербург';
   $('#resTable').innerHTML =
     '<thead><tr><th>Резидент</th><th>Город</th><th>Площадка</th><th>Место</th><th>Площадь</th>'+
@@ -2956,11 +3283,10 @@ function applyTheme(name){
    ДЕЙСТВИЯ
    ============================================================ */
 function renderAds(){
-  $('#adMenu').innerHTML = adClub('ad-wide');
-  $('#adRent').innerHTML = adSlot('Раздел «Аренда фуд-спота»', 'ad-wide');
-  $('#adClub').innerHTML = adSlot('Раздел «Клуб резидентов»', 'ad-wide');
-  $('#adCab').innerHTML  = adSlot('Кабинет резидента');
-  $('#adAn').innerHTML   = adSlot('Раздел «Аналитика»', 'ad-wide');
+  $('#adMenu').innerHTML = adWrap(adClub('ad-wide'));
+  $('#adRent').innerHTML = adWrap(adSlot('Раздел «Аренда фуд-спота»', 'ad-wide'));
+  $('#adClub').innerHTML = adWrap(adSlot('Раздел «Клуб резидентов»', 'ad-wide'));
+  $('#adCab').innerHTML  = adWrap(adSlot('Кабинет резидента'));
 }
 function refreshAll(){
   renderCityTabs(); renderVenues(); renderSizeFilter(); renderList(); renderDetail();
@@ -3023,6 +3349,14 @@ document.addEventListener('click', e=>{
   }
   if(a === 'tk-download'){ toast('Билеты выгружены', TICKETS.total + ' пригласительных в PDF'); return; }
 
+  if(a === 'res-xls'){ sendResidents(); return; }
+  if(a === 'res-xls-go'){
+    closeModal();
+    downloadResidents();
+    trackAdd('Аналитика', 'Выгрузка «Резиденты фестиваля» отправлена в Excel', 'ok');
+    toast('Файл отправлен', 'rezidenty-picnic-2027.xls · Наталья Арсентьева, Маргарита Жиганова');
+    return;
+  }
   if(a === 'city-map'){ openCityMap(S.city, null, null); return; }
   if(a === 'show-on-map'){
     const c = CELLS.find(x=>x.uid===b.dataset.uid);
@@ -3116,41 +3450,36 @@ document.addEventListener('click', e=>{
   if(a === 'chat-toggle'){ toggleChat(); return; }
   if(a === 'chat-send'){ sendChat(); return; }
 
-  if(a === 'req-power'){
-    modal('<h3>Заявка на электричество</h3>'+
-      '<p>Мощность рассчитывается по списку оборудования. Сейчас в калькуляторе выбрано '+S.kw+' кВт — '+
-      money(S.kw*RATES.kw)+'. Заявку принимаем до монтажа, на площадке увеличить нельзя.</p>'+
-      '<div class="mrow"><button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
-      '<button class="btn btn-acc" data-act="req-ok" data-k="power" data-n="Заявка на электричество">Подать заявку</button></div>');
-    return;
-  }
-  if(a === 'req-equip'){
-    modal('<h3>Оборудование</h3>'+
-      '<p>Пришлите список оборудования с паспортами и мощностью: холодильное, тепловое, витрины, освещение. '+
-      'Габариты не должны выходить за границы точки, открытый огонь и газ — только по согласованию.</p>'+
-      '<div class="drop" data-act="attach"><b>Прикрепить список оборудования</b><span>XLSX или PDF</span></div>'+
-      '<div class="mrow"><button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
-      '<button class="btn btn-acc" data-act="req-ok" data-k="equip" data-n="Список оборудования">Отправить</button></div>');
-    return;
-  }
-  if(a === 'req-accr'){
-    modal('<h3>Списки на аккредитацию</h3>'+
-      '<p>Подайте всех сотрудников, кому нужно попасть на территорию после 11:30. Бейдж выдаётся один раз, '+
-      'проход по паспорту. Сейчас в калькуляторе '+S.acc+' бейджей — '+money(S.acc*RATES.acc)+'.</p>'+
-      '<div class="drop" data-act="attach"><b>Прикрепить список ФИО</b><span>XLSX · до 25.07</span></div>'+
-      '<div class="mrow"><button class="btn btn-light" onclick="closeModal()">Отмена</button>'+
-      '<button class="btn btn-acc" data-act="req-ok" data-k="accr" data-n="Списки на аккредитацию">Отправить</button></div>');
-    return;
-  }
-  if(a === 'req-ok'){
+  if(a === 'req-equip'){ openEquipForm(); return; }
+  if(a === 'eq-add'){ readEquip(); S.equip.push({n:'', q:1, kw:0, pl:'Евро C/F · 220 В 16 А'}); openEquipForm(); return; }
+  if(a === 'eq-del'){ readEquip(); S.equip.splice(+b.dataset.i, 1); openEquipForm(); return; }
+  if(a === 'eq-save'){
+    readEquip();
+    const rows = S.equip.filter(r=>r.n.trim());
+    if(!rows.length) return toast('Добавьте оборудование', 'Нужно хотя бы одно наименование', true);
+    S.equip = rows; S.host.equip = true;
+    const kw = Math.ceil(rows.reduce((t,r)=>t + r.kw * r.q, 0));
+    if(kw > 0){ S.kw = Math.min(60, kw); renderCalc(); renderSummary(); }
     closeModal();
-    if(b.dataset.k) S.host[b.dataset.k] = true;
     renderStageTabs(); renderTasks(); paintProgress(); renderStatus();
-    toast('Отправлено куратору', b.dataset.n + ' · ответ в течение рабочего дня');
-    setTimeout(()=>pushMsg('them', b.dataset.n + ' получила, беру в работу.'), 900);
+    trackAdd('Underdog', 'Подал список оборудования — '+rows.length+' поз., '+kw+' кВт', 'ok');
+    toast('Оборудование отправлено', rows.length + ' позиций · суммарно ' + kw + ' кВт');
+    setTimeout(()=>pushMsg('them', 'Список оборудования получила, передаю Алине Пятаковой в тех хостинг.'), 900);
     return;
   }
-
+  if(a === 'req-webinar'){ openWebinar(); return; }
+  if(a === 'wb-pick'){
+    S.webinarSlot = b.dataset.v; openWebinar(); return;
+  }
+  if(a === 'wb-save'){
+    if(!S.webinarSlot) return toast('Выберите слот', 'Отметьте удобные дату и время', true);
+    S.host.webinar = true; closeModal();
+    renderStageTabs(); renderTasks(); paintProgress(); renderStatus();
+    trackAdd('Underdog', 'Записался на вебинар по заезду · '+S.webinarSlot, 'ok');
+    toast('Вы записаны', 'Вебинар по заезду · ' + S.webinarSlot + ' · напомним за сутки');
+    setTimeout(()=>pushMsg('them', 'Записала вас на вебинар по заезду: ' + S.webinarSlot + '. Вебинар ведёт Алина Пятакова.'), 900);
+    return;
+  }
   if(a === 'rev-send'){
     const sum = +$('#revSum').value, ch = +$('#revChecks').value;
     if(!sum || !ch) return toast('Заполните оба поля', 'Нужны сумма выручки и количество чеков', true);
@@ -3278,7 +3607,29 @@ document.addEventListener('click', e=>{
 /* ============================================================
    СПЛЭШ
    ============================================================ */
+/* цвет заставки меняется от захода к заходу: зелёный, розовый, жёлтый, голубой */
+const SPLASH_COLORS = [
+  {bg:'#00E01E', name:'зелёный'},
+  {bg:'#FF2E93', name:'розовый'},
+  {bg:'#FFC800', name:'жёлтый'},
+  {bg:'#7CC7FF', name:'голубой'},
+  {bg:'#FF6B2C', name:'оранжевый'}
+];
+function paintSplash(){
+  const sp = $('#splash');
+  if(!sp) return;
+  let i = Math.floor(Math.random() * SPLASH_COLORS.length);
+  try{
+    const prev = localStorage.getItem('pa-splash');
+    if(prev !== null && SPLASH_COLORS.length > 1){
+      while(String(i) === prev) i = Math.floor(Math.random() * SPLASH_COLORS.length);
+    }
+    localStorage.setItem('pa-splash', String(i));
+  }catch(e){}
+  sp.style.background = SPLASH_COLORS[i].bg;
+}
 function runSplash(){
+  paintSplash();
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const end = setTimeout(closeSplash, reduced ? 1200 : 5600);
   $('#spSkip').addEventListener('click', ()=>{ clearTimeout(end); closeSplash(); });
@@ -3313,6 +3664,9 @@ setInterval(renderCountdown, 1000);
 mascotInit();
 renderChat();
 renderAds();
+renderTrack();
+setInterval(trackTick, 24000);
+$('#chAva').innerHTML = curFace(CURATORS.find(c=>c.n === ME.curator));
 $('#kwInput').addEventListener('input', e=>setKw(+e.target.value || 0));
 $('#accInput').addEventListener('input', e=>setAcc(+e.target.value || 0));
 runSplash();
