@@ -269,20 +269,41 @@ main{max-width:1400px;margin:0 auto;padding:26px 20px 90px}
 .ab-hero .btn-acc{background:#0A0A0A;color:#fff}
 .ab-hero .btn-light{background:rgba(255,255,255,.86);color:#0A0A0A;border-color:transparent}
 
-.ab-shots{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.shot.wide{grid-column:span 2}
-@media(max-width:1000px){.ab-shots{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.ab-shots{grid-template-columns:1fr}.shot.wide{grid-column:span 1}}
-.shot{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--surface-2);
-  aspect-ratio:4/3;transition:.2s}
-.shot.wide{aspect-ratio:8/3}
-@media(max-width:600px){.shot.wide{aspect-ratio:4/3}}
-.shot:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(36,23,21,.16)}
-.shot svg,.shot img{width:100%;height:100%;display:block;object-fit:cover}
-.shot figcaption{position:absolute;left:12px;bottom:12px;right:12px;background:rgba(10,10,10,.8);color:#fff;
-  border-radius:12px;padding:10px 13px;font-size:12.5px;font-weight:800;letter-spacing:.2px;
-  backdrop-filter:blur(3px)}
-.shot figcaption i{display:block;font-style:normal;opacity:.72;font-weight:700;font-size:11px;margin-top:3px}
+.ab-dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:12px}
+.ab-num{position:relative;overflow:hidden;padding:22px 20px;border-radius:var(--r);background:var(--surface);
+  border:1px solid var(--line);transition:.2s}
+.ab-num:hover{transform:translateY(-3px);border-color:var(--accent-line);box-shadow:0 14px 34px rgba(36,23,21,.12)}
+.ab-num .cap{display:block;font-size:10.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--muted-2);margin-bottom:12px}
+.ab-num b{display:block;font-family:var(--font-display);font-size:clamp(30px,3.8vw,44px);font-weight:900;
+  letter-spacing:-1.8px;line-height:1;color:var(--accent-ink)}
+.ab-num span{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-top:9px;line-height:1.45}
+.ab-num.hot{background:linear-gradient(120deg,var(--ok-bg),var(--surface-2));border-color:var(--accent-line)}
+.ab-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;margin-bottom:12px}
+.ab-panel-h{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.ab-panel-h h3{font-family:var(--font-display);font-size:19px;font-weight:900;letter-spacing:-.3px;text-transform:lowercase}
+.ab-panel-h span{font-size:11.5px;color:var(--muted-2);font-weight:700}
+.ab-cmp{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line-soft)}
+.ab-cmp:last-child{border-bottom:0}
+.ab-cmp .lbl{width:190px;flex:none;font-size:12.5px;font-weight:700}
+.ab-cmp .lbl small{display:block;color:var(--muted-2);font-size:10.5px;font-weight:600;margin-top:2px}
+.ab-cmp .pair{flex:1;display:flex;flex-direction:column;gap:7px;min-width:0}
+.ab-cmp .line{display:flex;align-items:center;gap:10px}
+.ab-cmp .city{width:74px;flex:none;font-size:11px;font-weight:800;color:var(--muted-2)}
+.ab-cmp .track{flex:1;height:10px;border-radius:99px;background:var(--surface-3);overflow:hidden;min-width:40px}
+.ab-cmp .track i{display:block;height:100%;border-radius:99px;width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.ab-cmp .v{width:96px;text-align:right;font-size:12.5px;font-weight:800;white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.ab-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.ab-fact{display:grid;grid-template-columns:30px 1fr;gap:11px;align-items:start;padding:13px 15px;
+  border-radius:var(--r-sm);background:var(--surface-2);border:1px solid var(--line-soft)}
+.ab-fact i{font-style:normal;font-family:var(--font-display);font-size:16px;font-weight:900;color:var(--accent-ink)}
+.ab-fact b{display:block;font-size:12.5px;font-weight:800}
+.ab-fact span{display:block;font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+@media(max-width:720px){
+  .ab-cmp{flex-direction:column;align-items:stretch;gap:8px}
+  .ab-cmp .lbl{width:auto}
+}
 
 /* ============ КАБИНЕТ ============ */
 .g-main{display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
@@ -3245,209 +3266,32 @@ function renderCountdown(){
 /* ============================================================
    О ФЕСТИВАЛЕ
    ============================================================ */
-/* «фотографии» фестиваля — рисованные постеры в фирменной палитре */
-function shot(kind){
-  const P = {lime:'#B7DC1E', neon:'#00E01E', pink:'#FF6FD8', blue:'#7CC7FF',
-             sun:'#FFC800', ink:'#0A0A0A', cream:'#FFF3DC', deep:'#1273B8'};
-  const head = (id,a,b)=>'<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1">'+
-    '<stop offset="0" stop-color="'+a+'"/><stop offset="1" stop-color="'+b+'"/></linearGradient></defs>';
-  const crowd = (y,c)=>{
-    let g = '';
-    for(let i=0;i<15;i++){
-      const x = -6 + i*28 + (i%3)*5, h = 26 + (i%4)*7;
-      g += '<circle cx="'+(x+10)+'" cy="'+(y-h)+'" r="8.5" fill="'+c+'"/>'+
-           '<path d="M'+x+' '+y+' v-'+h+' a10 10 0 0 1 20 0 v'+h+' z" fill="'+c+'"/>';
-    }
-    return g;
-  };
-  if(kind === 'stage') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
-    head('sky1', P.blue, '#FFE7B0')+
-    '<rect width="400" height="300" fill="url(#sky1)"/>'+
-    '<circle cx="312" cy="74" r="46" fill="'+P.sun+'"/>'+
-    '<path d="M0 214 C60 182 128 208 196 198 C262 188 330 210 400 192 V300 H0 Z" fill="'+P.lime+'"/>'+
-    '<path d="M104 208 v-52 a96 52 0 0 1 192 0 v52 z" fill="'+P.ink+'"/>'+
-    '<path d="M130 206 v-42 a70 40 0 0 1 140 0 v42 z" fill="'+P.neon+'"/>'+
-    '<rect x="150" y="176" width="100" height="30" rx="6" fill="'+P.ink+'"/>'+
-    '<circle cx="200" cy="168" r="12" fill="'+P.ink+'"/>'+
-    '<rect x="86" y="150" width="16" height="58" rx="4" fill="'+P.ink+'"/>'+
-    '<rect x="298" y="150" width="16" height="58" rx="4" fill="'+P.ink+'"/>'+
-    '<circle cx="94" cy="144" r="9" fill="'+P.pink+'"/><circle cx="306" cy="144" r="9" fill="'+P.pink+'"/>'+
-    crowd(300, P.ink)+
-    '<g fill="'+P.pink+'"><rect x="60" y="48" width="9" height="9" rx="2" transform="rotate(20 64 52)"/>'+
-    '<rect x="150" y="34" width="8" height="8" rx="2" transform="rotate(-15 154 38)"/>'+
-    '<rect x="248" y="52" width="8" height="8" rx="2" transform="rotate(30 252 56)"/></g>'+
-    '<g fill="'+P.sun+'"><rect x="104" y="66" width="7" height="7" rx="2"/><rect x="216" y="30" width="7" height="7" rx="2"/></g>'+
-    '</svg>';
-  if(kind === 'court'){
-    const stall = (x,c)=>'<g>'+
-      '<rect x="'+x+'" y="150" width="104" height="86" rx="7" fill="'+P.cream+'" stroke="'+P.ink+'" stroke-width="3"/>'+
-      '<path d="M'+(x-8)+' 150 h120 l-12 -30 h-96 z" fill="'+c+'" stroke="'+P.ink+'" stroke-width="3" stroke-linejoin="round"/>'+
-      '<rect x="'+(x+10)+'" y="176" width="84" height="34" rx="4" fill="'+P.ink+'"/>'+
-      '<rect x="'+(x+16)+'" y="182" width="30" height="9" rx="3" fill="'+P.neon+'"/>'+
-      '<rect x="'+(x+52)+'" y="182" width="26" height="9" rx="3" fill="'+P.sun+'"/>'+
-      '<rect x="'+(x+16)+'" y="196" width="46" height="7" rx="3" fill="'+P.pink+'"/>'+
-      '</g>';
-    return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
-      head('sky2','#CFEBFF', P.cream)+
-      '<rect width="400" height="300" fill="url(#sky2)"/>'+
-      '<circle cx="66" cy="56" r="34" fill="'+P.sun+'"/>'+
-      '<rect y="236" width="400" height="64" fill="'+P.lime+'"/>'+
-      stall(24, P.pink)+stall(150, P.neon)+stall(276, P.blue)+
-      crowd(300, P.ink)+
-      '<g stroke="'+P.ink+'" stroke-width="3" fill="none" opacity=".5">'+
-      '<path d="M78 140 c8 -12 -8 -20 0 -32"/><path d="M204 140 c8 -12 -8 -20 0 -32"/>'+
-      '<path d="M330 140 c8 -12 -8 -20 0 -32"/></g>'+
-      '</svg>';
-  }
-  if(kind === 'vip') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
-    head('sky3','#FFB0E4','#FFE3B8')+
-    '<rect width="400" height="300" fill="url(#sky3)"/>'+
-    '<circle cx="204" cy="112" r="58" fill="'+P.sun+'"/>'+
-    '<rect y="196" width="400" height="104" fill="'+P.lime+'"/>'+
-    '<path d="M60 196 v-70" stroke="'+P.ink+'" stroke-width="5"/>'+
-    '<path d="M8 128 a52 34 0 0 1 104 0 z" fill="'+P.pink+'" stroke="'+P.ink+'" stroke-width="4"/>'+
-    '<path d="M320 196 v-70" stroke="'+P.ink+'" stroke-width="5"/>'+
-    '<path d="M268 128 a52 34 0 0 1 104 0 z" fill="'+P.neon+'" stroke="'+P.ink+'" stroke-width="4"/>'+
-    '<rect x="130" y="200" width="140" height="42" rx="12" fill="'+P.ink+'"/>'+
-    '<rect x="140" y="188" width="120" height="20" rx="9" fill="'+P.cream+'"/>'+
-    '<rect x="176" y="246" width="48" height="10" rx="5" fill="'+P.ink+'" opacity=".35"/>'+
-    '<g transform="translate(48 206)"><path d="M0 0 h30 l-9 22 h-12 z" fill="'+P.cream+'" stroke="'+P.ink+'" stroke-width="3"/>'+
-    '<rect x="12" y="22" width="6" height="16" fill="'+P.ink+'"/><rect x="4" y="38" width="22" height="5" rx="2" fill="'+P.ink+'"/></g>'+
-    '<g transform="translate(316 206)"><path d="M0 0 h30 l-9 22 h-12 z" fill="'+P.cream+'" stroke="'+P.ink+'" stroke-width="3"/>'+
-    '<rect x="12" y="22" width="6" height="16" fill="'+P.ink+'"/><rect x="4" y="38" width="22" height="5" rx="2" fill="'+P.ink+'"/></g>'+
-    '</svg>';
-  if(kind === 'market') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
-    head('sky4', P.cream, '#FFDCA8')+
-    '<rect width="400" height="300" fill="url(#sky4)"/>'+
-    '<g stroke="'+P.ink+'" stroke-width="3">'+
-    '<path d="M-10 92 h420" />'+
-    '</g>'+
-    '<g>'+[0,1,2,3,4,5,6,7].map(i=>'<path d="M'+(-10+i*54)+' 92 h54 v34 z" fill="'+(i%2?P.pink:P.neon)+
-      '" stroke="'+P.ink+'" stroke-width="3"/>').join('')+'</g>'+
-    '<rect y="232" width="400" height="68" fill="'+P.lime+'"/>'+
-    '<g stroke="'+P.ink+'" stroke-width="3" fill="'+P.cream+'">'+
-    '<rect x="34" y="176" width="96" height="58" rx="6"/><rect x="152" y="164" width="96" height="70" rx="6"/>'+
-    '<rect x="270" y="182" width="96" height="52" rx="6"/></g>'+
-    '<g fill="'+P.pink+'"><circle cx="60" cy="190" r="10"/><circle cx="84" cy="186" r="12"/><circle cx="108" cy="192" r="9"/></g>'+
-    '<g fill="'+P.sun+'"><circle cx="178" cy="178" r="11"/><circle cx="204" cy="174" r="13"/><circle cx="230" cy="180" r="10"/></g>'+
-    '<g fill="'+P.deep+'"><circle cx="296" cy="196" r="10"/><circle cx="320" cy="192" r="12"/><circle cx="344" cy="198" r="9"/></g>'+
-    '<rect x="150" y="120" width="100" height="30" rx="8" fill="'+P.ink+'"/>'+
-    '<rect x="162" y="130" width="76" height="10" rx="5" fill="'+P.neon+'"/>'+
-    '</svg>';
-  if(kind === 'coffee') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
-    head('sky5','#DFF3B8','#FFF6E6')+
-    '<rect width="400" height="300" fill="url(#sky5)"/>'+
-    '<circle cx="330" cy="70" r="40" fill="'+P.pink+'" opacity=".8"/>'+
-    '<g stroke="'+P.ink+'" stroke-width="4" fill="none" opacity=".8">'+
-    '<path d="M150 108 c12 -18 -12 -28 0 -46"/><path d="M186 104 c12 -20 -12 -30 0 -50"/>'+
-    '<path d="M222 108 c12 -18 -12 -28 0 -46"/></g>'+
-    '<path d="M120 130 h150 l-16 108 a20 20 0 0 1 -20 16 h-78 a20 20 0 0 1 -20 -16 z" fill="'+P.cream+'" stroke="'+P.ink+'" stroke-width="5"/>'+
-    '<path d="M126 158 h138 l-6 40 h-126 z" fill="'+P.neon+'"/>'+
-    '<path d="M272 150 a34 34 0 0 1 0 62" fill="none" stroke="'+P.ink+'" stroke-width="10" stroke-linecap="round"/>'+
-    '<rect x="96" y="252" width="200" height="12" rx="6" fill="'+P.ink+'"/>'+
-    '<g fill="'+P.ink+'"><ellipse cx="60" cy="212" rx="15" ry="10" transform="rotate(-25 60 212)"/>'+
-    '<ellipse cx="88" cy="240" rx="15" ry="10" transform="rotate(15 88 240)"/>'+
-    '<ellipse cx="336" cy="228" rx="15" ry="10" transform="rotate(35 336 228)"/></g>'+
-    '</svg>';
-  if(kind === 'crowd') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
-    head('sky7','#FFD98A','#FFF3DC')+
-    '<rect width="400" height="300" fill="url(#sky7)"/>'+
-    '<circle cx="200" cy="150" r="86" fill="'+P.sun+'"/>'+
-    '<path d="M0 226 C70 200 130 226 200 218 C270 210 330 230 400 212 V300 H0 Z" fill="'+P.lime+'"/>'+
-    '<g fill="'+P.ink+'">'+
-      '<path d="M56 300 v-64 a12 12 0 0 1 24 0 v64 z"/><circle cx="68" cy="226" r="11"/>'+
-      '<path d="M62 236 l-16 -34" stroke="'+P.ink+'" stroke-width="7" stroke-linecap="round"/>'+
-      '<path d="M150 300 v-76 a12 12 0 0 1 24 0 v76 z"/><circle cx="162" cy="214" r="11"/>'+
-      '<path d="M170 224 l18 -38" stroke="'+P.ink+'" stroke-width="7" stroke-linecap="round"/>'+
-      '<path d="M240 300 v-68 a12 12 0 0 1 24 0 v68 z"/><circle cx="252" cy="222" r="11"/>'+
-      '<path d="M330 300 v-80 a12 12 0 0 1 24 0 v80 z"/><circle cx="342" cy="210" r="11"/>'+
-      '<path d="M336 220 l-18 -36" stroke="'+P.ink+'" stroke-width="7" stroke-linecap="round"/>'+
-    '</g>'+
-    '<g fill="'+P.ink+'" opacity=".35">'+
-      '<path d="M104 300 v-54 a11 11 0 0 1 22 0 v54 z"/><circle cx="115" cy="238" r="10"/>'+
-      '<path d="M196 300 v-50 a11 11 0 0 1 22 0 v50 z"/><circle cx="207" cy="242" r="10"/>'+
-      '<path d="M288 300 v-56 a11 11 0 0 1 22 0 v56 z"/><circle cx="299" cy="236" r="10"/>'+
-    '</g></svg>';
-  if(kind === 'picnic') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
-    head('sky8','#BFE8FF','#E7FFD2')+
-    '<rect width="400" height="300" fill="url(#sky8)"/>'+
-    '<circle cx="66" cy="52" r="30" fill="'+P.sun+'"/>'+
-    '<path d="M0 150 C80 128 140 152 210 142 C280 132 340 152 400 138 V300 H0 Z" fill="'+P.lime+'"/>'+
-    '<g stroke="'+P.ink+'" stroke-width="4" fill="'+P.neon+'">'+
-    '<circle cx="330" cy="120" r="30"/><path d="M330 150 v34" /></g>'+
-    '<g transform="rotate(-6 200 230)">'+
-      '<rect x="86" y="196" width="228" height="86" rx="10" fill="'+P.cream+'" stroke="'+P.ink+'" stroke-width="4"/>'+
-      '<g stroke="'+P.pink+'" stroke-width="8" opacity=".9">'+
-        '<path d="M110 196 v86"/><path d="M158 196 v86"/><path d="M206 196 v86"/><path d="M254 196 v86"/><path d="M296 196 v86"/>'+
-        '<path d="M86 216 h228"/><path d="M86 248 h228"/></g>'+
-      '<rect x="86" y="196" width="228" height="86" rx="10" fill="none" stroke="'+P.ink+'" stroke-width="4"/>'+
-    '</g>'+
-    '<g transform="translate(150 168)">'+
-      '<path d="M0 22 h64 l-6 34 h-52 z" fill="'+P.sun+'" stroke="'+P.ink+'" stroke-width="4"/>'+
-      '<path d="M8 22 a24 20 0 0 1 48 0" fill="none" stroke="'+P.ink+'" stroke-width="4"/></g>'+
-    '<g fill="'+P.ink+'"><circle cx="86" cy="182" r="14"/><path d="M66 240 v-40 a20 20 0 0 1 40 0 v40 z"/></g>'+
-    '<g fill="'+P.ink+'" opacity=".75"><circle cx="308" cy="188" r="13"/><path d="M290 244 v-38 a18 18 0 0 1 36 0 v38 z"/></g>'+
-    '</svg>';
-  if(kind === 'food') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
-    head('skyA','#FFE9B8', P.cream)+
-    '<rect width="400" height="300" fill="url(#skyA)"/>'+
-    '<circle cx="200" cy="160" r="118" fill="'+P.cream+'" stroke="'+P.ink+'" stroke-width="5"/>'+
-    '<circle cx="200" cy="160" r="96" fill="none" stroke="'+P.ink+'" stroke-width="2" opacity=".35"/>'+
-    '<g transform="translate(200 160)">'+
-      '<path d="M-62 6 a62 44 0 0 1 124 0 z" fill="'+P.sun+'" stroke="'+P.ink+'" stroke-width="5"/>'+
-      '<path d="M-66 10 h132 a10 10 0 0 1 0 20 h-132 a10 10 0 0 1 0 -20 z" fill="'+P.neon+'" stroke="'+P.ink+'" stroke-width="5"/>'+
-      '<path d="M-64 32 h128 a12 12 0 0 1 0 24 h-128 a12 12 0 0 1 0 -24 z" fill="'+P.pink+'" stroke="'+P.ink+'" stroke-width="5"/>'+
-      '<path d="M-62 56 a62 34 0 0 0 124 0 z" fill="'+P.sun+'" stroke="'+P.ink+'" stroke-width="5"/>'+
-      '<g fill="'+P.ink+'" opacity=".8"><circle cx="-28" cy="-14" r="3.5"/><circle cx="6" cy="-22" r="3.5"/>'+
-      '<circle cx="34" cy="-12" r="3.5"/></g>'+
-    '</g>'+
-    '<g stroke="'+P.ink+'" stroke-width="5" stroke-linecap="round" fill="none">'+
-      '<path d="M44 96 v108"/><path d="M34 96 v34"/><path d="M54 96 v34"/>'+
-      '<path d="M356 96 v108"/><path d="M356 96 a14 22 0 0 0 0 44"/></g>'+
-    '</svg>';
-  if(kind === 'night') return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
-    head('sky9','#123A5C','#2B6E8F')+
-    '<rect width="400" height="300" fill="url(#sky9)"/>'+
-    '<g fill="#FFF3DC" opacity=".9"><circle cx="42" cy="42" r="3"/><circle cx="120" cy="26" r="2.4"/>'+
-    '<circle cx="228" cy="38" r="2.6"/><circle cx="330" cy="24" r="3"/><circle cx="372" cy="70" r="2.2"/>'+
-    '<circle cx="76" cy="90" r="2.2"/></g>'+
-    '<circle cx="340" cy="62" r="22" fill="#FFF3DC"/>'+
-    '<g stroke="'+P.neon+'" stroke-width="6" opacity=".55" stroke-linecap="round">'+
-    '<path d="M120 176 L44 54"/><path d="M170 176 L150 44"/><path d="M230 176 L252 44"/><path d="M280 176 L356 58"/></g>'+
-    '<path d="M92 200 v-46 a108 56 0 0 1 216 0 v46 z" fill="'+P.ink+'"/>'+
-    '<path d="M120 198 v-36 a80 44 0 0 1 160 0 v36 z" fill="'+P.pink+'" opacity=".92"/>'+
-    '<rect x="164" y="170" width="72" height="28" rx="6" fill="'+P.ink+'"/>'+
-    '<circle cx="200" cy="162" r="11" fill="'+P.ink+'"/>'+
-    '<rect y="200" width="400" height="100" fill="#0E2438"/>'+
-    crowd(300, '#071726')+
-    '</svg>';
-  return '<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img">'+
-    head('sky6', P.blue,'#E9FFD0')+
-    '<rect width="400" height="300" fill="url(#sky6)"/>'+
-    '<rect y="222" width="400" height="78" fill="'+P.lime+'"/>'+
-    '<g stroke="'+P.ink+'" stroke-width="3">'+
-    '<path d="M104 222 v-52" /><path d="M226 222 v-74"/><path d="M320 222 v-40"/></g>'+
-    '<circle cx="104" cy="146" r="26" fill="'+P.pink+'" stroke="'+P.ink+'" stroke-width="3"/>'+
-    '<circle cx="226" cy="120" r="32" fill="'+P.sun+'" stroke="'+P.ink+'" stroke-width="3"/>'+
-    '<circle cx="320" cy="176" r="21" fill="'+P.neon+'" stroke="'+P.ink+'" stroke-width="3"/>'+
-    '<path d="M20 244 q40 -60 96 -20" fill="none" stroke="'+P.ink+'" stroke-width="5"/>'+
-    '<circle cx="300" cy="252" r="18" fill="'+P.cream+'" stroke="'+P.ink+'" stroke-width="3"/>'+
-    '<path d="M282 252 h36 M300 234 v36" stroke="'+P.ink+'" stroke-width="3"/>'+
-    '</svg>';
-}
-
-const ABOUT_SHOTS = [
-  {k:'stage',  src:'', t:'Главная сцена',     s:'Коломенское · день фестиваля', wide:true},
-  {k:'crowd',  src:'', t:'Танцпол на закате', s:'30 000 гостей в Москве'},
-  {k:'court',  src:'', t:'Фуд-корт у сцены',  s:'корнеры, дым и очередь за бургером'},
-  {k:'picnic', src:'', t:'Пикник на траве',   s:'Елагин остров, Петербург'},
-  {k:'vip',    src:'', t:'VIP-зона',          s:'лаунжи и шеф-столы'},
-  {k:'market', src:'', t:'Фермерский рынок',  s:'дегустации и мастер-классы'},
-  {k:'coffee', src:'', t:'Кофе с утра до ночи', s:'кофе-корнеры и мороженое'},
-  {k:'kids',   src:'', t:'Семейный фуд-корт', s:'детская зона и своя сцена'},
-  {k:'night',  src:'', t:'Вечерний сет',      s:'финал фестивального дня', wide:true},
-  {k:'food',   src:'', t:'Гастрономия крупным планом', s:'фирменные спешлы резидентов'}
+/* дашборд фестиваля в цифрах */
+const ABOUT_NUMS = [
+  {cap:'гости за два дня', n:'50 000', t:'30 000 в Москве и 20 000 в Петербурге', hot:true},
+  {cap:'точки питания',    n:'115',    t:'70 корнеров в Москве, 45 в Петербурге'},
+  {cap:'медиаохват',       n:'50+ млн','t':'«Афиша», партнёры и соцсети фестиваля'},
+  {cap:'vip-зона',         n:'3 000+', t:'гостей главной сцены, средний чек 2 500 ₽'},
+  {cap:'резиденты',        n:'100+',   t:'проектов на фуд-кортах двух городов'},
+  {cap:'nps гостя',        n:'+20%',   t:'цель сезона к прошлому году'}
 ];
+const ABOUT_CMP = [
+  {t:'Гости фестиваля', s:'за день работы площадки', unit:'чел',
+   msk:30000, spb:20000, fmt:v=>v.toLocaleString('ru-RU')},
+  {t:'Точки питания', s:'корнеры, тележки, фудтраки', unit:'',
+   msk:70, spb:45, fmt:v=>v + ' точек'},
+  {t:'Время работы', s:'открытие в 14:00', unit:'',
+   msk:9, spb:8, fmt:v=>v + ' часов'},
+  {t:'Уникальные гости за сезон', s:'по итогам прошлого фестиваля', unit:'',
+   msk:40000, spb:25000, fmt:v=>v.toLocaleString('ru-RU')}
+];
+const ABOUT_FACTS = [
+  ['◫','Три фуд-корта и гастрорынок','Главный фуд-корт у сцены, мультикультурный гастроквартал, гастрохаб с кофе и wellness, фермерский рынок и микромаркеты.'],
+  ['✦','Продвижение резидента','Гид в «Афиша Рестораны», карточка на сайте фестиваля, репосты в соцсетях и готовый фото/видео-пакет.'],
+  ['⚙','Тех. поддержка 24/7','Электричество, вывоз мусора, разрешение на торговлю и дежурная служба площадки в дни фестиваля.'],
+  ['₽','Прогноз по выручке','Организатор даёт прогноз продаж и нагрузки на точку по опыту прошлых фестивалей.']
+];
+
 function renderAbout(){
   const f = FESTS;
   $('#aboutBody').innerHTML =
@@ -3463,10 +3307,32 @@ function renderAbout(){
         '<button class="btn btn-light" data-act="city-map">Открыть карту площадки</button>'+
       '</div>'+
     '</div>'+
-    '<div class="ab-shots">'+ ABOUT_SHOTS.map(ph=>
-      '<figure class="shot'+(ph.wide?' wide':'')+'">'+
-        (ph.src ? '<img src="'+ph.src+'" alt="'+ph.t+'">' : shot(ph.k))+
-        '<figcaption>'+ph.t+'<i>'+ph.s+'</i></figcaption></figure>').join('') +'</div>';
+    '<div class="ab-dash">'+ ABOUT_NUMS.map(x=>
+      '<div class="ab-num'+(x.hot?' hot':'')+'"><span class="cap">'+x.cap+'</span>'+
+      '<b>'+x.n+'</b><span>'+x.t+'</span></div>').join('') +'</div>'+
+
+    '<div class="ab-panel"><div class="ab-panel-h"><h3>москва и петербург в сравнении</h3>'+
+      '<span>Коломенское · 26 июня · Елагин парк · 7 августа</span></div>'+
+      ABOUT_CMP.map(c=>{
+        const max = Math.max(c.msk, c.spb);
+        const line = (city, v, col) => '<div class="line"><span class="city">'+city+'</span>'+
+          '<span class="track"><i data-w="'+Math.round(v/max*100)+'" style="background:'+col+'"></i></span>'+
+          '<span class="v">'+c.fmt(v)+'</span></div>';
+        return '<div class="ab-cmp"><div class="lbl">'+c.t+'<small>'+c.s+'</small></div>'+
+          '<div class="pair">'+ line('Москва', c.msk, 'var(--accent)') +
+                                line('Петербург', c.spb, 'var(--muted-2)') +'</div></div>';
+      }).join('') +
+    '</div>'+
+
+    '<div class="ab-panel"><div class="ab-panel-h"><h3>что стоит за цифрами</h3>'+
+      '<span>для резидентов фуд-корта</span></div>'+
+      '<div class="ab-facts">'+ ABOUT_FACTS.map(([ic,t,d])=>
+        '<div class="ab-fact"><i>'+ic+'</i><div><b>'+t+'</b><span>'+d+'</span></div></div>').join('') +
+    '</div></div>';
+
+  requestAnimationFrame(()=>{
+    $$('#aboutBody .ab-cmp .track i').forEach(i=>{ i.style.width = i.dataset.w + '%'; });
+  });
 }
 
 /* ============================================================
