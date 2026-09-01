@@ -1,0 +1,1510 @@
+<title>Штаб фуд-корта 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#BFDDF1; --surface:#E1F0FA; --surface-2:#D3E8F6; --surface-3:#C2DBEE;
+  --line:rgba(36,23,21,.16); --line-soft:rgba(36,23,21,.09);
+  --text:#241715; --muted:#4E3D39; --muted-2:#8A7873;
+  --accent:#B7DC1E; --accent-dim:rgba(183,220,30,.32); --accent-ink:#41500A;
+  --pink:#FF6FD8; --pink-ink:#A32478;
+  --danger:#F52016; --info:#1273B8;
+  --mute-bg:rgba(36,23,21,.08); --mute-ink:#6B5A56;
+  --grid:rgba(36,23,21,.09);
+  --btn-ink:#1A1310;
+  --shadow:0 1px 0 rgba(36,23,21,.06), 0 8px 26px rgba(18,60,100,.10);
+  /* тепловая шкала: лаймовый → жёлтый → оранжевый → красный */
+  --h0:rgba(36,23,21,.17);  --h0i:#5C4B47;   /* не начата */
+  --h1:#B7DC1E;             --h1i:#3C4A08;   /* в графике */
+  --h2:#F2C230;             --h2i:#5A4405;   /* внимание  */
+  --h3:#F08A1E;             --h3i:#6B3703;   /* риск      */
+  --h4:#F52016;             --h4i:#FFFFFF;   /* просрочка */
+  --hD:#7FB80A;             --hDi:#FFFFFF;   /* готово    */
+  /* проекты */
+  --pA:#1273B8; --pA-soft:rgba(18,115,184,.14);
+  --pB:#C2408F; --pB-soft:rgba(255,111,216,.20);
+  --pS:#4E3D39; --pS-soft:rgba(78,61,57,.12);
+  --r:16px; --r-sm:10px;
+  --font:'Inter','Helvetica Neue',Arial,sans-serif;
+  --font-display:'Pavliuchenko','Pavliuchenko Trial','Arial Black','Helvetica Neue',Impact,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B0B0D; --surface:#141416; --surface-2:#1A1A1D; --surface-3:#232327;
+  --line:#2C2C33; --line-soft:#212126;
+  --text:#F4F4F6; --muted:#96969F; --muted-2:#6A6A74;
+  --accent:#C8E82D; --accent-dim:rgba(200,232,45,.16); --accent-ink:#C8E82D;
+  --pink:#FF6FD8; --pink-ink:#FF6FD8;
+  --danger:#FF3B2F; --info:#6EA8FF;
+  --mute-bg:rgba(255,255,255,.07); --mute-ink:#96969F;
+  --grid:rgba(255,255,255,.05);
+  --btn-ink:#0D0D0D;
+  --shadow:0 1px 0 rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
+  --h0:rgba(255,255,255,.13); --h0i:#A9A9B4;
+  --h1:#C8E82D; --h1i:#12160A;
+  --h2:#F2C230; --h2i:#1A1405;
+  --h3:#F08A1E; --h3i:#1A0D02;
+  --h4:#FF3B2F; --h4i:#FFFFFF;
+  --hD:#9BD11B; --hDi:#12160A;
+  --pA:#6EA8FF; --pA-soft:rgba(110,168,255,.16);
+  --pB:#FF6FD8; --pB-soft:rgba(255,111,216,.16);
+  --pS:#B9B9C2; --pS-soft:rgba(255,255,255,.10);
+}}
+:root[data-theme="dark"]{
+  --bg:#0B0B0D; --surface:#141416; --surface-2:#1A1A1D; --surface-3:#232327;
+  --line:#2C2C33; --line-soft:#212126;
+  --text:#F4F4F6; --muted:#96969F; --muted-2:#6A6A74;
+  --accent:#C8E82D; --accent-dim:rgba(200,232,45,.16); --accent-ink:#C8E82D;
+  --pink:#FF6FD8; --pink-ink:#FF6FD8;
+  --danger:#FF3B2F; --info:#6EA8FF;
+  --mute-bg:rgba(255,255,255,.07); --mute-ink:#96969F;
+  --grid:rgba(255,255,255,.05);
+  --btn-ink:#0D0D0D;
+  --shadow:0 1px 0 rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
+  --h0:rgba(255,255,255,.13); --h0i:#A9A9B4;
+  --h1:#C8E82D; --h1i:#12160A;
+  --h2:#F2C230; --h2i:#1A1405;
+  --h3:#F08A1E; --h3i:#1A0D02;
+  --h4:#FF3B2F; --h4i:#FFFFFF;
+  --hD:#9BD11B; --hDi:#12160A;
+  --pA:#6EA8FF; --pA-soft:rgba(110,168,255,.16);
+  --pB:#FF6FD8; --pB-soft:rgba(255,111,216,.16);
+  --pS:#B9B9C2; --pS-soft:rgba(255,255,255,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{font-family:var(--font);background:var(--bg);color:var(--text);
+  font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--info);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- каркас ---------- */
+.app{display:grid;grid-template-columns:236px 1fr;min-height:100vh}
+.rail{background:var(--surface);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:2px;padding:18px 12px;position:sticky;top:0;height:100vh;overflow:auto}
+.brand{padding:4px 10px 16px;display:flex;flex-direction:column;gap:3px}
+.brand b{font-family:var(--font-display);font-size:19px;line-height:1.05;letter-spacing:-.02em;text-transform:uppercase}
+.brand span{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-2);font-weight:600}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:var(--r-sm);
+  font-size:13.5px;font-weight:500;color:var(--muted);text-align:left;transition:background .12s,color .12s}
+.nav button:hover{background:var(--surface-2);color:var(--text)}
+.nav button[aria-current="true"]{background:var(--text);color:var(--bg);font-weight:600}
+.nav .cnt{margin-left:auto;font-size:11px;font-variant-numeric:tabular-nums;
+  background:var(--mute-bg);color:var(--mute-ink);padding:1px 6px;border-radius:20px;font-weight:600}
+.nav button[aria-current="true"] .cnt{background:rgba(255,255,255,.2);color:inherit}
+.nav .cnt.hot{background:var(--danger);color:#fff}
+.rail-foot{margin-top:auto;padding:14px 10px 0;border-top:1px solid var(--line-soft);
+  display:flex;flex-direction:column;gap:8px}
+.me{display:flex;align-items:center;gap:9px;width:100%;padding:8px;border-radius:var(--r-sm);
+  background:var(--surface-2);text-align:left}
+.me:hover{background:var(--surface-3)}
+.me .av{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:0 0 auto;
+  font-weight:800;font-size:11px;color:var(--btn-ink);background:var(--accent)}
+.me .who{min-width:0}
+.me .who b{display:block;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.me .who span{display:block;font-size:10.5px;color:var(--muted-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini{font-size:11px;color:var(--muted-2);display:flex;gap:8px;align-items:center;padding:0 2px}
+.mini button{font-size:11px;color:var(--muted-2);text-decoration:underline;text-underline-offset:2px}
+.mini button:hover{color:var(--text)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--muted-2);flex:0 0 auto}
+.dot.live{background:#22C55E;box-shadow:0 0 0 3px rgba(34,197,94,.2)}
+
+.main{min-width:0;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line);
+  padding:14px 26px;display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+.tb-title h1{font-family:var(--font-display);font-size:21px;letter-spacing:-.01em;text-transform:uppercase;line-height:1.1}
+.tb-title p{font-size:12px;color:var(--muted-2);margin-top:2px}
+.tb-stats{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
+.tb-stat{display:flex;flex-direction:column;gap:2px;min-width:76px}
+.tb-stat span{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);font-weight:600}
+.tb-stat b{font-family:var(--font-display);font-size:22px;line-height:1;font-variant-numeric:tabular-nums}
+.tb-stat b.a{color:var(--pA)} .tb-stat b.b{color:var(--pB)}
+.view{padding:24px 26px 64px;max-width:1420px}
+.view[hidden]{display:none}
+
+/* ---------- общие блоки ---------- */
+.card{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.card>h3, .sec-h{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-2);font-weight:700;margin-bottom:12px}
+.sec-h.row{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.grid{display:grid;gap:14px}
+.btn{padding:8px 14px;border-radius:9px;font-size:13px;font-weight:600;background:var(--text);color:var(--bg);transition:opacity .12s}
+.btn:hover{opacity:.85}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--surface-2);opacity:1}
+.btn.lime{background:var(--accent);color:var(--btn-ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:5px 10px;font-size:12px}
+select,input[type=text],input[type=week],textarea{background:var(--surface);border:1px solid var(--line);
+  border-radius:9px;padding:7px 10px;font-size:13px}
+textarea{resize:vertical;line-height:1.5}
+.av{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 5px;border-radius:7px;
+  font-size:10px;font-weight:800;letter-spacing:.02em;flex:0 0 auto}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:20px;
+  font-size:11px;font-weight:600;background:var(--mute-bg);color:var(--mute-ink);white-space:nowrap}
+.pill.a{background:var(--pA-soft);color:var(--pA)}
+.pill.b{background:var(--pB-soft);color:var(--pB)}
+.pill.s{background:var(--pS-soft);color:var(--pS)}
+.num{font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.empty{padding:28px;text-align:center;color:var(--muted-2);font-size:13px;
+  border:1px dashed var(--line);border-radius:var(--r)}
+.bar{height:7px;border-radius:20px;background:var(--mute-bg);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:20px;background:var(--accent);transition:width .35s ease}
+.scroll-x{overflow-x:auto;overscroll-behavior-x:contain}
+</style>
+<style>
+/* ---------- дашборд ---------- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:15px 16px;
+  display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kpi .lbl{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);font-weight:700}
+.kpi .val{font-family:var(--font-display);font-size:34px;line-height:.95;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi .sub{font-size:11.5px;color:var(--muted-2)}
+.kpi.acc{border-left:4px solid var(--pA)}
+.kpi.acb{border-left:4px solid var(--pB)}
+.kpi.warn .val{color:var(--h3)}
+.kpi.bad .val{color:var(--danger)}
+.two{display:grid;grid-template-columns:1.35fr 1fr;gap:14px;align-items:start}
+.phase-row{display:grid;grid-template-columns:1fr 46px;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-soft)}
+.phase-row:last-child{border-bottom:0}
+.phase-row .nm{font-size:13px;font-weight:500;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.phase-row .pc{text-align:right;font-family:var(--mono);font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted-2);margin-top:12px;align-items:center}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+/* ---------- дорожная карта (гант) ---------- */
+.gantt{border:1px solid var(--line-soft);border-radius:var(--r);background:var(--surface);overflow:hidden;box-shadow:var(--shadow)}
+.gwrap{overflow-x:auto}
+.ginner{min-width:1180px}
+.ghead{display:grid;position:sticky;top:0;z-index:5;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.ghead>div{padding:9px 6px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted-2);border-left:1px solid var(--line-soft);text-align:center}
+.ghead>div:first-child{text-align:left;padding-left:16px;border-left:0}
+.ghead .mo.now{background:var(--accent-dim);color:var(--accent-ink)}
+.grp{padding:11px 16px 8px;background:var(--surface-2);border-top:1px solid var(--line);
+  font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;display:flex;gap:9px;align-items:center}
+.grp .pc{margin-left:auto;font-family:var(--mono);color:var(--muted)}
+.grow{display:grid;border-top:1px solid var(--line-soft);align-items:center;min-height:38px}
+.grow:hover{background:var(--surface-2)}
+.gname{padding:8px 10px 8px 16px;font-size:12.5px;display:flex;gap:8px;align-items:flex-start;line-height:1.3}
+.gname .rl{font-size:10px;color:var(--muted-2);display:block;margin-top:2px}
+.gtrack{grid-column:2 / -1;position:relative;height:100%;min-height:38px}
+.gcols{position:absolute;inset:0;display:grid;pointer-events:none}
+.gcols i{border-left:1px solid var(--grid)}
+.gcols i.now{background:var(--accent-dim)}
+.gbar{position:absolute;top:50%;transform:translateY(-50%);height:19px;border-radius:6px;
+  display:flex;align-items:center;padding:0 7px;font-size:10.5px;font-weight:700;font-variant-numeric:tabular-nums;
+  overflow:hidden;white-space:nowrap;cursor:pointer;border:1px solid rgba(36,23,21,.14);min-width:16px}
+.gbar:hover{filter:brightness(1.06);box-shadow:0 0 0 2px var(--text)}
+.gbar .fill{position:absolute;left:0;top:0;bottom:0;background:rgba(255,255,255,.34);pointer-events:none}
+:root[data-theme="dark"] .gbar .fill{background:rgba(0,0,0,.34)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .gbar .fill{background:rgba(0,0,0,.34)}}
+.gbar span{position:relative}
+.evline{position:absolute;top:0;bottom:0;width:2px;z-index:4;pointer-events:none}
+.evline::after{content:attr(data-l);background:inherit;position:absolute;top:-1px;left:3px;font-size:9px;font-weight:800;
+  letter-spacing:.04em;white-space:nowrap;padding:1px 4px;border-radius:3px;color:#fff}
+.today{position:absolute;top:0;bottom:0;width:0;border-left:2px dashed var(--danger);z-index:4;pointer-events:none}
+
+/* ---------- тепловая карта ---------- */
+.heat{border-collapse:separate;border-spacing:3px;width:100%}
+.heat th{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted-2);padding:4px 2px;text-align:center}
+.heat th.rw{text-align:left;padding-left:2px;min-width:190px;font-size:11px;text-transform:none;letter-spacing:0;color:var(--text);font-weight:500}
+.heat td{padding:0}
+.hc{height:32px;border-radius:6px;display:grid;place-items:center;font-size:11px;font-weight:700;
+  font-variant-numeric:tabular-nums;cursor:default;position:relative}
+.hc.clickable{cursor:pointer}
+.hc.clickable:hover{box-shadow:0 0 0 2px var(--text)}
+.hleg{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--muted-2);margin-top:14px}
+.hleg .sw{padding:2px 9px;border-radius:5px;display:inline-grid;place-items:center;font-size:10px;font-weight:700}
+
+/* ---------- бэклог ---------- */
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.tools label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-2);font-weight:700}
+.tlist{display:flex;flex-direction:column;gap:8px}
+.titem{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;
+  background:var(--surface);border:1px solid var(--line-soft);border-left-width:4px;border-radius:12px;padding:12px 14px}
+.titem .tk{font-size:13.5px;font-weight:500;line-height:1.35}
+.titem .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:5px;font-size:11px;color:var(--muted-2);align-items:center}
+.titem .rt{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.chk{width:20px;height:20px;border-radius:6px;border:2px solid var(--line);background:var(--surface-2);
+  display:grid;place-items:center;margin-top:1px;flex:0 0 auto;font-size:12px;color:transparent;font-weight:800}
+.chk[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--btn-ink)}
+.prog{display:flex;gap:3px}
+.prog button{width:22px;height:20px;border-radius:5px;background:var(--mute-bg);font-size:9.5px;font-weight:700;
+  color:var(--mute-ink);font-variant-numeric:tabular-nums}
+.prog button[aria-pressed="true"]{background:var(--text);color:var(--bg)}
+.prog button:hover{filter:brightness(1.08)}
+
+/* ---------- риски ---------- */
+.risk{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:16px;border-left:4px solid var(--h2);box-shadow:var(--shadow)}
+.risk.crit{border-left-color:var(--danger)}
+.risk.high{border-left-color:var(--h3)}
+.risk.med{border-left-color:var(--h2)}
+.risk.low{border-left-color:var(--muted-2)}
+.risk h4{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:6px}
+.risk .rmeta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.risk p{font-size:13px;color:var(--muted);line-height:1.55}
+.risk .fix{margin-top:12px;padding-top:12px;border-top:1px solid var(--line-soft)}
+.risk .fix b{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);display:block;margin-bottom:7px}
+.risk .fix ol{margin-left:17px;display:flex;flex-direction:column;gap:6px}
+.risk .fix li{font-size:13px;line-height:1.5}
+.risk .fix li::marker{font-weight:700;color:var(--accent-ink)}
+
+/* ---------- чаты ---------- */
+.chat{display:grid;grid-template-columns:264px 1fr;gap:0;border:1px solid var(--line-soft);
+  border-radius:var(--r);overflow:hidden;background:var(--surface);height:calc(100vh - 190px);min-height:460px;box-shadow:var(--shadow)}
+.clist{border-right:1px solid var(--line);overflow-y:auto;background:var(--surface-2)}
+.crow{width:100%;display:flex;gap:10px;align-items:center;padding:10px 12px;text-align:left;border-bottom:1px solid var(--line-soft)}
+.crow:hover{background:var(--surface-3)}
+.crow[aria-current="true"]{background:var(--text);color:var(--bg)}
+.crow .av{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:11px;font-weight:800;flex:0 0 auto}
+.crow .cn{min-width:0;flex:1}
+.crow .cn b{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crow .cn span{display:block;font-size:10.5px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cpane{display:flex;flex-direction:column;min-width:0}
+.chead{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.chead b{font-size:14px}
+.cbody{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--surface-2)}
+.msg{max-width:min(72%,540px);padding:9px 12px;border-radius:14px;font-size:13.5px;line-height:1.5;
+  background:var(--surface);border:1px solid var(--line-soft);align-self:flex-start;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.mine{align-self:flex-end;background:var(--accent);color:var(--btn-ink);border-color:transparent}
+.msg.ai{background:var(--surface-3);border-style:dashed}
+.msg .mh{font-size:10.5px;font-weight:700;letter-spacing:.04em;opacity:.7;margin-bottom:3px;display:flex;gap:7px}
+.cfoot{padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:9px;align-items:flex-end}
+.cfoot textarea{flex:1;min-height:40px;max-height:130px}
+
+/* ---------- команда ---------- */
+.team{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px}
+.tcard{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:15px;
+  display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.tcard .th{display:flex;gap:10px;align-items:center}
+.tcard .av{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:13px;font-weight:800;flex:0 0 auto}
+.tcard .th b{font-size:13.5px;line-height:1.25;display:block}
+.tcard .th span{font-size:11px;color:var(--muted-2)}
+.tcard input{width:100%;font-size:12.5px;padding:6px 9px}
+.tstats{display:flex;gap:14px;font-size:11px;color:var(--muted-2)}
+.tstats b{display:block;font-family:var(--mono);font-size:15px;color:var(--text);font-variant-numeric:tabular-nums}
+
+/* ---------- ящик задачи / модалка ---------- */
+.scrim{position:fixed;inset:0;background:rgba(10,12,20,.42);z-index:60;backdrop-filter:blur(2px)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,94vw);background:var(--bg);z-index:61;
+  border-left:1px solid var(--line);overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:16px;
+  box-shadow:-20px 0 50px rgba(10,20,40,.22)}
+.drawer h2{font-size:18px;line-height:1.3;font-weight:700}
+.dfield{display:flex;flex-direction:column;gap:6px}
+.dfield>label{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);font-weight:700}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dval{font-size:13.5px;font-weight:500}
+.slider{display:flex;gap:5px}
+.slider button{flex:1;padding:9px 0;border-radius:9px;background:var(--mute-bg);font-size:12px;font-weight:700;
+  color:var(--mute-ink);font-variant-numeric:tabular-nums}
+.slider button[aria-pressed="true"]{background:var(--text);color:var(--bg)}
+.modal{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:20px;background:rgba(10,12,20,.5)}
+.mbox{background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:24px;
+  width:min(440px,100%);max-height:86vh;overflow-y:auto;box-shadow:0 30px 70px rgba(10,20,40,.3)}
+.mbox h2{font-family:var(--font-display);font-size:20px;text-transform:uppercase;margin-bottom:6px}
+.mbox p{font-size:13px;color:var(--muted);margin-bottom:16px}
+.rolelist{display:flex;flex-direction:column;gap:5px;max-height:46vh;overflow-y:auto;margin-bottom:16px}
+.rolelist button{display:flex;gap:10px;align-items:center;padding:9px 11px;border-radius:10px;
+  background:var(--surface);border:1px solid var(--line-soft);text-align:left}
+.rolelist button:hover{border-color:var(--text)}
+.rolelist .av{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:10px;font-weight:800;flex:0 0 auto}
+.rolelist b{font-size:13px;font-weight:600;display:block}
+.rolelist span{font-size:11px;color:var(--muted-2)}
+.thinking{font-size:12.5px;color:var(--muted-2);display:flex;gap:8px;align-items:center}
+.thinking::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent);animation:pulse 1.1s infinite}
+@keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+.note{font-size:12px;color:var(--muted-2);background:var(--surface-2);border:1px solid var(--line-soft);
+  border-radius:10px;padding:10px 12px;line-height:1.5}
+
+@media (max-width:1000px){
+  .app{grid-template-columns:1fr}
+  .rail{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;padding:12px}
+  .brand{padding:0 8px 0 4px}
+  .nav{flex-direction:row;flex-wrap:wrap}
+  .nav button{padding:7px 10px;font-size:12.5px}
+  .rail-foot{margin:0;border:0;padding:0;flex-direction:row;align-items:center;gap:10px;width:100%}
+  .me{width:auto}
+  .two{grid-template-columns:1fr}
+  .chat{grid-template-columns:1fr;height:auto}
+  .clist{max-height:200px;border-right:0;border-bottom:1px solid var(--line)}
+  .cbody{min-height:320px}
+  .view{padding:18px 14px 56px}
+  .topbar{padding:12px 14px;gap:14px}
+}
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="brand">
+      <b>Штаб<br>фуд-корта</b>
+      <span>Пикник Афиши · сезон 2027</span>
+    </div>
+    <nav class="nav" id="nav">
+      <button data-v="dash" aria-current="true">Дашборд</button>
+      <button data-v="road">Дорожная карта</button>
+      <button data-v="heat">Тепловая карта</button>
+      <button data-v="backlog">Бэклог недели<span class="cnt" id="n-backlog">0</span></button>
+      <button data-v="risks">Риски<span class="cnt" id="n-risks">0</span></button>
+      <button data-v="chat">Чаты</button>
+      <button data-v="team">Команда</button>
+    </nav>
+    <div class="rail-foot">
+      <button class="me" id="meBtn">
+        <span class="av" id="meAv">?</span>
+        <span class="who"><b id="meName">Выберите себя</b><span id="meRole">роль не выбрана</span></span>
+      </button>
+      <div class="mini">
+        <span class="dot" id="syncDot"></span><span id="syncTxt">подключение…</span>
+        <button id="themeBtn" style="margin-left:auto">тема</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="tb-title">
+        <h1 id="vTitle">Дашборд</h1>
+        <p id="vSub">Общий ход подготовки сезона</p>
+      </div>
+      <div class="tb-stats">
+        <div class="tb-stat"><span>Сезон</span><b id="s-all">0%</b></div>
+        <div class="tb-stat"><span>Москва 20.06</span><b class="a" id="s-a">0%</b></div>
+        <div class="tb-stat"><span>Петербург 08.08</span><b class="b" id="s-b">0%</b></div>
+        <div class="tb-stat"><span>Просрочено</span><b id="s-late">0</b></div>
+      </div>
+    </header>
+
+    <section class="view" id="v-dash"></section>
+    <section class="view" id="v-road" hidden></section>
+    <section class="view" id="v-heat" hidden></section>
+    <section class="view" id="v-backlog" hidden></section>
+    <section class="view" id="v-risks" hidden></section>
+    <section class="view" id="v-chat" hidden></section>
+    <section class="view" id="v-team" hidden></section>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<div class="drawer" id="drawer" hidden></div>
+<div class="modal" id="modal" hidden></div>
+
+<script>
+/* =========================================================================
+   ШТАБ ФУД-КОРТА — дорожная карта сезона 2027
+   Источник задач: оффер «Задачи / Ответственный» (45 строк, 3 фазы).
+   Роли выведены из содержания задач.
+   ========================================================================= */
+
+/* ---------- даты ---------- */
+const d_ = (s)=>{const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d);};
+const addD = (d,n)=>{const x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+n); return x;};
+const iso = d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const DAY = 864e5;
+const days = (a,b)=>Math.round((b-a)/DAY);
+const fmtS = d=>d.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'});
+const fmtL = d=>d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});
+const MONTH_SHORT = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+const today = (()=>{const n=new Date(); return new Date(n.getFullYear(),n.getMonth(),n.getDate());})();
+
+/* ---------- проекты ---------- */
+const PROJECTS = {
+  S: {id:'S', name:'Сезонная база',    short:'Сезон',     city:'общая подготовка', date:null,           cls:'s'},
+  A: {id:'A', name:'Москва',           short:'Москва',    city:'Коломенское',      date:d_('2027-06-20'), cls:'a'},
+  B: {id:'B', name:'Санкт-Петербург',  short:'Петербург', city:'Елагин парк',      date:d_('2027-08-08'), cls:'b'}
+};
+
+/* ---------- роли (выведены из функционала задач) ---------- */
+const DEPT = {
+  ops:  {n:'Операции',            c:'var(--pS)',  ink:'#fff'},
+  com:  {n:'Коммерция и резиденты',c:'var(--pA)',  ink:'#fff'},
+  mkt:  {n:'Маркетинг и бренд',   c:'var(--pB)',  ink:'#fff'},
+  tech: {n:'Техника и IT',        c:'var(--accent)', ink:'var(--btn-ink)'},
+  fin:  {n:'Финансы и право',     c:'var(--h3)',  ink:'#fff'}
+};
+const ROLES = [
+  {id:'OPS',   n:'Операционный директор',            d:'ops',  ab:'ОД',  s:'Стратегия сезона, бизнес-процессы, итоговый разбор'},
+  {id:'LEAD',  n:'Руководитель зоны фуд-корт',       d:'ops',  ab:'РФК', s:'Владелец зоны: планирование, статусы, отчётность', name:'Наталья Арсентьева'},
+  {id:'HR',    n:'HR-менеджер',                      d:'ops',  ab:'HR',  s:'Подбор проектной команды и линейного персонала'},
+  {id:'SITE',  n:'Координатор площадки',             d:'ops',  ab:'КП',  s:'Заезд/выезд, графики, памятки, пропуска', name:'Алина Пятакова'},
+  {id:'ADM',   n:'Администратор фуд-корта',          d:'ops',  ab:'АФ',  s:'Работа резидентов на площадке в дни фестиваля'},
+  {id:'COMM',  n:'Коммерческий директор',            d:'com',  ab:'КД',  s:'Пакеты, ценообразование, финальный оффер'},
+  {id:'SALES', n:'Менеджер по продажам',             d:'com',  ab:'МП',  s:'Пул резидентов, рассылка оффера, продажа участия'},
+  {id:'ACC',   n:'Менеджер по работе с резидентами', d:'com',  ab:'МР',  s:'Ведение резидентов, документы, онбординг, ОС', name:'Дарья Соколова'},
+  {id:'PARTN', n:'Менеджер по партнёрствам',         d:'com',  ab:'МПА', s:'Купер, банк-партнёр, товарные интеграции', name:'Егор Лаптев'},
+  {id:'CMO',   n:'Директор по маркетингу',           d:'mkt',  ab:'ДМ',  s:'Маркетинговая стратегия и презентация зоны'},
+  {id:'CRM',   n:'Менеджер по лояльности',           d:'mkt',  ab:'МЛ',  s:'Клуб резидентов и программа лояльности'},
+  {id:'ART',   n:'Арт-директор',                     d:'mkt',  ab:'АД',  s:'Брендбук, макеты, оформление корнеров'},
+  {id:'COPY',  n:'Контент-менеджер',                 d:'mkt',  ab:'КМ',  s:'Копирайтинг меню, ТЗ дизайнеру'},
+  {id:'PR',    n:'PR-менеджер',                      d:'mkt',  ab:'PR',  s:'Промо-материалы про зону и резидентов'},
+  {id:'PROD',  n:'Продакт-менеджер платформы',       d:'tech', ab:'ПМ',  s:'Автоматизация, личные кабинеты, digital-меню'},
+  {id:'TECH',  n:'Технический директор',             d:'tech', ab:'ТД',  s:'Схема объектов, разметка, нумерация'},
+  {id:'ENG',   n:'Главный инженер',                  d:'tech', ab:'ГИ',  s:'Электричество, службы, отходы', name:'Иван Лебедев'},
+  {id:'FIN',   n:'Финансовый менеджер',              d:'fin',  ab:'ФМ',  s:'Бюджет, Z-отчёты, смета'},
+  {id:'LAW',   n:'Юрист',                            d:'fin',  ab:'ЮР',  s:'Договоры, документооборот, ЭДО'}
+];
+const ROLE = Object.fromEntries(ROLES.map(r=>[r.id,r]));
+
+/* ---------- фазы ---------- */
+const PHASES = [
+  {id:'base', n:'Сезонная база',       s:'выполняется один раз на оба города'},
+  {id:'prep', n:'Подготовка проекта',  s:'от старта продаж до заезда'},
+  {id:'live', n:'Во время фестиваля',  s:'дни площадки'},
+  {id:'post', n:'После фестиваля',     s:'закрытие проекта'}
+];
+
+/* ---------- задачи ----------
+   sc:'season' — абсолютные даты, одна на сезон
+   sc:'proj'   — смещения в днях от даты фестиваля, дублируется на оба города   */
+const TASKS = [
+  {i:1, ph:'base', r:'OPS',  sc:'season', s:'2026-09-01', e:'2026-09-30', t:'Определить стратегию / зоны и показатели роста'},
+  {i:2, ph:'base', r:'OPS',  sc:'season', s:'2026-09-15', e:'2026-11-15', t:'Анализ и построение бизнес-процессов'},
+  {i:3, ph:'base', r:'PROD', sc:'season', s:'2026-10-01', e:'2027-02-28', t:'План автоматизации процессов, платформа с личными кабинетами резидентов, наладка ПО'},
+  {i:4, ph:'base', r:'HR',   sc:'season', s:'2026-10-01', e:'2026-12-15', t:'Подбор команды'},
+  {i:6, ph:'base', r:'CMO',  sc:'season', s:'2026-11-01', e:'2026-12-20', t:'Построение маркетинговой стратегии'},
+  {i:8, ph:'base', r:'COMM', sc:'season', s:'2026-11-10', e:'2026-12-15', t:'Анализ пакетных предложений и формирование финального оффера', dep:[1,2]},
+  {i:9, ph:'base', r:'CMO',  sc:'season', s:'2026-12-16', e:'2027-01-20', t:'Корректировка презентации для резидентов', dep:[8]},
+  {i:7, ph:'base', r:'CRM',  sc:'season', s:'2026-12-01', e:'2027-03-31', t:'Создание и ведение Клуба резидентов, программа лояльности', dep:[6]},
+
+  {i:5,  ph:'prep', r:'LEAD',  sc:'proj', s:-210, e:-165, t:'Формирование интерактивной карты с распределением торговых зон'},
+  {i:10, ph:'prep', r:'SALES', sc:'proj', s:-180, e:-150, t:'Подбор пула резидентов (30) и рассылка оффера', dep:[9,5]},
+  {i:20, ph:'prep', r:'LEAD',  sc:'proj', s:-180, e:-7,   t:'Статусные встречи во время подготовки'},
+  {i:27, ph:'prep', r:'FIN',   sc:'proj', s:-170, e:30,   t:'Ведение бюджета фуд-корта'},
+  {i:11, ph:'prep', r:'PARTN', sc:'proj', s:-160, e:-60,  t:'Ведение коммерческого партнёра с форматом Доставки Купер'},
+  {i:12, ph:'prep', r:'SALES', sc:'proj', s:-150, e:-75,  t:'Коммуникация с резидентами и продажа участия в фестивале', dep:[10]},
+  {i:13, ph:'prep', r:'ACC',   sc:'proj', s:-120, e:-45,  t:'Сбор и контроль дедлайнов подачи документации и тех. информации (меню, оборудование, электричество, формы подключения)', dep:[12]},
+  {i:24, ph:'prep', r:'PARTN', sc:'proj', s:-120, e:-45,  t:'Партнёрские интеграции: представленность продукции партнёра в меню резидентов (эксклюзив на б/а напитки, СБП, кэшбэк банка-партнёра)'},
+  {i:14, ph:'prep', r:'ACC',   sc:'proj', s:-110, e:-60,  t:'Передача реквизитов и контактов для подписания договора в юридический отдел', dep:[13]},
+  {i:15, ph:'prep', r:'LAW',   sc:'proj', s:-100, e:-40,  t:'Подготовка, контроль и подписание договоров с резидентами', dep:[14]},
+  {i:17, ph:'prep', r:'TECH',  sc:'proj', s:-90,  e:-50,  t:'Участие в создании карты объектов (разметка, нумерация)', dep:[5]},
+  {i:19, ph:'prep', r:'ENG',   sc:'proj', s:-75,  e:-45,  t:'Формирование ТЗ на электричество соответствующему подрядчику', dep:[13]},
+  {i:21, ph:'prep', r:'COPY',  sc:'proj', s:-70,  e:-45,  t:'Копирайтинг всех меню и передача ТЗ графическому дизайнеру на вёрстку носителей к печати', dep:[13]},
+  {i:18, ph:'prep', r:'SITE',  sc:'proj', s:-60,  e:-30,  t:'Разработка памятки резидента и графиков заезда / выезда', dep:[17]},
+  {i:25, ph:'prep', r:'ACC',   sc:'proj', s:-60,  e:-20,  t:'Онбординг резидентов с собственной застройкой', dep:[15]},
+  {i:26, ph:'prep', r:'PR',    sc:'proj', s:-50,  e:-25,  t:'Сбор и передача информации PR-отделу для промо-материалов про зону и участников фуд-корта', dep:[15]},
+  {i:16, ph:'prep', r:'SITE',  sc:'proj', s:-45,  e:-15,  t:'Сбор данных для въезда и выезда (списки персонала и авто)', dep:[15]},
+  {i:22, ph:'prep', r:'ART',   sc:'proj', s:-45,  e:-25,  t:'Создание печатных макетов согласно брендбуку фестиваля', dep:[21]},
+  {i:28, ph:'prep', r:'PROD',  sc:'proj', s:-40,  e:-7,   t:'Создание digital-меню по QR-коду (интерактивное меню каждого резидента с фотографиями)', dep:[21,3]},
+  {i:23, ph:'prep', r:'ART',   sc:'proj', s:-40,  e:-10,  t:'Контроль и работа с дизайн-отделом по оформлению корнеров и фуд-траков в едином стиле', dep:[22]},
+
+  {i:30, ph:'live', r:'SITE',  sc:'proj', s:-2, e:0, t:'Контроль заезда участников согласно графику', dep:[18,16]},
+  {i:32, ph:'live', r:'ENG',   sc:'proj', s:-1, e:2, t:'Взаимодействие и контроль работы служб (энергоснабжение, клининг, хэлперы, охрана)', dep:[19]},
+  {i:35, ph:'live', r:'ACC',   sc:'proj', s:-1, e:2, t:'Курирование резидентов фуд-корта с собственной застройкой', dep:[25]},
+  {i:29, ph:'live', r:'ACC',   sc:'proj', s:0,  e:2, t:'Поддержка резидентов в режиме онлайн (общий чат)'},
+  {i:31, ph:'live', r:'LEAD',  sc:'proj', s:0,  e:2, t:'Координация дежурных администраторов'},
+  {i:33, ph:'live', r:'ADM',   sc:'proj', s:0,  e:2, t:'Контроль и координация работы резидентов на площадке'},
+  {i:34, ph:'live', r:'FIN',   sc:'proj', s:0,  e:3, t:'Снятие Z-отчётов и контроль финансовой дисциплины'},
+
+  {i:36, ph:'post', r:'SITE',  sc:'proj', s:2,  e:4,  t:'Координация и контроль выезда резидентов'},
+  {i:37, ph:'post', r:'ENG',   sc:'proj', s:3,  e:6,  t:'Контроль вывоза отходов (масло, вода)'},
+  {i:39, ph:'post', r:'ACC',   sc:'proj', s:3,  e:14, t:'Сбор обратной связи у резидентов после мероприятия'},
+  {i:38, ph:'post', r:'LAW',   sc:'proj', s:5,  e:30, t:'Закрытие документооборота, сдача документов в ФЭО и юридический отдел, загрузка в ЭДО', dep:[15,34]},
+  {i:40, ph:'post', r:'LEAD',  sc:'proj', s:10, e:21, t:'Предоставление отчётной презентации по зоне фуд-корт', dep:[39,34]},
+  {i:41, ph:'post', r:'FIN',   sc:'proj', s:14, e:40, t:'Закрытие и сдача сметы', dep:[27,38]},
+  {i:42, ph:'post', r:'OPS',   sc:'proj', s:21, e:25, t:'Участие в отчётной встрече после мероприятия', dep:[40]}
+];
+
+/* ---------- разворачиваем в экземпляры ---------- */
+const INST = [];
+for(const t of TASKS){
+  if(t.sc==='season'){
+    INST.push({id:'S'+t.i, n:t.i, p:'S', ph:t.ph, r:t.r, t:t.t, dep:t.dep||[],
+               start:d_(t.s), end:d_(t.e)});
+  } else {
+    for(const pk of ['A','B']){
+      const D0 = PROJECTS[pk].date;
+      INST.push({id:pk+t.i, n:t.i, p:pk, ph:t.ph, r:t.r, t:t.t, dep:t.dep||[],
+                 start:addD(D0,t.s), end:addD(D0,t.e)});
+    }
+  }
+}
+const BYID = Object.fromEntries(INST.map(x=>[x.id,x]));
+const depInst = (inst,n)=>BYID[inst.p+n] || BYID['S'+n] || null;
+
+/* ---------- горизонт ---------- */
+const T0 = d_('2026-09-01');
+const T1 = INST.reduce((m,x)=>x.end>m?x.end:m, T0);
+const TEND = new Date(T1.getFullYear(), T1.getMonth()+1, 1);
+const SPAN = days(T0,TEND);
+const MONTHS = (()=>{const a=[]; let c=new Date(T0.getFullYear(),T0.getMonth(),1);
+  while(c<TEND){ a.push(new Date(c)); c=new Date(c.getFullYear(),c.getMonth()+1,1);} return a;})();
+function pct(d){
+  let i = MONTHS.findIndex(m=>m.getFullYear()===d.getFullYear() && m.getMonth()===d.getMonth());
+  if(i<0) i = d < MONTHS[0] ? 0 : MONTHS.length-1;
+  const m0=MONTHS[i], dim=new Date(m0.getFullYear(),m0.getMonth()+1,0).getDate();
+  const frac=Math.max(0,Math.min(1,(d.getDate()-1)/dim));
+  return Math.max(0, Math.min(100, (i+frac)/MONTHS.length*100));
+}
+</script>
+
+<script>
+/* =========================================================================
+   ХРАНИЛИЩЕ: общая база артефакта, с откатом на локальную память
+   ========================================================================= */
+const LS = {
+  get(k,f){ try{const v=localStorage.getItem('fc27.'+k); return v?JSON.parse(v):f;}catch(e){return f;} },
+  set(k,v){ try{localStorage.setItem('fc27.'+k, JSON.stringify(v));}catch(e){} }
+};
+
+const Store = {
+  db:null, online:false, tasks:{}, roster:{}, ai:{}, subs:[],
+  onChange(fn){ this.subs.push(fn); },
+  fire(){ this.subs.forEach(f=>{try{f();}catch(e){console.error(e);}}); },
+
+  async init(){
+    try{ this.db = await claude.use('db'); }catch(e){ this.db=null; }
+    if(!this.db){
+      this.tasks  = LS.get('tasks',{});
+      this.roster = LS.get('roster',{});
+      this.ai     = LS.get('ai',{});
+      this.online = false; setSync(false); this.fire(); return;
+    }
+    this.online = true; setSync(true);
+    this.db.collection('tasks').onSnapshot(snap=>{
+      const next={}; snap.docs.forEach(d=>{ next[d.id]=d.data()||{}; });
+      this.tasks=next; this.fire();
+    }, e=>{ setSync(false, e.code); });
+    this.db.doc('meta/roster').onSnapshot(d=>{ this.roster=(d.exists?d.data():{})||{}; this.fire(); }, ()=>{});
+    this.db.doc('meta/ai').onSnapshot(d=>{ this.ai=(d.exists?d.data():{})||{}; this.fire(); }, ()=>{});
+  },
+
+  task(id){ return this.tasks[id] || {p:0, blocked:false, note:'', by:'', at:''}; },
+
+  async saveTask(id, patch){
+    const cur = this.task(id);
+    const next = Object.assign({}, cur, patch, {at:new Date().toISOString(), by: Me.label()});
+    this.tasks = Object.assign({}, this.tasks, {[id]:next});
+    this.fire();
+    if(this.db){ try{ await this.db.doc('tasks/'+id).set(next); }catch(e){ setSync(false, e.code); } }
+    else LS.set('tasks', this.tasks);
+  },
+
+  async saveRoster(roleId, patch){
+    const next = Object.assign({}, this.roster, {[roleId]: Object.assign({}, this.roster[roleId]||{}, patch)});
+    this.roster = next; this.fire();
+    if(this.db){ try{ await this.db.doc('meta/roster').set(next); }catch(e){ setSync(false, e.code); } }
+    else LS.set('roster', next);
+  },
+
+  async saveAI(key, val){
+    const next = Object.assign({}, this.ai, {[key]:val});
+    const plans = Object.keys(next).filter(k=>k.startsWith('plan:')).sort();
+    while(plans.length > 24) delete next[plans.shift()];
+    this.ai = next; this.fire();
+    if(this.db){ try{ await this.db.doc('meta/ai').set(next); }catch(e){ setSync(false, e.code); } }
+    else LS.set('ai', next);
+  },
+
+  chatRef(roleId){ return this.db ? this.db.collection('chats/'+roleId+'/msgs') : null; }
+};
+
+function setSync(ok, code){
+  const dot=document.getElementById('syncDot'), txt=document.getElementById('syncTxt');
+  if(!dot) return;
+  dot.classList.toggle('live', !!ok);
+  txt.textContent = ok ? 'общая база · синхронно' : (code ? 'офлайн · '+code : 'локальный режим');
+  txt.title = ok ? 'Изменения видят все участники команды сразу'
+                 : 'Общая база недоступна — прогресс сохраняется только в этом браузере';
+}
+
+/* ---------- личность ---------- */
+const Me = {
+  id: LS.get('me', null),
+  role(){ return this.id ? ROLE[this.id] : null; },
+  label(){ const r=this.role(); if(!r) return 'Не представился';
+           return (Store.roster[r.id]&&Store.roster[r.id].name) || r.name || r.n; },
+  set(id){ this.id=id; LS.set('me',id); paintMe(); render(); }
+};
+function nameOf(roleId){
+  const r=ROLE[roleId]; if(!r) return '';
+  return (Store.roster[roleId]&&Store.roster[roleId].name) || r.name || '';
+}
+
+/* =========================================================================
+   ПРОГРЕСС И ТЕПЛО
+   ========================================================================= */
+const HEAT = {
+  done:  {bg:'var(--hD)', ink:'var(--hDi)', l:'готово',      w:0},
+  none:  {bg:'var(--h0)', ink:'var(--h0i)', l:'не начата',   w:1},
+  ahead: {bg:'var(--h1)', ink:'var(--h1i)', l:'с опережением',w:0},
+  ok:    {bg:'var(--h1)', ink:'var(--h1i)', l:'в графике',   w:1},
+  warn:  {bg:'var(--h2)', ink:'var(--h2i)', l:'внимание',    w:2},
+  risk:  {bg:'var(--h3)', ink:'var(--h3i)', l:'отставание',  w:3},
+  late:  {bg:'var(--h4)', ink:'var(--h4i)', l:'просрочено',  w:4},
+  block: {bg:'var(--h4)', ink:'var(--h4i)', l:'заблокировано',w:4}
+};
+function heatKey(inst){
+  const s = Store.task(inst.id);
+  if((s.p||0) >= 100) return 'done';
+  if(s.blocked) return 'block';
+  if(today > inst.end) return 'late';
+  if(today < inst.start) return (s.p||0) > 0 ? 'ahead' : 'none';
+  const span = Math.max(1, days(inst.start, inst.end));
+  const exp  = Math.round(days(inst.start, today)/span*100);
+  const gap  = exp - (s.p||0);
+  if(gap <= 10) return 'ok';
+  if(gap <= 30) return 'warn';
+  return 'risk';
+}
+const prog = list => list.length ? Math.round(list.reduce((s,x)=>s+(Store.task(x.id).p||0),0)/list.length) : 0;
+const byProj  = p => INST.filter(x=>x.p===p);
+const byRole  = r => INST.filter(x=>x.r===r);
+const isLate  = x => heatKey(x)==='late';
+const isBlocked = x => heatKey(x)==='block';
+const activeNow = x => today>=x.start && today<=x.end && (Store.task(x.id).p||0)<100;
+const overlaps = (x,a,b) => x.start<=b && x.end>=a;
+
+/* проектный прогресс: сезонная база входит в оба города */
+function projProgress(p){ return prog(INST.filter(x=>x.p===p || x.p==='S')); }
+
+/* =========================================================================
+   ДВИЖОК РИСКОВ — правила, считаются на каждом изменении
+   ========================================================================= */
+function computeRisks(){
+  const R=[];
+  const add=(lvl,title,desc,fixes,tag)=>R.push({lvl,title,desc,fixes,tag});
+
+  /* 1. просроченные */
+  const late = INST.filter(x=>heatKey(x)==='late');
+  if(late.length){
+    const byP = {A:0,B:0,S:0}; late.forEach(x=>byP[x.p]++);
+    add('crit', `Просрочено: ${nTask(late.length)}`,
+      `Срок вышел, задача не закрыта. Москва — ${byP.A}, Петербург — ${byP.B}, сезонная база — ${byP.S}. ` +
+      `Самая старая просрочка: «${late.sort((a,b)=>a.end-b.end)[0].t}» (${fmtL(late[0].end)}).`,
+      ['Собрать 30-минутный разбор по каждой просрочке: перенос срока или снятие задачи.',
+       'Просрочки на критическом пути (договоры → въезд → заезд) закрывать первыми, остальное двигать.',
+       'Зафиксировать новый срок в карте — иначе задача уходит из поля зрения.'], 'сроки');
+  }
+
+  /* 2. заблокированные */
+  const blocked = INST.filter(x=>Store.task(x.id).blocked && (Store.task(x.id).p||0)<100);
+  if(blocked.length) add('crit', `Заблокировано: ${nTask(blocked.length)}`,
+    blocked.slice(0,4).map(x=>`«${x.t}» — ${ROLE[x.r].n}`).join('; ') + (blocked.length>4?' и др.':''),
+    ['Вывести блокеры на статусную встречу руководителя зоны — у них нет владельца внутри команды.',
+     'На каждый блокер назначить эскалацию: кто и до какого числа снимает.'], 'блокеры');
+
+  /* 3. отставание от плана */
+  const behind = INST.filter(x=>heatKey(x)==='risk');
+  if(behind.length) add('high', `Отставание от графика: ${nTask(behind.length)}`,
+    `Задачи идут, но темп ниже плана более чем на 30%. В зоне риска: ` +
+    behind.slice(0,3).map(x=>`«${x.t.slice(0,60)}…» (${ROLE[x.r].n})`).join('; ') + '.',
+    ['Разбить задачу на недельные шаги и вести в бэклоге, а не одним куском.',
+     'Проверить, не ждёт ли исполнитель данных от смежника — чаще всего отстают задачи со входом извне.',
+     'Если ресурса нет — передать часть объёма другой роли или подрядчику.'], 'темп');
+
+  /* 4. нарушенные зависимости */
+  const brokenDeps=[];
+  INST.forEach(x=>{
+    if(today < x.start) return;
+    if((Store.task(x.id).p||0) >= 100) return;
+    x.dep.forEach(n=>{ const d=depInst(x,n);
+      if(d && (Store.task(d.id).p||0) < 100) brokenDeps.push([x,d]); });
+  });
+  if(brokenDeps.length) add('high', `Стартовали без предшественника: ${brokenDeps.length}`,
+    brokenDeps.slice(0,3).map(([x,d])=>`«${x.t.slice(0,50)}…» началась, но «${d.t.slice(0,50)}…» ещё не закрыта`).join('; ')+'.',
+    ['Проверить, можно ли идти параллельно; если нет — остановить и не тратить ресурс.',
+     'Поднять приоритет предшественника: он держит цепочку.'], 'зависимости');
+
+  /* 5. ресурсный конфликт двух городов */
+  const conflicts=[];
+  ROLES.forEach(r=>{
+    const a = INST.filter(x=>x.r===r.id && x.p==='A' && activeNow(x));
+    const b = INST.filter(x=>x.r===r.id && x.p==='B' && activeNow(x));
+    if(a.length && b.length) conflicts.push({r, a:a.length, b:b.length});
+  });
+  if(conflicts.length) add('high', `Один человек тянет оба города: ${plural(conflicts.length,'роль','роли','ролей')}`,
+    conflicts.map(c=>`${c.r.n} — ${c.a} задач по Москве и ${c.b} по Петербургу одновременно`).join('; ')+'.',
+    ['Развести пики: у Петербурга запас 49 дней, часть подготовки можно сдвинуть на после 20 июня.',
+     'Ввести дублёра на роль во втором городе — минимум на фазы заезда и площадки.',
+     'Закрепить приоритет: город с ближней датой всегда важнее.'], 'ресурсы');
+
+  /* 6. наложение фаз двух проектов */
+  const aPost = INST.filter(x=>x.p==='A' && x.ph==='post');
+  const bPrep = INST.filter(x=>x.p==='B' && x.ph==='prep');
+  const ov = aPost.filter(x=>bPrep.some(y=>overlaps(y,x.start,x.end)));
+  if(ov.length && today <= PROJECTS.B.date){
+    const gap = days(PROJECTS.A.date, PROJECTS.B.date);
+    add(today>=addD(PROJECTS.A.date,-30)?'crit':'med', 'Закрытие Москвы накладывается на финал Петербурга',
+      `Между фестивалями ${gap} дней. Закрытие московского проекта (документооборот, смета, отчёт — ${aPost.length} задач) ` +
+      `идёт ровно в те же недели, что и финальная подготовка Петербурга (${bPrep.length} задач: макеты, заезд, digital-меню).`,
+      ['Сдвинуть отчётную презентацию и разбор Москвы на после 8 августа, оставив в июле только документы с жёстким сроком.',
+       'Закрыть договоры и макеты Петербурга до 20 июня — до того, как команда уйдёт на площадку в Москве.',
+       'На июль назначить отдельного ответственного за закрытие Москвы, не занятого в подготовке Петербурга.'], 'календарь');
+  }
+
+  /* 7. перегрузка роли на ближайшие 14 дней */
+  const horizon = addD(today,14);
+  ROLES.forEach(r=>{
+    const load = INST.filter(x=>x.r===r.id && overlaps(x,today,horizon) && (Store.task(x.id).p||0)<100);
+    if(load.length>=5) add('med', `Перегрузка: ${r.n}`,
+      `${nTask(load.length)} не закрыто в ближайшие две недели: ` + load.slice(0,4).map(x=>`«${x.t.slice(0,45)}…»`).join(', ')+'.',
+      ['Сформировать бэклог недели и оставить в работе не более трёх задач одновременно.',
+       'Часть операционных задач передать администратору фуд-корта или координатору площадки.'], 'нагрузка');
+  });
+
+  /* 8. незакрытые роли */
+  const noName = ROLES.filter(r=>!nameOf(r.id) && byRole(r.id).some(x=>overlaps(x,today,addD(today,60))));
+  if(noName.length) add('med', `Роли без исполнителя: ${noName.length}`,
+    `На ближайшие два месяца задачи есть, а имени в команде нет: ` + noName.map(r=>r.n).join(', ')+'.',
+    ['Закрыть роли до старта продаж — иначе задачи повиснут на руководителе зоны.',
+     'Если роль не выделяется в штат, оформить её как совмещение и указать это в команде.'], 'команда');
+
+  /* 9. критический путь до заезда */
+  ['A','B'].forEach(pk=>{
+    const contract = BYID[pk+'15'], entry = BYID[pk+'16'];
+    if(!contract||!entry) return;
+    const dLeft = days(today, contract.end);
+    const p = Store.task(contract.id).p||0;
+    if(dLeft <= 60 && dLeft > -30 && p < 100)
+      add(dLeft<=20?'crit':'high', `Договоры ${PROJECTS[pk].name}: ${p}% за ${dLeft} дн. до срока`,
+        `Без подписанных договоров нельзя собрать данные на въезд (${fmtL(entry.start)}), выпустить пропуска и запустить заезд. ` +
+        `Это самая длинная цепочка проекта: продажа → документы → реквизиты → договор → въезд → заезд.`,
+        ['Разделить поток: типовые договоры подписывать по мере готовности, не ждать полного пула.',
+         'Согласовать с юридическим отделом сокращённый регламент для повторных резидентов Клуба.',
+         'Резидентам без договора за 40 дней до даты — стоп-лист и передача места из листа ожидания.'], 'критический путь');
+  });
+
+  const ord={crit:0,high:1,med:2,low:3};
+  return R.sort((a,b)=>ord[a.lvl]-ord[b.lvl]);
+}
+</script>
+
+<script>
+/* =========================================================================
+   ОТРИСОВКА
+   ========================================================================= */
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const avatar = (roleId, cls)=>{ const r=ROLE[roleId], d=DEPT[r.d];
+  return `<span class="${cls||'av'}" style="background:${d.c};color:${d.ink}">${r.ab}</span>`; };
+const projPill = p=>`<span class="pill ${PROJECTS[p].cls}">${PROJECTS[p].short}</span>`;
+const heatChip = k=>`<span class="pill" style="background:${HEAT[k].bg};color:${HEAT[k].ink}">${HEAT[k].l}</span>`;
+const dl = x=>`${fmtS(x.start)} — ${fmtS(x.end)}`;
+const plural = (n,a,b,c)=>{const t=n%10, h=n%100;
+  return n+' '+(t===1&&h!==11 ? a : (t>=2&&t<=4&&(h<10||h>=20) ? b : c));};
+const nTask = n=>plural(n,'задача','задачи','задач');
+
+let VIEW = 'dash';
+const TITLES = {
+  dash:['Дашборд','Общий ход подготовки сезона'],
+  road:['Дорожная карта','Сентябрь 2026 → сентябрь 2027, оба города на одной шкале'],
+  heat:['Тепловая карта','Где горит: по ролям, по месяцам, по задачам'],
+  backlog:['Бэклог недели','Что взять в работу на неделю каждому сотруднику'],
+  risks:['Риски','Что уже мешает и что с этим делать'],
+  chat:['Чаты','Переписка по задачам с каждой ролью'],
+  team:['Команда','Роли, исполнители и их загрузка']
+};
+
+/* ---------- 1. ДАШБОРД ---------- */
+function renderDash(){
+  const all=prog(INST), late=INST.filter(isLate).length, act=INST.filter(activeNow).length;
+  const risks=computeRisks(), crit=risks.filter(r=>r.lvl==='crit').length, blk=INST.filter(isBlocked).length;
+  const dA=days(today,PROJECTS.A.date), dB=days(today,PROJECTS.B.date);
+  const mine = Me.id ? byRole(Me.id).filter(x=>overlaps(x,today,addD(today,7)) && (Store.task(x.id).p||0)<100) : [];
+
+  const kpi=(cls,lbl,val,sub)=>`<div class="kpi ${cls}"><span class="lbl">${lbl}</span>
+      <span class="val">${val}</span><span class="sub">${sub}</span></div>`;
+
+  const phaseRows = PHASES.map(f=>{
+    const list=INST.filter(x=>x.ph===f.id), p=prog(list);
+    const done=list.filter(x=>(Store.task(x.id).p||0)>=100).length;
+    return `<div class="phase-row"><div>
+        <div class="nm">${f.n}<span class="pill">${done}/${list.length}</span></div>
+        <div class="bar"><i style="width:${p}%;background:${p>=100?'var(--hD)':'var(--accent)'}"></i></div>
+      </div><div class="pc">${p}%</div></div>`;
+  }).join('');
+
+  const loadRows = ROLES.map(r=>{
+    const list=byRole(r.id), open=list.filter(x=>(Store.task(x.id).p||0)<100 && overlaps(x,today,addD(today,30)));
+    const worst=open.reduce((m,x)=>Math.max(m,HEAT[heatKey(x)].w),0);
+    return {r, open:open.length, worst, p:prog(list)};
+  }).filter(x=>x.open>0).sort((a,b)=>b.worst-a.worst||b.open-a.open).slice(0,8);
+
+  $('#v-dash').innerHTML = `
+    <div class="grid" style="gap:18px">
+      <div class="kpis">
+        ${kpi('','Готовность сезона',all+'%',`${INST.filter(x=>(Store.task(x.id).p||0)>=100).length} из ${INST.length} задач закрыто`)}
+        ${kpi(blk?'bad':'','Блокеры', blk, blk?'ждут эскалации':'блокеров нет')}
+        ${kpi('acc','Москва · 20 июня', projProgress('A')+'%', dA>0?`${dA} дней до площадки`:'фестиваль прошёл')}
+        ${kpi('acb','Петербург · 8 авг', projProgress('B')+'%', dB>0?`${dB} дней до площадки`:'фестиваль прошёл')}
+        ${kpi('','В работе сейчас', act, plural(act,'задача в активном окне','задачи в активном окне','задач в активном окне').replace(/^\d+\s/,''))}
+        ${kpi(late?'bad':'','Просрочено', late, late?'требует решения сегодня':'график чистый')}
+        ${kpi(crit?'bad':(risks.length?'warn':''),'Риски', risks.length, crit?plural(crit,'критический','критических','критических'):'критических нет')}
+      </div>
+
+      <div class="two">
+        <div class="card">
+          <h3>Готовность по фазам</h3>
+          ${phaseRows}
+          <div class="legend">
+            <span><i style="background:var(--hD)"></i>готово</span>
+            <span><i style="background:var(--h1)"></i>в графике</span>
+            <span><i style="background:var(--h2)"></i>внимание</span>
+            <span><i style="background:var(--h3)"></i>отставание</span>
+            <span><i style="background:var(--h4)"></i>просрочка</span>
+            <span><i style="background:var(--h0)"></i>не начата</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Кто под нагрузкой · 30 дней</h3>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            ${loadRows.length? loadRows.map(x=>`
+              <div style="display:flex;gap:10px;align-items:center">
+                ${avatar(x.r.id)}
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(x.r.n)}</div>
+                  <div style="font-size:11px;color:var(--muted-2)">${esc(nameOf(x.r.id)||'исполнитель не назначен')}</div>
+                </div>
+                <span class="pill" style="background:${['var(--h0)','var(--h1)','var(--h2)','var(--h3)','var(--h4)'][x.worst]};color:${['var(--h0i)','var(--h1i)','var(--h2i)','var(--h3i)','var(--h4i)'][x.worst]}">${nTask(x.open)}</span>
+              </div>`).join('')
+            : '<div class="empty">В ближайший месяц открытых задач нет</div>'}
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sec-h row"><span>Что горит прямо сейчас</span>
+          <button class="btn ghost sm" data-go="risks">Все риски →</button></div>
+        <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+          ${risks.slice(0,3).map(r=>`<div class="risk ${r.lvl}">
+              <div class="rmeta"><span class="pill">${esc(r.tag)}</span>${lvlPill(r.lvl)}</div>
+              <h4>${esc(r.title)}</h4><p>${esc(r.desc)}</p></div>`).join('')
+            || '<div class="empty">Рисков не обнаружено — держите темп</div>'}
+        </div>
+      </div>
+
+      ${Me.id?`<div class="card">
+        <div class="sec-h row"><span>Моя неделя · ${esc(ROLE[Me.id].n)}</span>
+          <button class="btn ghost sm" data-go="backlog">Открыть бэклог →</button></div>
+        ${mine.length? `<div class="tlist">${mine.map(taskRow).join('')}</div>`
+          : '<div class="empty">На этой неделе задач по вашей роли нет</div>'}
+      </div>`:`<div class="note">Выберите свою роль слева внизу — появится личный бэклог, чат и авторство изменений.</div>`}
+    </div>`;
+}
+const lvlPill = l=>({crit:'<span class="pill" style="background:var(--h4);color:var(--h4i)">критический</span>',
+  high:'<span class="pill" style="background:var(--h3);color:var(--h3i)">высокий</span>',
+  med:'<span class="pill" style="background:var(--h2);color:var(--h2i)">средний</span>',
+  low:'<span class="pill">низкий</span>'}[l]||'');
+
+function taskRow(x){
+  const s=Store.task(x.id), k=heatKey(x);
+  return `<div class="titem" style="border-left-color:${HEAT[k].bg}">
+    <button class="chk" data-done="${x.id}" aria-pressed="${(s.p||0)>=100}" title="Отметить готовой">✓</button>
+    <div><div class="tk">${esc(x.t)}</div>
+      <div class="meta">${projPill(x.p)}<span class="num">${dl(x)}</span>
+        ${avatar(x.r,'')}<span>${esc(ROLE[x.r].n)}</span>${heatChip(k)}
+        ${s.blocked?'<span class="pill" style="background:var(--h4);color:var(--h4i)">блокер</span>':''}</div></div>
+    <div class="rt"><div class="prog">${[0,25,50,75,100].map(v=>
+        `<button data-set="${x.id}" data-p="${v}" aria-pressed="${(s.p||0)===v}">${v}</button>`).join('')}</div>
+      <button class="btn ghost sm" data-open="${x.id}">Открыть</button></div>
+  </div>`;
+}
+
+/* ---------- 2. ДОРОЖНАЯ КАРТА ---------- */
+let roadFilter = 'all';
+function renderRoad(){
+  const cols = `300px repeat(${MONTHS.length},minmax(64px,1fr))`;
+  const nowMo = MONTHS.findIndex(m=>m.getFullYear()===today.getFullYear()&&m.getMonth()===today.getMonth());
+  const head = `<div class="ghead" style="grid-template-columns:${cols}">
+      <div>Задача · ответственная роль</div>
+      ${MONTHS.map((m,i)=>`<div class="mo${i===nowMo?' now':''}">${MONTH_SHORT[m.getMonth()]} ${String(m.getFullYear()).slice(2)}</div>`).join('')}
+    </div>`;
+  const colGrid = `<div class="gcols" style="grid-template-columns:repeat(${MONTHS.length},1fr)">
+      ${MONTHS.map((m,i)=>`<i class="${i===nowMo?'now':''}"></i>`).join('')}</div>`;
+
+  const marks = ['A','B'].map(p=>`<div class="evline" style="left:${pct(PROJECTS[p].date)}%;background:var(--p${p});"
+      data-l="${p==='A'?'МСК 20.06':'СПБ 08.08'}"></div>`).join('');
+
+  const list = INST.filter(x=>roadFilter==='all' || x.p===roadFilter || (roadFilter!=='S'&&x.p==='S'));
+  const body = PHASES.map(f=>{
+    const rows = list.filter(x=>x.ph===f.id)
+      .sort((a,b)=>a.start-b.start || a.n-b.n || a.p.localeCompare(b.p));
+    if(!rows.length) return '';
+    const p = prog(rows);
+    return `<div class="grp"><span>${f.n}</span><span class="pill">${f.s}</span>
+        <span class="pc">${p}%</span></div>` +
+      rows.map(x=>{
+        const k=heatKey(x), s=Store.task(x.id), L=pct(x.start), W=Math.max(0.9, pct(x.end)-L);
+        return `<div class="grow" style="grid-template-columns:${cols}">
+          <div class="gname">${avatar(x.r,'')}<span>${esc(x.t.length>78?x.t.slice(0,78)+'…':x.t)}
+            <span class="rl">${esc(ROLE[x.r].n)} · ${projPill(x.p)}</span></span></div>
+          <div class="gtrack">${colGrid}
+            <button class="gbar" data-open="${x.id}" title="${esc(x.t)} · ${dl(x)} · ${HEAT[k].l}"
+              style="left:${L}%;width:${W}%;background:${HEAT[k].bg};color:${HEAT[k].ink}">
+              <i class="fill" style="width:${100-(s.p||0)}%;right:0;left:auto"></i>
+              <span>${s.p||0}%</span></button>
+          </div></div>`;
+      }).join('');
+  }).join('');
+
+  $('#v-road').innerHTML = `
+    <div class="tools">
+      <label>Показать</label>
+      ${[['all','Оба города'],['A','Только Москва'],['B','Только Петербург'],['S','Только сезонная база']].map(([v,n])=>
+        `<button class="btn ${roadFilter===v?'':'ghost'} sm" data-road="${v}">${n}</button>`).join('')}
+      <span style="margin-left:auto;font-size:11.5px;color:var(--muted-2)">Клик по полосе — карточка задачи. Заливка полосы — процент готовности.</span>
+    </div>
+    <div class="gantt"><div class="gwrap"><div class="ginner" style="position:relative">
+      ${head}
+      <div style="position:relative">
+        <div style="position:absolute;left:300px;right:0;top:0;bottom:0;pointer-events:none;z-index:3">
+          ${marks}<div class="today" style="left:${pct(today)}%"></div></div>
+        ${body}
+      </div>
+    </div></div></div>
+    <div class="legend">
+      <span><i style="background:var(--pA)"></i>Москва · 20 июня 2027 · Коломенское</span>
+      <span><i style="background:var(--pB)"></i>Санкт-Петербург · 8 августа 2027 · Елагин парк</span>
+      <span><i style="background:var(--danger)"></i>сегодня</span>
+      <span>Сезонная база — задачи, которые делаются один раз на оба города.</span>
+    </div>`;
+}
+
+/* ---------- 3. ТЕПЛОВАЯ КАРТА ---------- */
+function renderHeat(){
+  const cells = ROLES.map(r=>{
+    const tds = MONTHS.map(m=>{
+      const m0=new Date(m.getFullYear(),m.getMonth(),1), m1=new Date(m.getFullYear(),m.getMonth()+1,0);
+      const list = byRole(r.id).filter(x=>overlaps(x,m0,m1));
+      if(!list.length) return `<td><div class="hc" style="background:transparent;border:1px dashed var(--line-soft)"></div></td>`;
+      let worst='done', ww=-1;
+      list.forEach(x=>{ const k=heatKey(x); if(HEAT[k].w>ww){ ww=HEAT[k].w; worst=k; } });
+      const p = prog(list);
+      return `<td><div class="hc" style="background:${HEAT[worst].bg};color:${HEAT[worst].ink}"
+        title="${esc(r.n)} · ${MONTH_SHORT[m.getMonth()]} ${m.getFullYear()}: ${list.length} задач, готовность ${p}%, худший статус — ${HEAT[worst].l}">${list.length}</div></td>`;
+    }).join('');
+    return `<tr><th class="rw">${avatar(r.id,'')} ${esc(r.n)}</th>${tds}</tr>`;
+  }).join('');
+
+  const worstTasks = INST.filter(x=>(Store.task(x.id).p||0)<100)
+    .sort((a,b)=>HEAT[heatKey(b)].w-HEAT[heatKey(a)].w || a.end-b.end).slice(0,12);
+
+  $('#v-heat').innerHTML = `
+    <div class="card">
+      <div class="sec-h">Загрузка и температура по ролям · число в клетке — сколько задач у роли в этом месяце</div>
+      <div class="scroll-x"><table class="heat"><thead><tr><th class="rw"></th>
+        ${MONTHS.map(m=>`<th>${MONTH_SHORT[m.getMonth()]}<br>${String(m.getFullYear()).slice(2)}</th>`).join('')}</tr></thead>
+        <tbody>${cells}</tbody></table></div>
+      <div class="hleg">Цвет клетки — худший статус среди задач роли в месяце:
+        ${['done','ok','warn','risk','late'].map(k=>
+          `<span class="sw" style="background:${HEAT[k].bg};color:${HEAT[k].ink}">${HEAT[k].l}</span>`).join('')}
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="sec-h">Самые горячие задачи</div>
+      <div class="tlist">${worstTasks.map(taskRow).join('')||'<div class="empty">Всё закрыто</div>'}</div>
+    </div>`;
+}
+</script>
+
+<script>
+/* ---------- 4. БЭКЛОГ НЕДЕЛИ ---------- */
+let blRole = null, blWeek = 0;
+function weekRange(off){
+  const d=new Date(today); const wd=(d.getDay()+6)%7;
+  const mon=addD(d,-wd+off*7); return [mon, addD(mon,6)];
+}
+function renderBacklog(){
+  if(!blRole) blRole = Me.id || 'LEAD';
+  const [a,b]=weekRange(blWeek);
+  const list = byRole(blRole).filter(x=>overlaps(x,a,b))
+    .sort((x,y)=>HEAT[heatKey(y)].w-HEAT[heatKey(x)].w || x.end-y.end);
+  const open = list.filter(x=>(Store.task(x.id).p||0)<100);
+  const p = prog(list);
+  const key = 'plan:'+blRole+':'+iso(a);
+  const plan = Store.ai[key];
+
+  $('#v-backlog').innerHTML = `
+    <div class="tools">
+      <label>Сотрудник</label>
+      <select id="blRole">${ROLES.map(r=>`<option value="${r.id}" ${r.id===blRole?'selected':''}>${esc(r.n)}${nameOf(r.id)?' — '+esc(nameOf(r.id)):''}</option>`).join('')}</select>
+      <label style="margin-left:10px">Неделя</label>
+      <button class="btn ghost sm" data-week="-1">←</button>
+      <span class="num" style="font-weight:600">${fmtS(a)} — ${fmtS(b)}</span>
+      <button class="btn ghost sm" data-week="1">→</button>
+      ${blWeek?`<button class="btn ghost sm" data-week="0">текущая</button>`:''}
+      <span style="margin-left:auto"></span>
+      <button class="btn lime" id="genPlan">Сформировать план недели</button>
+    </div>
+
+    <div class="two">
+      <div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="sec-h row"><span>Задачи в окне недели</span>
+            <span class="pill">${open.length} открыто · готовность ${p}%</span></div>
+          ${list.length?`<div class="tlist">${list.map(taskRow).join('')}</div>`
+            :`<div class="empty">На эту неделю задач по роли нет.${nextBusyWeek()!==null?`<br><button class="btn ghost sm" data-week="jump" style="margin-top:10px">Ближайшая неделя с задачами — ${esc(fmtS(weekRange(nextBusyWeek())[0]))}</button>`:''}</div>`}
+        </div>
+      </div>
+      <div class="grid" style="gap:14px;align-content:start">
+        <div class="card">
+          <div class="sec-h">${esc(ROLE[blRole].n)}</div>
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">
+            ${avatar(blRole,'av')}
+            <div><b style="font-size:13.5px">${esc(nameOf(blRole)||'исполнитель не назначен')}</b>
+              <div style="font-size:11.5px;color:var(--muted-2)">${esc(ROLE[blRole].s)}</div></div>
+          </div>
+          <div class="tstats">
+            <div><b>${byRole(blRole).length}</b>всего задач</div>
+            <div><b>${byRole(blRole).filter(x=>(Store.task(x.id).p||0)<100).length}</b>открыто</div>
+            <div><b>${byRole(blRole).filter(isLate).length}</b>просрочено</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="sec-h">План на неделю</div>
+          <div id="planBox">${plan?renderPlan(plan):'<div class="note">Нажмите «Сформировать план недели» — ассистент разложит задачи окна на конкретные шаги с приоритетом и проверяемым результатом.</div>'}</div>
+        </div>
+      </div>
+    </div>`;
+  $('#blRole').onchange = e=>{ blRole=e.target.value; renderBacklog(); };
+}
+function nextBusyWeek(){
+  for(let k=0;k<80;k++){
+    for(const off of (k?[blWeek+k, blWeek-k]:[blWeek])){
+      const [a,b]=weekRange(off);
+      if(off!==blWeek && byRole(blRole).some(x=>overlaps(x,a,b))) return off;
+    }
+  }
+  return null;
+}
+function renderPlan(p){
+  if(typeof p === 'string') return `<div style="white-space:pre-wrap;font-size:13px;line-height:1.55">${esc(p)}</div>`;
+  return `<div style="font-size:12px;color:var(--muted-2);margin-bottom:8px">Составлен ${esc(p.at||'')}</div>
+    <div style="white-space:pre-wrap;font-size:13px;line-height:1.55">${esc(p.text)}</div>`;
+}
+
+/* ---------- 5. РИСКИ ---------- */
+function renderRisks(){
+  const R=computeRisks();
+  const ai=Store.ai.risks;
+  $('#v-risks').innerHTML = `
+    <div class="tools">
+      <span class="pill" style="background:var(--h4);color:var(--h4i)">${R.filter(r=>r.lvl==='crit').length} критических</span>
+      <span class="pill" style="background:var(--h3);color:var(--h3i)">${R.filter(r=>r.lvl==='high').length} высоких</span>
+      <span class="pill" style="background:var(--h2);color:var(--h2i)">${R.filter(r=>r.lvl==='med').length} средних</span>
+      <span style="margin-left:auto"></span>
+      <button class="btn lime" id="aiRisk">Разбор рисков ассистентом</button>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(360px,1fr))">
+      ${R.map(r=>`<div class="risk ${r.lvl}">
+          <div class="rmeta">${lvlPill(r.lvl)}<span class="pill">${esc(r.tag)}</span></div>
+          <h4>${esc(r.title)}</h4>
+          <p>${esc(r.desc)}</p>
+          <div class="fix"><b>Варианты решения</b><ol>${r.fixes.map(f=>`<li>${esc(f)}</li>`).join('')}</ol></div>
+        </div>`).join('') || '<div class="empty">Правила рисков ничего не нашли — график чистый</div>'}
+    </div>
+    <div class="card" style="margin-top:16px">
+      <div class="sec-h">Разбор ассистента</div>
+      <div id="aiRiskBox">${ai?`<div style="font-size:12px;color:var(--muted-2);margin-bottom:10px">Обновлён ${esc(ai.at||'')} · ${esc(ai.by||'')}</div>
+        <div style="white-space:pre-wrap;font-size:13.5px;line-height:1.6">${esc(ai.text)}</div>`
+        :'<div class="note">Правила выше видят срок и статус. Ассистент дополнительно смотрит на связку задач между двумя городами и предлагает решения под текущую картину. Разбор сохраняется и виден всей команде.</div>'}</div>
+    </div>`;
+}
+
+/* ---------- 6. ЧАТЫ ---------- */
+let chatRole=null, chatUnsub=null, chatSubRole=null, chatMsgs=[];
+function chatLocalKey(r){ return 'chat.'+r; }
+function renderChat(){
+  if(!chatRole) chatRole = Me.id || 'LEAD';
+  const rows = ROLES.map(r=>{
+    const open = byRole(r.id).filter(x=>(Store.task(x.id).p||0)<100 && overlaps(x,today,addD(today,30))).length;
+    return `<button class="crow" data-chat="${r.id}" aria-current="${r.id===chatRole}">
+      ${avatar(r.id)}<span class="cn"><b>${esc(r.n)}</b><span>${esc(nameOf(r.id)||'исполнитель не назначен')}</span></span>
+      ${open?`<span class="pill">${open}</span>`:''}</button>`;
+  }).join('');
+  const r = ROLE[chatRole];
+  const openTasks = byRole(chatRole).filter(x=>(Store.task(x.id).p||0)<100 && overlaps(x,addD(today,-7),addD(today,21)));
+
+  $('#v-chat').innerHTML = `
+    <div class="chat">
+      <div class="clist">${rows}</div>
+      <div class="cpane">
+        <div class="chead">${avatar(chatRole,'av')}
+          <div><b>${esc(r.n)}</b><div style="font-size:11.5px;color:var(--muted-2)">${esc(nameOf(chatRole)||'исполнитель не назначен')} · ${esc(r.s)}</div></div>
+          <span style="margin-left:auto"></span>
+          <span class="pill">${nTask(openTasks.length)} в работе</span>
+          <button class="btn ghost sm" id="askAI">Спросить ассистента</button>
+        </div>
+        <div class="cbody" id="cbody"></div>
+        <div class="cfoot">
+          <textarea id="cinput" placeholder="${Me.id?'Сообщение по задачам роли…':'Сначала выберите себя слева внизу'}" ${Me.id?'':'disabled'}></textarea>
+          <button class="btn" id="csend" ${Me.id?'':'disabled'}>Отправить</button>
+        </div>
+      </div>
+    </div>`;
+  subscribeChat();
+  $('#cinput').addEventListener('keydown', e=>{ if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)) sendMsg(); });
+  $('#csend').onclick = sendMsg;
+  $('#askAI').onclick = askAssistant;
+}
+function subscribeChat(){
+  if(chatUnsub && chatSubRole===chatRole){ paintMsgs(); return; }
+  if(chatUnsub){ try{chatUnsub();}catch(e){} chatUnsub=null; }
+  chatSubRole=chatRole;
+  const ref = Store.chatRef(chatRole);
+  if(!ref){ chatMsgs = LS.get(chatLocalKey(chatRole),[]); paintMsgs(); return; }
+  chatUnsub = ref.orderBy('ts').limit(200).onSnapshot(snap=>{
+    chatMsgs = snap.docs.map(d=>d.data()||{}); paintMsgs();
+  }, ()=>{ chatMsgs = LS.get(chatLocalKey(chatRole),[]); paintMsgs(); });
+}
+function paintMsgs(){
+  const box=$('#cbody'); if(!box) return;
+  if(!chatMsgs.length){
+    box.innerHTML = `<div class="empty">Переписки пока нет. Здесь обсуждают конкретные задачи роли — сроки, блокеры, что передать смежнику.</div>`;
+    return;
+  }
+  box.innerHTML = chatMsgs.map(m=>{
+    const mine = m.role===Me.id && m.kind!=='ai';
+    const t = m.ts ? new Date(m.ts).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '';
+    return `<div class="msg ${m.kind==='ai'?'ai':(mine?'mine':'')}">
+      <div class="mh"><b>${esc(m.kind==='ai'?'Ассистент штаба':(m.who||'—'))}</b><span>${esc(t)}</span></div>${esc(m.text)}</div>`;
+  }).join('');
+  box.scrollTop = box.scrollHeight;
+}
+async function pushMsg(msg){
+  const ref = Store.chatRef(chatRole);
+  if(ref){ try{ await ref.add(msg); return; }catch(e){} }
+  chatMsgs = chatMsgs.concat([msg]).slice(-200);
+  LS.set(chatLocalKey(chatRole), chatMsgs); paintMsgs();
+}
+async function sendMsg(){
+  const el=$('#cinput'); const text=(el.value||'').trim(); if(!text||!Me.id) return;
+  el.value='';
+  await pushMsg({who:Me.label(), role:Me.id, text, ts:Date.now(), kind:'msg'});
+}
+
+/* ---------- 7. КОМАНДА ---------- */
+function renderTeam(){
+  const groups = Object.keys(DEPT).map(dk=>{
+    const rs = ROLES.filter(r=>r.d===dk);
+    return `<div class="sec-h" style="margin-top:8px">${esc(DEPT[dk].n)}</div>
+      <div class="team">${rs.map(r=>{
+        const list=byRole(r.id), p=prog(list), late=list.filter(isLate).length;
+        const open=list.filter(x=>(Store.task(x.id).p||0)<100).length;
+        return `<div class="tcard">
+          <div class="th">${avatar(r.id,'av')}<div><b>${esc(r.n)}</b><span>${esc(r.s)}</span></div></div>
+          <input type="text" data-name="${r.id}" value="${esc(nameOf(r.id))}" placeholder="ФИО исполнителя">
+          <div class="bar"><i style="width:${p}%;background:${late?'var(--h4)':'var(--accent)'}"></i></div>
+          <div class="tstats">
+            <div><b>${list.length}</b>задач</div><div><b>${open}</b>открыто</div>
+            <div><b style="${late?'color:var(--danger)':''}">${late}</b>просрочено</div>
+            <div><b>${p}%</b>готово</div>
+          </div>
+          <div style="display:flex;gap:7px">
+            <button class="btn ghost sm" data-chat-go="${r.id}">Чат</button>
+            <button class="btn ghost sm" data-bl-go="${r.id}">Бэклог</button>
+          </div>
+        </div>`;
+      }).join('')}</div>`;
+  }).join('');
+  $('#v-team').innerHTML = `<div class="note" style="margin-bottom:14px">
+    Роли выведены из содержания задач оффера. Имена пяти кураторов подставлены из действующей команды сервиса резидентов — проверьте и дополните остальные.
+  </div>${groups}`;
+}
+</script>
+
+<script>
+/* =========================================================================
+   КАРТОЧКА ЗАДАЧИ
+   ========================================================================= */
+let drawerId=null;
+function openTask(id){
+  const x=BYID[id]; if(!x) return;
+  drawerId=id; const s=Store.task(id), k=heatKey(x);
+  const deps = x.dep.map(n=>{ const d=depInst(x,n); if(!d) return '';
+    const dp=Store.task(d.id).p||0;
+    return `<button class="titem" data-open="${d.id}" style="border-left-color:${HEAT[heatKey(d)].bg};width:100%;text-align:left;grid-template-columns:1fr auto">
+      <span class="tk" style="font-size:12.5px">${esc(d.t.length>70?d.t.slice(0,70)+'…':d.t)}</span>
+      <span class="pill" style="background:${dp>=100?'var(--hD)':'var(--h0)'};color:${dp>=100?'var(--hDi)':'var(--h0i)'}">${dp}%</span></button>`;
+  }).join('');
+  const succ = INST.filter(y=>y.p===x.p && y.dep.includes(x.n) || (x.p==='S' && y.dep.includes(x.n)));
+
+  $('#drawer').innerHTML = `
+    <div style="display:flex;gap:10px;align-items:center">
+      ${projPill(x.p)}${heatChip(k)}<span class="pill">${esc(PHASES.find(f=>f.id===x.ph).n)}</span>
+      <button class="btn ghost sm" id="dClose" style="margin-left:auto">Закрыть</button>
+    </div>
+    <h2>${esc(x.t)}</h2>
+    <div class="dgrid">
+      <div class="dfield"><label>Ответственная роль</label>
+        <div class="dval" style="display:flex;gap:8px;align-items:center">${avatar(x.r,'')} ${esc(ROLE[x.r].n)}</div>
+        <div style="font-size:11.5px;color:var(--muted-2)">${esc(nameOf(x.r)||'исполнитель не назначен')}</div></div>
+      <div class="dfield"><label>Сроки</label>
+        <div class="dval num">${fmtL(x.start)}<br>— ${fmtL(x.end)}</div>
+        <div style="font-size:11.5px;color:var(--muted-2)">${days(today,x.end)>=0?`${days(today,x.end)} дн. до срока`:`просрочено на ${-days(today,x.end)} дн.`}</div></div>
+    </div>
+    <div class="dfield"><label>Готовность</label>
+      <div class="slider">${[0,25,50,75,100].map(v=>`<button data-set="${id}" data-p="${v}" aria-pressed="${(s.p||0)===v}">${v}%</button>`).join('')}</div></div>
+    <div class="dfield"><label>Статус</label>
+      <button class="btn ${s.blocked?'':'ghost'}" id="dBlock" style="${s.blocked?'background:var(--danger);color:#fff':''}">
+        ${s.blocked?'Заблокирована — снять блокер':'Отметить блокер'}</button></div>
+    <div class="dfield"><label>Комментарий команде</label>
+      <textarea id="dNote" rows="3" placeholder="Что сделано, чего ждём, кто держит">${esc(s.note||'')}</textarea>
+      <button class="btn ghost sm" id="dSaveNote" style="align-self:flex-start">Сохранить</button></div>
+    ${deps?`<div class="dfield"><label>Зависит от</label><div class="tlist">${deps}</div></div>`:''}
+    ${succ.length?`<div class="dfield"><label>Держит следом</label>
+      <div style="font-size:12.5px;color:var(--muted)">${succ.map(y=>esc(y.t.slice(0,60))+'…').join('<br>')}</div></div>`:''}
+    <div class="note">${s.at?`Последнее изменение: ${esc(new Date(s.at).toLocaleString('ru-RU'))} · ${esc(s.by||'—')}`:'Изменений ещё не было'}
+      ${Store.online?'<br>Обновление видят все участники сразу.':'<br>Общая база недоступна — сохранено только в этом браузере.'}</div>`;
+  $('#drawer').hidden=false; $('#scrim').hidden=false;
+  $('#dClose').onclick=closeDrawer;
+  $('#dBlock').onclick=()=>Store.saveTask(id,{blocked:!s.blocked});
+  $('#dSaveNote').onclick=()=>Store.saveTask(id,{note:$('#dNote').value});
+}
+function closeDrawer(){ drawerId=null; $('#drawer').hidden=true; $('#scrim').hidden=true; }
+
+/* ---------- модалка «кто вы» ---------- */
+function openWho(){
+  $('#modal').innerHTML = `<div class="mbox">
+    <h2>Кто вы в проекте</h2>
+    <p>Роль определяет ваш бэклог, чат и авторство отметок в карте. Её можно сменить в любой момент.</p>
+    <div class="rolelist">${ROLES.map(r=>`<button data-me="${r.id}">${avatar(r.id,'av')}
+      <span><b>${esc(r.n)}</b><span>${esc(nameOf(r.id)||r.s)}</span></span></button>`).join('')}</div>
+    <button class="btn ghost" id="whoClose">Позже</button></div>`;
+  $('#modal').hidden=false;
+  $('#whoClose').onclick=()=>{ $('#modal').hidden=true; };
+}
+
+/* =========================================================================
+   АССИСТЕНТ
+   ========================================================================= */
+let SAMPLE=null;
+async function initAI(){ try{ SAMPLE = await claude.use('sample'); }catch(e){ SAMPLE=null; } }
+const noAI = 'Ассистент недоступен в этом просмотре. Правила рисков и бэклог работают без него.';
+
+function ctxHeader(){
+  return `Проект: зона фуд-корта фестиваля «Пикник Афиши», сезон 2027. Два фестиваля готовятся параллельно: `+
+  `Москва (Коломенское) 20 июня 2027 и Санкт-Петербург (Елагин парк) 8 августа 2027, разрыв ${days(PROJECTS.A.date,PROJECTS.B.date)} дней. `+
+  `Подготовка сезона стартовала в сентябре 2026. Сегодня ${fmtL(today)}. `+
+  `Всего задач в карте: ${INST.length}, общая готовность ${prog(INST)}%, Москва ${projProgress('A')}%, Петербург ${projProgress('B')}%.`;
+}
+function taskLine(x){
+  const s=Store.task(x.id);
+  return `- [${PROJECTS[x.p].short}] «${x.t}» — ${ROLE[x.r].n}${nameOf(x.r)?' ('+nameOf(x.r)+')':''}, `+
+    `срок ${fmtS(x.start)}–${fmtS(x.end)}, готовность ${s.p||0}%, статус ${HEAT[heatKey(x)].l}`+
+    (s.blocked?', БЛОКЕР':'')+(s.note?`, комментарий: ${s.note}`:'');
+}
+
+async function aiRisks(){
+  const box=$('#aiRiskBox'); if(!box) return;
+  if(!SAMPLE){ box.innerHTML=`<div class="note">${noAI}</div>`; return; }
+  box.innerHTML = '<div class="thinking">Ассистент разбирает картину проекта…</div>';
+  const hot = INST.filter(x=>(Store.task(x.id).p||0)<100 && HEAT[heatKey(x)].w>=2)
+    .sort((a,b)=>HEAT[heatKey(b)].w-HEAT[heatKey(a)].w).slice(0,25);
+  const soon = INST.filter(x=>overlaps(x,today,addD(today,30)) && (Store.task(x.id).p||0)<100).slice(0,25);
+  const rules = computeRisks().map(r=>`- [${r.lvl}] ${r.title}`).join('\n');
+  const input = `${ctxHeader()}
+
+Ты — руководитель проектного офиса фестиваля. Разбери риски зоны фуд-корта и дай решения.
+
+Задачи с отставанием и просрочкой:
+${hot.map(taskLine).join('\n')||'нет'}
+
+Задачи ближайших 30 дней:
+${soon.map(taskLine).join('\n')||'нет'}
+
+Риски, которые уже нашли автоматические правила (не повторяй их дословно, дополняй и связывай):
+${rules||'нет'}
+
+Верни 4–6 рисков, которых правила не видят: связки между задачами, конфликты двух городов, внешние подрядчики, юридические и финансовые сроки, репутация перед резидентами.
+Формат каждого риска, обычным текстом без markdown-разметки:
+РИСК N. Заголовок
+Уровень: критический / высокий / средний
+Что происходит: 2–3 предложения с опорой на конкретные задачи и даты выше.
+Решения: три варианта, каждый с новой строки, начиная с тире. Каждый — конкретное действие с ответственной ролью и сроком.
+Пиши по-русски, деловым языком, без воды и без вступления.`;
+  try{
+    let acc='';
+    await SAMPLE(input, {modelTier:'complex', onText:({text})=>{acc=text;
+      box.innerHTML = `<div style="white-space:pre-wrap;font-size:13.5px;line-height:1.6">${esc(text)}</div>`;}});
+    await Store.saveAI('risks', {text:acc, at:new Date().toLocaleString('ru-RU'), by:Me.label()});
+  }catch(e){
+    box.innerHTML = `<div class="note">${e.code==='not_granted'?'Разбор не выполнен: доступ к ассистенту не выдан.':'Не удалось получить разбор ('+esc(e.code||'ошибка')+'). Правила рисков выше работают всегда.'}</div>`;
+  }
+}
+
+async function aiPlan(){
+  const box=$('#planBox'); if(!box) return;
+  if(!SAMPLE){ box.innerHTML=`<div class="note">${noAI}</div>`; return; }
+  const [a,b]=weekRange(blWeek);
+  const list = byRole(blRole).filter(x=>overlaps(x,a,b) && (Store.task(x.id).p||0)<100);
+  if(!list.length){ box.innerHTML='<div class="note">На эту неделю открытых задач нет — план не нужен.</div>'; return; }
+  box.innerHTML = '<div class="thinking">Ассистент собирает план недели…</div>';
+  const blockers = list.flatMap(x=>x.dep.map(n=>depInst(x,n)).filter(d=>d&&(Store.task(d.id).p||0)<100)
+    .map(d=>`- «${x.t.slice(0,50)}…» ждёт «${d.t.slice(0,50)}…» (${ROLE[d.r].n}, ${Store.task(d.id).p||0}%)`));
+  const input = `${ctxHeader()}
+
+Собери рабочий план на неделю ${fmtL(a)} — ${fmtL(b)} для роли «${ROLE[blRole].n}»${nameOf(blRole)?' ('+nameOf(blRole)+')':''}.
+Зона ответственности роли: ${ROLE[blRole].s}.
+
+Открытые задачи в окне недели:
+${list.map(taskLine).join('\n')}
+
+Незакрытые входы от смежников:
+${blockers.join('\n')||'нет'}
+
+Верни план обычным текстом без markdown-разметки:
+ФОКУС НЕДЕЛИ: одна фраза — главное, что должно закрыться.
+Затем по каждой задаче блок:
+Задача (сокращённо)
+- 2–4 шага на неделю, каждый с новой строки через тире, каждый — действие за один-два дня с проверяемым результатом
+- Срок внутри недели и от кого нужен вход, если он есть
+В конце: ЧТО ЗАПРОСИТЬ У СМЕЖНИКОВ — список из 1–3 пунктов с ролью и датой.
+Пиши по-русски, коротко, без вступления.`;
+  try{
+    let acc='';
+    await SAMPLE(input, {onText:({text})=>{acc=text;
+      box.innerHTML=`<div style="white-space:pre-wrap;font-size:13px;line-height:1.55">${esc(text)}</div>`;}});
+    await Store.saveAI('plan:'+blRole+':'+iso(a), {text:acc, at:new Date().toLocaleString('ru-RU')});
+  }catch(e){
+    box.innerHTML = `<div class="note">${e.code==='not_granted'?'Доступ к ассистенту не выдан.':'Не удалось собрать план ('+esc(e.code||'ошибка')+').'}</div>`;
+  }
+}
+
+async function askAssistant(){
+  if(!SAMPLE){ await pushMsg({who:'Ассистент штаба', role:chatRole, kind:'ai', ts:Date.now(), text:noAI}); return; }
+  const q = ($('#cinput').value||'').trim();
+  $('#cinput').value='';
+  const r=ROLE[chatRole];
+  const list = byRole(chatRole).filter(x=>(Store.task(x.id).p||0)<100).slice(0,20);
+  const hist = chatMsgs.slice(-10).map(m=>`${m.who||'—'}: ${m.text}`).join('\n');
+  const box=$('#cbody');
+  if(box) box.insertAdjacentHTML('beforeend','<div class="msg ai" id="aiTmp"><div class="thinking">Ассистент думает…</div></div>');
+  if(box) box.scrollTop=box.scrollHeight;
+  const input = `${ctxHeader()}
+
+Ты — ассистент проектного штаба фуд-корта. Отвечаешь в рабочем чате роли «${r.n}»${nameOf(chatRole)?' ('+nameOf(chatRole)+')':''}.
+Зона ответственности: ${r.s}.
+
+Открытые задачи этой роли:
+${list.map(taskLine).join('\n')||'нет'}
+
+Последние сообщения чата:
+${hist||'чат пуст'}
+
+Вопрос: ${q||'Что мне сейчас важнее всего сделать по моим задачам и что может сорваться?'}
+
+Ответь по-русски, 3–6 предложений или коротким списком через тире, без markdown-разметки. Опирайся на конкретные задачи и даты выше. Если нужно решение — предложи один вариант и назови следующий шаг.`;
+  try{
+    if(q) await pushMsg({who:Me.label()||'Вопрос', role:Me.id||chatRole, text:q, ts:Date.now(), kind:'msg'});
+    const {text} = await SAMPLE(input);
+    const tmp=document.getElementById('aiTmp'); if(tmp) tmp.remove();
+    await pushMsg({who:'Ассистент штаба', role:chatRole, kind:'ai', ts:Date.now(), text});
+  }catch(e){
+    const tmp=document.getElementById('aiTmp'); if(tmp) tmp.remove();
+    await pushMsg({who:'Ассистент штаба', role:chatRole, kind:'ai', ts:Date.now(),
+      text: e.code==='not_granted'?'Доступ к ассистенту не выдан — отвечать не могу.':'Не получилось ответить ('+(e.code||'ошибка')+').'});
+  }
+}
+</script>
+
+<script>
+/* =========================================================================
+   МАРШРУТИЗАЦИЯ, СОБЫТИЯ, СТАРТ
+   ========================================================================= */
+const RENDER = {dash:renderDash, road:renderRoad, heat:renderHeat,
+                backlog:renderBacklog, risks:renderRisks, chat:renderChat, team:renderTeam};
+function go(v){
+  VIEW=v;
+  document.querySelectorAll('#nav button').forEach(b=>b.setAttribute('aria-current', String(b.dataset.v===v)));
+  Object.keys(RENDER).forEach(k=>{ $('#v-'+k).hidden = (k!==v); });
+  $('#vTitle').textContent = TITLES[v][0];
+  $('#vSub').textContent   = TITLES[v][1];
+  if(v!=='chat' && chatUnsub){ try{chatUnsub();}catch(e){} chatUnsub=null; chatSubRole=null; }
+  render();
+  window.scrollTo({top:0});
+}
+function render(){
+  paintTop();
+  const f = RENDER[VIEW]; if(f) f();
+  if(drawerId && document.activeElement !== document.getElementById('dNote')) openTask(drawerId);
+}
+function paintTop(){
+  const late=INST.filter(isLate).length, risks=computeRisks();
+  $('#s-all').textContent  = prog(INST)+'%';
+  $('#s-a').textContent    = projProgress('A')+'%';
+  $('#s-b').textContent    = projProgress('B')+'%';
+  $('#s-late').textContent = late;
+  $('#s-late').style.color = late?'var(--danger)':'';
+  const nb=$('#n-backlog'), nr=$('#n-risks');
+  const mine = Me.id ? byRole(Me.id).filter(x=>overlaps(x,...weekRange(0)) && (Store.task(x.id).p||0)<100).length : 0;
+  nb.textContent = mine; nb.hidden = !Me.id || !mine;
+  nr.textContent = risks.length;
+  nr.className = 'cnt' + (risks.some(r=>r.lvl==='crit') ? ' hot' : '');
+  nr.hidden = !risks.length;
+}
+function paintMe(){
+  const r=Me.role();
+  $('#meAv').textContent = r?r.ab:'?';
+  $('#meAv').style.background = r?DEPT[r.d].c:'var(--mute-bg)';
+  $('#meAv').style.color = r?DEPT[r.d].ink:'var(--mute-ink)';
+  $('#meName').textContent = r ? (nameOf(r.id)||r.n) : 'Выберите себя';
+  $('#meRole').textContent = r ? r.n : 'роль не выбрана';
+}
+
+document.addEventListener('click', e=>{
+  const t=e.target.closest('[data-v],[data-go],[data-open],[data-set],[data-done],[data-road],[data-week],[data-chat],[data-chat-go],[data-bl-go],[data-me]');
+  if(!t) return;
+  const d=t.dataset;
+  if(d.v)   return go(d.v);
+  if(d.go)  return go(d.go);
+  if(d.open){ e.preventDefault(); return openTask(d.open); }
+  if(d.set !== undefined && d.p !== undefined) return void Store.saveTask(d.set, {p:Number(d.p)});
+  if(d.done !== undefined){
+    const cur = Store.task(d.done).p||0;
+    return void Store.saveTask(d.done, {p: cur>=100?75:100});
+  }
+  if(d.road){ roadFilter=d.road; return renderRoad(); }
+  if(d.week !== undefined){
+    if(d.week==='jump'){ const j=nextBusyWeek(); if(j!==null) blWeek=j; }
+    else blWeek = d.week==='0' ? 0 : blWeek + Number(d.week);
+    return renderBacklog();
+  }
+  if(d.chat){ if(chatRole!==d.chat){ chatSubRole=null; } chatRole=d.chat; return renderChat(); }
+  if(d.chatGo){ chatSubRole=null; chatRole=d.chatGo; return go('chat'); }
+  if(d.blGo){ blRole=d.blGo; blWeek=0; return go('backlog'); }
+  if(d.me){ Me.set(d.me); $('#modal').hidden=true; return; }
+});
+document.addEventListener('change', e=>{
+  if(e.target.matches('[data-name]')) Store.saveRoster(e.target.dataset.name, {name:e.target.value.trim()});
+});
+document.addEventListener('click', e=>{
+  if(e.target.id==='genPlan') aiPlan();
+  if(e.target.id==='aiRisk')  aiRisks();
+});
+$('#scrim').onclick = closeDrawer;
+$('#meBtn').onclick = openWho;
+document.addEventListener('keydown', e=>{
+  if(e.key!=='Escape') return;
+  if(!$('#drawer').hidden) closeDrawer();
+  else if(!$('#modal').hidden) $('#modal').hidden=true;
+});
+
+/* тема */
+(function(){
+  const saved = LS.get('theme', null);
+  if(saved) document.documentElement.setAttribute('data-theme', saved);
+  $('#themeBtn').onclick = ()=>{
+    const cur = document.documentElement.getAttribute('data-theme');
+    const sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const next = cur ? (cur==='dark'?'light':'dark') : (sysDark?'light':'dark');
+    document.documentElement.setAttribute('data-theme', next);
+    LS.set('theme', next);
+    if(VIEW==='road') renderRoad();
+  };
+})();
+
+/* старт */
+setSync(false);
+paintMe();
+go('dash');
+Store.onChange(()=>{ paintMe(); render(); });
+Store.init();
+initAI();
+if(!Me.id) setTimeout(openWho, 400);
+</script>
