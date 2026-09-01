@@ -29,11 +29,11 @@
   --font:'Inter','Helvetica Neue',Arial,sans-serif;
   --font-display:'Pavliuchenko','Pavliuchenko Trial','Arial Black','Helvetica Neue',Impact,sans-serif;
   --rc-RAZ:#241715;    --ri-RAZ:#F1F2F6;
-  --rc-GASTRO:#1273B8; --ri-GASTRO:#FFFFFF;
-  --rc-HOST:#0E8F8F;   --ri-HOST:#FFFFFF;
+  --rc-GASTRO:#2266BC; --ri-GASTRO:#FFFFFF;
   --rc-MKT:#C2408F;    --ri-MKT:#FFFFFF;
-  --rc-IT:#5B4BC4;     --ri-IT:#FFFFFF;
-  --rc-FIN:#6B5A56;    --ri-FIN:#FFFFFF;
+  --rc-IT:#4A3AA7;     --ri-IT:#FFFFFF;
+  --rc-HOST:#0E7A55;   --ri-HOST:#FFFFFF;
+  --rc-FIN:#A5691A;    --ri-FIN:#FFFFFF;
   --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -56,12 +56,12 @@
   --pA:#6EA8FF; --pA-soft:rgba(110,168,255,.16);
   --pB:#FF6FD8; --pB-soft:rgba(255,111,216,.16);
   --pS:#B9B9C2; --pS-soft:rgba(255,255,255,.10);
-  --rc-RAZ:#D8CFC9;    --ri-RAZ:#17131A;
-  --rc-GASTRO:#6EA8FF; --ri-GASTRO:#0C1220;
-  --rc-HOST:#3ED0C4;   --ri-HOST:#04201E;
-  --rc-MKT:#FF6FD8;    --ri-MKT:#2A0A1E;
-  --rc-IT:#A08CFF;     --ri-IT:#150C2A;
-  --rc-FIN:#C0B2AC;    --ri-FIN:#1A1310;
+  --rc-RAZ:#D8CFC9;    --ri-RAZ:#10121A;
+  --rc-GASTRO:#4A93E8; --ri-GASTRO:#10121A;
+  --rc-MKT:#D95FA8;    --ri-MKT:#10121A;
+  --rc-IT:#8A72E0;     --ri-IT:#10121A;
+  --rc-HOST:#1FAE7C;   --ri-HOST:#10121A;
+  --rc-FIN:#BE8420;    --ri-FIN:#10121A;
 
 }}
 :root[data-theme="dark"]{
@@ -84,12 +84,12 @@
   --pA:#6EA8FF; --pA-soft:rgba(110,168,255,.16);
   --pB:#FF6FD8; --pB-soft:rgba(255,111,216,.16);
   --pS:#B9B9C2; --pS-soft:rgba(255,255,255,.10);
-  --rc-RAZ:#D8CFC9;    --ri-RAZ:#17131A;
-  --rc-GASTRO:#6EA8FF; --ri-GASTRO:#0C1220;
-  --rc-HOST:#3ED0C4;   --ri-HOST:#04201E;
-  --rc-MKT:#FF6FD8;    --ri-MKT:#2A0A1E;
-  --rc-IT:#A08CFF;     --ri-IT:#150C2A;
-  --rc-FIN:#C0B2AC;    --ri-FIN:#1A1310;
+  --rc-RAZ:#D8CFC9;    --ri-RAZ:#10121A;
+  --rc-GASTRO:#4A93E8; --ri-GASTRO:#10121A;
+  --rc-MKT:#D95FA8;    --ri-MKT:#10121A;
+  --rc-IT:#8A72E0;     --ri-IT:#10121A;
+  --rc-HOST:#1FAE7C;   --ri-HOST:#10121A;
+  --rc-FIN:#BE8420;    --ri-FIN:#10121A;
 
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -122,7 +122,7 @@ input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .me{display:flex;align-items:center;gap:9px;width:100%;padding:8px;border-radius:var(--r-sm);
   background:var(--surface-2);text-align:left}
 .me:hover{background:var(--surface-3)}
-.me .av{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:0 0 auto;
+.me .av{min-width:30px;padding:0 6px;height:30px;border-radius:9px;display:grid;place-items:center;flex:0 0 auto;
   font-weight:800;font-size:11px;color:var(--btn-ink);background:var(--accent)}
 .me .who{min-width:0}
 .me .who b{display:block;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -186,6 +186,79 @@ textarea{resize:vertical;line-height:1.5}
 .ptable td.w{width:34%}
 .ptable .num{white-space:nowrap}
 .two > *{min-width:0}
+.nav h4{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted-2);
+  font-weight:800;padding:12px 11px 5px}
+.nav h4:first-child{padding-top:2px}
+
+/* оргструктура */
+.orgwrap{position:relative}
+.orgfig .onode{cursor:pointer}
+.orgfig .onode:hover rect:first-of-type{stroke:var(--text);stroke-width:1.6}
+.orgfig .onode:focus{outline:none}
+.orgfig .onode:focus rect:first-of-type{stroke:var(--info);stroke-width:2}
+.ocard{position:absolute;z-index:20;pointer-events:none;background:var(--surface);border:1px solid var(--line);
+  border-radius:14px;padding:14px;box-shadow:0 16px 44px rgba(12,30,60,.22);font-size:12.5px}
+.orgwrap{padding-bottom:6px}
+.ocard-in{display:flex;flex-direction:column;gap:10px}
+.oc-h{display:flex;gap:10px;align-items:center}
+.oc-h .av{min-width:34px;padding:0 7px;height:34px;border-radius:10px;font-size:11px}
+.oc-h b{display:block;font-size:13.5px;line-height:1.25}
+.oc-h span{display:block;font-size:11px;color:var(--muted-2)}
+.oc-tags{display:flex;gap:5px;flex-wrap:wrap}
+.oc-row{display:flex;flex-direction:column;gap:2px}
+.oc-row b{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2)}
+.oc-row span{font-size:12.5px;line-height:1.45}
+.oc-res b{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);display:block;margin-bottom:6px}
+.oc-res ul{margin-left:16px;display:flex;flex-direction:column;gap:4px}
+.oc-res li{font-size:12.5px;line-height:1.45}
+.oc-res li::marker{color:var(--accent-ink)}
+
+/* нагрузка */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;position:relative}
+.lpanel{border:1px solid var(--line-soft);border-radius:12px;padding:11px 11px 5px;background:var(--surface-2);min-width:0}
+.lp-h{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.lp-h b{font-size:12.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lp-h .num{font-size:11px;color:var(--muted-2);font-weight:700}
+.loadfig{width:100%;height:78px;cursor:crosshair}
+.ltip{position:absolute;z-index:30;pointer-events:none;background:var(--text);color:var(--bg);
+  padding:7px 10px;border-radius:8px;font-size:11.5px;line-height:1.45;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+.findings{margin-left:18px;display:flex;flex-direction:column;gap:9px}
+.findings li{font-size:13.5px;line-height:1.55}
+.findings li::marker{font-weight:800;color:var(--accent-ink)}
+.hrgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}
+.hrgrid>div>b{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);display:block;margin-bottom:8px}
+.hrgrid ul,.hrgrid ol{margin-left:17px;display:flex;flex-direction:column;gap:6px}
+.hrgrid li{font-size:12.8px;line-height:1.5}
+
+/* вакансии */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:14px;align-items:start}
+.vac{background:var(--surface);border:1px solid var(--line-soft);border-left:4px solid var(--h2);
+  border-radius:var(--r);padding:17px;box-shadow:var(--shadow);min-width:0}
+.vac.crit{border-left-color:var(--danger)} .vac.high{border-left-color:var(--h3)}
+.v-h{display:flex;gap:11px;align-items:flex-start;margin-bottom:10px}
+.v-h .av{min-width:36px;padding:0 7px;height:36px;border-radius:10px;font-size:11.5px}
+.v-h h4{font-size:15.5px;line-height:1.25;margin-bottom:6px}
+.v-tags{display:flex;gap:5px;flex-wrap:wrap}
+.v-why{font-size:12.8px;color:var(--muted);line-height:1.55;margin-bottom:13px}
+.v-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.v-grid>div{min-width:0}
+.v-grid b{font-size:9.8px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);display:block;margin-bottom:6px}
+.v-grid ul{margin-left:15px;display:flex;flex-direction:column;gap:4px}
+.v-grid li{font-size:12.2px;line-height:1.45}
+.v-pay{margin-top:13px;padding-top:12px;border-top:1px solid var(--line-soft)}
+.v-pay b{font-size:9.8px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);display:block;margin-bottom:4px}
+.v-pay span{font-size:13.5px;font-weight:700}
+@media (max-width:560px){.v-grid{grid-template-columns:1fr}}
+
+/* маркетинг */
+.pcard{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:12px;padding:14px;min-width:0}
+.pcard b{font-size:12.5px;display:block;margin-bottom:6px}
+.pcard p{font-size:12.8px;color:var(--muted);line-height:1.55}
+.acard{border-left:3px solid var(--line);padding-left:11px}
+.acard b{font-size:12.8px;display:block;margin-bottom:2px}
+.acard span{font-size:12.3px;color:var(--muted);line-height:1.5}
+.clist2{margin-left:16px;display:flex;flex-direction:column;gap:5px}
+.clist2 li{font-size:12.5px;line-height:1.5}
 .grid > *{min-width:0}
 </style>
 <style>
@@ -294,7 +367,7 @@ textarea{resize:vertical;line-height:1.5}
 .crow{width:100%;display:flex;gap:10px;align-items:center;padding:10px 12px;text-align:left;border-bottom:1px solid var(--line-soft)}
 .crow:hover{background:var(--surface-3)}
 .crow[aria-current="true"]{background:var(--text);color:var(--bg)}
-.crow .av{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:11px;font-weight:800;flex:0 0 auto}
+.crow .av{min-width:32px;padding:0 6px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:11px;font-weight:800;flex:0 0 auto}
 .crow .cn{min-width:0;flex:1}
 .crow .cn b{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .crow .cn span{display:block;font-size:10.5px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -315,7 +388,7 @@ textarea{resize:vertical;line-height:1.5}
 .tcard{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:15px;
   display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
 .tcard .th{display:flex;gap:10px;align-items:center}
-.tcard .av{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:13px;font-weight:800;flex:0 0 auto}
+.tcard .av{min-width:38px;padding:0 7px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:12.5px;font-weight:800;flex:0 0 auto}
 .tcard .th b{font-size:13.5px;line-height:1.25;display:block}
 .tcard .th span{font-size:11px;color:var(--muted-2)}
 .tcard input{width:100%;font-size:12.5px;padding:6px 9px}
@@ -345,7 +418,7 @@ textarea{resize:vertical;line-height:1.5}
 .rolelist button{display:flex;gap:10px;align-items:center;padding:9px 11px;border-radius:10px;
   background:var(--surface);border:1px solid var(--line-soft);text-align:left}
 .rolelist button:hover{border-color:var(--text)}
-.rolelist .av{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:10px;font-weight:800;flex:0 0 auto}
+.rolelist .av{min-width:28px;padding:0 6px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:10px;font-weight:800;flex:0 0 auto}
 .rolelist b{font-size:13px;font-weight:600;display:block}
 .rolelist span{font-size:11px;color:var(--muted-2)}
 .thinking{font-size:12.5px;color:var(--muted-2);display:flex;gap:8px;align-items:center}
@@ -378,14 +451,20 @@ textarea{resize:vertical;line-height:1.5}
       <span>Пикник Афиши · сезон 2027</span>
     </div>
     <nav class="nav" id="nav">
+      <h4>Проект</h4>
       <button data-v="dash" aria-current="true">Дашборд</button>
       <button data-v="scheme">Схема процесса</button>
       <button data-v="road">Дорожная карта</button>
       <button data-v="heat">Тепловая карта</button>
-      <button data-v="backlog">Бэклог недели<span class="cnt" id="n-backlog">0</span></button>
       <button data-v="risks">Риски<span class="cnt" id="n-risks">0</span></button>
-      <button data-v="chat">Чаты</button>
+      <h4>Люди</h4>
+      <button data-v="org">Оргструктура</button>
       <button data-v="team">Команда</button>
+      <button data-v="hr">Нагрузка и найм</button>
+      <button data-v="backlog">Бэклог недели<span class="cnt" id="n-backlog">0</span></button>
+      <button data-v="chat">Чаты</button>
+      <h4>Спрос</h4>
+      <button data-v="mkt">Маркетинг гастроблока</button>
     </nav>
     <div class="rail-foot">
       <button class="me" id="meBtn">
@@ -421,6 +500,9 @@ textarea{resize:vertical;line-height:1.5}
     <section class="view" id="v-risks" hidden></section>
     <section class="view" id="v-chat" hidden></section>
     <section class="view" id="v-team" hidden></section>
+    <section class="view" id="v-org" hidden></section>
+    <section class="view" id="v-hr" hidden></section>
+    <section class="view" id="v-mkt" hidden></section>
   </div>
 </div>
 
@@ -461,15 +543,15 @@ const ROLES = [
   {id:'GASTRO',ab:'СМГ',  n:'Старший менеджер гастрозоны', name:'Наталья Арсентьева',
    mix:'менеджер по продажам · менеджер по работе с резидентами',
    s:'Пул резидентов, продажа участия, документы от резидентов, площадка, обратная связь'},
-  {id:'HOST',  ab:'OOFF', n:'Хостинг-менеджмент',          name:'OOFF Studio',
-   mix:'ведение Купера · площадка · инженерия',
-   s:'Карта объектов, электричество, службы, заезд и выезд, Купер'},
   {id:'MKT',   ab:'ММ',   n:'Маркетинг-менеджер',          name:'',
    mix:'директор по маркетингу · лояльность · арт-директор · контент · PR',
    s:'Стратегия и презентация, Клуб резидентов, меню, макеты, оформление, промо'},
   {id:'IT',    ab:'IT',   n:'IT',                          name:'',
    mix:'продакт платформы · технический директор',
    s:'Платформа с личными кабинетами, наладка ПО, digital-меню по QR'},
+  {id:'HOST',  ab:'OOFF', n:'Хостинг-менеджмент',          name:'OOFF Studio',
+   mix:'ведение Купера · площадка · инженерия',
+   s:'Карта объектов, электричество, службы, заезд и выезд, Купер'},
   {id:'FIN',   ab:'ФМ',   n:'Финансовый менеджер',         name:'',
    mix:'бухгалтер · финансы и право',
    s:'Бюджет, договоры, Z-отчёты, документооборот и ЭДО, смета'}
@@ -501,82 +583,82 @@ const STAGES = [
    sc:'season' — абсолютные даты, одна задача на сезон
    sc:'proj'   — смещения в днях от даты фестиваля, дублируется на оба города   */
 const TASKS = [
-  {i:'b1', ph:'base', st:'st1', r:'RAZ', sc:'season', s:'2026-09-01', e:'2026-09-30',
+  {i:'b1', ph:'base', st:'st1', h:40, r:'RAZ', sc:'season', s:'2026-09-01', e:'2026-09-30',
    t:'Определить стратегию сезона: зоны и показатели роста'},
-  {i:'b2', ph:'base', st:'st1', r:'RAZ', sc:'season', s:'2026-09-15', e:'2026-11-15',
+  {i:'b2', ph:'base', st:'st1', h:60, r:'RAZ', sc:'season', s:'2026-09-15', e:'2026-11-15',
    t:'Анализ и построение бизнес-процессов зоны'},
-  {i:'b3', ph:'base', st:'st1', r:'IT',  sc:'season', s:'2026-10-01', e:'2027-02-28',
+  {i:'b3', ph:'base', st:'st1', h:320, r:'IT',  sc:'season', s:'2026-10-01', e:'2027-02-28',
    t:'Автоматизация: платформа с личными кабинетами резидентов и наладка ПО'},
-  {i:'b4', ph:'base', st:'st1', r:'RAZ', sc:'season', s:'2026-10-01', e:'2026-12-15',
+  {i:'b4', ph:'base', st:'st1', h:60, r:'RAZ', sc:'season', s:'2026-10-01', e:'2026-12-15',
    t:'Подбор команды'},
-  {i:'b5', ph:'base', st:'st1', r:'MKT', sc:'season', s:'2026-11-01', e:'2026-12-20',
+  {i:'b5', ph:'base', st:'st1', h:50, r:'MKT', sc:'season', s:'2026-11-01', e:'2026-12-20',
    t:'Построение маркетинговой стратегии'},
-  {i:'b6', ph:'base', st:'st1', r:'RAZ', sc:'season', s:'2026-11-10', e:'2026-12-15', dep:['b1','b2'],
+  {i:'b6', ph:'base', st:'st1', h:40, r:'RAZ', sc:'season', s:'2026-11-10', e:'2026-12-15', dep:['b1','b2'],
    t:'Анализ пакетных предложений и финальный оффер'},
-  {i:'b7', ph:'base', st:'st1', r:'MKT', sc:'season', s:'2026-12-16', e:'2027-01-20', dep:['b6'],
+  {i:'b7', ph:'base', st:'st1', h:30, r:'MKT', sc:'season', s:'2026-12-16', e:'2027-01-20', dep:['b6'],
    t:'Презентация для резидентов'},
-  {i:'b8', ph:'base', st:'st1', r:'MKT', sc:'season', s:'2026-12-01', e:'2027-03-31', dep:['b5'],
+  {i:'b8', ph:'base', st:'st1', h:80, r:'MKT', sc:'season', s:'2026-12-01', e:'2027-03-31', dep:['b5'],
    t:'Клуб резидентов и программа лояльности'},
 
-  {i:'p1',  ph:'prep', st:'st2', r:'HOST',   sc:'proj', s:-210, e:-165,
+  {i:'p1',  ph:'prep', st:'st2', h:40, r:'HOST',   sc:'proj', s:-210, e:-165,
    t:'Карта торговых зон: распределение мест, разметка и нумерация объектов',
    mrg:['Формирование интерактивной карты с распределением торговых зон','Участие в создании карты объектов (разметка, нумерация)']},
-  {i:'p2',  ph:'prep', st:'st2', r:'GASTRO', sc:'proj', s:-180, e:-75, dep:['b7','p1'],
+  {i:'p2',  ph:'prep', st:'st2', h:160, r:'GASTRO', sc:'proj', s:-180, e:-75, dep:['b7','p1'],
    t:'Пул резидентов (30): рассылка оффера, переговоры и продажа участия',
    mrg:['Подбор пула резидентов (30) и рассылка оффера','Коммуникация с резидентами и продажа участия в фестивале']},
-  {i:'p3',  ph:'prep', st:'st0', r:'RAZ',    sc:'proj', s:-180, e:-7,
+  {i:'p3',  ph:'prep', st:'st0', h:50, r:'RAZ',    sc:'proj', s:-180, e:-7,
    t:'Статусные встречи по подготовке'},
-  {i:'p4',  ph:'prep', st:'st0', r:'FIN',    sc:'proj', s:-170, e:30,
+  {i:'p4',  ph:'prep', st:'st0', h:60, r:'FIN',    sc:'proj', s:-170, e:30,
    t:'Ведение бюджета фуд-корта'},
-  {i:'p5',  ph:'prep', st:'st2', r:'HOST',   sc:'proj', s:-160, e:-60,
+  {i:'p5',  ph:'prep', st:'st2', h:40, r:'HOST',   sc:'proj', s:-160, e:-60,
    t:'Ведение коммерческого партнёра с форматом Доставки Купер'},
-  {i:'p6',  ph:'prep', st:'st3', r:'GASTRO', sc:'proj', s:-120, e:-45, dep:['p2'],
+  {i:'p6',  ph:'prep', st:'st3', h:80, r:'GASTRO', sc:'proj', s:-120, e:-45, dep:['p2'],
    t:'Сбор и контроль дедлайнов документации и тех. информации (меню, оборудование, электричество, формы подключения)'},
-  {i:'p7',  ph:'prep', st:'st2', r:'RAZ',    sc:'proj', s:-120, e:-45,
+  {i:'p7',  ph:'prep', st:'st2', h:50, r:'RAZ',    sc:'proj', s:-120, e:-45,
    t:'Партнёрские интеграции в меню резидентов (эксклюзив на б/а напитки, СБП, кэшбэк банка-партнёра)'},
-  {i:'p8',  ph:'prep', st:'st3', r:'FIN',    sc:'proj', s:-110, e:-40, dep:['p6'],
+  {i:'p8',  ph:'prep', st:'st3', h:70, r:'FIN',    sc:'proj', s:-110, e:-40, dep:['p6'],
    t:'Договоры с резидентами: реквизиты, подготовка, контроль и подписание',
    mrg:['Передача реквизитов и контактов для подписания договора в юридический отдел','Подготовка, контроль и подписание договоров с резидентами']},
-  {i:'p9',  ph:'prep', st:'st4', r:'HOST',   sc:'proj', s:-75,  e:-45, dep:['p6'],
+  {i:'p9',  ph:'prep', st:'st4', h:25, r:'HOST',   sc:'proj', s:-75,  e:-45, dep:['p6'],
    t:'ТЗ на электричество подрядчику'},
-  {i:'p10', ph:'prep', st:'st4', r:'MKT',    sc:'proj', s:-70,  e:-45, dep:['p6'],
+  {i:'p10', ph:'prep', st:'st4', h:45, r:'MKT',    sc:'proj', s:-70,  e:-45, dep:['p6'],
    t:'Копирайтинг всех меню и ТЗ графическому дизайнеру'},
-  {i:'p11', ph:'prep', st:'st4', r:'GASTRO', sc:'proj', s:-60,  e:-20, dep:['p8'],
+  {i:'p11', ph:'prep', st:'st4', h:40, r:'GASTRO', sc:'proj', s:-60,  e:-20, dep:['p8'],
    t:'Онбординг резидентов с собственной застройкой'},
-  {i:'p12', ph:'prep', st:'st5', r:'HOST',   sc:'proj', s:-60,  e:-15, dep:['p8','p1'],
+  {i:'p12', ph:'prep', st:'st5', h:55, r:'HOST',   sc:'proj', s:-60,  e:-15, dep:['p8','p1'],
    t:'Регламент заезда и выезда: памятка резидента, графики, списки персонала и авто',
    mrg:['Сбор данных для въезда и выезда (списки персонала и авто)','Разработка памятки резидента и графиков заезда / выезда']},
-  {i:'p13', ph:'prep', st:'st4', r:'MKT',    sc:'proj', s:-50,  e:-25, dep:['p8'],
+  {i:'p13', ph:'prep', st:'st4', h:30, r:'MKT',    sc:'proj', s:-50,  e:-25, dep:['p8'],
    t:'Промо-материалы: информация о зоне и участниках фуд-корта для PR'},
-  {i:'p14', ph:'prep', st:'st4', r:'MKT',    sc:'proj', s:-45,  e:-10, dep:['p10'],
+  {i:'p14', ph:'prep', st:'st4', h:70, r:'MKT',    sc:'proj', s:-45,  e:-10, dep:['p10'],
    t:'Макеты и оформление: печатные носители по брендбуку, единый стиль корнеров и фуд-траков',
    mrg:['Создание печатных макетов согласно брендбуку фестиваля','Контроль и работа с дизайн-отделом по оформлению корнеров и фуд-траков в едином стиле']},
-  {i:'p15', ph:'prep', st:'st4', r:'IT',     sc:'proj', s:-40,  e:-7, dep:['p10','b3'],
+  {i:'p15', ph:'prep', st:'st4', h:60, r:'IT',     sc:'proj', s:-40,  e:-7, dep:['p10','b3'],
    t:'Digital-меню по QR-коду: интерактивное меню каждого резидента с фотографиями'},
 
-  {i:'l1', ph:'live', st:'st5', r:'HOST',   sc:'proj', s:-2, e:0, dep:['p12'],
+  {i:'l1', ph:'live', st:'st5', h:30, r:'HOST',   sc:'proj', s:-2, e:0, dep:['p12'],
    t:'Контроль заезда участников согласно графику'},
-  {i:'l2', ph:'live', st:'st5', r:'HOST',   sc:'proj', s:-1, e:2, dep:['p9'],
+  {i:'l2', ph:'live', st:'st5', h:36, r:'HOST',   sc:'proj', s:-1, e:2, dep:['p9'],
    t:'Работа служб: энергоснабжение, клининг, хэлперы, охрана'},
-  {i:'l3', ph:'live', st:'st5', r:'GASTRO', sc:'proj', s:0,  e:2, dep:['p11'],
+  {i:'l3', ph:'live', st:'st5', h:36, r:'GASTRO', sc:'proj', s:0,  e:2, dep:['p11'],
    t:'Координация резидентов на площадке и в общем чате, включая собственную застройку',
    mrg:['Поддержка резидентов в режиме онлайн (общий чат)','Контроль и координация работы резидентов на площадке','Курирование резидентов фуд-корта с собственной застройкой']},
-  {i:'l4', ph:'live', st:'st5', r:'GASTRO', sc:'proj', s:0,  e:2,
+  {i:'l4', ph:'live', st:'st5', h:30, r:'GASTRO', sc:'proj', s:0,  e:2,
    t:'Координация дежурных администраторов'},
-  {i:'l5', ph:'live', st:'st5', r:'FIN',    sc:'proj', s:0,  e:3,
+  {i:'l5', ph:'live', st:'st5', h:24, r:'FIN',    sc:'proj', s:0,  e:3,
    t:'Снятие Z-отчётов и контроль финансовой дисциплины'},
 
-  {i:'a1', ph:'post', st:'st6', r:'HOST',   sc:'proj', s:2,  e:6,
+  {i:'a1', ph:'post', st:'st6', h:30, r:'HOST',   sc:'proj', s:2,  e:6,
    t:'Выезд резидентов и вывоз отходов (масло, вода)',
    mrg:['Координация и контроль выезда резидентов','Контроль вывоза отходов (масло, вода)']},
-  {i:'a2', ph:'post', st:'st6', r:'GASTRO', sc:'proj', s:3,  e:14,
+  {i:'a2', ph:'post', st:'st6', h:20, r:'GASTRO', sc:'proj', s:3,  e:14,
    t:'Сбор обратной связи у резидентов после мероприятия'},
-  {i:'a3', ph:'post', st:'st6', r:'FIN',    sc:'proj', s:5,  e:30, dep:['p8','l5'],
+  {i:'a3', ph:'post', st:'st6', h:60, r:'FIN',    sc:'proj', s:5,  e:30, dep:['p8','l5'],
    t:'Закрытие документооборота: сдача документов в ФЭО и юридический отдел, загрузка в ЭДО'},
-  {i:'a4', ph:'post', st:'st6', r:'RAZ',    sc:'proj', s:10, e:25, dep:['a2','l5'],
+  {i:'a4', ph:'post', st:'st6', h:30, r:'RAZ',    sc:'proj', s:10, e:25, dep:['a2','l5'],
    t:'Отчёт по зоне фуд-корт: презентация и защита на итоговой встрече',
    mrg:['Предоставление отчётной презентации по зоне фуд-корт','Участие в отчётной встрече после мероприятия']},
-  {i:'a5', ph:'post', st:'st6', r:'FIN',    sc:'proj', s:14, e:40, dep:['p4','a3'],
+  {i:'a5', ph:'post', st:'st6', h:40, r:'FIN',    sc:'proj', s:14, e:40, dep:['p4','a3'],
    t:'Закрытие и сдача сметы'}
 ];
 
@@ -584,12 +666,12 @@ const TASKS = [
 const INST = [];
 for(const t of TASKS){
   if(t.sc==='season'){
-    INST.push({id:'S'+t.i, n:t.i, p:'S', ph:t.ph, st:t.st, r:t.r, t:t.t, dep:t.dep||[], mrg:t.mrg,
+    INST.push({id:'S'+t.i, n:t.i, p:'S', ph:t.ph, st:t.st, r:t.r, t:t.t, h:t.h, dep:t.dep||[], mrg:t.mrg,
                start:d_(t.s), end:d_(t.e)});
   } else {
     for(const pk of ['A','B']){
       const D0 = PROJECTS[pk].date;
-      INST.push({id:pk+t.i, n:t.i, p:pk, ph:t.ph, st:t.st, r:t.r, t:t.t, dep:t.dep||[], mrg:t.mrg,
+      INST.push({id:pk+t.i, n:t.i, p:pk, ph:t.ph, st:t.st, r:t.r, t:t.t, h:t.h, dep:t.dep||[], mrg:t.mrg,
                  start:addD(D0,t.s), end:addD(D0,t.e)});
     }
   }
@@ -869,7 +951,10 @@ const TITLES = {
   backlog:['Бэклог недели','Что взять в работу на неделю каждому сотруднику'],
   risks:['Риски','Что уже мешает и что с этим делать'],
   chat:['Чаты','Переписка по задачам с каждой ролью'],
-  team:['Команда','Роли, исполнители и их загрузка']
+  team:['Команда','Роли, исполнители и их загрузка'],
+  org:['Оргструктура','Кто кому подчиняется и что с кого спрашивать'],
+  hr:['Нагрузка и найм','Сколько стоит каждая роль и кого нанимать'],
+  mkt:['Маркетинг гастроблока','Стратегия спроса: резиденты и гости']
 };
 
 /* ---------- 1. ДАШБОРД ---------- */
@@ -1648,11 +1733,763 @@ ${hist||'чат пуст'}
 </script>
 
 <script>
+
+/* =========================================================================
+   ОРГСТРУКТУРА
+   ========================================================================= */
+const ORG = [
+  {id:'RAZ', role:'RAZ', lvl:0, x:390, w:220, kind:'штат',
+   l:['Директор по развитию'], rep:'—',
+   zone:'Владелец гастроблока как бизнеса: экономика, процессы, партнёрства, команда.',
+   res:['Стратегия сезона с зонами и показателями роста',
+        'Карта бизнес-процессов зоны — кто что передаёт и в какой срок',
+        'Утверждённый пакетный оффер и прайс на оба города',
+        'Укомплектованная команда до старта продаж',
+        'Подписанные партнёрские интеграции (напитки, СБП, кэшбэк банка)',
+        'Отчёт по зоне, принятый на итоговой встрече фестиваля']},
+
+  {id:'GASTRO', role:'GASTRO', lvl:1, x:30, w:170, kind:'штат',
+   l:['Старший менеджер','гастрозоны'], rep:'Директор по развитию',
+   zone:'Единая точка входа для резидента: от первого письма до обратной связи после фестиваля.',
+   res:['30 подтверждённых резидентов на город',
+        'Полный комплект тех. информации и меню от каждого резидента в срок',
+        'Согласованные проекты резидентов с собственной застройкой',
+        'Работающая зона в дни фестиваля без простоев точек',
+        'Обратная связь собрана у 100% резидентов']},
+
+  {id:'MKT', role:'MKT', lvl:1, x:222, w:170, kind:'штат',
+   l:['Маркетинг-менеджер'], rep:'Директор по развитию',
+   zone:'Спрос с двух сторон: резидент хочет купить место, гость хочет дойти до корнера.',
+   res:['Маркетинговая стратегия гастроблока с KPI',
+        'Презентация для резидентов, по которой продают',
+        'Работающий Клуб резидентов: три уровня, реферальная программа',
+        'Тексты всех меню и ТЗ дизайнеру',
+        'Печатные носители и единое оформление корнеров и фуд-траков',
+        'Пакет промо-материалов для PR-отдела фестиваля']},
+
+  {id:'IT', role:'IT', lvl:1, x:414, w:170, kind:'штат / подряд',
+   l:['IT · продакт','платформы'], rep:'Директор по развитию',
+   zone:'Всё, что резидент и гость видят на экране, и всё, что считает система.',
+   res:['Платформа с личными кабинетами резидентов в проде',
+        'Настроенное ПО и интеграции с ЭДО и оплатой',
+        'Digital-меню по QR для каждого резидента с фотографиями']},
+
+  {id:'HOST', role:'HOST', lvl:1, x:606, w:170, kind:'подрядчик', ext:true,
+   l:['Хостинг-менеджмент'], rep:'Директор по развитию · договор подряда',
+   zone:'Физическая площадка: объекты, мощности, службы, движение людей и машин.',
+   res:['Карта объектов с разметкой и нумерацией',
+        'ТЗ на электричество с расчётом мощностей по заявкам резидентов',
+        'Регламент заезда и выезда, графики, списки персонала и авто',
+        'Заезд по графику без срыва первого дня',
+        'Работающие службы все дни фестиваля',
+        'Выезд, вывоз отходов, площадка сдана',
+        'Ведение коммерческого партнёра — формат доставки Купер']},
+
+  {id:'FIN', role:'FIN', lvl:1, x:798, w:170, kind:'штат',
+   l:['Финансовый','менеджер'], rep:'Директор по развитию',
+   zone:'Деньги и бумаги: от бюджета до закрытой сметы, договоры и ЭДО.',
+   res:['Бюджет фуд-корта с планом-фактом по обоим городам',
+        'Подписанные договоры со всеми резидентами',
+        'Z-отчёты сняты по всем точкам, дисциплина подтверждена',
+        'Все документы загружены в ЭДО',
+        'Смета закрыта и сдана']},
+
+  {id:'ADMIN', role:null, lvl:2, x:40, w:150, kind:'линейный персонал', ext:true,
+   l:['Администраторы','фуд-корта'], rep:'Старший менеджер гастрозоны', parent:'GASTRO',
+   who:'6–8 человек на город',
+   zone:'Дежурство по сменам на площадке в дни фестиваля.',
+   res:['Открытие и закрытие точек по графику',
+        'Журнал инцидентов по сменам',
+        'Резидент на площадке не остаётся без ответа дольше 15 минут']},
+
+  {id:'DESIGN', role:null, lvl:2, x:232, w:150, kind:'подряд', ext:true,
+   l:['Графический','дизайнер'], rep:'Маркетинг-менеджер', parent:'MKT',
+   who:'подряд, оплачивается отдельно от пакета',
+   zone:'Вёрстка носителей и развёртки оформления по брендбуку фестиваля.',
+   res:['Макеты всех меню и носителей, готовые к печати',
+        'Развёртки оформления корнеров и фуд-траков',
+        'Исходники переданы заказчику']},
+
+  {id:'SERV', role:null, lvl:2, x:616, w:150, kind:'подрядчики', ext:true,
+   l:['Подрядчики служб'], rep:'Хостинг-менеджмент', parent:'HOST',
+   who:'энергоснабжение, клининг, хэлперы, охрана',
+   zone:'Инфраструктура площадки в дни заезда, работы и выезда.',
+   res:['Энергоснабжение по ТЗ и заявленным мощностям',
+        'Клининг по графику всех дней',
+        'Хэлперы на заезд и выезд',
+        'Охрана периметра зоны']}
+];
+const ORGBY = Object.fromEntries(ORG.map(o=>[o.id,o]));
+
+function orgCard(o){
+  const r = o.role ? ROLE[o.role] : null;
+  const list = r ? byRole(r.id) : [];
+  const hours = list.reduce((s,x)=>s+(x.h||0),0);
+  const pk = r ? peakFTE(r.id) : null;
+  return `<div class="ocard-in">
+    <div class="oc-h">${r?avatar(r.id,'av'):`<span class="av" style="background:var(--mute-bg);color:var(--mute-ink)">···</span>`}
+      <div><b>${esc(r?r.n:o.l.join(' '))}</b>
+        <span>${esc(r ? (nameOf(r.id)||'исполнитель не назначен') : (o.who||''))}</span></div></div>
+    <div class="oc-tags"><span class="pill">${esc(o.kind)}</span>
+      ${r?`<span class="pill">${list.length} задач</span><span class="pill">${hours} ч</span>`:''}
+      ${pk?`<span class="pill" style="background:${pk.fte>1?'var(--h3)':'var(--h1)'};color:${pk.fte>1?'var(--h3i)':'var(--h1i)'}">пик ${pk.fte.toFixed(1)} ставки</span>`:''}</div>
+    <div class="oc-row"><b>Подчиняется</b><span>${esc(o.rep)}</span></div>
+    ${r?`<div class="oc-row"><b>Совмещает</b><span>${esc(r.mix)}</span></div>`:''}
+    <div class="oc-row"><b>Зона ответственности</b><span>${esc(o.zone)}</span></div>
+    <div class="oc-res"><b>Результат, который обязан предоставить</b>
+      <ul>${o.res.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+  </div>`;
+}
+
+function figOrg(){
+  const Y = [16, 150, 292], H = [72, 84, 84];
+  const node = o=>{
+    const y = Y[o.lvl], h = H[o.lvl];
+    const col = o.role ? `var(--rc-${o.role})` : 'var(--muted-2)';
+    const nm  = o.role ? (nameOf(o.role)||'не назначен') : (o.who||'');
+    return `<g class="onode" data-org="${o.id}" tabindex="0" role="button"
+        aria-label="${esc(o.role?ROLE[o.role].n:o.l.join(' '))}">
+      <title>${esc(o.role?ROLE[o.role].n:o.l.join(' '))} — ${esc(o.kind)}. Наведите, чтобы увидеть результат позиции.</title>
+      <rect x="${o.x}" y="${y}" width="${o.w}" height="${h}" rx="11" fill="var(--surface)"
+        stroke="${o.ext?col:'var(--line)'}" stroke-width="${o.ext?1.4:1}"
+        stroke-dasharray="${o.ext?'5 4':'0'}"></rect>
+      <path d="M${o.x} ${y+11} a11 11 0 0 1 11 -11 h${o.w-22} a11 11 0 0 1 11 11 v3 h-${o.w} Z" fill="${col}"></path>
+      ${o.l.map((t,i)=>`<text x="${o.x+13}" y="${y+(o.lvl===0?32:30)+i*15}" font-size="${o.lvl===0?13.5:11.8}"
+        font-weight="800" fill="currentColor">${esc(t)}</text>`).join('')}
+      <text x="${o.x+13}" y="${y+h-22}" font-size="9.6" fill="var(--muted-2)">${esc(nm.length>26?nm.slice(0,26)+'…':nm)}</text>
+      <text x="${o.x+13}" y="${y+h-9}" font-size="8.8" font-weight="700" letter-spacing=".5"
+        fill="${col}">${esc(o.kind.toUpperCase())}</text>
+    </g>`;
+  };
+  const cx = o=>o.x+o.w/2;
+  const lvl1 = ORG.filter(o=>o.lvl===1);
+  const busY = 122, rootB = Y[0]+H[0];
+  const links = `<g stroke="var(--line)" stroke-width="1.4" fill="none">
+      <line x1="500" y1="${rootB}" x2="500" y2="${busY}"></line>
+      <line x1="${cx(lvl1[0])}" y1="${busY}" x2="${cx(lvl1[lvl1.length-1])}" y2="${busY}"></line>
+      ${lvl1.map(o=>`<line x1="${cx(o)}" y1="${busY}" x2="${cx(o)}" y2="${Y[1]}"
+        stroke-dasharray="${o.ext?'5 4':'0'}"></line>`).join('')}
+      ${ORG.filter(o=>o.lvl===2).map(o=>{const par=ORGBY[o.parent];
+        return `<line x1="${cx(par)}" y1="${Y[1]+H[1]}" x2="${cx(par)}" y2="${Y[2]-14}" stroke-dasharray="5 4"></line>
+                <line x1="${cx(par)}" y1="${Y[2]-14}" x2="${cx(o)}" y2="${Y[2]-14}" stroke-dasharray="5 4"></line>
+                <line x1="${cx(o)}" y1="${Y[2]-14}" x2="${cx(o)}" y2="${Y[2]}" stroke-dasharray="5 4"></line>`;}).join('')}
+    </g>`;
+  return `<svg class="fig orgfig" viewBox="0 0 1000 386" role="img"
+      aria-label="Оргструктура гастроблока: директор по развитию, пять функций и внешние подрядчики">
+    <title>Оргструктура гастроблока</title>
+    ${links}${ORG.map(node).join('')}</svg>`;
+}
+
+let orgPinned = null;
+function renderOrg(){
+  $('#v-org').innerHTML = `
+    <div class="card">
+      <div class="ask">Кто кому подчиняется и что с кого спрашивать</div>
+      <div class="figcap" style="margin:0 0 14px">Сплошная рамка — штат, пунктирная — подряд и линейный персонал.
+        Наведите на позицию (или нажмите на неё) — откроется карточка с зоной ответственности
+        и результатом, который эта позиция обязана предоставить.</div>
+      <div class="orgwrap" id="orgWrap">
+        <div class="scroll-x"><div style="min-width:880px">${figOrg()}</div></div>
+        <div class="ocard" id="orgCard" hidden></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <div class="sec-h">Все позиции и их результат</div>
+      <div class="scroll-x"><table class="ptable">
+        <thead><tr><th>Позиция</th><th>Исполнитель</th><th>Тип</th><th>Подчиняется</th>
+          <th>Результат, который обязан предоставить</th></tr></thead>
+        <tbody>${ORG.map(o=>{const r=o.role?ROLE[o.role]:null;
+          return `<tr>
+            <td><div style="display:flex;gap:8px;align-items:center;font-weight:700">
+              ${r?avatar(r.id,''):''}${esc(r?r.n:o.l.join(' '))}</div></td>
+            <td>${esc(r?(nameOf(r.id)||'не назначен'):(o.who||'—'))}</td>
+            <td><span class="pill">${esc(o.kind)}</span></td>
+            <td>${esc(o.rep)}</td>
+            <td class="w"><ul style="margin-left:15px;display:flex;flex-direction:column;gap:3px">
+              ${o.res.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></td></tr>`;}).join('')}
+        </tbody></table></div>
+    </div>`;
+  bindOrg();
+}
+
+function bindOrg(){
+  const wrap=$('#orgWrap'), card=$('#orgCard'); if(!wrap||!card) return;
+  const show = (el,id)=>{
+    card.innerHTML = orgCard(ORGBY[id]); card.hidden=false;
+    const wr=wrap.getBoundingClientRect(), nr=el.getBoundingClientRect();
+    const cw=Math.min(400, wr.width-24);
+    card.style.width = cw+'px';
+    const ch = card.offsetHeight;
+    const nL = nr.left - wr.left, nT = nr.top - wr.top;
+    let left, top;
+    if(nT + nr.height + 10 + ch <= wr.height){            // под позицией
+      top = nT + nr.height + 10;
+      left = nL + nr.width/2 - cw/2;
+    } else if(nT - 10 - ch >= 0){                          // над позицией
+      top = nT - 10 - ch;
+      left = nL + nr.width/2 - cw/2;
+    } else {                                               // сбоку, чтобы не накрыть саму позицию
+      top = Math.max(4, Math.min(wr.height - ch - 4, nT + nr.height/2 - ch/2));
+      left = (nL + nr.width + 12 + cw <= wr.width) ? nL + nr.width + 12 : nL - cw - 12;
+    }
+    card.style.left = Math.max(4, Math.min(wr.width - cw - 4, left))+'px';
+    card.style.top  = Math.max(4, top)+'px';
+  };
+  const hide = ()=>{ if(!orgPinned){ card.hidden=true; } };
+  wrap.querySelectorAll('.onode').forEach(el=>{
+    const id = el.dataset.org;
+    el.addEventListener('mouseenter', ()=>{ if(!orgPinned) show(el,id); });
+    el.addEventListener('focus',      ()=>{ show(el,id); });
+    el.addEventListener('mouseleave', hide);
+    el.addEventListener('blur',       hide);
+    el.addEventListener('click', e=>{ e.stopPropagation();
+      if(orgPinned===id){ orgPinned=null; card.hidden=true; }
+      else { orgPinned=id; show(el,id); } });
+    el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); el.click(); } });
+  });
+  wrap.addEventListener('click', ()=>{ orgPinned=null; card.hidden=true; });
+}
+
+/* =========================================================================
+   НАГРУЗКА И НАЙМ
+   ========================================================================= */
+const WEEKS = (()=>{ const a=[]; let d=new Date(T0); d=addD(d,-((d.getDay()+6)%7));
+  while(d<TEND){ a.push(new Date(d)); d=addD(d,7); } return a; })();
+const FTE_H = 40;
+
+function loadByWeek(list){
+  return WEEKS.map(w0=>{ const w1=addD(w0,6); let h=0;
+    list.forEach(x=>{
+      const s = x.start>w0?x.start:w0, e = x.end<w1?x.end:w1;
+      if(s>e) return;
+      const tot = days(x.start,x.end)+1, ov = days(s,e)+1;
+      h += (x.h||0)*ov/tot;
+    });
+    return h; });
+}
+const LOAD = {}; ROLES.forEach(r=>{ LOAD[r.id] = loadByWeek(byRole(r.id)); });
+const LOAD_ALL = WEEKS.map((_,i)=>ROLES.reduce((s,r)=>s+LOAD[r.id][i],0));
+const LOAD_MAX = Math.max(20, Math.ceil(Math.max(...ROLES.map(r=>Math.max(...LOAD[r.id])))/20)*20);
+
+function peakFTE(roleId){
+  const a = LOAD[roleId]; let mi=0;
+  a.forEach((v,i)=>{ if(v>a[mi]) mi=i; });
+  return {fte:a[mi]/FTE_H, week:WEEKS[mi], hours:a[mi]};
+}
+function roleStats(r){
+  const a = LOAD[r.id], act = a.filter(v=>v>0.5);
+  const hours = byRole(r.id).reduce((s,x)=>s+(x.h||0),0);
+  const avg = act.length ? act.reduce((s,v)=>s+v,0)/act.length/FTE_H : 0;
+  const pk = peakFTE(r.id);
+  const over = a.filter(v=>v>FTE_H).length;
+  let verdict, tone;
+  if(!nameOf(r.id))            { verdict='Вакансия открыта'; tone='crit'; }
+  else if(pk.fte>1.5)          { verdict='Нужен второй человек на пик'; tone='high'; }
+  else if(avg>0.8)             { verdict='Полная ставка'; tone='ok'; }
+  else if(avg>0.4)             { verdict='Неполная ставка'; tone='ok'; }
+  else                         { verdict='Ниже половины ставки — есть запас'; tone='ok'; }
+  return {hours, avg, peak:pk, over, weeks:act.length, verdict, tone};
+}
+
+/* ---------- малые кратные: недельная нагрузка каждой роли ---------- */
+function figLoad(roleId){
+  const W=320, H=78, PL=4, PR=4, PT=8, PB=14;
+  const a = LOAD[roleId], n = a.length;
+  const step = (W-PL-PR)/(n-1);
+  const y = v => PT + (H-PT-PB) * (1 - Math.min(v,LOAD_MAX)/LOAD_MAX);
+  const px = i => PL + i*step;
+  const pts = a.map((v,i)=>`${px(i).toFixed(1)},${y(v).toFixed(1)}`).join(' L');
+  const area = `M${px(0)},${y(0)} L${pts} L${px(n-1)},${y(0)} Z`;
+  const yF = y(FTE_H);
+  const evx = ['A','B'].map(p=>{ const i=WEEKS.findIndex(w=>days(w,PROJECTS[p].date)>=0 && days(w,PROJECTS[p].date)<7);
+    return i<0?'':`<line x1="${px(i)}" y1="${PT}" x2="${px(i)}" y2="${H-PB}" stroke="var(--p${p})" stroke-width="1.2" opacity=".55"></line>`; }).join('');
+  const ticks = WEEKS.map((w,i)=>({w,i})).filter(({w})=>w.getDate()<=7 && w.getMonth()%3===0)
+    .map(({w,i})=>`<text x="${px(i)}" y="${H-3}" font-size="7.6" text-anchor="middle" fill="var(--muted-2)">${MONTH_SHORT[w.getMonth()]} ${String(w.getFullYear()).slice(2)}</text>`).join('');
+  return `<svg class="fig loadfig" data-load="${roleId}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"
+      role="img" aria-label="Недельная нагрузка роли в часах">
+    <title>Часы в неделю; пунктир — одна ставка, 40 часов</title>
+    <path d="${area}" fill="var(--rc-${roleId})" opacity=".18"></path>
+    <path d="M${pts}" fill="none" stroke="var(--rc-${roleId})" stroke-width="2"
+      stroke-linejoin="round" stroke-linecap="round"></path>
+    ${evx}
+    <line x1="${PL}" y1="${yF}" x2="${W-PR}" y2="${yF}" stroke="var(--danger)" stroke-width="1"
+      stroke-dasharray="3 3" opacity=".75"></line>
+    <line x1="${PL}" y1="${H-PB}" x2="${W-PR}" y2="${H-PB}" stroke="var(--line)" stroke-width="1"></line>
+    ${ticks}
+    <line class="lcross" x1="0" y1="${PT}" x2="0" y2="${H-PB}" stroke="currentColor" stroke-width="1" opacity="0"></line>
+    <rect class="lhit" x="0" y="0" width="${W}" height="${H}" fill="transparent"></rect>
+  </svg>`;
+}
+
+/* ---------- вакансии ---------- */
+const VACANCIES = [
+  {id:'v1', role:'MKT', t:'Маркетинг-менеджер гастроблока', type:'штат · полная занятость',
+   start:'выход не позже 1 декабря 2026', prio:'crit',
+   why:'Роль не закрыта, а с ноября 2026 на ней маркетинговая стратегия, презентация для резидентов и запуск Клуба — без них нечем открывать продажи.',
+   duties:['Маркетинговая стратегия гастроблока и её защита',
+           'Презентация и продающие материалы для резидентов',
+           'Клуб резидентов: три уровня, реферальная программа, кэшбэк за отчёт',
+           'Копирайтинг всех меню и ТЗ графическому дизайнеру',
+           'Приёмка макетов и единого оформления корнеров и фуд-траков',
+           'Промо-материалы для PR-отдела фестиваля'],
+   result:['Стратегия с KPI принята до 20 декабря 2026',
+           'Клуб резидентов работает и даёт долю повторных не ниже 40%',
+           'Тексты меню и ТЗ дизайнеру сданы за 45 дней до каждого фестиваля',
+           'Носители и оформление приняты за 10 дней до заезда'],
+   must:['Опыт маркетинга в фестивалях, ресторанных сетях или FMCG от 3 лет',
+         'Собственные тексты — портфолио меню, лендингов, рассылок',
+         'Работа с подрядчиками-дизайнерами по брендбуку',
+         'Считает воронку и юнит-экономику, а не только охваты'],
+   nice:['Опыт запуска программы лояльности','Знание гастрорынка Москвы и Петербурга'],
+   pay:'180 000 — 250 000 ₽/мес на руки + бонус за заполнение зоны',
+   grade:'мидл+ / сеньор'},
+
+  {id:'v2', role:'IT', t:'Продакт-менеджер платформы резидентов', type:'штат или подряд',
+   start:'выход не позже 1 октября 2026', prio:'crit',
+   why:'Платформа с личными кабинетами — 320 часов и самая длинная задача БАЗЫ: старт в октябре 2026, сдача к концу февраля 2027. Digital-меню без неё не поедет.',
+   duties:['Платформа с личными кабинетами резидентов: требования, подрядчик, приёмка',
+           'Наладка ПО и интеграции — ЭДО, оплата, аккредитации',
+           'Digital-меню по QR: интерактивное меню каждого резидента с фотографиями'],
+   result:['Платформа в проде к 28 февраля 2027, резиденты заходят в кабинеты',
+           'Digital-меню подключено минимум у 60% резидентов за неделю до фестиваля',
+           'Ни одного простоя оплаты и загрузки документов в дни продаж'],
+   must:['Опыт продакта или техлида на B2B-кабинетах от 3 лет',
+         'Умеет вести внешнюю разработку: ТЗ, приёмка, сроки',
+         'Понимает документооборот и платежи'],
+   nice:['Опыт в event-tech или HoReCa','Знание low-code как быстрого пути к MVP'],
+   pay:'250 000 — 350 000 ₽/мес в штат · либо подряд 2,5 — 4 млн ₽ за платформу и 60 000 — 90 000 ₽/мес за поддержку',
+   grade:'сеньор'},
+
+  {id:'v3', role:'FIN', t:'Финансовый менеджер проекта', type:'штат · полная занятость',
+   start:'выход не позже 15 января 2027', prio:'high',
+   why:'На роли договоры со всеми резидентами, бюджет обоих городов, Z-отчёты и смета. Договоры — узкое место всей цепочки: без них не печатают меню и не выпускают пропуска.',
+   duties:['Бюджет фуд-корта по обоим городам, план-факт',
+           'Договоры с резидентами: реквизиты, подготовка, контроль, подписание',
+           'Z-отчёты и финансовая дисциплина в дни фестиваля',
+           'Закрытие документооборота, ФЭО, юридический отдел, ЭДО',
+           'Закрытие и сдача сметы'],
+   result:['100% договоров подписано за 40 дней до каждого фестиваля',
+           'План-факт бюджета обновляется еженедельно',
+           'Все документы в ЭДО в течение 30 дней после фестиваля',
+           'Смета сдана и принята'],
+   must:['Опыт финансиста или бухгалтера проектов от 3 лет',
+         'Договорная работа с большим числом мелких контрагентов',
+         'ЭДО, первичка, закрывающие документы'],
+   nice:['Опыт в event или ритейле','Знание 1С и типовых форм фестивальных договоров'],
+   pay:'150 000 — 220 000 ₽/мес',
+   grade:'мидл / мидл+'},
+
+  {id:'v4', role:'GASTRO', t:'Менеджер по работе с резидентами — Петербург', type:'проектный договор',
+   start:'март — сентябрь 2027', prio:'high',
+   why:'Старший менеджер гастрозоны — самая нагруженная роль сезона. В июле и августе Москва и Петербург идут одновременно: в пиковую неделю на роль приходится больше одной ставки.',
+   duties:['Ведение пула резидентов Петербурга под руководством старшего менеджера',
+           'Сбор тех. информации, меню и документов в срок',
+           'Онбординг резидентов с собственной застройкой',
+           'Работа на площадке Елагина парка все дни'],
+   result:['Комплект документов и тех. информации от 100% резидентов Петербурга в срок',
+           'Ни одного срыва заезда по вине незакрытых данных',
+           'Обратная связь собрана у всех резидентов города'],
+   must:['Опыт аккаунт-менеджера или координатора в event от 2 лет',
+         'Готовность к площадочной работе в дни фестиваля',
+         'Аккуратность в документах — это половина роли'],
+   nice:['Знание петербургского гастрорынка','Опыт работы с фуд-траками и корнерами'],
+   pay:'130 000 — 180 000 ₽/мес на период проекта',
+   grade:'мидл'},
+
+  {id:'v5', role:null, t:'Графический дизайнер', type:'подряд · пакет на город',
+   start:'за 70 дней до каждого фестиваля', prio:'med',
+   why:'В оффере услуги дизайнера вынесены за пакет. Работа сезонная и сдельная — держать в штате незачем.',
+   duties:['Вёрстка меню и печатных носителей по брендбуку фестиваля',
+           'Развёртки оформления корнеров и фуд-траков',
+           'Адаптации под digital-меню'],
+   result:['Макеты в печать за 25 дней до фестиваля','Исходники переданы заказчику'],
+   must:['Портфолио печатной и средовой графики','Работа строго по брендбуку'],
+   nice:['Опыт оформления фестивальных зон'],
+   pay:'250 000 — 450 000 ₽ за пакет на один город',
+   grade:'подряд'},
+
+  {id:'v6', role:null, t:'Администраторы фуд-корта на площадку', type:'линейный персонал · смены',
+   start:'найм за 30 дней до каждого фестиваля', prio:'med',
+   why:'В дни фестиваля нагрузка на площадочные роли уходит выше одной ставки за три дня. Дежурство закрывается сменным персоналом, а не менеджерами.',
+   duties:['Дежурство по сменам на закреплённом участке зоны',
+           'Открытие и закрытие точек по графику',
+           'Первая линия для резидента на площадке',
+           'Журнал инцидентов'],
+   result:['Резидент не остаётся без ответа дольше 15 минут','Смены закрыты, журнал сдан старшему менеджеру'],
+   must:['Опыт работы на массовых мероприятиях','Готовность к сменам по 12 часов'],
+   nice:['Опыт в HoReCa'],
+   pay:'6 000 — 9 000 ₽ за смену, 6–8 человек на город',
+   grade:'линейный'}
+];
+
+function fmtNum(n){ return Math.round(n).toLocaleString('ru-RU'); }
+
+function renderHR(){
+  const totalH = INST.reduce((s,x)=>s+(x.h||0),0);
+  const stats = ROLES.map(r=>({r, ...roleStats(r)}));
+  const peakAll = Math.max(...LOAD_ALL), peakIdx = LOAD_ALL.indexOf(peakAll);
+  const activeW = LOAD_ALL.filter(v=>v>0.5);
+  const avgTeam = activeW.length ? activeW.reduce((s,v)=>s+v,0)/activeW.length/FTE_H : 0;
+  const openV = ROLES.filter(r=>!nameOf(r.id)).length;
+  const overRoles = stats.filter(x=>x.peak.fte>1.5);
+
+  const kpi=(cls,lbl,val,sub)=>`<div class="kpi ${cls}"><span class="lbl">${lbl}</span>
+      <span class="val">${val}</span><span class="sub">${sub}</span></div>`;
+
+  const rows = stats.map(x=>`<tr>
+      <td><div style="display:flex;gap:8px;align-items:center;font-weight:700">${avatar(x.r.id,'')}${esc(x.r.n)}</div>
+        <div style="font-size:11px;color:var(--muted-2);margin-top:3px">${esc(nameOf(x.r.id)||'исполнитель не назначен')}</div></td>
+      <td class="num">${fmtNum(x.hours)} ч</td>
+      <td class="num">${x.weeks} нед.</td>
+      <td class="num">${x.avg.toFixed(2)}</td>
+      <td class="num"><b>${x.peak.fte.toFixed(2)}</b><div style="font-size:10.5px;color:var(--muted-2)">неделя ${fmtS(x.peak.week)}</div></td>
+      <td class="num">${x.over}</td>
+      <td><span class="pill" style="background:${x.tone==='crit'?'var(--h4)':x.tone==='high'?'var(--h3)':'var(--h1)'};
+        color:${x.tone==='crit'?'var(--h4i)':x.tone==='high'?'var(--h3i)':'var(--h1i)'}">${esc(x.verdict)}</span></td>
+    </tr>`).join('');
+
+  const panels = stats.map(x=>`<div class="lpanel">
+      <div class="lp-h">${avatar(x.r.id,'')}<b>${esc(x.r.n)}</b>
+        <span class="num">пик ${x.peak.fte.toFixed(1)} ст.</span></div>
+      ${figLoad(x.r.id)}
+    </div>`).join('');
+
+  const findings = [
+    `Сезон стоит <b>${fmtNum(totalH)} часов</b> — это ${avgTeam.toFixed(1)} ставки в среднем по активным неделям и ${(peakAll/FTE_H).toFixed(1)} ставки в пиковую неделю ${fmtS(WEEKS[peakIdx])}.`,
+    overRoles.length
+      ? `Выше полутора ставок в пик уходят: ${overRoles.map(x=>`<b>${esc(x.r.n)}</b> (${x.peak.fte.toFixed(1)})`).join(', ')}. Это дни площадки и недели, когда два города идут одновременно — закрывается вторым человеком, а не переработкой.`
+      : `Ни одна роль не уходит выше полутора ставок в пик.`,
+    `Три роли из шести без исполнителя: ${ROLES.filter(r=>!nameOf(r.id)).map(r=>esc(r.n)).join(', ')}. Самая ранняя из них нужна уже в октябре 2026 — платформа резидентов стартует первой.`,
+    `Самая нагруженная роль — <b>старший менеджер гастрозоны</b>: ${fmtNum(stats.find(x=>x.r.id==='GASTRO').hours)} часов, четверть всего сезона. Продажи, документы и площадка в одних руках — это и сила (одна точка входа для резидента), и главный единичный риск.`,
+    `IT занимает ${fmtNum(stats.find(x=>x.r.id==='IT').hours)} часов, но почти все они в одной задаче — платформе. Роль можно закрыть подрядом, если внутри есть кому принимать работу.`
+  ];
+
+  const cards = VACANCIES.map(v=>{
+    const st = v.role ? roleStats(ROLE[v.role]) : null;
+    return `<article class="vac ${v.prio}">
+      <div class="v-h">
+        <div>${v.role?avatar(v.role,'av'):`<span class="av" style="background:var(--mute-bg);color:var(--mute-ink)">+</span>`}</div>
+        <div><h4>${esc(v.t)}</h4>
+          <div class="v-tags"><span class="pill">${esc(v.type)}</span><span class="pill">${esc(v.grade)}</span>
+            <span class="pill" style="background:${v.prio==='crit'?'var(--h4)':v.prio==='high'?'var(--h3)':'var(--h2)'};
+              color:${v.prio==='crit'?'var(--h4i)':v.prio==='high'?'var(--h3i)':'var(--h2i)'}">${esc(v.start)}</span>
+            ${st?`<span class="pill">пик ${st.peak.fte.toFixed(1)} ставки</span>`:''}</div></div>
+      </div>
+      <p class="v-why">${esc(v.why)}</p>
+      <div class="v-grid">
+        <div><b>Что делает</b><ul>${v.duties.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div><b>Результат, за который отвечает</b><ul>${v.result.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div><b>Обязательно</b><ul>${v.must.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div><b>Плюсом</b><ul>${v.nice.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+      </div>
+      <div class="v-pay"><b>Вилка</b><span>${esc(v.pay)}</span></div>
+    </article>`;
+  }).join('');
+
+  $('#v-hr').innerHTML = `
+    <div class="kpis">
+      ${kpi('','Трудоёмкость сезона', fmtNum(totalH), 'часов по 58 задачам обоих городов')}
+      ${kpi('','Средняя загрузка', avgTeam.toFixed(1), 'ставки по активным неделям')}
+      ${kpi('warn','Пиковая неделя', (peakAll/FTE_H).toFixed(1), `ставки · неделя ${fmtS(WEEKS[peakIdx])}`)}
+      ${kpi(openV?'bad':'','Ролей без людей', openV, openV?'нужен найм':'все закрыты')}
+      ${kpi('','Вакансий в ТЗ', VACANCIES.length, 'штат, подряд и линейный персонал')}
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ask">Сколько на самом деле стоит каждая роль</div>
+      <div class="figcap" style="margin:0 0 14px">Часы проставлены на каждую задачу и разложены по календарным неделям.
+        Ставка — 40 часов в неделю. «Средняя» считается только по неделям, когда у роли есть работа.</div>
+      <div class="scroll-x"><table class="ptable">
+        <thead><tr><th>Роль</th><th>Часы</th><th>Активных недель</th><th>Средняя ставка</th>
+          <th>Пик</th><th>Недель &gt; 1 ставки</th><th>Вывод</th></tr></thead>
+        <tbody>${rows}</tbody></table></div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ask">Когда у кого пик</div>
+      <div class="figcap" style="margin:0 0 14px">Часы в неделю, сентябрь 2026 — сентябрь 2027. У всех панелей общая шкала,
+        поэтому их можно сравнивать. Красный пунктир — одна ставка, вертикальные линии — даты фестивалей.
+        Наведите на панель, чтобы увидеть конкретную неделю.</div>
+      <div class="lgrid" id="lgrid">${panels}</div>
+      <div class="ltip" id="ltip" hidden></div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="sec-h">Что из этого следует</div>
+      <ol class="findings">${findings.map(f=>`<li>${f}</li>`).join('')}</ol>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ask">ТЗ для HR</div>
+      <div class="hrgrid">
+        <div><b>Порядок закрытия</b><ol>
+          <li>Продакт платформы — до 1 октября 2026, иначе платформа не успевает к продажам</li>
+          <li>Маркетинг-менеджер — до 1 декабря 2026, к запуску оффера и Клуба</li>
+          <li>Финансовый менеджер — до 15 января 2027, к старту договорной работы</li>
+          <li>Менеджер по резидентам Петербурга — до 1 марта 2027</li>
+          <li>Дизайнер и администраторы — сдельно, за 70 и за 30 дней до каждого фестиваля</li>
+        </ol></div>
+        <div><b>Воронка и сроки подбора</b><ul>
+          <li>Публикация вакансии → первый выход: 6 недель на штатную роль, 3 недели на проектную</li>
+          <li>Скрининг 40 откликов → 8 интервью → 3 финала → оффер</li>
+          <li>Один этап с задачей: разбор реальной ситуации проекта, не абстрактный кейс</li>
+          <li>Финал — с директором по развитию, решение в течение 3 рабочих дней</li>
+        </ul></div>
+        <div><b>Что проверять на интервью</b><ul>
+          <li>Не «опыт в фестивалях», а способность довести чужую задачу до срока чужими руками</li>
+          <li>Просить назвать свой прошлый провал по срокам и что человек изменил после</li>
+          <li>Тестовая ситуация: резидент не сдал тех. информацию за 40 дней до заезда — ваши действия по шагам</li>
+          <li>Для маркетинга — принести свой текст, не презентацию агентства</li>
+        </ul></div>
+        <div><b>Результат испытательного срока</b><ul>
+          <li>30 дней: человек знает свою цепочку и кому что передаёт, ведёт задачи в этой карте</li>
+          <li>60 дней: закрыт первый собственный результат из карточки позиции</li>
+          <li>90 дней: работает без напоминаний, риски по своему участку поднимает сам</li>
+        </ul></div>
+      </div>
+      <div class="note" style="margin-top:14px">Вилки — ориентир по рынку Москвы и Петербурга на 2026–2027 годы
+        для event и HoReCa. Это оценка, а не выгрузка из базы: перед публикацией вакансии сверьте
+        с актуальными данными hh и своим бюджетом фонда оплаты труда.</div>
+    </div>
+
+    <div class="sec-h" style="margin:20px 0 12px">Карточки вакансий</div>
+    <div class="vgrid">${cards}</div>`;
+  bindLoadTips();
+}
+
+function bindLoadTips(){
+  const tip=$('#ltip'), grid=$('#lgrid'); if(!tip||!grid) return;
+  grid.querySelectorAll('.loadfig').forEach(svg=>{
+    const roleId = svg.dataset.load, a = LOAD[roleId];
+    const cross = svg.querySelector('.lcross');
+    const move = e=>{
+      const b = svg.getBoundingClientRect();
+      const t = Math.max(0, Math.min(1, (e.clientX-b.left)/b.width));
+      const i = Math.round(t*(a.length-1));
+      const vx = 4 + i*((320-8)/(a.length-1));
+      cross.setAttribute('x1',vx); cross.setAttribute('x2',vx); cross.setAttribute('opacity','.5');
+      const g = grid.getBoundingClientRect();
+      tip.innerHTML = `<b>${esc(ROLE[roleId].n)}</b><br>неделя ${fmtS(WEEKS[i])} — ${fmtS(addD(WEEKS[i],6))}<br>
+        <span class="num">${a[i].toFixed(1)} ч · ${(a[i]/FTE_H).toFixed(2)} ставки</span>`;
+      tip.hidden=false;
+      const tw = tip.offsetWidth||180;
+      tip.style.left = Math.max(4, Math.min(g.width-tw-4, e.clientX-g.left+12))+'px';
+      tip.style.top  = Math.max(4, e.clientY-g.top-10)+'px';
+    };
+    svg.addEventListener('mousemove', move);
+    svg.addEventListener('mouseleave', ()=>{ cross.setAttribute('opacity','0'); tip.hidden=true; });
+  });
+}
+
+/* =========================================================================
+   МАРКЕТИНГОВАЯ СТРАТЕГИЯ ГАСТРОБЛОКА
+   ========================================================================= */
+const MKTPLAN = {
+  thesis:'Гастроблок — не фуд-корт при фестивале, а часть его программы. Еда должна быть поводом прийти раньше и остаться дольше, а не способом не проголодаться.',
+  positioning:[
+    {h:'Для резидента', t:'Пикник — не аренда квадратных метров, а витрина на 50 000 гостей за два дня и 50+ млн медиаохватов. Мы продаём доступ к аудитории и сервис, который снимает с кухни всю операционку: электричество, документы, логистику, промо.'},
+    {h:'Для гостя',     t:'В гастроблоке есть то, чего нет в городе: сеты и позиции, сделанные только для Пикника. Гость выбирает, что съесть, ещё до входа — по карте и digital-меню.'},
+    {h:'Отличие от прошлых сезонов', t:'Раньше зона продавала места. В 2027-м она продаёт участие в программе: коллаборации, гастро-повод, Клуб с уровнями и понятную выгоду за повторный сезон.'}
+  ],
+  b2b:{n:'Резиденты · продать место', color:'var(--rc-GASTRO)',
+    steps:[{l:'Охват отрасли',   v:400, s:'база прошлых сезонов, сообщества, соцсети шефов'},
+           {l:'Заявка',          v:120, s:'форма резидентства, презентация'},
+           {l:'Согласование',    v:60,  s:'выбор места на карте зон'},
+           {l:'Договор',         v:30,  s:'реквизиты, подписание'},
+           {l:'Оплата',          v:30,  s:'счёт за место и услуги'},
+           {l:'Повтор в 2028',   v:12,  s:'Клуб резидентов, ранняя бронь'}]},
+  b2c:{n:'Гости · продать блюдо', color:'var(--rc-MKT)',
+    steps:[{l:'Аудитория фестиваля', v:50000, s:'50 000 гостей за два дня'},
+           {l:'Увидели состав зоны', v:30000, s:'афиша фуд-корта, карта, соцсети'},
+           {l:'Дошли до гастроблока',v:22000, s:'навигация, оформление, гастро-сцена'},
+           {l:'Купили',              v:16000, s:'digital-меню, СБП и кэшбэк партнёра'},
+           {l:'Вернулись во 2-й день',v:6000, s:'спецпозиции только на Пикнике'}]},
+  audiences:[
+    {h:'Локальные шефы и авторские проекты', t:'Продаём витрину и статус. Нужны коллаборации и упоминание в программе, а не скидка.'},
+    {h:'Сети быстрого питания', t:'Продаём проходимость и предсказуемую операционку. Нужны цифры прошлого сезона и понятный регламент.'},
+    {h:'Моно-продукт и стрит-фуд', t:'Продаём низкий порог входа — PopUp от 19 000 ₽ и тележки. Это воронка новичков в Клуб.'},
+    {h:'Напитки и десерты', t:'Продаём эксклюзив и партнёрские интеграции: б/а линейка, мороженое, кофе.'},
+    {h:'Гость-семья', t:'Семейный фуд-корт, понятные порции и цены, места чтобы сесть.'},
+    {h:'Гость 20–35, компания', t:'Скорость, стрит-фуд, оплата в одно касание, кэшбэк банка-партнёра.'},
+    {h:'Гастро-аудитория и VIP', t:'Шеф-сеты, барная линия, VIP фуд-корт, лимитированные позиции.'}
+  ],
+  channels:[
+    {g:'Резиденты', c:['Прямые продажи старшего менеджера гастрозоны — основной канал',
+      'База резидентов прошлых сезонов и рассылка оффера',
+      'Клуб резидентов: ранний доступ к схеме за 2 недели до общих продаж',
+      'Реферальная программа — резидент приводит резидента',
+      'Купер как канал: партнёр приводит свои точки в формат доставки',
+      'Отраслевые сообщества и чаты, соцсети шефов',
+      'Кейс-контент прошлого сезона: выручка, чеки, охваты']},
+    {g:'Гости', c:['Афиша фуд-корта на сайте фестиваля и карта зоны с корнерами',
+      'Digital-меню по QR — интерактивное меню каждого резидента с фотографиями',
+      'Гастро-программа: коллаборации и позиции только на Пикнике',
+      'Промо-материалы через PR-отдел фестиваля — подборки «что съесть»',
+      'Медиакит резидентам, чтобы они продвигали своё участие сами',
+      'СБП, кэшбэк банка-партнёра, комбо с напитками',
+      'Навигация и единое оформление корнеров как визуальный магнит']}
+  ],
+  waves:[
+    {n:'01', p:'сен — окт 2026', t:'Разведка',            d:'Разбор прошлого сезона, обратная связь резидентов, дыры в предложении.', tasks:['b1','b2']},
+    {n:'02', p:'ноя — дек 2026', t:'Оффер',               d:'Маркетинговая стратегия, пакеты и прайс, презентация для резидентов.', tasks:['b5','b6','b7']},
+    {n:'03', p:'дек 2026 — мар 2027', t:'Клуб',           d:'Запуск трёх уровней, реферальной программы и кэшбэка за отчёт по выручке.', tasks:['b8']},
+    {n:'04', p:'янв — мар 2027', t:'Открытие продаж Москвы', d:'Рассылка оффера по пулу, ранний доступ Клубу, переговоры и бронь мест.', tasks:['p2']},
+    {n:'05', p:'мар — май 2027', t:'Петербург и добор Москвы', d:'Вторая волна продаж, перенос аргументов Москвы на петербургский пул.', tasks:['p2']},
+    {n:'06', p:'апр — июн 2027', t:'Состав объявлен',     d:'Анонс резидентов, тизеры шефов, материалы для PR-отдела, оформление зоны.', tasks:['p13','p14']},
+    {n:'07', p:'июн 2027',       t:'Гость выбирает заранее', d:'Digital-меню по QR, карта зоны, афиша фуд-корта в предфестивальной кампании.', tasks:['p15']},
+    {n:'08', p:'июл 2027',       t:'Москва как актив',    d:'Съёмка и цифры с площадки превращаются в продающий материал для Петербурга и брони 2028.', tasks:[]},
+    {n:'09', p:'авг 2027',       t:'Петербург',           d:'Повтор волн 06–07 на петербургской площадке с московскими доказательствами.', tasks:['p13','p14','p15']},
+    {n:'10', p:'сен 2027',       t:'Итоги и ранняя бронь',d:'Кейс сезона, отчёт по зоне, открытие ранней брони 2028 для Клуба.', tasks:['a2','a4']}
+  ],
+  kpis:[
+    {m:'Заполнение зоны',           how:'проданные места / всего мест по схеме', base:'нет замера', goal:'100% в обоих городах', who:'GASTRO'},
+    {m:'Доля повторных резидентов', how:'резиденты из Клуба / всего резидентов', base:'нет замера', goal:'не ниже 40%',        who:'MKT'},
+    {m:'Средний чек в зоне',        how:'выручка / число чеков по Z-отчётам',    base:'нет замера', goal:'+15% к 2026',        who:'FIN'},
+    {m:'Подключение digital-меню',  how:'резиденты с QR-меню / всего резидентов',base:'0 — новый инструмент', goal:'не ниже 60%', who:'IT'},
+    {m:'Открытия QR-меню',          how:'уникальные открытия / гости фестиваля', base:'0',          goal:'не ниже 25%',        who:'IT'},
+    {m:'Медиаохват гастроблока',    how:'охваты публикаций с упоминанием зоны',  base:'нет выделения из общего', goal:'8 млн из 50+ млн', who:'MKT'},
+    {m:'NPS резидентов',            how:'опрос после фестиваля',                 base:'текущий уровень', goal:'+20 пунктов',   who:'GASTRO'},
+    {m:'Ранняя бронь 2028',         how:'заявки в сентябре 2027',                base:'нет замера', goal:'не менее 25% пула',  who:'MKT'}
+  ],
+  gaps:[
+    {t:'Медиакит резидента',       d:'Пакет материалов, чтобы резидент сам продвигал своё участие: шаблоны постов, логотипы, фото зоны, тезисы. Сейчас промо делает только PR-отдел фестиваля.', when:'за 60 дней до фестиваля', who:'MKT'},
+    {t:'Контент-план гастро-сцены и коллабораций', d:'Программа спецпозиций «только на Пикнике» и совместных сетов. Это то, что превращает фуд-корт в повод, а не в столовую.', when:'старт за 120 дней', who:'MKT'},
+    {t:'Замер среднего чека и NPS гостей', d:'В карте есть сбор обратной связи у резидентов, но нет замера по гостям. Без него половина KPI выше нечем закрывать.', when:'дни фестиваля и +14 дней', who:'FIN'},
+    {t:'Кампания ранней брони 2028', d:'Окно сразу после Петербурга, пока свежи впечатления и цифры. Сейчас после отчёта в карте ничего нет.', when:'сентябрь 2027', who:'MKT'}
+  ],
+  budget:[
+    {t:'Дизайн и печать носителей', share:30, note:'макеты, оформление корнеров и фуд-траков, навигация'},
+    {t:'Digital-меню и платформа',  share:22, note:'разработка и поддержка QR-меню, карточки резидентов'},
+    {t:'Промо-контент и съёмка',    share:18, note:'фото и видео зоны, материалы для PR и медиакита'},
+    {t:'Клуб резидентов и лояльность', share:15, note:'скидки уровней, кэшбэк за отчёт, гостевые билеты'},
+    {t:'Реферальные выплаты',       share:8,  note:'вознаграждение за приведённого резидента'},
+    {t:'Резерв',                    share:7,  note:'добор продаж, срочные носители'}
+  ]
+};
+
+function figFunnel(f){
+  const W=470, rowH=40, gap=7, PL=8, maxV=f.steps[0].v;
+  const H = f.steps.length*(rowH+gap)+8;
+  const rows = f.steps.map((st,i)=>{
+    const w = Math.max(70, (W-PL*2) * (0.32 + 0.68*st.v/maxV));
+    const y = 4 + i*(rowH+gap);
+    const x = PL + ((W-PL*2)-w)/2;
+    const val = st.v>=1000 ? (st.v/1000).toFixed(st.v>=10000?0:1).replace('.',',')+' тыс.' : String(st.v);
+    const wide = w >= 250;
+    const subMax = Math.floor((w-26-(wide?62:0))/4.75);
+    const sub = (wide && subMax>=12)
+      ? `<text x="${x+13}" y="${y+31}" font-size="9.3" fill="#fff" opacity=".85">${esc(st.s.length>subMax?st.s.slice(0,subMax)+'…':st.s)}</text>` : '';
+    const valT = wide
+      ? `<text x="${x+w-13}" y="${y+25}" font-size="13" font-weight="800" text-anchor="end" fill="#fff">${val}</text>`
+      : `<text x="${x+13}" y="${y+33}" font-size="12.5" font-weight="800" fill="#fff">${val}</text>`;
+    return `<g><title>${esc(st.l)}: ${esc(String(st.v))} — ${esc(st.s)}</title>
+      <rect x="${x}" y="${y}" width="${w}" height="${rowH}" rx="8" fill="${f.color}"
+        opacity="${(0.92 - i*0.11).toFixed(2)}"></rect>
+      <text x="${x+13}" y="${y+(wide?18:17)}" font-size="11.5" font-weight="800" fill="#fff">${esc(st.l)}</text>
+      ${sub}${valT}
+    </g>`;
+  }).join('');
+  return `<svg class="fig" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(f.n)}">
+    <title>${esc(f.n)}</title>${rows}</svg>`;
+}
+
+function renderMarketing(){
+  const tById = Object.fromEntries(TASKS.map(t=>[t.i,t]));
+  const waveRows = MKTPLAN.waves.map(w=>`<tr>
+      <td class="num" style="font-weight:800;color:var(--muted-2)">${w.n}</td>
+      <td><b>${esc(w.t)}</b><div style="font-size:11px;color:var(--muted-2);margin-top:2px">${esc(w.p)}</div></td>
+      <td class="w">${esc(w.d)}</td>
+      <td>${w.tasks.length
+        ? w.tasks.map(id=>{const t=tById[id]; return t?`<div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:4px">
+            ${avatar(t.r,'')}<span style="font-size:12px">${esc(t.t.length>58?t.t.slice(0,58)+'…':t.t)}</span></div>`:''}).join('')
+        : '<span class="pill" style="background:var(--h2);color:var(--h2i)">задачи в карте нет</span>'}</td>
+    </tr>`).join('');
+
+  $('#v-mkt').innerHTML = `
+    <div class="card">
+      <div class="ask">Тезис стратегии</div>
+      <p style="font-size:15px;line-height:1.55;max-width:70ch;margin-bottom:16px">${esc(MKTPLAN.thesis)}</p>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+        ${MKTPLAN.positioning.map(p=>`<div class="pcard"><b>${esc(p.h)}</b><p>${esc(p.t)}</p></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ask">Две воронки, а не одна</div>
+      <div class="figcap" style="margin:0 0 14px">Гастроблок продаёт дважды: сначала место резиденту, потом блюдо гостю.
+        Числа — цель сезона 2027, а не факт: базы по большинству ступеней нет, её замер входит в задачи сезона.</div>
+      <div class="two" style="gap:18px">
+        <div><div class="sec-h" style="display:flex;gap:8px;align-items:center">
+            <span style="width:10px;height:10px;border-radius:3px;background:var(--rc-GASTRO)"></span>${esc(MKTPLAN.b2b.n)}</div>
+          ${figFunnel(MKTPLAN.b2b)}</div>
+        <div><div class="sec-h" style="display:flex;gap:8px;align-items:center">
+            <span style="width:10px;height:10px;border-radius:3px;background:var(--rc-MKT)"></span>${esc(MKTPLAN.b2c.n)}</div>
+          ${figFunnel(MKTPLAN.b2c)}</div>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:14px;gap:14px">
+      <div class="card"><div class="sec-h">Кому продаём</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          ${MKTPLAN.audiences.map(a=>`<div class="acard"><b>${esc(a.h)}</b><span>${esc(a.t)}</span></div>`).join('')}</div>
+      </div>
+      <div class="card"><div class="sec-h">Чем продаём</div>
+        ${MKTPLAN.channels.map(g=>`<div style="margin-bottom:14px">
+          <div style="font-size:12px;font-weight:800;margin-bottom:7px">${esc(g.g)}</div>
+          <ul class="clist2">${g.c.map(c=>`<li>${esc(c)}</li>`).join('')}</ul></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ask">Календарь волн и чем они закрыты в карте</div>
+      <div class="figcap" style="margin:0 0 14px">Каждая волна привязана к задачам дорожной карты.
+        Где написано «задачи в карте нет» — работа спланирована, но исполнителя и срока у неё пока не назначено.</div>
+      <div class="scroll-x"><table class="ptable">
+        <thead><tr><th>№</th><th>Волна</th><th>Что делаем</th><th>Задачи карты</th></tr></thead>
+        <tbody>${waveRows}</tbody></table></div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ask">Чего в дорожной карте нет</div>
+      <div class="figcap" style="margin:0 0 14px">Четыре работы, без которых стратегия не закрывается.
+        Оффер их не содержал — это решение о расширении объёма, и принимать его вам.</div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+        ${MKTPLAN.gaps.map(g=>`<div class="risk med">
+          <div class="rmeta"><span class="pill">${esc(g.when)}</span>${avatar(g.who,'')}
+            <span style="font-size:11px;color:var(--muted-2)">${esc(ROLE[g.who].n)}</span></div>
+          <h4>${esc(g.t)}</h4><p>${esc(g.d)}</p></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:14px;gap:14px">
+      <div class="card"><div class="sec-h">KPI сезона</div>
+        <div class="scroll-x"><table class="ptable">
+          <thead><tr><th>Метрика</th><th>Как считаем</th><th>База</th><th>Цель 2027</th><th>Кто</th></tr></thead>
+          <tbody>${MKTPLAN.kpis.map(k=>`<tr>
+            <td><b>${esc(k.m)}</b></td><td style="font-size:12px;color:var(--muted)">${esc(k.how)}</td>
+            <td style="font-size:12px;color:var(--muted-2)">${esc(k.base)}</td>
+            <td><b>${esc(k.goal)}</b></td><td>${avatar(k.who,'')}</td></tr>`).join('')}</tbody></table></div>
+      </div>
+      <div class="card"><div class="sec-h">Структура маркетингового бюджета зоны</div>
+        <div style="display:flex;flex-direction:column;gap:11px">
+          ${MKTPLAN.budget.map(b=>`<div>
+            <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:4px">
+              <span>${esc(b.t)}</span><span class="num">${b.share}%</span></div>
+            <div class="bar"><i style="width:${b.share*3}%;background:var(--rc-MKT)"></i></div>
+            <div style="font-size:11px;color:var(--muted-2);margin-top:3px">${esc(b.note)}</div></div>`).join('')}
+        </div>
+        <div class="note" style="margin-top:12px">Доли, а не суммы: абсолютный бюджет зоны задаёт финансовый менеджер
+          в задаче «Ведение бюджета фуд-корта». Услуги графического дизайнера оплачиваются отдельно от пакета.</div>
+      </div>
+    </div>`;
+}
+
 /* =========================================================================
    МАРШРУТИЗАЦИЯ, СОБЫТИЯ, СТАРТ
    ========================================================================= */
 const RENDER = {dash:renderDash, scheme:renderScheme, road:renderRoad, heat:renderHeat,
-                backlog:renderBacklog, risks:renderRisks, chat:renderChat, team:renderTeam};
+                backlog:renderBacklog, risks:renderRisks, chat:renderChat, team:renderTeam,
+                org:renderOrg, hr:renderHR, mkt:renderMarketing};
 function go(v){
   VIEW=v;
   document.querySelectorAll('#nav button').forEach(b=>b.setAttribute('aria-current', String(b.dataset.v===v)));
