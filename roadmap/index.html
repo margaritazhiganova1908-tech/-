@@ -28,6 +28,12 @@
   --r:16px; --r-sm:10px;
   --font:'Inter','Helvetica Neue',Arial,sans-serif;
   --font-display:'Pavliuchenko','Pavliuchenko Trial','Arial Black','Helvetica Neue',Impact,sans-serif;
+  --rc-RAZ:#241715;    --ri-RAZ:#F1F2F6;
+  --rc-GASTRO:#1273B8; --ri-GASTRO:#FFFFFF;
+  --rc-HOST:#0E8F8F;   --ri-HOST:#FFFFFF;
+  --rc-MKT:#C2408F;    --ri-MKT:#FFFFFF;
+  --rc-IT:#5B4BC4;     --ri-IT:#FFFFFF;
+  --rc-FIN:#6B5A56;    --ri-FIN:#FFFFFF;
   --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
@@ -50,6 +56,13 @@
   --pA:#6EA8FF; --pA-soft:rgba(110,168,255,.16);
   --pB:#FF6FD8; --pB-soft:rgba(255,111,216,.16);
   --pS:#B9B9C2; --pS-soft:rgba(255,255,255,.10);
+  --rc-RAZ:#D8CFC9;    --ri-RAZ:#17131A;
+  --rc-GASTRO:#6EA8FF; --ri-GASTRO:#0C1220;
+  --rc-HOST:#3ED0C4;   --ri-HOST:#04201E;
+  --rc-MKT:#FF6FD8;    --ri-MKT:#2A0A1E;
+  --rc-IT:#A08CFF;     --ri-IT:#150C2A;
+  --rc-FIN:#C0B2AC;    --ri-FIN:#1A1310;
+
 }}
 :root[data-theme="dark"]{
   --bg:#0B0B0D; --surface:#141416; --surface-2:#1A1A1D; --surface-3:#232327;
@@ -71,6 +84,13 @@
   --pA:#6EA8FF; --pA-soft:rgba(110,168,255,.16);
   --pB:#FF6FD8; --pB-soft:rgba(255,111,216,.16);
   --pS:#B9B9C2; --pS-soft:rgba(255,255,255,.10);
+  --rc-RAZ:#D8CFC9;    --ri-RAZ:#17131A;
+  --rc-GASTRO:#6EA8FF; --ri-GASTRO:#0C1220;
+  --rc-HOST:#3ED0C4;   --ri-HOST:#04201E;
+  --rc-MKT:#FF6FD8;    --ri-MKT:#2A0A1E;
+  --rc-IT:#A08CFF;     --ri-IT:#150C2A;
+  --rc-FIN:#C0B2AC;    --ri-FIN:#1A1310;
+
 }
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
@@ -154,6 +174,19 @@ textarea{resize:vertical;line-height:1.5}
 .bar{height:7px;border-radius:20px;background:var(--mute-bg);overflow:hidden}
 .bar i{display:block;height:100%;border-radius:20px;background:var(--accent);transition:width .35s ease}
 .scroll-x{overflow-x:auto;overscroll-behavior-x:contain}
+.fig{width:100%;height:auto;display:block;overflow:visible}
+.fig text{font-family:var(--font)}
+.figcap{font-size:12px;color:var(--muted-2);line-height:1.5;margin-top:10px;max-width:76ch}
+.ask{font-size:15px;font-weight:600;line-height:1.35;margin-bottom:4px}
+.ptable{width:100%;border-collapse:collapse;font-size:13px}
+.ptable th{text-align:left;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);
+  font-weight:700;padding:8px 10px;border-bottom:1px solid var(--line)}
+.ptable td{padding:10px;border-bottom:1px solid var(--line-soft);vertical-align:top;min-width:0}
+.ptable tr:last-child td{border-bottom:0}
+.ptable td.w{width:34%}
+.ptable .num{white-space:nowrap}
+.two > *{min-width:0}
+.grid > *{min-width:0}
 </style>
 <style>
 /* ---------- дашборд ---------- */
@@ -278,7 +311,7 @@ textarea{resize:vertical;line-height:1.5}
 .cfoot textarea{flex:1;min-height:40px;max-height:130px}
 
 /* ---------- команда ---------- */
-.team{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px}
+.team{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px;align-items:start}
 .tcard{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:15px;
   display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
 .tcard .th{display:flex;gap:10px;align-items:center}
@@ -346,6 +379,7 @@ textarea{resize:vertical;line-height:1.5}
     </div>
     <nav class="nav" id="nav">
       <button data-v="dash" aria-current="true">Дашборд</button>
+      <button data-v="scheme">Схема процесса</button>
       <button data-v="road">Дорожная карта</button>
       <button data-v="heat">Тепловая карта</button>
       <button data-v="backlog">Бэклог недели<span class="cnt" id="n-backlog">0</span></button>
@@ -380,6 +414,7 @@ textarea{resize:vertical;line-height:1.5}
     </header>
 
     <section class="view" id="v-dash"></section>
+    <section class="view" id="v-scheme" hidden></section>
     <section class="view" id="v-road" hidden></section>
     <section class="view" id="v-heat" hidden></section>
     <section class="view" id="v-backlog" hidden></section>
@@ -413,111 +448,148 @@ const today = (()=>{const n=new Date(); return new Date(n.getFullYear(),n.getMon
 
 /* ---------- проекты ---------- */
 const PROJECTS = {
-  S: {id:'S', name:'Сезонная база',    short:'Сезон',     city:'общая подготовка', date:null,           cls:'s'},
-  A: {id:'A', name:'Москва',           short:'Москва',    city:'Коломенское',      date:d_('2027-06-20'), cls:'a'},
-  B: {id:'B', name:'Санкт-Петербург',  short:'Петербург', city:'Елагин парк',      date:d_('2027-08-08'), cls:'b'}
+  S: {id:'S', name:'БАЗА',              short:'БАЗА',      city:'один раз на оба города', date:null,             cls:'s'},
+  A: {id:'A', name:'Москва',            short:'Москва',    city:'Коломенское',            date:d_('2027-06-20'), cls:'a'},
+  B: {id:'B', name:'Санкт-Петербург',   short:'Петербург', city:'Елагин парк',            date:d_('2027-08-08'), cls:'b'}
 };
 
-/* ---------- роли (выведены из функционала задач) ---------- */
-const DEPT = {
-  ops:  {n:'Операции',            c:'var(--pS)',  ink:'#fff'},
-  com:  {n:'Коммерция и резиденты',c:'var(--pA)',  ink:'#fff'},
-  mkt:  {n:'Маркетинг и бренд',   c:'var(--pB)',  ink:'#fff'},
-  tech: {n:'Техника и IT',        c:'var(--accent)', ink:'var(--btn-ink)'},
-  fin:  {n:'Финансы и право',     c:'var(--h3)',  ink:'#fff'}
-};
+/* ---------- роли ---------- */
 const ROLES = [
-  {id:'OPS',   n:'Операционный директор',            d:'ops',  ab:'ОД',  s:'Стратегия сезона, бизнес-процессы, итоговый разбор'},
-  {id:'LEAD',  n:'Руководитель зоны фуд-корт',       d:'ops',  ab:'РФК', s:'Владелец зоны: планирование, статусы, отчётность', name:'Наталья Арсентьева'},
-  {id:'HR',    n:'HR-менеджер',                      d:'ops',  ab:'HR',  s:'Подбор проектной команды и линейного персонала'},
-  {id:'SITE',  n:'Координатор площадки',             d:'ops',  ab:'КП',  s:'Заезд/выезд, графики, памятки, пропуска', name:'Алина Пятакова'},
-  {id:'ADM',   n:'Администратор фуд-корта',          d:'ops',  ab:'АФ',  s:'Работа резидентов на площадке в дни фестиваля'},
-  {id:'COMM',  n:'Коммерческий директор',            d:'com',  ab:'КД',  s:'Пакеты, ценообразование, финальный оффер'},
-  {id:'SALES', n:'Менеджер по продажам',             d:'com',  ab:'МП',  s:'Пул резидентов, рассылка оффера, продажа участия'},
-  {id:'ACC',   n:'Менеджер по работе с резидентами', d:'com',  ab:'МР',  s:'Ведение резидентов, документы, онбординг, ОС', name:'Дарья Соколова'},
-  {id:'PARTN', n:'Менеджер по партнёрствам',         d:'com',  ab:'МПА', s:'Купер, банк-партнёр, товарные интеграции', name:'Егор Лаптев'},
-  {id:'CMO',   n:'Директор по маркетингу',           d:'mkt',  ab:'ДМ',  s:'Маркетинговая стратегия и презентация зоны'},
-  {id:'CRM',   n:'Менеджер по лояльности',           d:'mkt',  ab:'МЛ',  s:'Клуб резидентов и программа лояльности'},
-  {id:'ART',   n:'Арт-директор',                     d:'mkt',  ab:'АД',  s:'Брендбук, макеты, оформление корнеров'},
-  {id:'COPY',  n:'Контент-менеджер',                 d:'mkt',  ab:'КМ',  s:'Копирайтинг меню, ТЗ дизайнеру'},
-  {id:'PR',    n:'PR-менеджер',                      d:'mkt',  ab:'PR',  s:'Промо-материалы про зону и резидентов'},
-  {id:'PROD',  n:'Продакт-менеджер платформы',       d:'tech', ab:'ПМ',  s:'Автоматизация, личные кабинеты, digital-меню'},
-  {id:'TECH',  n:'Технический директор',             d:'tech', ab:'ТД',  s:'Схема объектов, разметка, нумерация'},
-  {id:'ENG',   n:'Главный инженер',                  d:'tech', ab:'ГИ',  s:'Электричество, службы, отходы', name:'Иван Лебедев'},
-  {id:'FIN',   n:'Финансовый менеджер',              d:'fin',  ab:'ФМ',  s:'Бюджет, Z-отчёты, смета'},
-  {id:'LAW',   n:'Юрист',                            d:'fin',  ab:'ЮР',  s:'Договоры, документооборот, ЭДО'}
+  {id:'RAZ',   ab:'ДР',   n:'Директор по развитию',        name:'Маргарита Жиганова',
+   mix:'коммерческий директор · HR',
+   s:'Стратегия сезона, процессы, оффер, партнёрства, команда, итоговый отчёт'},
+  {id:'GASTRO',ab:'СМГ',  n:'Старший менеджер гастрозоны', name:'Наталья Арсентьева',
+   mix:'менеджер по продажам · менеджер по работе с резидентами',
+   s:'Пул резидентов, продажа участия, документы от резидентов, площадка, обратная связь'},
+  {id:'HOST',  ab:'OOFF', n:'Хостинг-менеджмент',          name:'OOFF Studio',
+   mix:'ведение Купера · площадка · инженерия',
+   s:'Карта объектов, электричество, службы, заезд и выезд, Купер'},
+  {id:'MKT',   ab:'ММ',   n:'Маркетинг-менеджер',          name:'',
+   mix:'директор по маркетингу · лояльность · арт-директор · контент · PR',
+   s:'Стратегия и презентация, Клуб резидентов, меню, макеты, оформление, промо'},
+  {id:'IT',    ab:'IT',   n:'IT',                          name:'',
+   mix:'продакт платформы · технический директор',
+   s:'Платформа с личными кабинетами, наладка ПО, digital-меню по QR'},
+  {id:'FIN',   ab:'ФМ',   n:'Финансовый менеджер',         name:'',
+   mix:'бухгалтер · финансы и право',
+   s:'Бюджет, договоры, Z-отчёты, документооборот и ЭДО, смета'}
 ];
 const ROLE = Object.fromEntries(ROLES.map(r=>[r.id,r]));
 
 /* ---------- фазы ---------- */
 const PHASES = [
-  {id:'base', n:'Сезонная база',       s:'выполняется один раз на оба города'},
-  {id:'prep', n:'Подготовка проекта',  s:'от старта продаж до заезда'},
+  {id:'base', n:'БАЗА',                s:'выполняется один раз на оба города'},
+  {id:'prep', n:'Подготовка проекта',  s:'от карты зон до заезда'},
   {id:'live', n:'Во время фестиваля',  s:'дни площадки'},
   {id:'post', n:'После фестиваля',     s:'закрытие проекта'}
 ];
 
+/* ---------- стадии процесса ---------- */
+const STAGES = [
+  {id:'st1', n:'БАЗА',         out:'Стратегия, процессы, платформа и оффер сезона'},
+  {id:'st2', n:'ПРОДАЖИ',      out:'Карта зон и 30 резидентов, согласных участвовать'},
+  {id:'st3', n:'ДОКУМЕНТЫ',    out:'Тех. информация собрана, договоры подписаны'},
+  {id:'st4', n:'ПРОИЗВОДСТВО', out:'Меню, макеты, оформление, digital-меню, ТЗ на электричество'},
+  {id:'st5', n:'ПЛОЩАДКА',     out:'Заезд по графику, работающая зона, снятые Z-отчёты'},
+  {id:'st6', n:'ЗАКРЫТИЕ',     out:'Выезд, документы в ЭДО, отчёт и сданная смета'},
+  {id:'st0', n:'СКВОЗНЫЕ',     out:'Бюджет и статусные встречи — идут через весь проект'}
+];
+
 /* ---------- задачи ----------
-   sc:'season' — абсолютные даты, одна на сезон
+   Источник: оффер «Задачи / Ответственный». Дубли по смыслу объединены,
+   объединения помечены полем mrg — что именно вошло в задачу.
+   sc:'season' — абсолютные даты, одна задача на сезон
    sc:'proj'   — смещения в днях от даты фестиваля, дублируется на оба города   */
 const TASKS = [
-  {i:1, ph:'base', r:'OPS',  sc:'season', s:'2026-09-01', e:'2026-09-30', t:'Определить стратегию / зоны и показатели роста'},
-  {i:2, ph:'base', r:'OPS',  sc:'season', s:'2026-09-15', e:'2026-11-15', t:'Анализ и построение бизнес-процессов'},
-  {i:3, ph:'base', r:'PROD', sc:'season', s:'2026-10-01', e:'2027-02-28', t:'План автоматизации процессов, платформа с личными кабинетами резидентов, наладка ПО'},
-  {i:4, ph:'base', r:'HR',   sc:'season', s:'2026-10-01', e:'2026-12-15', t:'Подбор команды'},
-  {i:6, ph:'base', r:'CMO',  sc:'season', s:'2026-11-01', e:'2026-12-20', t:'Построение маркетинговой стратегии'},
-  {i:8, ph:'base', r:'COMM', sc:'season', s:'2026-11-10', e:'2026-12-15', t:'Анализ пакетных предложений и формирование финального оффера', dep:[1,2]},
-  {i:9, ph:'base', r:'CMO',  sc:'season', s:'2026-12-16', e:'2027-01-20', t:'Корректировка презентации для резидентов', dep:[8]},
-  {i:7, ph:'base', r:'CRM',  sc:'season', s:'2026-12-01', e:'2027-03-31', t:'Создание и ведение Клуба резидентов, программа лояльности', dep:[6]},
+  {i:'b1', ph:'base', st:'st1', r:'RAZ', sc:'season', s:'2026-09-01', e:'2026-09-30',
+   t:'Определить стратегию сезона: зоны и показатели роста'},
+  {i:'b2', ph:'base', st:'st1', r:'RAZ', sc:'season', s:'2026-09-15', e:'2026-11-15',
+   t:'Анализ и построение бизнес-процессов зоны'},
+  {i:'b3', ph:'base', st:'st1', r:'IT',  sc:'season', s:'2026-10-01', e:'2027-02-28',
+   t:'Автоматизация: платформа с личными кабинетами резидентов и наладка ПО'},
+  {i:'b4', ph:'base', st:'st1', r:'RAZ', sc:'season', s:'2026-10-01', e:'2026-12-15',
+   t:'Подбор команды'},
+  {i:'b5', ph:'base', st:'st1', r:'MKT', sc:'season', s:'2026-11-01', e:'2026-12-20',
+   t:'Построение маркетинговой стратегии'},
+  {i:'b6', ph:'base', st:'st1', r:'RAZ', sc:'season', s:'2026-11-10', e:'2026-12-15', dep:['b1','b2'],
+   t:'Анализ пакетных предложений и финальный оффер'},
+  {i:'b7', ph:'base', st:'st1', r:'MKT', sc:'season', s:'2026-12-16', e:'2027-01-20', dep:['b6'],
+   t:'Презентация для резидентов'},
+  {i:'b8', ph:'base', st:'st1', r:'MKT', sc:'season', s:'2026-12-01', e:'2027-03-31', dep:['b5'],
+   t:'Клуб резидентов и программа лояльности'},
 
-  {i:5,  ph:'prep', r:'LEAD',  sc:'proj', s:-210, e:-165, t:'Формирование интерактивной карты с распределением торговых зон'},
-  {i:10, ph:'prep', r:'SALES', sc:'proj', s:-180, e:-150, t:'Подбор пула резидентов (30) и рассылка оффера', dep:[9,5]},
-  {i:20, ph:'prep', r:'LEAD',  sc:'proj', s:-180, e:-7,   t:'Статусные встречи во время подготовки'},
-  {i:27, ph:'prep', r:'FIN',   sc:'proj', s:-170, e:30,   t:'Ведение бюджета фуд-корта'},
-  {i:11, ph:'prep', r:'PARTN', sc:'proj', s:-160, e:-60,  t:'Ведение коммерческого партнёра с форматом Доставки Купер'},
-  {i:12, ph:'prep', r:'SALES', sc:'proj', s:-150, e:-75,  t:'Коммуникация с резидентами и продажа участия в фестивале', dep:[10]},
-  {i:13, ph:'prep', r:'ACC',   sc:'proj', s:-120, e:-45,  t:'Сбор и контроль дедлайнов подачи документации и тех. информации (меню, оборудование, электричество, формы подключения)', dep:[12]},
-  {i:24, ph:'prep', r:'PARTN', sc:'proj', s:-120, e:-45,  t:'Партнёрские интеграции: представленность продукции партнёра в меню резидентов (эксклюзив на б/а напитки, СБП, кэшбэк банка-партнёра)'},
-  {i:14, ph:'prep', r:'ACC',   sc:'proj', s:-110, e:-60,  t:'Передача реквизитов и контактов для подписания договора в юридический отдел', dep:[13]},
-  {i:15, ph:'prep', r:'LAW',   sc:'proj', s:-100, e:-40,  t:'Подготовка, контроль и подписание договоров с резидентами', dep:[14]},
-  {i:17, ph:'prep', r:'TECH',  sc:'proj', s:-90,  e:-50,  t:'Участие в создании карты объектов (разметка, нумерация)', dep:[5]},
-  {i:19, ph:'prep', r:'ENG',   sc:'proj', s:-75,  e:-45,  t:'Формирование ТЗ на электричество соответствующему подрядчику', dep:[13]},
-  {i:21, ph:'prep', r:'COPY',  sc:'proj', s:-70,  e:-45,  t:'Копирайтинг всех меню и передача ТЗ графическому дизайнеру на вёрстку носителей к печати', dep:[13]},
-  {i:18, ph:'prep', r:'SITE',  sc:'proj', s:-60,  e:-30,  t:'Разработка памятки резидента и графиков заезда / выезда', dep:[17]},
-  {i:25, ph:'prep', r:'ACC',   sc:'proj', s:-60,  e:-20,  t:'Онбординг резидентов с собственной застройкой', dep:[15]},
-  {i:26, ph:'prep', r:'PR',    sc:'proj', s:-50,  e:-25,  t:'Сбор и передача информации PR-отделу для промо-материалов про зону и участников фуд-корта', dep:[15]},
-  {i:16, ph:'prep', r:'SITE',  sc:'proj', s:-45,  e:-15,  t:'Сбор данных для въезда и выезда (списки персонала и авто)', dep:[15]},
-  {i:22, ph:'prep', r:'ART',   sc:'proj', s:-45,  e:-25,  t:'Создание печатных макетов согласно брендбуку фестиваля', dep:[21]},
-  {i:28, ph:'prep', r:'PROD',  sc:'proj', s:-40,  e:-7,   t:'Создание digital-меню по QR-коду (интерактивное меню каждого резидента с фотографиями)', dep:[21,3]},
-  {i:23, ph:'prep', r:'ART',   sc:'proj', s:-40,  e:-10,  t:'Контроль и работа с дизайн-отделом по оформлению корнеров и фуд-траков в едином стиле', dep:[22]},
+  {i:'p1',  ph:'prep', st:'st2', r:'HOST',   sc:'proj', s:-210, e:-165,
+   t:'Карта торговых зон: распределение мест, разметка и нумерация объектов',
+   mrg:['Формирование интерактивной карты с распределением торговых зон','Участие в создании карты объектов (разметка, нумерация)']},
+  {i:'p2',  ph:'prep', st:'st2', r:'GASTRO', sc:'proj', s:-180, e:-75, dep:['b7','p1'],
+   t:'Пул резидентов (30): рассылка оффера, переговоры и продажа участия',
+   mrg:['Подбор пула резидентов (30) и рассылка оффера','Коммуникация с резидентами и продажа участия в фестивале']},
+  {i:'p3',  ph:'prep', st:'st0', r:'RAZ',    sc:'proj', s:-180, e:-7,
+   t:'Статусные встречи по подготовке'},
+  {i:'p4',  ph:'prep', st:'st0', r:'FIN',    sc:'proj', s:-170, e:30,
+   t:'Ведение бюджета фуд-корта'},
+  {i:'p5',  ph:'prep', st:'st2', r:'HOST',   sc:'proj', s:-160, e:-60,
+   t:'Ведение коммерческого партнёра с форматом Доставки Купер'},
+  {i:'p6',  ph:'prep', st:'st3', r:'GASTRO', sc:'proj', s:-120, e:-45, dep:['p2'],
+   t:'Сбор и контроль дедлайнов документации и тех. информации (меню, оборудование, электричество, формы подключения)'},
+  {i:'p7',  ph:'prep', st:'st2', r:'RAZ',    sc:'proj', s:-120, e:-45,
+   t:'Партнёрские интеграции в меню резидентов (эксклюзив на б/а напитки, СБП, кэшбэк банка-партнёра)'},
+  {i:'p8',  ph:'prep', st:'st3', r:'FIN',    sc:'proj', s:-110, e:-40, dep:['p6'],
+   t:'Договоры с резидентами: реквизиты, подготовка, контроль и подписание',
+   mrg:['Передача реквизитов и контактов для подписания договора в юридический отдел','Подготовка, контроль и подписание договоров с резидентами']},
+  {i:'p9',  ph:'prep', st:'st4', r:'HOST',   sc:'proj', s:-75,  e:-45, dep:['p6'],
+   t:'ТЗ на электричество подрядчику'},
+  {i:'p10', ph:'prep', st:'st4', r:'MKT',    sc:'proj', s:-70,  e:-45, dep:['p6'],
+   t:'Копирайтинг всех меню и ТЗ графическому дизайнеру'},
+  {i:'p11', ph:'prep', st:'st4', r:'GASTRO', sc:'proj', s:-60,  e:-20, dep:['p8'],
+   t:'Онбординг резидентов с собственной застройкой'},
+  {i:'p12', ph:'prep', st:'st5', r:'HOST',   sc:'proj', s:-60,  e:-15, dep:['p8','p1'],
+   t:'Регламент заезда и выезда: памятка резидента, графики, списки персонала и авто',
+   mrg:['Сбор данных для въезда и выезда (списки персонала и авто)','Разработка памятки резидента и графиков заезда / выезда']},
+  {i:'p13', ph:'prep', st:'st4', r:'MKT',    sc:'proj', s:-50,  e:-25, dep:['p8'],
+   t:'Промо-материалы: информация о зоне и участниках фуд-корта для PR'},
+  {i:'p14', ph:'prep', st:'st4', r:'MKT',    sc:'proj', s:-45,  e:-10, dep:['p10'],
+   t:'Макеты и оформление: печатные носители по брендбуку, единый стиль корнеров и фуд-траков',
+   mrg:['Создание печатных макетов согласно брендбуку фестиваля','Контроль и работа с дизайн-отделом по оформлению корнеров и фуд-траков в едином стиле']},
+  {i:'p15', ph:'prep', st:'st4', r:'IT',     sc:'proj', s:-40,  e:-7, dep:['p10','b3'],
+   t:'Digital-меню по QR-коду: интерактивное меню каждого резидента с фотографиями'},
 
-  {i:30, ph:'live', r:'SITE',  sc:'proj', s:-2, e:0, t:'Контроль заезда участников согласно графику', dep:[18,16]},
-  {i:32, ph:'live', r:'ENG',   sc:'proj', s:-1, e:2, t:'Взаимодействие и контроль работы служб (энергоснабжение, клининг, хэлперы, охрана)', dep:[19]},
-  {i:35, ph:'live', r:'ACC',   sc:'proj', s:-1, e:2, t:'Курирование резидентов фуд-корта с собственной застройкой', dep:[25]},
-  {i:29, ph:'live', r:'ACC',   sc:'proj', s:0,  e:2, t:'Поддержка резидентов в режиме онлайн (общий чат)'},
-  {i:31, ph:'live', r:'LEAD',  sc:'proj', s:0,  e:2, t:'Координация дежурных администраторов'},
-  {i:33, ph:'live', r:'ADM',   sc:'proj', s:0,  e:2, t:'Контроль и координация работы резидентов на площадке'},
-  {i:34, ph:'live', r:'FIN',   sc:'proj', s:0,  e:3, t:'Снятие Z-отчётов и контроль финансовой дисциплины'},
+  {i:'l1', ph:'live', st:'st5', r:'HOST',   sc:'proj', s:-2, e:0, dep:['p12'],
+   t:'Контроль заезда участников согласно графику'},
+  {i:'l2', ph:'live', st:'st5', r:'HOST',   sc:'proj', s:-1, e:2, dep:['p9'],
+   t:'Работа служб: энергоснабжение, клининг, хэлперы, охрана'},
+  {i:'l3', ph:'live', st:'st5', r:'GASTRO', sc:'proj', s:0,  e:2, dep:['p11'],
+   t:'Координация резидентов на площадке и в общем чате, включая собственную застройку',
+   mrg:['Поддержка резидентов в режиме онлайн (общий чат)','Контроль и координация работы резидентов на площадке','Курирование резидентов фуд-корта с собственной застройкой']},
+  {i:'l4', ph:'live', st:'st5', r:'GASTRO', sc:'proj', s:0,  e:2,
+   t:'Координация дежурных администраторов'},
+  {i:'l5', ph:'live', st:'st5', r:'FIN',    sc:'proj', s:0,  e:3,
+   t:'Снятие Z-отчётов и контроль финансовой дисциплины'},
 
-  {i:36, ph:'post', r:'SITE',  sc:'proj', s:2,  e:4,  t:'Координация и контроль выезда резидентов'},
-  {i:37, ph:'post', r:'ENG',   sc:'proj', s:3,  e:6,  t:'Контроль вывоза отходов (масло, вода)'},
-  {i:39, ph:'post', r:'ACC',   sc:'proj', s:3,  e:14, t:'Сбор обратной связи у резидентов после мероприятия'},
-  {i:38, ph:'post', r:'LAW',   sc:'proj', s:5,  e:30, t:'Закрытие документооборота, сдача документов в ФЭО и юридический отдел, загрузка в ЭДО', dep:[15,34]},
-  {i:40, ph:'post', r:'LEAD',  sc:'proj', s:10, e:21, t:'Предоставление отчётной презентации по зоне фуд-корт', dep:[39,34]},
-  {i:41, ph:'post', r:'FIN',   sc:'proj', s:14, e:40, t:'Закрытие и сдача сметы', dep:[27,38]},
-  {i:42, ph:'post', r:'OPS',   sc:'proj', s:21, e:25, t:'Участие в отчётной встрече после мероприятия', dep:[40]}
+  {i:'a1', ph:'post', st:'st6', r:'HOST',   sc:'proj', s:2,  e:6,
+   t:'Выезд резидентов и вывоз отходов (масло, вода)',
+   mrg:['Координация и контроль выезда резидентов','Контроль вывоза отходов (масло, вода)']},
+  {i:'a2', ph:'post', st:'st6', r:'GASTRO', sc:'proj', s:3,  e:14,
+   t:'Сбор обратной связи у резидентов после мероприятия'},
+  {i:'a3', ph:'post', st:'st6', r:'FIN',    sc:'proj', s:5,  e:30, dep:['p8','l5'],
+   t:'Закрытие документооборота: сдача документов в ФЭО и юридический отдел, загрузка в ЭДО'},
+  {i:'a4', ph:'post', st:'st6', r:'RAZ',    sc:'proj', s:10, e:25, dep:['a2','l5'],
+   t:'Отчёт по зоне фуд-корт: презентация и защита на итоговой встрече',
+   mrg:['Предоставление отчётной презентации по зоне фуд-корт','Участие в отчётной встрече после мероприятия']},
+  {i:'a5', ph:'post', st:'st6', r:'FIN',    sc:'proj', s:14, e:40, dep:['p4','a3'],
+   t:'Закрытие и сдача сметы'}
 ];
 
 /* ---------- разворачиваем в экземпляры ---------- */
 const INST = [];
 for(const t of TASKS){
   if(t.sc==='season'){
-    INST.push({id:'S'+t.i, n:t.i, p:'S', ph:t.ph, r:t.r, t:t.t, dep:t.dep||[],
+    INST.push({id:'S'+t.i, n:t.i, p:'S', ph:t.ph, st:t.st, r:t.r, t:t.t, dep:t.dep||[], mrg:t.mrg,
                start:d_(t.s), end:d_(t.e)});
   } else {
     for(const pk of ['A','B']){
       const D0 = PROJECTS[pk].date;
-      INST.push({id:pk+t.i, n:t.i, p:pk, ph:t.ph, r:t.r, t:t.t, dep:t.dep||[],
+      INST.push({id:pk+t.i, n:t.i, p:pk, ph:t.ph, st:t.st, r:t.r, t:t.t, dep:t.dep||[], mrg:t.mrg,
                  start:addD(D0,t.s), end:addD(D0,t.e)});
     }
   }
@@ -613,7 +685,7 @@ function setSync(ok, code){
 
 /* ---------- личность ---------- */
 const Me = {
-  id: LS.get('me', null),
+  id: (r=>ROLE[r]?r:null)(LS.get('me', null)),
   role(){ return this.id ? ROLE[this.id] : null; },
   label(){ const r=this.role(); if(!r) return 'Не представился';
            return (Store.roster[r.id]&&Store.roster[r.id].name) || r.name || r.n; },
@@ -658,7 +730,7 @@ const isBlocked = x => heatKey(x)==='block';
 const activeNow = x => today>=x.start && today<=x.end && (Store.task(x.id).p||0)<100;
 const overlaps = (x,a,b) => x.start<=b && x.end>=a;
 
-/* проектный прогресс: сезонная база входит в оба города */
+/* проектный прогресс: БАЗА входит в оба города */
 function projProgress(p){ return prog(INST.filter(x=>x.p===p || x.p==='S')); }
 
 /* =========================================================================
@@ -673,7 +745,7 @@ function computeRisks(){
   if(late.length){
     const byP = {A:0,B:0,S:0}; late.forEach(x=>byP[x.p]++);
     add('crit', `Просрочено: ${nTask(late.length)}`,
-      `Срок вышел, задача не закрыта. Москва — ${byP.A}, Петербург — ${byP.B}, сезонная база — ${byP.S}. ` +
+      `Срок вышел, задача не закрыта. Москва — ${byP.A}, Петербург — ${byP.B}, БАЗА — ${byP.S}. ` +
       `Самая старая просрочка: «${late.sort((a,b)=>a.end-b.end)[0].t}» (${fmtL(late[0].end)}).`,
       ['Собрать 30-минутный разбор по каждой просрочке: перенос срока или снятие задачи.',
        'Просрочки на критическом пути (договоры → въезд → заезд) закрывать первыми, остальное двигать.',
@@ -684,7 +756,7 @@ function computeRisks(){
   const blocked = INST.filter(x=>Store.task(x.id).blocked && (Store.task(x.id).p||0)<100);
   if(blocked.length) add('crit', `Заблокировано: ${nTask(blocked.length)}`,
     blocked.slice(0,4).map(x=>`«${x.t}» — ${ROLE[x.r].n}`).join('; ') + (blocked.length>4?' и др.':''),
-    ['Вывести блокеры на статусную встречу руководителя зоны — у них нет владельца внутри команды.',
+    ['Вывести блокеры на ближайшую статусную встречу — у них нет владельца внутри команды.',
      'На каждый блокер назначить эскалацию: кто и до какого числа снимает.'], 'блокеры');
 
   /* 3. отставание от плана */
@@ -743,26 +815,26 @@ function computeRisks(){
     if(load.length>=5) add('med', `Перегрузка: ${r.n}`,
       `${nTask(load.length)} не закрыто в ближайшие две недели: ` + load.slice(0,4).map(x=>`«${x.t.slice(0,45)}…»`).join(', ')+'.',
       ['Сформировать бэклог недели и оставить в работе не более трёх задач одновременно.',
-       'Часть операционных задач передать администратору фуд-корта или координатору площадки.'], 'нагрузка');
+       'Часть площадочных задач передать на хостинг-менеджмент, часть документов — на финансового менеджера.'], 'нагрузка');
   });
 
   /* 8. незакрытые роли */
   const noName = ROLES.filter(r=>!nameOf(r.id) && byRole(r.id).some(x=>overlaps(x,today,addD(today,60))));
   if(noName.length) add('med', `Роли без исполнителя: ${noName.length}`,
     `На ближайшие два месяца задачи есть, а имени в команде нет: ` + noName.map(r=>r.n).join(', ')+'.',
-    ['Закрыть роли до старта продаж — иначе задачи повиснут на руководителе зоны.',
+    ['Закрыть роли до старта продаж — иначе задачи повиснут на директоре по развитию.',
      'Если роль не выделяется в штат, оформить её как совмещение и указать это в команде.'], 'команда');
 
   /* 9. критический путь до заезда */
   ['A','B'].forEach(pk=>{
-    const contract = BYID[pk+'15'], entry = BYID[pk+'16'];
+    const contract = BYID[pk+'p8'], entry = BYID[pk+'p12'];
     if(!contract||!entry) return;
     const dLeft = days(today, contract.end);
     const p = Store.task(contract.id).p||0;
     if(dLeft <= 60 && dLeft > -30 && p < 100)
       add(dLeft<=20?'crit':'high', `Договоры ${PROJECTS[pk].name}: ${p}% за ${dLeft} дн. до срока`,
-        `Без подписанных договоров нельзя собрать данные на въезд (${fmtL(entry.start)}), выпустить пропуска и запустить заезд. ` +
-        `Это самая длинная цепочка проекта: продажа → документы → реквизиты → договор → въезд → заезд.`,
+        `Без подписанных договоров нельзя запустить регламент заезда (${fmtL(entry.start)}), выпустить пропуска и печатать макеты с меню. ` +
+        `Это самая длинная цепочка проекта: ПРОДАЖИ → ДОКУМЕНТЫ → ПРОИЗВОДСТВО → ПЛОЩАДКА.`,
         ['Разделить поток: типовые договоры подписывать по мере готовности, не ждать полного пула.',
          'Согласовать с юридическим отделом сокращённый регламент для повторных резидентов Клуба.',
          'Резидентам без договора за 40 дней до даты — стоп-лист и передача места из листа ожидания.'], 'критический путь');
@@ -779,8 +851,8 @@ function computeRisks(){
    ========================================================================= */
 const $ = s=>document.querySelector(s);
 const esc = s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const avatar = (roleId, cls)=>{ const r=ROLE[roleId], d=DEPT[r.d];
-  return `<span class="${cls||'av'}" style="background:${d.c};color:${d.ink}">${r.ab}</span>`; };
+const avatar = (roleId, cls)=>{ const r=ROLE[roleId];
+  return `<span class="${cls||'av'}" style="background:var(--rc-${r.id});color:var(--ri-${r.id})">${r.ab}</span>`; };
 const projPill = p=>`<span class="pill ${PROJECTS[p].cls}">${PROJECTS[p].short}</span>`;
 const heatChip = k=>`<span class="pill" style="background:${HEAT[k].bg};color:${HEAT[k].ink}">${HEAT[k].l}</span>`;
 const dl = x=>`${fmtS(x.start)} — ${fmtS(x.end)}`;
@@ -791,6 +863,7 @@ const nTask = n=>plural(n,'задача','задачи','задач');
 let VIEW = 'dash';
 const TITLES = {
   dash:['Дашборд','Общий ход подготовки сезона'],
+  scheme:['Схема процесса','Что за чем идёт и почему два города мешают друг другу'],
   road:['Дорожная карта','Сентябрь 2026 → сентябрь 2027, оба города на одной шкале'],
   heat:['Тепловая карта','Где горит: по ролям, по месяцам, по задачам'],
   backlog:['Бэклог недели','Что взять в работу на неделю каждому сотруднику'],
@@ -905,6 +978,174 @@ function taskRow(x){
   </div>`;
 }
 
+/* ---------- 2. СХЕМА ПРОЦЕССА ----------
+   Иллюстрации нарисованы вручную во встроенном SVG: viewBox + width:100%,
+   цвета — через переменные темы, у каждого узла свой id и <title>.        */
+const stageTasks = st => INST.filter(x=>x.st===st);
+const stageWorst = list => { let k='done', w=-1;
+  list.forEach(x=>{ const h=heatKey(x); if(HEAT[h].w>w){ w=HEAT[h].w; k=h; } });
+  return list.length?k:'none'; };
+
+function figChain(){
+  const W=1000, BW=145, GAP=20, X0=10, Y=46, BH=130;
+  const flow = STAGES.filter(st=>st.id!=='st0');
+  const boxes = flow.map((st,i)=>{
+    const x = X0 + i*(BW+GAP);
+    const list = stageTasks(st.id), p = prog(list), k = stageWorst(list);
+    const openCnt = list.filter(x=>(Store.task(x.id).p||0)<100).length;
+    const roles = ROLES.filter(r=>list.some(x=>x.r===r.id));
+    let cx = x+12;
+    const chips = roles.map(r=>{
+      const w = 11 + r.ab.length*6.4, g =
+        `<g><title>${esc(r.n)}${nameOf(r.id)?' — '+esc(nameOf(r.id)):''}</title>
+          <rect x="${cx}" y="${Y+104}" width="${w}" height="16" rx="5" fill="var(--rc-${r.id})"></rect>
+          <text x="${cx+w/2}" y="${Y+115}" font-size="9" font-weight="800" text-anchor="middle"
+            fill="var(--ri-${r.id})">${r.ab}</text></g>`;
+      cx += w+4; return g;
+    }).join('');
+    const arrow = i<flow.length-1 ? `<g opacity=".55">
+        <line x1="${x+BW+3}" y1="${Y+BH/2}" x2="${x+BW+GAP-7}" y2="${Y+BH/2}"
+          stroke="currentColor" stroke-width="1.5"></line>
+        <path d="M${x+BW+GAP-8} ${Y+BH/2-4} L${x+BW+GAP-2} ${Y+BH/2} L${x+BW+GAP-8} ${Y+BH/2+4} Z" fill="currentColor"></path>
+      </g>` : '';
+    return `<g id="stage-${st.id}"><title>${esc(st.n)}: ${esc(st.out)}. Задач ${list.length}, открыто ${openCnt}, готовность ${p}%</title>
+      <rect x="${x}" y="${Y}" width="${BW}" height="${BH}" rx="12"
+        fill="var(--surface)" stroke="var(--line)" stroke-width="1"></rect>
+      <path d="M${x} ${Y+12} a12 12 0 0 1 12 -12 h${BW-24} a12 12 0 0 1 12 12 v3 h-${BW} Z" fill="${HEAT[k].bg}"></path>
+      <text x="${x+12}" y="${Y+26}" font-size="9.5" font-weight="800" letter-spacing="1"
+        fill="var(--muted-2)">${String(i+1).padStart(2,'0')}</text>
+      <text x="${x+12}" y="${Y+47}" font-size="12.5" font-weight="800" fill="currentColor">${esc(st.n)}</text>
+      <text x="${x+12}" y="${Y+64}" font-size="10" fill="var(--muted-2)">${list.length} задач · ${openCnt} открыто</text>
+      <text x="${x+12}" y="${Y+92}" font-size="21" font-weight="800" fill="currentColor">${p}%</text>
+      <rect x="${x+12}" y="${Y+96}" width="${BW-24}" height="5" rx="3" fill="var(--h0)"></rect>
+      <rect x="${x+12}" y="${Y+96}" width="${(BW-24)*p/100}" height="5" rx="3" fill="${HEAT[k].bg}"></rect>
+      ${chips}</g>${arrow}`;
+  }).join('');
+
+  const cross = stageTasks('st0'), cp = prog(cross);
+  const crossRoles = ROLES.filter(r=>cross.some(x=>x.r===r.id));
+  let ccx = 690;
+  const crossChips = crossRoles.map(r=>{ const w=11+r.ab.length*6.4;
+    const g = `<g><title>${esc(r.n)}</title>
+      <rect x="${ccx}" y="${Y+BH+43}" width="${w}" height="16" rx="5" fill="var(--rc-${r.id})"></rect>
+      <text x="${ccx+w/2}" y="${Y+BH+54}" font-size="9" font-weight="800" text-anchor="middle"
+        fill="var(--ri-${r.id})">${r.ab}</text></g>`;
+    ccx += w+4; return g; }).join('');
+
+  return `<svg class="fig" viewBox="0 0 ${W} ${Y+BH+90}" role="img"
+      aria-label="Цепочка из шести стадий подготовки фуд-корта со сквозными процессами">
+    <title>Производственная цепочка зоны фуд-корт</title>
+    ${boxes}
+    <g id="stage-st0"><title>Сквозные процессы: ${esc(STAGES[6].out)}. Готовность ${cp}%</title>
+      <rect x="${X0}" y="${Y+BH+30}" width="${W-2*X0}" height="42" rx="10"
+        fill="none" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="5 4"></rect>
+      <text x="${X0+14}" y="${Y+BH+48}" font-size="11" font-weight="800" letter-spacing=".8"
+        fill="var(--muted-2)">СКВОЗНЫЕ</text>
+      <text x="${X0+14}" y="${Y+BH+63}" font-size="11" fill="currentColor">${esc(cross.length? 'Бюджет фуд-корта и статусные встречи — идут через весь проект':'')}</text>
+      <text x="${W-X0-16}" y="${Y+BH+57}" font-size="16" font-weight="800" text-anchor="end" fill="currentColor">${cp}%</text>
+      ${crossChips}</g>
+  </svg>`;
+}
+
+function figCities(){
+  const W=1000, PAD=10, sx = d => PAD + days(T0,d)/SPAN*(W-2*PAD);
+  const span = list => list.length ? [list.reduce((m,x)=>x.start<m?x.start:m,list[0].start),
+                                      list.reduce((m,x)=>x.end>m?x.end:m,list[0].end)] : null;
+  const base = span(INST.filter(x=>x.p==='S'));
+  const track = (pk,ph) => span(INST.filter(x=>x.p===pk && (ph==='prep'? (x.ph==='prep') : (x.ph==='live'||x.ph==='post'))));
+  const rows = [
+    {y:52,  lbl:'БАЗА · один раз на оба города', col:'var(--pS)',  seg:[base], ev:null},
+    {y:112, lbl:'МОСКВА · Коломенское',          col:'var(--pA)',  seg:[track('A','prep'),track('A','post')], ev:PROJECTS.A.date, evl:'20.06'},
+    {y:172, lbl:'ПЕТЕРБУРГ · Елагин парк',       col:'var(--pB)',  seg:[track('B','prep'),track('B','post')], ev:PROJECTS.B.date, evl:'08.08'}
+  ];
+  const aPost = track('A','post'), bPrep = track('B','prep');
+  const ovA = aPost && bPrep ? new Date(Math.max(aPost[0],bPrep[0])) : null;
+  const ovB = aPost && bPrep ? new Date(Math.min(aPost[1],bPrep[1])) : null;
+  const overlap = (ovA && ovB && ovA<ovB) ? `<g id="overlap"><title>Закрытие Москвы и финальная подготовка Петербурга идут одновременно</title>
+      <rect x="${sx(ovA)}" y="98" width="${sx(ovB)-sx(ovA)}" height="102" rx="6"
+        fill="var(--danger)" opacity=".13"></rect>
+      <rect x="${sx(ovA)}" y="98" width="${sx(ovB)-sx(ovA)}" height="102" rx="6"
+        fill="none" stroke="var(--danger)" stroke-width="1" stroke-dasharray="4 3" opacity=".6"></rect>
+      <text x="${(sx(ovA)+sx(ovB))/2}" y="215" font-size="10" font-weight="800" text-anchor="middle"
+        fill="var(--danger)">НАЛОЖЕНИЕ ${days(ovA,ovB)} ДН.</text></g>` : '';
+
+  const ticks = MONTHS.filter((m,i)=>i%2===0).map(m=>`
+    <line x1="${sx(m)}" y1="30" x2="${sx(m)}" y2="196" stroke="var(--grid)" stroke-width="1"></line>
+    <text x="${sx(m)}" y="240" font-size="9.5" text-anchor="middle" fill="var(--muted-2)">${MONTH_SHORT[m.getMonth()]} ${String(m.getFullYear()).slice(2)}</text>`).join('');
+
+  const bars = rows.map(r=>{
+    const segs = r.seg.filter(Boolean).map((sg,i)=>`<rect x="${sx(sg[0])}" y="${r.y}" width="${Math.max(3,sx(sg[1])-sx(sg[0]))}"
+        height="22" rx="6" fill="${r.col}" opacity="${i?0.45:0.85}"></rect>`).join('');
+    const ev = r.ev ? `<g><title>Дата фестиваля</title>
+        <line x1="${sx(r.ev)}" y1="${r.y-8}" x2="${sx(r.ev)}" y2="${r.y+30}" stroke="${r.col}" stroke-width="2.5"></line>
+        <circle cx="${sx(r.ev)}" cy="${r.y+11}" r="6" fill="${r.col}" stroke="var(--surface)" stroke-width="2"></circle>
+        <text x="${sx(r.ev)}" y="${r.y-14}" font-size="11" font-weight="800" text-anchor="middle" fill="${r.col}">${r.evl}</text></g>` : '';
+    return `<g><title>${esc(r.lbl)}</title>
+      <text x="${PAD}" y="${r.y-8}" font-size="10" font-weight="800" letter-spacing=".7"
+        fill="var(--muted-2)">${esc(r.lbl)}</text>${segs}${ev}</g>`;
+  }).join('');
+
+  return `<svg class="fig" viewBox="0 0 ${W} 256" role="img"
+      aria-label="Календарь двух городов на одной оси с зоной наложения">
+    <title>Два города на одной оси</title>
+    ${ticks}${overlap}${bars}
+    <line x1="${sx(today)}" y1="30" x2="${sx(today)}" y2="200" stroke="var(--danger)" stroke-width="1.5" stroke-dasharray="4 3"></line>
+    <text x="${sx(today)+5}" y="27" font-size="9.5" font-weight="800" fill="var(--danger)">сегодня</text>
+  </svg>`;
+}
+
+function renderScheme(){
+  const gap = days(PROJECTS.A.date, PROJECTS.B.date);
+  const rows = STAGES.map(st=>{
+    const list = stageTasks(st.id), p = prog(list), k = stageWorst(list);
+    const win = pk =>{ const l=list.filter(x=>x.p===pk); if(!l.length) return '—';
+      const s0=l.reduce((m,x)=>x.start<m?x.start:m,l[0].start), e0=l.reduce((m,x)=>x.end>m?x.end:m,l[0].end);
+      return `${fmtS(s0)} — ${fmtS(e0)}`; };
+    const roles = ROLES.filter(r=>list.some(x=>x.r===r.id));
+    const sBase = list.filter(x=>x.p==='S').length;
+    return `<tr>
+      <td><div style="display:flex;gap:8px;align-items:center;font-weight:700">
+          <span style="width:9px;height:9px;border-radius:3px;background:${HEAT[k].bg};flex:0 0 auto"></span>${esc(st.n)}</div>
+        <div style="font-size:11px;color:var(--muted-2);margin-top:3px">${list.length} задач${sBase?' · общие на оба города':''}</div></td>
+      <td class="w">${esc(st.out)}</td>
+      <td><div style="display:flex;gap:4px;flex-wrap:wrap">${roles.map(r=>avatar(r.id,'')).join('')}</div></td>
+      <td class="num">${sBase? fmtS(list[0].start)+' — '+fmtS(list.reduce((m,x)=>x.end>m?x.end:m,list[0].end)) : win('A')}</td>
+      <td class="num">${sBase? 'та же' : win('B')}</td>
+      <td class="num" style="font-weight:700">${p}%</td>
+    </tr>`;
+  }).join('');
+
+  $('#v-scheme').innerHTML = `
+    <div class="card">
+      <div class="ask">Что за чем идёт в зоне фуд-корт</div>
+      <div class="figcap" style="margin:0 0 16px">Шесть стадий: каждая отдаёт следующей готовый результат.
+        Цвет полоски сверху — худший статус среди задач стадии, число — её готовность прямо сейчас.
+        Значки внизу карточки — роли, которые в стадии заняты.</div>
+      <div class="scroll-x"><div style="min-width:880px">${figChain()}</div></div>
+      <div class="figcap">Порвётся цепочка в любом звене — встанут все следующие. Самое узкое место —
+        ДОКУМЕНТЫ: без подписанных договоров нельзя ни печатать макеты с меню, ни выпускать пропуска на заезд.</div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ask">Почему два города мешают друг другу</div>
+      <div class="figcap" style="margin:0 0 16px">Между фестивалями ${gap} дней. БАЗА делается один раз,
+        дальше два города идут своими треками — и красная зона показывает недели,
+        когда закрытие Москвы совпадает с финальной подготовкой Петербурга.</div>
+      <div class="scroll-x"><div style="min-width:680px">${figCities()}</div></div>
+      <div class="figcap">В этой полосе одни и те же люди одновременно сдают смету и документы по Москве
+        и принимают макеты, застройку и заезд по Петербургу. Разводить пики надо заранее:
+        всё, что можно закрыть по Петербургу до 20 июня, должно быть закрыто до 20 июня.</div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="sec-h">Стадии: что должно быть на выходе</div>
+      <div class="scroll-x"><table class="ptable">
+        <thead><tr><th>Стадия</th><th>Результат на выходе</th><th>Роли</th>
+          <th>Москва</th><th>Петербург</th><th>Готово</th></tr></thead>
+        <tbody>${rows}</tbody></table></div>
+    </div>`;
+}
+
 /* ---------- 2. ДОРОЖНАЯ КАРТА ---------- */
 let roadFilter = 'all';
 function renderRoad(){
@@ -923,7 +1164,7 @@ function renderRoad(){
   const list = INST.filter(x=>roadFilter==='all' || x.p===roadFilter || (roadFilter!=='S'&&x.p==='S'));
   const body = PHASES.map(f=>{
     const rows = list.filter(x=>x.ph===f.id)
-      .sort((a,b)=>a.start-b.start || a.n-b.n || a.p.localeCompare(b.p));
+      .sort((a,b)=>a.start-b.start || a.id.localeCompare(b.id));
     if(!rows.length) return '';
     const p = prog(rows);
     return `<div class="grp"><span>${f.n}</span><span class="pill">${f.s}</span>
@@ -945,7 +1186,7 @@ function renderRoad(){
   $('#v-road').innerHTML = `
     <div class="tools">
       <label>Показать</label>
-      ${[['all','Оба города'],['A','Только Москва'],['B','Только Петербург'],['S','Только сезонная база']].map(([v,n])=>
+      ${[['all','Оба города'],['A','Только Москва'],['B','Только Петербург'],['S','Только БАЗА']].map(([v,n])=>
         `<button class="btn ${roadFilter===v?'':'ghost'} sm" data-road="${v}">${n}</button>`).join('')}
       <span style="margin-left:auto;font-size:11.5px;color:var(--muted-2)">Клик по полосе — карточка задачи. Заливка полосы — процент готовности.</span>
     </div>
@@ -961,7 +1202,7 @@ function renderRoad(){
       <span><i style="background:var(--pA)"></i>Москва · 20 июня 2027 · Коломенское</span>
       <span><i style="background:var(--pB)"></i>Санкт-Петербург · 8 августа 2027 · Елагин парк</span>
       <span><i style="background:var(--danger)"></i>сегодня</span>
-      <span>Сезонная база — задачи, которые делаются один раз на оба города.</span>
+      <span>БАЗА — задачи, которые делаются один раз на оба города и входят в готовность обоих.</span>
     </div>`;
 }
 
@@ -1010,7 +1251,7 @@ function weekRange(off){
   const mon=addD(d,-wd+off*7); return [mon, addD(mon,6)];
 }
 function renderBacklog(){
-  if(!blRole) blRole = Me.id || 'LEAD';
+  if(!ROLE[blRole]) blRole = Me.id || 'GASTRO';
   const [a,b]=weekRange(blWeek);
   const list = byRole(blRole).filter(x=>overlaps(x,a,b))
     .sort((x,y)=>HEAT[heatKey(y)].w-HEAT[heatKey(x)].w || x.end-y.end);
@@ -1110,7 +1351,7 @@ function renderRisks(){
 let chatRole=null, chatUnsub=null, chatSubRole=null, chatMsgs=[];
 function chatLocalKey(r){ return 'chat.'+r; }
 function renderChat(){
-  if(!chatRole) chatRole = Me.id || 'LEAD';
+  if(!ROLE[chatRole]) chatRole = Me.id || 'GASTRO';
   const rows = ROLES.map(r=>{
     const open = byRole(r.id).filter(x=>(Store.task(x.id).p||0)<100 && overlaps(x,today,addD(today,30))).length;
     return `<button class="crow" data-chat="${r.id}" aria-current="${r.id===chatRole}">
@@ -1180,31 +1421,32 @@ async function sendMsg(){
 
 /* ---------- 7. КОМАНДА ---------- */
 function renderTeam(){
-  const groups = Object.keys(DEPT).map(dk=>{
-    const rs = ROLES.filter(r=>r.d===dk);
-    return `<div class="sec-h" style="margin-top:8px">${esc(DEPT[dk].n)}</div>
-      <div class="team">${rs.map(r=>{
-        const list=byRole(r.id), p=prog(list), late=list.filter(isLate).length;
-        const open=list.filter(x=>(Store.task(x.id).p||0)<100).length;
-        return `<div class="tcard">
-          <div class="th">${avatar(r.id,'av')}<div><b>${esc(r.n)}</b><span>${esc(r.s)}</span></div></div>
-          <input type="text" data-name="${r.id}" value="${esc(nameOf(r.id))}" placeholder="ФИО исполнителя">
-          <div class="bar"><i style="width:${p}%;background:${late?'var(--h4)':'var(--accent)'}"></i></div>
-          <div class="tstats">
-            <div><b>${list.length}</b>задач</div><div><b>${open}</b>открыто</div>
-            <div><b style="${late?'color:var(--danger)':''}">${late}</b>просрочено</div>
-            <div><b>${p}%</b>готово</div>
-          </div>
-          <div style="display:flex;gap:7px">
-            <button class="btn ghost sm" data-chat-go="${r.id}">Чат</button>
-            <button class="btn ghost sm" data-bl-go="${r.id}">Бэклог</button>
-          </div>
-        </div>`;
-      }).join('')}</div>`;
+  const cards = ROLES.map(r=>{
+    const list=byRole(r.id), pr=prog(list), late=list.filter(isLate).length;
+    const open=list.filter(x=>(Store.task(x.id).p||0)<100).length;
+    const stages = STAGES.filter(st=>list.some(x=>x.st===st.id)).map(st=>st.n);
+    return `<div class="tcard">
+      <div class="th">${avatar(r.id,'av')}<div><b>${esc(r.n)}</b><span>${esc(r.mix)}</span></div></div>
+      <input type="text" data-name="${r.id}" value="${esc(nameOf(r.id))}" placeholder="ФИО исполнителя">
+      <div style="font-size:12px;color:var(--muted);line-height:1.45">${esc(r.s)}</div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap">${stages.map(x=>`<span class="pill">${esc(x)}</span>`).join('')}</div>
+      <div class="bar"><i style="width:${pr}%;background:${late?'var(--h4)':'var(--accent)'}"></i></div>
+      <div class="tstats">
+        <div><b>${list.length}</b>задач</div><div><b>${open}</b>открыто</div>
+        <div><b style="${late?'color:var(--danger)':''}">${late}</b>просрочено</div>
+        <div><b>${pr}%</b>готово</div>
+      </div>
+      <div style="display:flex;gap:7px">
+        <button class="btn ghost sm" data-chat-go="${r.id}">Чат</button>
+        <button class="btn ghost sm" data-bl-go="${r.id}">Бэклог</button>
+      </div>
+    </div>`;
   }).join('');
   $('#v-team').innerHTML = `<div class="note" style="margin-bottom:14px">
-    Роли выведены из содержания задач оффера. Имена пяти кураторов подставлены из действующей команды сервиса резидентов — проверьте и дополните остальные.
-  </div>${groups}`;
+    Шесть ролей вместо девятнадцати: каждая совмещает несколько функций из оффера.
+    Задачи распределены по совмещениям, поэтому одна роль ведёт свой участок целиком —
+    от продажи до закрытия. Незаполненные ФИО впишите прямо в карточке.
+  </div><div class="team">${cards}</div>`;
 }
 </script>
 
@@ -1246,6 +1488,8 @@ function openTask(id){
     <div class="dfield"><label>Комментарий команде</label>
       <textarea id="dNote" rows="3" placeholder="Что сделано, чего ждём, кто держит">${esc(s.note||'')}</textarea>
       <button class="btn ghost sm" id="dSaveNote" style="align-self:flex-start">Сохранить</button></div>
+    ${x.mrg?`<div class="dfield"><label>Объединяет строки оффера</label>
+      <div style="font-size:12.5px;color:var(--muted);line-height:1.5">${x.mrg.map(m=>'— '+esc(m)).join('<br>')}</div></div>`:''}
     ${deps?`<div class="dfield"><label>Зависит от</label><div class="tlist">${deps}</div></div>`:''}
     ${succ.length?`<div class="dfield"><label>Держит следом</label>
       <div style="font-size:12.5px;color:var(--muted)">${succ.map(y=>esc(y.t.slice(0,60))+'…').join('<br>')}</div></div>`:''}
@@ -1407,7 +1651,7 @@ ${hist||'чат пуст'}
 /* =========================================================================
    МАРШРУТИЗАЦИЯ, СОБЫТИЯ, СТАРТ
    ========================================================================= */
-const RENDER = {dash:renderDash, road:renderRoad, heat:renderHeat,
+const RENDER = {dash:renderDash, scheme:renderScheme, road:renderRoad, heat:renderHeat,
                 backlog:renderBacklog, risks:renderRisks, chat:renderChat, team:renderTeam};
 function go(v){
   VIEW=v;
@@ -1441,8 +1685,8 @@ function paintTop(){
 function paintMe(){
   const r=Me.role();
   $('#meAv').textContent = r?r.ab:'?';
-  $('#meAv').style.background = r?DEPT[r.d].c:'var(--mute-bg)';
-  $('#meAv').style.color = r?DEPT[r.d].ink:'var(--mute-ink)';
+  $('#meAv').style.background = r?`var(--rc-${r.id})`:'var(--mute-bg)';
+  $('#meAv').style.color = r?`var(--ri-${r.id})`:'var(--mute-ink)';
   $('#meName').textContent = r ? (nameOf(r.id)||r.n) : 'Выберите себя';
   $('#meRole').textContent = r ? r.n : 'роль не выбрана';
 }
