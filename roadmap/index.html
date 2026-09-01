@@ -259,6 +259,36 @@ textarea{resize:vertical;line-height:1.5}
 .acard span{font-size:12.3px;color:var(--muted);line-height:1.5}
 .clist2{margin-left:16px;display:flex;flex-direction:column;gap:5px}
 .clist2 li{font-size:12.5px;line-height:1.5}
+
+/* личные карты 2026 */
+.p-hero{display:flex;gap:12px;align-items:center}
+.p-hero .av{min-width:42px;padding:0 8px;height:42px;border-radius:12px;font-size:13px}
+.pgantt{border:1px solid var(--line-soft);border-radius:12px;overflow:hidden;background:var(--surface)}
+.p-head{display:grid;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.p-head>div{padding:8px 6px;font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted-2);text-align:center;border-left:1px solid var(--line-soft)}
+.p-head>div:first-child{text-align:left;padding-left:14px;border-left:0}
+.p-row{display:grid;border-top:1px solid var(--line-soft);align-items:center;min-height:46px}
+.p-row:hover{background:var(--surface-2)}
+.p-name{padding:8px 10px 8px 14px;display:flex;gap:9px;align-items:flex-start}
+.p-name b{font-size:12.5px;font-weight:600;display:block;line-height:1.3}
+.p-out{display:block;font-size:10.5px;color:var(--muted-2);margin-top:2px;line-height:1.35}
+.p-track{grid-column:2 / -1;position:relative;min-height:46px}
+.p-cols{position:absolute;inset:0;display:grid;grid-template-columns:repeat(18,1fr);pointer-events:none}
+.p-cols i{border-left:1px solid var(--grid)}
+.p-cols i.mo{border-left:1px solid var(--line)}
+.p-bar{position:absolute;top:50%;transform:translateY(-50%);height:20px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;
+  border:1px solid rgba(36,23,21,.14)}
+.m26{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:16px;box-shadow:var(--shadow)}
+.m26-h{display:flex;gap:9px;align-items:center;margin-bottom:11px;flex-wrap:wrap}
+.m26-h b{font-size:14px}
+.ptable tr.is-done td{opacity:.55}
+.ptable tr.is-done b{text-decoration:line-through}
+.gate{margin-left:18px;display:flex;flex-direction:column;gap:8px}
+.gate li{font-size:13.5px;line-height:1.5}
+.gate li::marker{color:var(--accent-ink);font-weight:800}
 .grid > *{min-width:0}
 </style>
 <style>
@@ -433,6 +463,7 @@ textarea{resize:vertical;line-height:1.5}
   .brand{padding:0 8px 0 4px}
   .nav{flex-direction:row;flex-wrap:wrap}
   .nav button{padding:7px 10px;font-size:12.5px}
+  .nav h4{width:100%;padding:8px 2px 0}
   .rail-foot{margin:0;border:0;padding:0;flex-direction:row;align-items:center;gap:10px;width:100%}
   .me{width:auto}
   .two{grid-template-columns:1fr}
@@ -461,6 +492,7 @@ textarea{resize:vertical;line-height:1.5}
       <button data-v="org">Оргструктура</button>
       <button data-v="team">Команда</button>
       <button data-v="hr">Нагрузка и найм</button>
+      <button data-v="plan26">Личные карты 2026</button>
       <button data-v="backlog">Бэклог недели<span class="cnt" id="n-backlog">0</span></button>
       <button data-v="chat">Чаты</button>
       <h4>Спрос</h4>
@@ -503,6 +535,7 @@ textarea{resize:vertical;line-height:1.5}
     <section class="view" id="v-org" hidden></section>
     <section class="view" id="v-hr" hidden></section>
     <section class="view" id="v-mkt" hidden></section>
+    <section class="view" id="v-plan26" hidden></section>
   </div>
 </div>
 
@@ -954,6 +987,7 @@ const TITLES = {
   team:['Команда','Роли, исполнители и их загрузка'],
   org:['Оргструктура','Кто кому подчиняется и что с кого спрашивать'],
   hr:['Нагрузка и найм','Сколько стоит каждая роль и кого нанимать'],
+  plan26:['Личные карты 2026','Сентябрь — декабрь 2026 по неделям и шагам'],
   mkt:['Маркетинг гастроблока','Стратегия спроса: резиденты и гости']
 };
 
@@ -2484,12 +2518,255 @@ function renderMarketing(){
     </div>`;
 }
 
+
+/* =========================================================================
+   ЛИЧНЫЕ КАРТЫ 2026 — детализация до недель
+   Недели W0…W17: понедельник 31.08.2026 → неделя 28.12.2026
+   src — задача дорожной карты, из которой вырастает шаг; null — шага в карте нет
+   ========================================================================= */
+const W26 = (()=>{ const a=[]; let d=d_('2026-08-31'); for(let i=0;i<18;i++){ a.push(new Date(d)); d=addD(d,7);} return a; })();
+const M26 = [{n:'Сентябрь',w:0,c:5},{n:'Октябрь',w:5,c:4},{n:'Ноябрь',w:9,c:5},{n:'Декабрь',w:14,c:4}];
+
+const PLAN26 = [
+{ role:'MKT', person:'вакансия — выход не позже 1 декабря 2026',
+  lead:'Маркетинг сезона 2027 начинается с разбора сезона 2026. В дорожной карте у роли три задачи, и первая стартует только 1 ноября — значит сентябрь и октябрь либо ведёт директор по развитию, либо найм нужно ускорить на два месяца.',
+  warn:'Первая задача карты — 1 ноября. Всё, что раньше, — предложение: без разбора прошлого сезона стратегия будет написана из головы.',
+  steps:[
+   {id:'m1', w:0,  d:2, h:16, src:null, t:'Разбор сезона 2026 по цифрам',
+    o:'Одностраничник: выручка по корнерам, средний чек, заполняемость, кто не вернулся и почему'},
+   {id:'m2', w:1,  d:3, h:12, src:null, t:'Интервью с 12 резидентами о промо',
+    o:'12 расшифровок и список из 10 претензий к маркетингу зоны'},
+   {id:'m3', w:3,  d:2, h:10, src:null, t:'Аудит промо-материалов 2026',
+    o:'Таблица каналов: что делали, какой охват, что дало трафик в зону'},
+   {id:'m4', w:5,  d:2, h:12, src:null, t:'Конкурентный обзор гастрозон',
+    o:'6 карточек: что продают другие фестивали, по какой цене, чем отличаются'},
+   {id:'m5', w:6,  d:2, h:10, src:null, t:'Черновик позиционирования',
+    o:'Одна страница: для резидента, для гостя, отличие от 2026 — согласована с директором по развитию'},
+   {id:'m6', w:7,  d:2, h:16, src:'b8', t:'Дизайн Клуба резидентов',
+    o:'Схема уровней с порогами и привилегиями плюс расчёт стоимости скидок'},
+   {id:'m7', w:8,  d:1, h:8,  src:null, t:'Медиаплан-скелет',
+    o:'Таблица каналов: когда включается, сколько стоит, что закрывает'},
+   {id:'m8', w:9,  d:3, h:24, src:'b5', t:'Сборка маркетинговой стратегии',
+    o:'Документ: цели, аудитории, две воронки, каналы, KPI'},
+   {id:'m9', w:11, d:1, h:6,  src:'b5', t:'Согласование KPI',
+    o:'Таблица метрик с базой и целью, подписана директором по развитию и финансовым менеджером'},
+   {id:'m10',w:12, d:1, h:8,  src:'b5', t:'Бюджет маркетинга зоны и защита',
+    o:'Утверждённый бюджет в долях и суммах'},
+   {id:'m11',w:12, d:2, h:10, src:'b5', t:'ТЗ на брендинг гастроблока',
+    o:'ТЗ дизайнеру: как зона выглядит внутри брендбука фестиваля'},
+   {id:'m12',w:14, d:2, h:14, src:'b8', t:'Запуск Клуба резидентов',
+    o:'Положение о Клубе опубликовано, уровни и порядок вступления описаны'},
+   {id:'m13',w:14, d:2, h:8,  src:'b8', t:'Реферальная программа',
+    o:'Механика и вознаграждение согласованы с финансовым менеджером'},
+   {id:'m14',w:15, d:2, h:16, src:'b7', t:'Презентация для резидентов: структура и тексты',
+    o:'Черновик с цифрами сезона 2026 и пакетными предложениями'},
+   {id:'m15',w:16, d:2, h:10, src:'b7', t:'Вёрстка презентации с дизайнером',
+    o:'Презентация в PDF и в личном кабинете резидента'},
+   {id:'m16',w:16, d:2, h:12, src:null, t:'Медиакит резидента, черновик',
+    o:'Шаблоны постов, логотипы, фактура — чтобы резидент продвигал участие сам'},
+   {id:'m17',w:16, d:1, h:6,  src:null, t:'Тексты рассылки оффера',
+    o:'Письмо и три варианта темы под старт продаж Москвы 22 декабря'}],
+  gate:['Стратегия и KPI утверждены',
+        'Клуб резидентов запущен, положение опубликовано',
+        'Презентация для резидентов готова и лежит в кабинете',
+        'Письмо-оффер написано — продажи Москвы стартуют 22 декабря',
+        'Бюджет маркетинга зоны утверждён']},
+
+{ role:'GASTRO', person:'Наталья Арсентьева',
+  lead:'По дорожной карте у Арсентьевой в 2026 году одна задача — пул резидентов Москвы, и та стартует 22 декабря. Фактически это значит выйти в январь с холодной базой и продавать 30 мест за три месяца. Осень нужно занять подготовкой продаж, иначе сезон догоняется весной.',
+  warn:'В карте на весь 2026 год — одна задача с 22 декабря. Одиннадцать шагов ниже это предложение занять сентябрь–ноябрь, чтобы декабрьская рассылка ушла по тёплой и сегментированной базе.',
+  steps:[
+   {id:'g1', w:0,  d:2, h:16, src:null, t:'Закрыть хвосты сезона 2026',
+    o:'Ноль открытых вопросов: недосданные документы, невыставленные счета, спорные ситуации'},
+   {id:'g2', w:1,  d:3, h:20, src:null, t:'Дебрифинг с 20 резидентами 2026',
+    o:'20 карточек: оценка сезона, что мешало, намерение вернуться'},
+   {id:'g3', w:2,  d:3, h:18, src:null, t:'Единый реестр резидентов',
+    o:'Файл на 100+ строк: контакты, категория, средний чек, город, статус по сезонам'},
+   {id:'g4', w:5,  d:1, h:8,  src:null, t:'Сегментация базы',
+    o:'Три списка с обоснованием: точно вернутся, догоняем, не зовём'},
+   {id:'g5', w:5,  d:3, h:24, src:null, t:'Лонглист новых кандидатов',
+    o:'40 контактов: города, соцсети шефов, гастромаркеты, прошлые отказники'},
+   {id:'g6', w:7,  d:2, h:12, src:null, t:'Квалификация лонглиста',
+    o:'Шортлист 25: подходят по формату, чеку и способности отработать поток'},
+   {id:'g7', w:8,  d:1, h:8,  src:null, t:'Скрипт продажи и работа с возражениями',
+    o:'Сценарий разговора и ответы на 10 типовых возражений: цена, погода, логистика, окупаемость'},
+   {id:'g8', w:9,  d:2, h:10, src:'p6', t:'Календарь дедлайнов резидента',
+    o:'Что резидент сдаёт и когда — от меню до списков персонала'},
+   {id:'g9', w:10, d:2, h:10, src:null, t:'Единая форма заявки, сверка с хостингом',
+    o:'Одна форма, закрывающая и коммерческие, и технические данные'},
+   {id:'g10',w:11, d:2, h:12, src:'p1', t:'Черновая расстановка резидентов на схеме',
+    o:'Кто на каком месте: гипотеза заполнения Москвы по схеме зон'},
+   {id:'g11',w:12, d:2, h:10, src:null, t:'Прогрев базы',
+    o:'Письмо «сезон 2027 объявлен» без цен, собранный предварительный интерес'},
+   {id:'g12',w:14, d:1, h:6,  src:'p2', t:'Приёмка оффера и презентации',
+    o:'Пакеты и цены знает наизусть, вопросы к маркетингу сняты'},
+   {id:'g13',w:15, d:1, h:6,  src:'p2', t:'Ранний доступ Клубу',
+    o:'Письмо резидентам-«легендам» за две недели до общих продаж, брони до открытия'},
+   {id:'g14',w:16, d:1, h:8,  src:'p2', t:'Рассылка оффера по шортлисту',
+    o:'Оффер ушёл 22 декабря по 25 кандидатам и сегментированной базе'},
+   {id:'g15',w:16, d:2, h:20, src:'p2', t:'Первая волна переговоров',
+    o:'15 разговоров до конца года, зафиксированные устные согласия'},
+   {id:'g16',w:16, d:2, h:8,  src:'p2', t:'Воронка со статусами',
+    o:'Таблица по каждому кандидату в кабинете, обновляется еженедельно'}],
+  gate:['Реестр резидентов сведён, база сегментирована на три списка',
+        'Шортлист 25 кандидатов на Москву квалифицирован',
+        'Оффер разослан 22 декабря, первая волна переговоров идёт',
+        'Есть устные согласия и брони Клуба до открытия общих продаж',
+        'Единая форма заявки согласована с хостинг-менеджментом']},
+
+{ role:'HOST', person:'OOFF Studio',
+  lead:'По карте у хостинга в 2026 году одна задача — карта торговых зон Москвы с 22 ноября. До неё три месяца простоя, хотя именно осенью дешевле всего провести тендер на электрику и снять нормативы мощностей с прошлого сезона, пока данные ещё свежие.',
+  warn:'Первая задача карты — 22 ноября. Семь шагов до неё — предложение: инженерный разбор 2026 года и тендеры зимой, а не весной по срочным ценам.',
+  steps:[
+   {id:'h1', w:0,  d:2, h:16, src:null, t:'Инженерный дебрифинг двух площадок',
+    o:'Отчёт с фотофиксацией: мощности, точки подключения, узкие проезды Коломенского и Елагина'},
+   {id:'h2', w:1,  d:2, h:12, src:null, t:'Реальное потребление 2026',
+    o:'Таблица «заявлено / факт» по счётчикам в разрезе типов точек'},
+   {id:'h3', w:2,  d:2, h:10, src:null, t:'Разбор заезда 2026',
+    o:'Хронология заезда с потерями времени: где встали, сколько ждали, что сорвало график'},
+   {id:'h4', w:5,  d:2, h:14, src:null, t:'Норматив мощности по типам точек',
+    o:'кВт на фуд-трак, корнер 3×3, 4,5×3, тележку и PopUp — основа будущего ТЗ на электричество'},
+   {id:'h5', w:6,  d:3, h:20, src:null, t:'Тендер на электрику',
+    o:'Три подрядчика с ценами, сравнение, шортлист'},
+   {id:'h6', w:7,  d:2, h:12, src:null, t:'Тендер на клининг и хэлперов',
+    o:'Шортлист подрядчиков с ценами и условиями по обоим городам'},
+   {id:'h7', w:8,  d:2, h:14, src:null, t:'Черновик регламента площадки 2027',
+    o:'Что можно и нельзя, зоны ответственности, штрафы за нарушение графика'},
+   {id:'h8', w:11, d:2, h:12, src:'p1', t:'Актуализация схемы Коломенского',
+    o:'Подложка с изменениями относительно 2026 года'},
+   {id:'h9', w:12, d:2, h:16, src:'p1', t:'Расстановка торговых зон на схеме',
+    o:'ФК1 четырьмя блоками, ФК2, ФК Купер, семейный, VIP, тележки, PopUp'},
+   {id:'h10',w:13, d:2, h:12, src:'p1', t:'Нумерация объектов и разметка',
+    o:'Сквозная нумерация с привязкой к техническим точкам'},
+   {id:'h11',w:14, d:2, h:14, src:'p1', t:'Силовая схема поверх карты зон',
+    o:'Где щиты, какая мощность, длина кабеля до каждой точки'},
+   {id:'h12',w:14, d:2, h:10, src:'p5', t:'Формат Купера на 2027',
+    o:'Согласованное число мест и требования партнёра к зоне доставки'},
+   {id:'h13',w:15, d:2, h:10, src:null, t:'Пропускной расчёт заезда',
+    o:'Сколько машин в час проходит въезд, окна заезда по зонам'},
+   {id:'h14',w:16, d:1, h:8,  src:null, t:'Смета служб',
+    o:'Цены подрядчиков переданы финансовому менеджеру в бюджет'},
+   {id:'h15',w:17, d:1, h:4,  src:'p1', t:'Передача схемы зон в продажи',
+    o:'Карта объектов принята старшим менеджером гастрозоны'}],
+  gate:['Карта объектов Москвы с нумерацией готова и передана в продажи',
+        'Норматив мощностей утверждён — электричество можно считать',
+        'Подрядчики по электрике, клинингу и хэлперам отобраны, цены в бюджете',
+        'Формат Купера на 2027 согласован',
+        'Регламент площадки существует в черновике']}
+];
+
+let plan26Role = 'MKT';
+const stepKey = id => 'x'+id;
+const stepDone = id => (Store.task(stepKey(id)).p||0) >= 100;
+
+function figPlan26(p){
+  const cols = `300px repeat(18,minmax(30px,1fr))`;
+  const head = `<div class="p-head" style="grid-template-columns:${cols}">
+      <div>Шаг · результат</div>
+      ${M26.map(m=>`<div class="p-mo" style="grid-column:span ${m.c}">${m.n}</div>`).join('')}
+    </div>`;
+  const rows = p.steps.map(st=>{
+    const done = stepDone(st.id);
+    const L = st.w/18*100, W = st.d/18*100;
+    const col = st.src ? `var(--rc-${p.role})` : 'var(--h2)';
+    const ink = st.src ? `var(--ri-${p.role})` : 'var(--h2i)';
+    return `<div class="p-row" style="grid-template-columns:${cols}">
+      <div class="p-name">
+        <button class="chk" data-step="${st.id}" aria-pressed="${done}" title="Отметить сделанным">✓</button>
+        <span><b>${esc(st.t)}</b><span class="p-out">${esc(st.o)}</span></span></div>
+      <div class="p-track">
+        <div class="p-cols">${W26.map((w,i)=>`<i class="${M26.some(m=>m.w===i)?'mo':''}"></i>`).join('')}</div>
+        <div class="p-bar" style="left:${L}%;width:${W}%;background:${col};color:${ink};opacity:${done?1:.8}"
+          title="${esc(st.t)} · ${fmtS(W26[st.w])} — ${fmtS(addD(W26[st.w+st.d-1],6))} · ${st.h} ч">
+          <span>${st.h} ч</span></div>
+      </div></div>`;
+  }).join('');
+  return `<div class="pgantt"><div class="scroll-x"><div style="min-width:860px">${head}${rows}</div></div></div>`;
+}
+
+function renderPlan26(){
+  const p = PLAN26.find(x=>x.role===plan26Role) || PLAN26[0];
+  const tById = Object.fromEntries(TASKS.map(t=>[t.i,t]));
+  const hours = p.steps.reduce((s,x)=>s+x.h,0);
+  const fromCard = p.steps.filter(x=>x.src).length;
+  const done = p.steps.filter(x=>stepDone(x.id)).length;
+  const pr = Math.round(done/p.steps.length*100);
+  const inCard = INST.filter(x=>x.r===p.role && x.start < d_('2027-01-01')).length;
+
+  const kpi=(cls,lbl,val,sub)=>`<div class="kpi ${cls}"><span class="lbl">${lbl}</span>
+      <span class="val">${val}</span><span class="sub">${sub}</span></div>`;
+
+  const byMonth = M26.map(m=>{
+    const list = p.steps.filter(st=>st.w>=m.w && st.w<m.w+m.c);
+    if(!list.length) return '';
+    const mh = list.reduce((s,x)=>s+x.h,0);
+    return `<div class="m26">
+      <div class="m26-h"><b>${esc(m.n)} 2026</b>
+        <span class="pill">${plural(list.length,'шаг','шага','шагов')}</span><span class="pill">${mh} ч</span>
+        <span class="num" style="margin-left:auto;color:var(--muted-2)">недели ${fmtS(W26[m.w])} — ${fmtS(addD(W26[m.w+m.c-1],6))}</span></div>
+      <div class="scroll-x"><table class="ptable">
+        <thead><tr><th>Недели</th><th>Шаг</th><th>Результат</th><th>Часы</th><th>Откуда</th></tr></thead>
+        <tbody>${list.map(st=>{
+          const t = st.src ? tById[st.src] : null;
+          return `<tr class="${stepDone(st.id)?'is-done':''}">
+            <td class="num" style="white-space:nowrap">${fmtS(W26[st.w])}<br>${fmtS(addD(W26[st.w+st.d-1],6))}</td>
+            <td><div style="display:flex;gap:9px;align-items:flex-start">
+              <button class="chk" data-step="${st.id}" aria-pressed="${stepDone(st.id)}">✓</button>
+              <b>${esc(st.t)}</b></div></td>
+            <td class="w">${esc(st.o)}</td>
+            <td class="num">${st.h}</td>
+            <td>${t ? `<span class="pill" title="${esc(t.t)}">${esc(t.t.length>34?t.t.slice(0,34)+'…':t.t)}</span>`
+                    : `<span class="pill" style="background:var(--h2);color:var(--h2i)">нет в карте</span>`}</td>
+          </tr>`;}).join('')}</tbody></table></div>
+    </div>`;
+  }).join('');
+
+  $('#v-plan26').innerHTML = `
+    <div class="tools">
+      ${PLAN26.map(x=>`<button class="btn ${x.role===plan26Role?'':'ghost'} sm" data-p26="${x.role}">
+        ${esc(ROLE[x.role].n)}${nameOf(x.role)?' · '+esc(nameOf(x.role)):''}</button>`).join('')}
+    </div>
+
+    <div class="card">
+      <div class="p-hero">${avatar(p.role,'av')}
+        <div><h3 style="font-size:17px;margin:0 0 2px">${esc(ROLE[p.role].n)}</h3>
+          <div style="font-size:12.5px;color:var(--muted-2)">${esc(p.person)} · сентябрь — декабрь 2026</div></div>
+      </div>
+      <p style="font-size:13.5px;line-height:1.6;max-width:78ch;margin-top:12px">${esc(p.lead)}</p>
+    </div>
+
+    <div class="kpis" style="margin-top:14px">
+      ${kpi('','Шагов в 2026', p.steps.length, `${done} отмечено · ${pr}%`)}
+      ${kpi('','Часов за 4 месяца', hours, `${(hours/18/40).toFixed(2)} ставки в среднем`)}
+      ${kpi('','Растут из карты', fromCard, `из ${p.steps.length} шагов`)}
+      ${kpi('warn','Предложено добавить', p.steps.length-fromCard, 'шагов, которых в карте нет')}
+      ${kpi(inCard<2?'bad':'','Задач карты в 2026', inCard, inCard<2?'весь год почти пуст':'план заполнен')}
+    </div>
+
+    <div class="note" style="margin-top:14px;border-left:3px solid var(--h3)">${esc(p.warn)}</div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ask">Недели сентября — декабря 2026</div>
+      <div class="figcap" style="margin:0 0 14px">Цветная полоса — шаг растёт из задачи дорожной карты,
+        жёлтая — предложение добавить. Число на полосе — часы. Галочка слева отмечает шаг сделанным,
+        отметку видит вся команда.</div>
+      ${figPlan26(p)}
+    </div>
+
+    <div style="margin-top:16px;display:flex;flex-direction:column;gap:14px">${byMonth}</div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="ask">Что должно быть готово к 31 декабря 2026</div>
+      <ul class="gate">${p.gate.map(g=>`<li>${esc(g)}</li>`).join('')}</ul>
+    </div>`;
+}
+
 /* =========================================================================
    МАРШРУТИЗАЦИЯ, СОБЫТИЯ, СТАРТ
    ========================================================================= */
 const RENDER = {dash:renderDash, scheme:renderScheme, road:renderRoad, heat:renderHeat,
                 backlog:renderBacklog, risks:renderRisks, chat:renderChat, team:renderTeam,
-                org:renderOrg, hr:renderHR, mkt:renderMarketing};
+                org:renderOrg, hr:renderHR, mkt:renderMarketing, plan26:renderPlan26};
 function go(v){
   VIEW=v;
   document.querySelectorAll('#nav button').forEach(b=>b.setAttribute('aria-current', String(b.dataset.v===v)));
@@ -2529,7 +2806,7 @@ function paintMe(){
 }
 
 document.addEventListener('click', e=>{
-  const t=e.target.closest('[data-v],[data-go],[data-open],[data-set],[data-done],[data-road],[data-week],[data-chat],[data-chat-go],[data-bl-go],[data-me]');
+  const t=e.target.closest('[data-v],[data-go],[data-open],[data-set],[data-done],[data-road],[data-week],[data-chat],[data-chat-go],[data-bl-go],[data-me],[data-p26],[data-step]');
   if(!t) return;
   const d=t.dataset;
   if(d.v)   return go(d.v);
@@ -2546,6 +2823,9 @@ document.addEventListener('click', e=>{
     else blWeek = d.week==='0' ? 0 : blWeek + Number(d.week);
     return renderBacklog();
   }
+  if(d.p26){ plan26Role=d.p26; return renderPlan26(); }
+  if(d.step !== undefined){ const k=stepKey(d.step);
+    return void Store.saveTask(k, {p: (Store.task(k).p||0)>=100 ? 0 : 100}); }
   if(d.chat){ if(chatRole!==d.chat){ chatSubRole=null; } chatRole=d.chat; return renderChat(); }
   if(d.chatGo){ chatSubRole=null; chatRole=d.chatGo; return go('chat'); }
   if(d.blGo){ blRole=d.blGo; blWeek=0; return go('backlog'); }
