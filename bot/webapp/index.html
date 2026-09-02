@@ -14,6 +14,10 @@
     --line:#ececec;
     --card:#ffffff;
     --shadow:0 1px 0 rgba(0,0,0,.04);
+    --radius:14px;            /* скругление карточек и кнопок */
+    --title-size:9vw;         /* размер заголовка слайда */
+    --title-case:lowercase;   /* lowercase | none | uppercase */
+    --title-weight:800;
     --mono:"SFMono-Regular",ui-monospace,"JetBrains Mono","Menlo",Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue","Segoe UI",Arial,sans-serif;
   }
@@ -49,8 +53,9 @@
   .kicker .num{color:var(--ink)}
   .badge{display:inline-block;background:var(--accent);font-family:var(--mono);font-size:11px;
     letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;margin:0 0 16px;font-weight:600}
-  h1{font-size:clamp(30px,9vw,40px);line-height:1.02;letter-spacing:-.02em;font-weight:800;
-    margin:0 0 16px;text-transform:lowercase}
+  h1{font-size:clamp(30px,var(--title-size),40px);line-height:1.02;letter-spacing:-.02em;
+    font-weight:var(--title-weight);margin:0 0 16px;text-transform:var(--title-case);
+    font-family:var(--display,var(--sans))}
   h1 mark{background:var(--accent);color:var(--ink);padding:0 .06em;box-decoration-break:clone;
     -webkit-box-decoration-break:clone}
   .lead{font-size:15px;line-height:1.45;color:#333;margin:0 0 18px}
@@ -75,7 +80,7 @@
   .rows .q{font-size:13px;line-height:1.4;color:var(--muted);margin-top:3px}
   /* карточки */
   .cards li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
-    border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+    border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
   .cards .t{font-size:15px;font-weight:700;line-height:1.3}
   .cards .q{font-size:13px;line-height:1.45;color:var(--muted);font-style:italic;margin-top:6px}
   /* шаги */
@@ -93,11 +98,11 @@
   .bottom{flex:0 0 auto;padding:10px 20px calc(10px + env(safe-area-inset-bottom));background:var(--paper);
     box-shadow:0 -14px 18px -6px rgba(255,255,255,.95)}
   .navrow{display:flex;gap:10px;align-items:stretch}
-  .back{flex:0 0 auto;width:56px;border:1px solid var(--line);background:var(--paper);border-radius:14px;
+  .back{flex:0 0 auto;width:56px;border:1px solid var(--line);background:var(--paper);border-radius:var(--radius);
     font-size:20px;color:var(--ink);cursor:pointer;transition:opacity .2s}
   .back[disabled]{opacity:.3;cursor:default}
   .next{flex:1 1 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
-    background:var(--ink);color:#fff;border:0;border-radius:14px;padding:18px 20px;cursor:pointer;
+    background:var(--ink);color:var(--paper);border:0;border-radius:var(--radius);padding:18px 20px;cursor:pointer;
     font-family:var(--sans);text-align:left}
   .next .lbl{font-size:19px;font-weight:800;letter-spacing:-.01em}
   .next .hint{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:#a8a8a8;text-align:right}
@@ -262,9 +267,13 @@
   function boot(data) {
     deck = data;
     document.title = (deck.brand && deck.brand.name) || 'Подробности';
-    if (deck.brand && deck.brand.accent) {
-      document.documentElement.style.setProperty('--accent', deck.brand.accent);
-    }
+    // визуальная тема: любой ключ из brand.theme становится css-переменной
+    var theme = (deck.brand && deck.brand.theme) || {};
+    if (deck.brand && deck.brand.accent) theme.accent = deck.brand.accent;
+    Object.keys(theme).forEach(function (k) {
+      var name = '--' + k.replace(/[A-Z]/g, function (c) { return '-' + c.toLowerCase(); });
+      document.documentElement.style.setProperty(name, theme[k]);
+    });
     $('closeLabel').textContent = (deck.brand && deck.brand.closeLabel) || 'закрыть';
     $('foot').textContent = (deck.brand && deck.brand.botUsername) || '';
     $('ctaPrefix').textContent = (deck.cta && deck.cta.prefix) || '';
