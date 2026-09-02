@@ -3,24 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
-<title>Подробности</title>
+<title>HUMAN</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-  /* ---------- токены: значения приходят из brand.preset и brand.theme ---------- */
+  /* значения токенов приходят из brand.preset и brand.theme */
   :root{
     --accent:#c9f24a; --accent-ink:#111111;
     --ink:#111111; --paper:#ffffff; --muted:#8b8b8b; --line:#ececec; --card:#ffffff;
     --radius:14px; --chip-radius:0px; --badge-radius:var(--chip-radius);
-    --chip-bg:var(--accent); --chip-color:var(--accent-ink); --chip-font:var(--label);
-    --chip-size:11px;
+    --chip-bg:var(--accent); --chip-color:var(--accent-ink); --chip-font:var(--label); --chip-size:11px;
     --bar-done:#dfe9c4; --bar-now:var(--accent);
-    --mark-bg:var(--accent); --mark-underline:none; --mark-pad:0 .06em;
-    --title-size:9vw; --title-case:lowercase; --title-weight:800; --title-track:-.02em;
+    --mark-bg:var(--accent); --mark-underline:none; --mark-pad:0 .06em; --mark-color:inherit;
+    --title-size:9vw; --title-case:lowercase; --title-weight:800; --title-track:-.02em; --title-lh:1.04;
     --quote-style:italic;
     --label-case:uppercase; --label-track:.16em; --label-size:11px;
     --mono:"SFMono-Regular",ui-monospace,"JetBrains Mono","Menlo",Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue","Segoe UI",Arial,sans-serif;
-    --serif:"Playfair Display","Times New Roman",Georgia,serif;
     --display:var(--sans); --body:var(--sans); --label:var(--mono); --contrast:var(--sans);
   }
   *{box-sizing:border-box}
@@ -28,46 +26,47 @@
   body{background:var(--paper);color:var(--ink);font-family:var(--body);
     -webkit-font-smoothing:antialiased;overflow:hidden;overscroll-behavior:none;
     -webkit-tap-highlight-color:transparent}
-  .app{display:flex;flex-direction:column;height:100dvh;max-width:560px;margin:0 auto}
+  .app{display:flex;flex-direction:column;height:100dvh;max-width:560px;margin:0 auto;position:relative;z-index:1}
 
-  /* ---------- шапка ---------- */
+  /* дышащее свечение — только в теме «Тишина» */
+  .theme-still body::before{content:"";position:fixed;inset:-25%;pointer-events:none;z-index:0;
+    background:radial-gradient(46% 34% at 50% 26%,rgba(150,196,183,.20),rgba(150,196,183,0) 70%);
+    animation:breathe 9s ease-in-out infinite}
+  @keyframes breathe{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.07)}}
+  @media (prefers-reduced-motion:reduce){.theme-still body::before{animation:none;opacity:.75}}
+
   .top{padding:14px 20px 0;flex:0 0 auto}
-  .toprow{display:flex;align-items:center;justify-content:space-between;font-family:var(--label);
-    font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:var(--label-case);
-    color:var(--muted)}
+  .toprow{display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:var(--label);
+    font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:var(--label-case);color:var(--muted)}
   .close{background:none;border:0;padding:4px 0;font:inherit;color:var(--muted);cursor:pointer;
     letter-spacing:inherit;text-transform:inherit}
   .close b{font-weight:400;margin-right:6px}
+  .where{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .bars{display:flex;gap:6px;margin:12px 0 0}
   .bar{height:3px;flex:1;background:var(--line);border-radius:2px;transition:background .25s}
   .bar.done{background:var(--bar-done)}
   .bar.now{background:var(--bar-now)}
+  .bars[hidden]{display:none}
 
-  /* ---------- слайд ---------- */
   .scroll{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;padding:18px 20px 20px;
     -webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-  .slide{animation:in .22s ease-out}
+  .view{animation:in .22s ease-out}
   @keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  @media (prefers-reduced-motion:reduce){.slide{animation:none}}
+  @media (prefers-reduced-motion:reduce){.view{animation:none}}
 
   .kicker{font-family:var(--label);font-size:var(--label-size);letter-spacing:var(--label-track);
     text-transform:var(--label-case);color:var(--muted);margin:0 0 14px}
   .kicker .num{color:var(--ink)}
-  .badge{display:inline-block;background:var(--accent);color:var(--accent-ink);font-family:var(--label);
-    font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:var(--label-case);
-    padding:7px 12px;margin:0 0 16px;font-weight:600;border-radius:var(--badge-radius)}
-
-  h1{font-family:var(--display);font-size:clamp(30px,var(--title-size),44px);line-height:1.04;
+  h1{font-family:var(--display);font-size:clamp(29px,var(--title-size),44px);line-height:var(--title-lh);
     letter-spacing:var(--title-track);font-weight:var(--title-weight);margin:0 0 16px;
     text-transform:var(--title-case)}
   h1 mark{background:var(--mark-bg);background-image:var(--mark-underline);background-repeat:repeat-x;
-    background-position:0 100%;background-size:auto 7px;color:inherit;padding:var(--mark-pad);
+    background-position:0 100%;background-size:auto 7px;color:var(--mark-color);padding:var(--mark-pad);
     box-decoration-break:clone;-webkit-box-decoration-break:clone}
   h1 .alt{font-family:var(--contrast);font-weight:700;letter-spacing:-.02em}
   h1 .doodle{display:inline-block;vertical-align:.05em;margin-left:.12em}
-  .doodle svg{width:.62em;height:.62em;overflow:visible}
-
-  .lead{font-size:16px;line-height:1.5;color:var(--ink);opacity:.82;margin:0 0 18px;max-width:34em}
+  .doodle svg{width:.6em;height:.6em;overflow:visible}
+  .lead{font-size:16px;line-height:1.55;color:var(--ink);opacity:.82;margin:0 0 18px;max-width:34em}
 
   .meta{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);
     border-bottom:1px solid var(--ink);margin:0 0 20px}
@@ -75,8 +74,7 @@
   .meta div + div{border-left:1px solid var(--line)}
   .meta .l{font-family:var(--label);font-size:10px;letter-spacing:var(--label-track);color:var(--muted);
     text-transform:var(--label-case);margin-bottom:6px}
-  .meta .v{font-family:var(--display);font-size:17px;font-weight:600}
-
+  .meta .v{font-family:var(--display);font-size:16px;font-weight:600}
   .section{font-family:var(--label);font-size:var(--label-size);letter-spacing:var(--label-track);
     text-transform:var(--label-case);color:var(--muted);border-bottom:1px solid var(--line);
     padding-bottom:8px;margin:0 0 4px}
@@ -87,32 +85,46 @@
     padding:0 6px;border-radius:var(--chip-radius)}
   .rows li{display:flex;gap:12px;align-items:flex-start;padding:14px 2px;border-bottom:1px solid var(--line)}
   .rows .t{font-size:16px;line-height:1.35;font-weight:600}
-  .rows .q{font-size:14px;line-height:1.4;color:var(--muted);margin-top:3px}
+  .rows .q{font-size:14px;line-height:1.45;color:var(--muted);margin-top:4px}
   .cards li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
     border-radius:var(--radius);padding:16px;margin-bottom:10px}
   .cards .t{font-size:16px;font-weight:700;line-height:1.3}
-  .cards .q{font-size:14px;line-height:1.45;color:var(--muted);font-style:var(--quote-style);margin-top:6px}
+  .cards .q{font-size:14px;line-height:1.5;color:var(--muted);font-style:var(--quote-style);margin-top:6px}
   .steps li{display:flex;gap:12px;align-items:flex-start;padding:0 0 18px;position:relative}
   .steps li:not(:last-child)::before{content:"";position:absolute;left:12px;top:26px;bottom:2px;
     width:1px;background:var(--line)}
   .steps .n{border-radius:50%;min-width:26px;width:26px;padding:0;box-shadow:inset 0 0 0 1px var(--line)}
   .steps .t{font-size:16px;font-weight:700}
-  .steps .q{font-size:14px;color:var(--muted);margin-top:3px;line-height:1.4}
+  .steps .q{font-size:14px;color:var(--muted);margin-top:4px;line-height:1.45}
+  .note{font-size:14px;line-height:1.55;color:var(--muted);border-left:2px solid var(--accent);
+    padding:2px 0 2px 12px;margin:18px 0 0}
 
-  .note{font-size:14px;line-height:1.5;color:var(--muted);border-left:2px solid var(--accent);
-    padding:2px 0 2px 12px;margin:16px 0 0}
+  /* ---------- меню разделов ---------- */
+  .home h1{margin-bottom:12px}
+  .home .lead{margin-bottom:24px}
+  .menu{display:flex;flex-direction:column;gap:0}
+  .item{display:flex;gap:14px;align-items:baseline;width:100%;text-align:left;background:none;
+    border:0;border-top:1px solid var(--line);padding:16px 2px;cursor:pointer;color:var(--ink);
+    font-family:var(--body)}
+  .item:last-child{border-bottom:1px solid var(--line)}
+  .item .idx{font-family:var(--label);font-size:11px;color:var(--muted);min-width:22px}
+  .item .t{font-family:var(--display);font-size:19px;font-weight:600;letter-spacing:-.01em;
+    line-height:1.2;display:block}
+  .item .s{font-size:13.5px;color:var(--muted);margin-top:4px;display:block;line-height:1.4}
+  .item .go{margin-left:auto;color:var(--muted);font-size:17px}
+  .item:hover .t,.item:focus-visible .t{color:var(--mark-color-hover,var(--ink))}
+  .item:focus-visible,.close:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-  /* ---------- низ ---------- */
-  .bottom{flex:0 0 auto;padding:10px 20px calc(10px + env(safe-area-inset-bottom));background:var(--paper);
-    box-shadow:0 -14px 18px -6px var(--paper)}
+  .bottom{flex:0 0 auto;padding:10px 20px calc(10px + env(safe-area-inset-bottom));
+    background:var(--paper);box-shadow:0 -14px 18px -6px var(--paper)}
   .navrow{display:flex;gap:10px;align-items:stretch}
-  .back{flex:0 0 auto;width:56px;border:1px solid var(--line);background:var(--paper);
-    border-radius:var(--radius);font-size:20px;color:var(--ink);cursor:pointer;transition:opacity .2s}
+  .back{flex:0 0 auto;width:56px;border:1px solid var(--line);background:transparent;
+    border-radius:var(--radius);font-size:20px;color:var(--ink);cursor:pointer}
   .back[disabled]{opacity:.3;cursor:default}
   .next{flex:1 1 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
     background:var(--ink);color:var(--paper);border:0;border-radius:var(--radius);padding:18px 20px;
     cursor:pointer;font-family:var(--body);text-align:left}
-  .next .lbl{font-family:var(--contrast);font-size:19px;font-weight:700;letter-spacing:-.01em}
+  .next .lbl{font-family:var(--contrast);font-size:18px;font-weight:700;letter-spacing:-.01em}
   .next .hint{font-family:var(--label);font-size:11px;letter-spacing:.08em;opacity:.6;text-align:right}
   .next:active{transform:translateY(1px)}
   .ctaline{text-align:center;font-family:var(--label);font-size:12px;color:var(--muted);margin:12px 0 2px}
@@ -127,12 +139,12 @@
   <header class="top">
     <div class="toprow">
       <button class="close" id="close"><b>×</b><span id="closeLabel">закрыть</span></button>
-      <div><span id="cur">1</span> / <span id="total">7</span></div>
+      <div class="where" id="where"></div>
     </div>
-    <div class="bars" id="bars"></div>
+    <div class="bars" id="bars" hidden></div>
   </header>
 
-  <main class="scroll" id="scroll"><section class="slide" id="slide"></section></main>
+  <main class="scroll" id="scroll"><section class="view" id="view"></section></main>
 
   <footer class="bottom">
     <div class="navrow">
@@ -142,7 +154,7 @@
         <span class="hint" id="nextHint"></span>
       </button>
     </div>
-    <div class="ctaline"><span id="ctaPrefix">или сразу:</span> <button id="cta">оставить заявку</button></div>
+    <div class="ctaline"><span id="ctaPrefix"></span> <button id="cta"></button></div>
     <div class="foot" id="foot"></div>
   </footer>
 </div>
@@ -151,47 +163,80 @@
 (function () {
   var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
   if (tg) { tg.ready(); tg.expand(); }
-
   var $ = function (id) { return document.getElementById(id); };
-  var deck = null, i = 0, seen = {};
 
   /* ---------- визуальные пресеты ---------- */
   var PRESETS = {
-    // как у gconf: белое, контрастный лайм, гротеск, всё строчными
+    // формат gconf: белое, лайм, гротеск, всё строчными
     brutal: {},
-    // тёплая редакционная подача: антиква, молочный фон, рисованные пометки
+
+    // тёплая редакционная подача: антиква и рисованные пометки
     editorial: {
       accent: '#e7e0d2', accentInk: '#17150f',
       ink: '#17150f', paper: '#f4f1ea', muted: '#8a8375', line: '#e2dcd0', card: '#fbfaf6',
       radius: '22px', chipRadius: '50%', badgeRadius: '999px',
-      chipBg: 'transparent', chipColor: '#8a8375', chipFont: '"Playfair Display",Georgia,serif',
-      chipSize: '15px',
+      chipBg: 'transparent', chipColor: '#8a8375', chipFont: '"Playfair Display",Georgia,serif', chipSize: '15px',
       barDone: '#d8d1c2', barNow: '#17150f',
       markBg: 'transparent', markPad: '0 .04em',
       titleSize: '11.5vw', titleCase: 'none', titleWeight: '500', titleTrack: '-.015em',
-      quoteStyle: 'normal',
-      labelCase: 'none', labelTrack: '.02em', labelSize: '12px',
+      quoteStyle: 'normal', labelCase: 'none', labelTrack: '.02em', labelSize: '12px',
       display: '"Playfair Display","Times New Roman",Georgia,serif',
       body: '"Lora",Georgia,"Times New Roman",serif',
       label: '"Inter",-apple-system,"Helvetica Neue",Arial,sans-serif',
       contrast: '"Inter",-apple-system,"Helvetica Neue",Arial,sans-serif',
-      // рисованное подчёркивание вместо плашки
       markUnderline: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'8\' viewBox=\'0 0 120 8\'%3E%3Cpath d=\'M1 5.5c14-3 26-1 40 .5s26 2.5 40-.5 26-3.5 38-1\' fill=\'none\' stroke=\'%23c9a227\' stroke-width=\'2\' stroke-linecap=\'round\'/%3E%3C/svg%3E")',
       fonts: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap',
     },
+
+    // «Тишина»: ночной фон, дышащее свечение, лёгкий гротеск, много воздуха
+    still: {
+      bodyClass: 'theme-still',
+      accent: '#9cc6b8', accentInk: '#0d1013',
+      ink: '#e8edeb', paper: '#0d1013', muted: '#7d8b88', line: '#1e2528', card: '#141a1d',
+      radius: '18px', chipRadius: '50%', badgeRadius: '999px',
+      chipBg: 'transparent', chipColor: '#9cc6b8', chipSize: '12px',
+      barDone: '#2c3a38', barNow: '#9cc6b8',
+      markBg: 'transparent', markColor: '#9cc6b8', markPad: '0',
+      titleSize: '10vw', titleCase: 'lowercase', titleWeight: '250', titleTrack: '.005em', titleLh: '1.22',
+      quoteStyle: 'normal', labelCase: 'lowercase', labelTrack: '.22em', labelSize: '11px',
+      display: '"Manrope",-apple-system,"Helvetica Neue",Arial,sans-serif',
+      body: '"Golos Text",-apple-system,"Helvetica Neue",Arial,sans-serif',
+      label: '"Manrope",-apple-system,"Helvetica Neue",Arial,sans-serif',
+      contrast: '"Manrope",-apple-system,"Helvetica Neue",Arial,sans-serif',
+      fonts: 'https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;500;600&family=Golos+Text:wght@400;500&display=swap',
+    },
+
+    // «Кабинет»: бумага, машинописный шрифт, ноль скруглений, красный карандаш
+    case: {
+      accent: '#8c3b34', accentInk: '#f2f1ec',
+      ink: '#1b1c19', paper: '#eef0ec', muted: '#6f7370', line: '#cfd3ce', card: '#f7f8f5',
+      radius: '0px', chipRadius: '0px', badgeRadius: '0px',
+      chipBg: 'transparent', chipColor: '#8c3b34', chipSize: '12px',
+      barDone: '#c2c7c1', barNow: '#8c3b34',
+      markBg: 'transparent', markPad: '0 .02em',
+      titleSize: '7.6vw', titleCase: 'none', titleWeight: '500', titleTrack: '-.03em', titleLh: '1.16',
+      quoteStyle: 'normal', labelCase: 'uppercase', labelTrack: '.13em', labelSize: '10.5px',
+      display: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
+      body: '"Literata",Georgia,"Times New Roman",serif',
+      label: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
+      contrast: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
+      chipFont: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
+      markUnderline: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'6\' viewBox=\'0 0 80 6\'%3E%3Cpath d=\'M0 3.2h80\' stroke=\'%238c3b34\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-dasharray=\'0.1 3.6\'/%3E%3C/svg%3E")',
+      fonts: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap',
+    },
   };
 
-  /* ---------- рисованные значки ---------- */
   var DOODLES = {
-    star: '<path d="M12 2l2.6 6.3L21 9.4l-4.6 4.3 1.3 6.3L12 17l-5.7 3 1.3-6.3L3 9.4l6.4-1.1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>',
-    bolt: '<path d="M14 2L5 13.5h5.5L9 22l9-11.5h-5.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>',
-    swirl: '<path d="M3 16c4-7 8-9 12-6s2 9-2 8-3-6 2-8 6 1 7 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',
-    arrow: '<path d="M3 17c5-8 11-11 18-11m0 0l-5-3m5 3l-3 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>',
+    star: '<path d="M12 2l2.6 6.3L21 9.4l-4.6 4.3 1.3 6.3L12 17l-5.7 3 1.3-6.3L3 9.4l6.4-1.1z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>',
+    bolt: '<path d="M14 2L5 13.5h5.5L9 22l9-11.5h-5.5z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>',
+    swirl: '<path d="M3 16c4-7 8-9 12-6s2 9-2 8-3-6 2-8 6 1 7 4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>',
+    arrow: '<path d="M3 17c5-8 11-11 18-11m0 0l-5-3m5 3l-3 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>',
   };
+
+  var deck = null, view = 'home', si = 0, i = 0, seen = {};
 
   function applyTheme(brand) {
     brand = brand || {};
-    // ?preset=editorial в адресе — быстрый предпросмотр темы без правки конфига
     var forced = new URLSearchParams(location.search).get('preset');
     var name = PRESETS[forced] ? forced : brand.preset;
     var tokens = Object.assign({}, PRESETS[name] || PRESETS.brutal, brand.theme || {});
@@ -202,9 +247,10 @@
       document.head.appendChild(l);
       delete tokens.fonts;
     }
+    if (tokens.bodyClass) { document.documentElement.classList.add(tokens.bodyClass); delete tokens.bodyClass; }
     Object.keys(tokens).forEach(function (k) {
-      var name = '--' + k.replace(/[A-Z]/g, function (c) { return '-' + c.toLowerCase(); });
-      document.documentElement.style.setProperty(name, tokens[k]);
+      document.documentElement.style.setProperty(
+        '--' + k.replace(/[A-Z]/g, function (c) { return '-' + c.toLowerCase(); }), tokens[k]);
     });
     var paper = getComputedStyle(document.documentElement).getPropertyValue('--paper').trim();
     if (tg && tg.setHeaderColor && /^#[0-9a-f]{6}$/i.test(paper)) {
@@ -212,94 +258,122 @@
     }
   }
 
-  function haptic(kind) { try { tg.HapticFeedback.impactOccurred(kind || 'light'); } catch (e) {} }
-  // sendData работает только когда мини-апп открыт кнопкой обычной клавиатуры
+  function haptic(k) { try { tg.HapticFeedback.impactOccurred(k || 'light'); } catch (e) {} }
   function send(p) { try { tg.sendData(JSON.stringify(p)); return true; } catch (e) { return false; } }
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c];
     });
   }
-  // ==подсветка==, **другим шрифтом**, \n — перенос
   function rich(s) {
-    return esc(s)
-      .replace(/==(.+?)==/g, '<mark>$1</mark>')
-      .replace(/\*\*(.+?)\*\*/g, '<span class="alt">$1</span>')
-      .replace(/\n/g, '<br>');
+    return esc(s).replace(/==(.+?)==/g, '<mark>$1</mark>')
+                 .replace(/\*\*(.+?)\*\*/g, '<span class="alt">$1</span>')
+                 .replace(/\n/g, '<br>');
   }
-  function doodle(name) {
-    var d = DOODLES[name];
-    return d ? '<span class="doodle"><svg viewBox="0 0 24 24">' + d + '</svg></span>' : '';
+  function doodle(n) {
+    return DOODLES[n] ? '<span class="doodle"><svg viewBox="0 0 24 24">' + DOODLES[n] + '</svg></span>' : '';
   }
   function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function sec() { return deck.sections[si]; }
 
-  function renderBars() {
-    var html = '';
-    for (var k = 0; k < deck.slides.length; k++) {
-      html += '<div class="bar ' + (k < i ? 'done' : k === i ? 'now' : '') + '"></div>';
-    }
-    $('bars').innerHTML = html;
-    $('cur').textContent = pad(i + 1);
-    $('total').textContent = pad(deck.slides.length);
+  /* ---------- меню ---------- */
+  function renderHome() {
+    var m = deck.menu || {};
+    var h = '<div class="home">';
+    if (m.title) h += '<h1>' + rich(m.title) + '</h1>';
+    if (m.lead) h += '<p class="lead">' + rich(m.lead) + '</p>';
+    h += '<div class="menu">';
+    deck.sections.forEach(function (s, k) {
+      h += '<button class="item" type="button" data-s="' + k + '">' +
+             '<span class="idx">' + pad(k + 1) + '</span>' +
+             '<span><span class="t">' + esc(s.title) + '</span>' +
+             (s.summary ? '<span class="s">' + esc(s.summary) + '</span>' : '') + '</span>' +
+             '<span class="go">›</span></button>';
+    });
+    h += '</div></div>';
+
+    $('view').innerHTML = h;
+    $('scroll').scrollTop = 0;
+    $('bars').hidden = true;
+    $('where').textContent = deck.brand && deck.brand.botUsername ? '' : '';
+    $('closeLabel').textContent = (deck.brand && deck.brand.closeLabel) || 'закрыть';
+    $('back').hidden = true;
+    $('nextLabel').textContent = (deck.cta && deck.cta.label) || 'записаться';
+    $('nextHint').textContent = '';
+    document.querySelector('.ctaline').style.visibility = 'hidden';
+    if (tg && tg.BackButton) tg.BackButton.hide();
+
+    Array.prototype.forEach.call($('view').querySelectorAll('.item'), function (b) {
+      b.onclick = function () { openSection(+b.dataset.s); };
+    });
   }
 
+  /* ---------- слайд ---------- */
   function renderList(list) {
     if (!list || !list.items || !list.items.length) return '';
     var style = list.style || 'rows';
-    var html = '<ol class="' + style + '">';
-    list.items.forEach(function (it, k) {
-      html += '<li><span class="n">' + pad(k + 1) + '</span><div>' +
-              '<div class="t">' + esc(it.title) + '</div>' +
-              (it.quote ? '<div class="q">' + esc(it.quote) + '</div>' : '') +
-              '</div></li>';
-    });
-    return html + '</ol>';
+    return '<ol class="' + style + '">' + list.items.map(function (it, k) {
+      return '<li><span class="n">' + pad(k + 1) + '</span><div>' +
+             '<div class="t">' + esc(it.title) + '</div>' +
+             (it.quote ? '<div class="q">' + esc(it.quote) + '</div>' : '') + '</div></li>';
+    }).join('') + '</ol>';
   }
 
-  function render() {
-    var s = deck.slides[i], h = '';
-    h += '<div class="kicker"><span class="num">' + pad(i + 1) + '</span> // ' + esc(s.kicker || '') + '</div>';
-    if (s.badge) h += '<div class="badge">' + esc(s.badge) + '</div>';
-    if (s.title) h += '<h1>' + rich(s.title) + doodle(s.doodle) + '</h1>';
-    if (s.lead) h += '<p class="lead">' + rich(s.lead) + '</p>';
-    if (s.meta && s.meta.length) {
-      h += '<div class="meta">';
-      s.meta.forEach(function (m) {
-        h += '<div><div class="l">' + esc(m.label) + '</div><div class="v">' + esc(m.value) + '</div></div>';
-      });
-      h += '</div>';
+  function renderSlide() {
+    var s = sec(), sl = s.slides[i], h = '';
+    h += '<div class="kicker"><span class="num">' + pad(i + 1) + '</span> // ' + esc(sl.kicker || s.title) + '</div>';
+    if (sl.badge) h += '<div class="badge">' + esc(sl.badge) + '</div>';
+    if (sl.title) h += '<h1>' + rich(sl.title) + doodle(sl.doodle) + '</h1>';
+    if (sl.lead) h += '<p class="lead">' + rich(sl.lead) + '</p>';
+    if (sl.meta && sl.meta.length) {
+      h += '<div class="meta">' + sl.meta.map(function (m) {
+        return '<div><div class="l">' + esc(m.label) + '</div><div class="v">' + esc(m.value) + '</div></div>';
+      }).join('') + '</div>';
     }
-    if (s.sectionTitle) h += '<div class="section">' + esc(s.sectionTitle) + '</div>';
-    h += renderList(s.list);
-    if (s.note) h += '<p class="note">' + rich(s.note) + '</p>';
+    if (sl.sectionTitle) h += '<div class="section">' + esc(sl.sectionTitle) + '</div>';
+    h += renderList(sl.list);
+    if (sl.note) h += '<p class="note">' + rich(sl.note) + '</p>';
 
-    $('slide').innerHTML = h;
+    $('view').innerHTML = h;
     $('scroll').scrollTop = 0;
-    renderBars();
 
-    var last = i === deck.slides.length - 1;
-    $('nextLabel').textContent = last ? (deck.cta && deck.cta.label ? deck.cta.label : 'оставить заявку') : 'дальше →';
-    $('nextHint').textContent = last ? '' : (s.nextHint || '');
-    $('back').disabled = i === 0;
-    // на последнем слайде кнопка и строка «или сразу» — одно и то же
-    document.querySelector('.ctaline').style.visibility = last ? 'hidden' : 'visible';
+    var bars = '';
+    for (var k = 0; k < s.slides.length; k++) {
+      bars += '<div class="bar ' + (k < i ? 'done' : k === i ? 'now' : '') + '"></div>';
+    }
+    $('bars').innerHTML = bars;
+    $('bars').hidden = false;
+    $('where').textContent = s.title + ' · ' + pad(i + 1) + '/' + pad(s.slides.length);
+    $('closeLabel').textContent = 'разделы';
+    $('back').hidden = false;
+    $('back').disabled = false;
 
-    seen[s.id || i] = true;
-    if (tg && tg.BackButton) { i === 0 ? tg.BackButton.hide() : tg.BackButton.show(); }
-    send({ action: 'progress', slide: i + 1, total: deck.slides.length, id: s.id || '' });
+    var last = i === s.slides.length - 1;
+    var toLead = last && s.end === 'lead';
+    $('nextLabel').textContent = last
+      ? (toLead ? (deck.cta.label || 'записаться') : 'вернуться к разделам')
+      : 'дальше →';
+    $('nextHint').textContent = last ? '' : (s.slides[i + 1].kicker || '');
+    document.querySelector('.ctaline').style.visibility = last && toLead ? 'hidden' : 'visible';
+
+    seen[s.id + ':' + i] = true;
+    if (tg && tg.BackButton) tg.BackButton.show();
+    send({ action: 'progress', section: s.id, slide: i + 1, total: s.slides.length });
   }
 
+  function openSection(k) { si = k; i = 0; view = 'deck'; haptic('light'); renderSlide(); }
+  function toHome() { view = 'home'; haptic('light'); renderHome(); }
   function go(step) {
-    var n = i + step;
-    if (n < 0 || n >= deck.slides.length) return;
-    i = n; haptic('light'); render();
+    var s = sec(), n = i + step;
+    if (n < 0) return toHome();
+    if (n >= s.slides.length) return;
+    i = n; haptic('light'); renderSlide();
   }
 
   function submit(source) {
     haptic('medium');
-    var ok = send({ action: 'lead', source: source, seen: Object.keys(seen).length, total: deck.slides.length });
+    var ok = send({ action: 'lead', source: source, seen: Object.keys(seen).length });
     if (!ok && deck.cta && deck.cta.url) {
-      // запасной путь: мини-апп открыт инлайн-кнопкой — ведём на форму
       try { tg.openLink(deck.cta.url); } catch (e) { window.open(deck.cta.url, '_blank'); }
       return;
     }
@@ -308,21 +382,31 @@
 
   function bind() {
     $('back').onclick = function () { go(-1); };
-    $('next').onclick = function () { i === deck.slides.length - 1 ? submit('deck_end') : go(1); };
-    $('cta').onclick = function () { submit('cta_line'); };
-    $('close').onclick = function () { tg && tg.close ? tg.close() : window.close(); };
-    if (tg && tg.BackButton) tg.BackButton.onClick(function () { go(-1); });
+    $('next').onclick = function () {
+      if (view === 'home') return submit('menu');
+      var s = sec(), last = i === s.slides.length - 1;
+      if (!last) return go(1);
+      return s.end === 'lead' ? submit(s.id) : toHome();
+    };
+    $('cta').onclick = function () { submit(view === 'home' ? 'menu_line' : sec().id + '_line'); };
+    $('close').onclick = function () {
+      if (view === 'deck') return toHome();
+      if (tg && tg.close) tg.close(); else window.close();
+    };
+    if (tg && tg.BackButton) tg.BackButton.onClick(function () { view === 'deck' ? go(-1) : tg.close(); });
 
     document.addEventListener('keydown', function (e) {
+      if (view !== 'deck') return;
       if (e.key === 'ArrowRight') go(1);
       if (e.key === 'ArrowLeft') go(-1);
+      if (e.key === 'Escape') toHome();
     });
     var x0 = null, y0 = null;
     document.addEventListener('touchstart', function (e) {
       x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
     }, { passive: true });
     document.addEventListener('touchend', function (e) {
-      if (x0 === null) return;
+      if (x0 === null || view !== 'deck') { x0 = null; return; }
       var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
       if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) go(dx < 0 ? 1 : -1);
       x0 = y0 = null;
@@ -331,14 +415,13 @@
 
   function boot(data) {
     deck = data;
-    document.title = (deck.brand && deck.brand.name) || 'Подробности';
+    document.title = (deck.brand && deck.brand.name) || 'HUMAN';
     applyTheme(deck.brand);
-    $('closeLabel').textContent = (deck.brand && deck.brand.closeLabel) || 'закрыть';
     $('foot').textContent = (deck.brand && deck.brand.botUsername) || '';
     $('ctaPrefix').textContent = (deck.cta && deck.cta.prefix) || '';
-    $('cta').textContent = (deck.cta && deck.cta.label) || 'оставить заявку';
+    $('cta').textContent = (deck.cta && deck.cta.label) || 'записаться';
     bind();
-    render();
+    renderHome();
   }
 
   var src = new URLSearchParams(location.search).get('content') || '../content.json';
@@ -346,9 +429,8 @@
     .then(function (r) { return r.json(); })
     .then(boot)
     .catch(function () {
-      $('slide').innerHTML = '<h1>контент не загрузился</h1>' +
-        '<p class="lead">открой страницу через http-сервер: <code>npx serve</code> или ' +
-        '<code>python3 -m http.server</code> в корне репозитория.</p>';
+      $('view').innerHTML = '<h1>контент не загрузился</h1><p class="lead">откройте страницу через ' +
+        'http-сервер: <code>npx serve</code> или <code>python3 -m http.server</code>.</p>';
     });
 })();
 </script>

@@ -150,7 +150,8 @@ async function onWebAppData(msg) {
   const rec = touch(msg.from);
 
   if (data.action === 'progress') {
-    rec.slides = Math.max(rec.slides || 0, data.slide || 0);
+    rec.sections = rec.sections || {};
+    rec.sections[data.section] = Math.max(rec.sections[data.section] || 0, data.slide || 0);
     save();
     return;
   }
@@ -164,20 +165,30 @@ async function onWebAppData(msg) {
         ? { inline_keyboard: [[{ text: content.cta.label, url: content.cta.url }]] }
         : undefined,
     });
-    await notifyAdmin(`заявка от ${who(msg.from)}\nисточник: ${data.source}, просмотрено слайдов: ${data.seen}/${data.total}`);
+    var opened = Object.keys(rec.sections || {}).join(', ') || 'нет';
+    await notifyAdmin(`заявка от ${who(msg.from)}\nоткуда: ${data.source}\nсмотрел(а) разделы: ${opened}`);
   }
 }
 
 async function onStats(msg) {
-  const users = Object.keys(state.users).length;
-  const finished = Object.values(state.users).filter((u) => (u.slides || 0) >= content.slides.length).length;
+  const users = Object.values(state.users);
+  // сколько раз открывали каждый раздел
+  const bySection = {};
+  for (const u of users) {
+    for (const id of Object.keys(u.sections || {})) bySection[id] = (bySection[id] || 0) + 1;
+  }
+  const top = content.sections
+    .map((s) => `  ${s.title}: ${bySection[s.id] || 0}`)
+    .join('\n');
   await api('sendMessage', {
     chat_id: msg.chat.id,
     text: [
-      `пользователей: ${users}`,
-      `дошли до конца колоды: ${finished}`,
+      `пользователей: ${users.length}`,
       `заявок: ${state.leads.length}`,
       `вопросов: ${state.questions}`,
+      '',
+      'открывали разделы:',
+      top,
     ].join('\n'),
   });
 }
