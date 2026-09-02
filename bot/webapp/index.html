@@ -422,6 +422,11 @@
     $('cta').textContent = (deck.cta && deck.cta.label) || 'записаться';
     bind();
     renderHome();
+    // ?section=groups в адресе или start_param — открываем нужный раздел сразу
+    var want = new URLSearchParams(location.search).get('section') ||
+               (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || '';
+    var k = deck.sections.findIndex(function (x) { return x.id === want; });
+    if (k >= 0) openSection(k);
   }
 
   var src = new URLSearchParams(location.search).get('content') || '../content.json';
