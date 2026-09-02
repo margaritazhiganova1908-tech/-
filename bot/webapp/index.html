@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Подробности</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root{
+    --accent:#c9f24a;
+    --ink:#111111;
+    --paper:#ffffff;
+    --muted:#8b8b8b;
+    --line:#ececec;
+    --card:#ffffff;
+    --shadow:0 1px 0 rgba(0,0,0,.04);
+    --mono:"SFMono-Regular",ui-monospace,"JetBrains Mono","Menlo",Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue","Segoe UI",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%}
+  body{
+    background:var(--paper);color:var(--ink);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;overflow:hidden;
+    overscroll-behavior:none;-webkit-tap-highlight-color:transparent;
+  }
+  .app{display:flex;flex-direction:column;height:100dvh;max-width:560px;margin:0 auto}
+
+  /* ---------- шапка ---------- */
+  .top{padding:14px 20px 0;flex:0 0 auto}
+  .toprow{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .close{background:none;border:0;padding:4px 0;font:inherit;color:var(--muted);cursor:pointer;letter-spacing:.12em}
+  .close b{font-weight:400;margin-right:6px}
+  .bars{display:flex;gap:6px;margin:12px 0 0}
+  .bar{height:3px;flex:1;background:var(--line);border-radius:2px;transition:background .25s}
+  .bar.done{background:#dfe9c4}
+  .bar.now{background:var(--accent)}
+
+  /* ---------- слайд ---------- */
+  .scroll{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;padding:18px 20px 20px;
+    -webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .slide{animation:in .22s ease-out}
+  @keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.slide{animation:none}}
+
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);margin:0 0 14px}
+  .kicker .num{color:var(--ink)}
+  .badge{display:inline-block;background:var(--accent);font-family:var(--mono);font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;margin:0 0 16px;font-weight:600}
+  h1{font-size:clamp(30px,9vw,40px);line-height:1.02;letter-spacing:-.02em;font-weight:800;
+    margin:0 0 16px;text-transform:lowercase}
+  h1 mark{background:var(--accent);color:var(--ink);padding:0 .06em;box-decoration-break:clone;
+    -webkit-box-decoration-break:clone}
+  .lead{font-size:15px;line-height:1.45;color:#333;margin:0 0 18px}
+
+  .meta{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);margin:0 0 20px}
+  .meta div{padding:10px 12px 12px}
+  .meta div + div{border-left:1px solid var(--line)}
+  .meta .l{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted);
+    text-transform:uppercase;margin-bottom:6px}
+  .meta .v{font-family:var(--mono);font-size:15px;font-weight:600}
+
+  .section{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 4px}
+
+  ol{list-style:none;margin:0;padding:0}
+  /* строки */
+  .rows li{display:flex;gap:12px;align-items:flex-start;padding:14px 2px;border-bottom:1px solid var(--line)}
+  .n{flex:0 0 auto;min-width:26px;height:22px;display:grid;place-items:center;background:var(--accent);
+    font-family:var(--mono);font-size:11px;font-weight:600;padding:0 6px}
+  .rows .t{font-size:15px;line-height:1.35;font-weight:600}
+  .rows .q{font-size:13px;line-height:1.4;color:var(--muted);margin-top:3px}
+  /* карточки */
+  .cards li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+  .cards .t{font-size:15px;font-weight:700;line-height:1.3}
+  .cards .q{font-size:13px;line-height:1.45;color:var(--muted);font-style:italic;margin-top:6px}
+  /* шаги */
+  .steps li{display:flex;gap:12px;align-items:flex-start;padding:0 0 18px;position:relative}
+  .steps li:not(:last-child)::before{content:"";position:absolute;left:12px;top:24px;bottom:2px;
+    width:1px;background:var(--line)}
+  .steps .n{border-radius:50%;min-width:24px;width:24px;height:24px;padding:0}
+  .steps .t{font-size:15px;font-weight:700}
+  .steps .q{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.4}
+
+  .note{font-size:13px;line-height:1.45;color:var(--muted);border-left:2px solid var(--accent);
+    padding:2px 0 2px 12px;margin:16px 0 0}
+
+  /* ---------- низ ---------- */
+  .bottom{flex:0 0 auto;padding:10px 20px calc(10px + env(safe-area-inset-bottom));background:var(--paper);
+    box-shadow:0 -14px 18px -6px rgba(255,255,255,.95)}
+  .navrow{display:flex;gap:10px;align-items:stretch}
+  .back{flex:0 0 auto;width:56px;border:1px solid var(--line);background:var(--paper);border-radius:14px;
+    font-size:20px;color:var(--ink);cursor:pointer;transition:opacity .2s}
+  .back[disabled]{opacity:.3;cursor:default}
+  .next{flex:1 1 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--ink);color:#fff;border:0;border-radius:14px;padding:18px 20px;cursor:pointer;
+    font-family:var(--sans);text-align:left}
+  .next .lbl{font-size:19px;font-weight:800;letter-spacing:-.01em}
+  .next .hint{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:#a8a8a8;text-align:right}
+  .next:active{transform:translateY(1px)}
+  .ctaline{text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted);margin:12px 0 2px}
+  .ctaline button{font:inherit;color:var(--ink);background:linear-gradient(var(--accent),var(--accent)) 0 100%/100% 3px no-repeat;
+    border:0;padding:0 2px 3px;cursor:pointer;font-weight:600}
+  .foot{text-align:center;font-family:var(--mono);font-size:12px;color:#b0b0b0;background:#fafafa;
+    padding:12px 0 calc(12px + env(safe-area-inset-bottom));margin:10px -20px -10px}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="toprow">
+      <button class="close" id="close"><b>×</b><span id="closeLabel">закрыть</span></button>
+      <div><span id="cur">1</span> / <span id="total">7</span></div>
+    </div>
+    <div class="bars" id="bars"></div>
+  </header>
+
+  <main class="scroll" id="scroll"><section class="slide" id="slide"></section></main>
+
+  <footer class="bottom">
+    <div class="navrow">
+      <button class="back" id="back" aria-label="назад">‹</button>
+      <button class="next" id="next">
+        <span class="lbl" id="nextLabel">дальше →</span>
+        <span class="hint" id="nextHint"></span>
+      </button>
+    </div>
+    <div class="ctaline"><span id="ctaPrefix">или сразу:</span> <button id="cta">оставить заявку</button></div>
+    <div class="foot" id="foot"></div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+  if (tg) { tg.ready(); tg.expand(); if (tg.setHeaderColor) { try { tg.setHeaderColor('#ffffff'); } catch (e) {} } }
+
+  var $ = function (id) { return document.getElementById(id); };
+  var deck = null, i = 0, seen = {};
+
+  function haptic(kind) {
+    try { tg.HapticFeedback.impactOccurred(kind || 'light'); } catch (e) {}
+  }
+  // sendData доступен только когда мини-апп открыт кнопкой обычной клавиатуры.
+  // если открыт инлайн-кнопкой — молча пропускаем событие.
+  function send(payload) {
+    try { tg.sendData(JSON.stringify(payload)); return true; } catch (e) { return false; }
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c];
+    });
+  }
+  // ==текст== → подсветка, перевод строки → <br>
+  function rich(s) {
+    return esc(s).replace(/==(.+?)==/g, '<mark>$1</mark>').replace(/\n/g, '<br>');
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  function renderBars() {
+    var html = '';
+    for (var k = 0; k < deck.slides.length; k++) {
+      html += '<div class="bar ' + (k < i ? 'done' : k === i ? 'now' : '') + '"></div>';
+    }
+    $('bars').innerHTML = html;
+    $('cur').textContent = pad(i + 1);
+    $('total').textContent = pad(deck.slides.length);
+  }
+
+  function renderList(list) {
+    if (!list || !list.items || !list.items.length) return '';
+    var style = list.style || 'rows';
+    var html = '<ol class="' + style + '">';
+    list.items.forEach(function (it, k) {
+      html += '<li><span class="n">' + pad(k + 1) + '</span><div>' +
+              '<div class="t">' + esc(it.title) + '</div>' +
+              (it.quote ? '<div class="q">' + esc(it.quote) + '</div>' : '') +
+              '</div></li>';
+    });
+    return html + '</ol>';
+  }
+
+  function render() {
+    var s = deck.slides[i];
+    var h = '';
+    h += '<div class="kicker"><span class="num">' + pad(i + 1) + '</span> // ' + esc(s.kicker || '') + '</div>';
+    if (s.badge) h += '<div class="badge">' + esc(s.badge) + '</div>';
+    if (s.title) h += '<h1>' + rich(s.title) + '</h1>';
+    if (s.lead) h += '<p class="lead">' + rich(s.lead) + '</p>';
+    if (s.meta && s.meta.length) {
+      h += '<div class="meta">';
+      s.meta.forEach(function (m) {
+        h += '<div><div class="l">' + esc(m.label) + '</div><div class="v">' + esc(m.value) + '</div></div>';
+      });
+      h += '</div>';
+    }
+    if (s.sectionTitle) h += '<div class="section">' + esc(s.sectionTitle) + '</div>';
+    h += renderList(s.list);
+    if (s.note) h += '<p class="note">' + rich(s.note) + '</p>';
+
+    $('slide').innerHTML = h;
+    $('scroll').scrollTop = 0;
+    renderBars();
+
+    var last = i === deck.slides.length - 1;
+    $('nextLabel').textContent = last ? (deck.cta && deck.cta.label ? deck.cta.label : 'оставить заявку') : 'дальше →';
+    $('nextHint').textContent = last ? '' : (s.nextHint || '');
+    $('back').disabled = i === 0;
+    // на последнем слайде кнопка и строка «или сразу» — одно и то же, строку убираем
+    document.querySelector('.ctaline').style.visibility = last ? 'hidden' : 'visible';
+
+    seen[s.id || i] = true;
+    if (tg && tg.BackButton) { i === 0 ? tg.BackButton.hide() : tg.BackButton.show(); }
+    send({ action: 'progress', slide: i + 1, total: deck.slides.length, id: s.id || '' });
+  }
+
+  function go(step) {
+    var n = i + step;
+    if (n < 0 || n >= deck.slides.length) return;
+    i = n; haptic('light'); render();
+  }
+
+  function submit(source) {
+    haptic('medium');
+    var ok = send({ action: 'lead', source: source, seen: Object.keys(seen).length, total: deck.slides.length });
+    if (!ok && deck.cta && deck.cta.url) {
+      // запасной путь: мини-апп открыт инлайн-кнопкой — ведём на форму
+      try { tg.openLink(deck.cta.url); return; } catch (e) { window.open(deck.cta.url, '_blank'); return; }
+    }
+    if (tg && tg.close) setTimeout(function () { tg.close(); }, 120);
+  }
+
+  function bind() {
+    $('back').onclick = function () { go(-1); };
+    $('next').onclick = function () {
+      i === deck.slides.length - 1 ? submit('deck_end') : go(1);
+    };
+    $('cta').onclick = function () { submit('cta_line'); };
+    $('close').onclick = function () { tg && tg.close ? tg.close() : window.close(); };
+    if (tg && tg.BackButton) tg.BackButton.onClick(function () { go(-1); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') go(1);
+      if (e.key === 'ArrowLeft') go(-1);
+    });
+    var x0 = null, y0 = null;
+    document.addEventListener('touchstart', function (e) {
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+    }, { passive: true });
+    document.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) go(dx < 0 ? 1 : -1);
+      x0 = y0 = null;
+    }, { passive: true });
+  }
+
+  function boot(data) {
+    deck = data;
+    document.title = (deck.brand && deck.brand.name) || 'Подробности';
+    if (deck.brand && deck.brand.accent) {
+      document.documentElement.style.setProperty('--accent', deck.brand.accent);
+    }
+    $('closeLabel').textContent = (deck.brand && deck.brand.closeLabel) || 'закрыть';
+    $('foot').textContent = (deck.brand && deck.brand.botUsername) || '';
+    $('ctaPrefix').textContent = (deck.cta && deck.cta.prefix) || '';
+    $('cta').textContent = (deck.cta && deck.cta.label) || 'оставить заявку';
+    bind();
+    render();
+  }
+
+  fetch('../content.json', { cache: 'no-store' })
+    .then(function (r) { return r.json(); })
+    .then(boot)
+    .catch(function () {
+      $('slide').innerHTML = '<h1>контент не загрузился</h1>' +
+        '<p class="lead">открой страницу через http-сервер: <code>npx serve</code> или ' +
+        '<code>python3 -m http.server</code> в корне репозитория.</p>';
+    });
+})();
+</script>
+</body>
+</html>

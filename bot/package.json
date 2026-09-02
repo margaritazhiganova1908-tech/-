@@ -1,0 +1,12 @@
+{
+  "name": "deck-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Телеграм-бот с мини-аппом «колода слайдов»",
+  "scripts": {
+    "start": "node bot.mjs",
+    "webapp": "python3 -m http.server 8000 --directory .."
+  },
+  "engines": { "node": ">=18" }
+}
