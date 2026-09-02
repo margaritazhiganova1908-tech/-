@@ -1,0 +1,519 @@
+<title>Стратегия практики HUMAN</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#eceae4; --surface:#f6f5f1; --sunk:#e3e0d8;
+  --ink:#191b1a; --ink2:#565b58; --ink3:#7d827e;
+  --line:#d5d2c9; --line2:#c2beb2;
+  --accent:#2c4a5e; --accent-soft:#dde4e8;
+  --brass:#8a6231; --brass-soft:#ece2d3;
+  --good:#37624a; --warn:#8a5f1c;
+  --serif:"Literata",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",-apple-system,"Segoe UI",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#14161a; --surface:#1b1e23; --sunk:#101216;
+    --ink:#e9e7e1; --ink2:#a5aaa8; --ink3:#7f8583;
+    --line:#2b3037; --line2:#3a4048;
+    --accent:#8fb6cd; --accent-soft:#1e2b34;
+    --brass:#d4a76b; --brass-soft:#2a2319;
+    --good:#7fb894; --warn:#d3a44e;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#14161a; --surface:#1b1e23; --sunk:#101216;
+  --ink:#e9e7e1; --ink2:#a5aaa8; --ink3:#7f8583;
+  --line:#2b3037; --line2:#3a4048;
+  --accent:#8fb6cd; --accent-soft:#1e2b34;
+  --brass:#d4a76b; --brass-soft:#2a2319;
+  --good:#7fb894; --warn:#d3a44e;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr;gap:0}
+@media (min-width:1040px){
+  .wrap{grid-template-columns:210px minmax(0,1fr);gap:56px}
+}
+/* --- рельс --- */
+.rail{display:none}
+@media (min-width:1040px){
+  .rail{display:block;position:sticky;top:0;align-self:start;height:100dvh;padding:48px 0;overflow-y:auto}
+}
+.rail .mark{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink3);margin:0 0 18px}
+.rail a{display:block;font-family:var(--sans);font-size:13.5px;line-height:1.35;color:var(--ink2);
+  text-decoration:none;padding:7px 0 7px 12px;border-left:2px solid var(--line)}
+.rail a:hover,.rail a:focus-visible{color:var(--ink);border-left-color:var(--accent)}
+main{padding:48px 0 96px;min-width:0}
+section{padding:0 0 64px;scroll-margin-top:24px}
+.col{max-width:68ch}
+
+h1{font-size:clamp(34px,5.4vw,54px);line-height:1.04;font-weight:700;letter-spacing:-.02em;
+  margin:.2em 0 .35em;text-wrap:balance}
+h2{font-size:clamp(24px,3.2vw,31px);line-height:1.15;font-weight:600;letter-spacing:-.015em;
+  margin:0 0 .5em;text-wrap:balance}
+h3{font-family:var(--sans);font-size:17px;font-weight:600;letter-spacing:-.005em;margin:32px 0 10px}
+p{margin:0 0 1em}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink3);margin:0 0 10px;display:flex;align-items:center;gap:10px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+.lede{font-size:20px;line-height:1.5;color:var(--ink2)}
+strong{font-weight:600}
+em.q{font-style:italic;color:var(--ink2)}
+a{color:var(--accent)}
+
+/* --- шапка --- */
+.head{border-bottom:1px solid var(--line);padding-bottom:36px;margin-bottom:56px}
+.thesis{font-size:clamp(19px,2.4vw,23px);line-height:1.45;max-width:30ch;border-left:3px solid var(--brass);
+  padding-left:18px;margin:26px 0 30px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;font-family:var(--sans);font-size:13px}
+.chip{border:1px solid var(--line2);border-radius:999px;padding:5px 13px;color:var(--ink2);background:var(--surface)}
+
+/* --- блоки --- */
+.note{background:var(--surface);border:1px solid var(--line);padding:18px 20px;margin:26px 0;
+  font-size:15.5px;line-height:1.55}
+.note .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--brass);display:block;margin-bottom:7px}
+.note.warn{border-left:3px solid var(--warn)}
+.note.warn .tag{color:var(--warn)}
+
+.grid2{display:grid;gap:16px;grid-template-columns:1fr}
+@media (min-width:720px){.grid2{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--line);padding:20px}
+.card h4{font-family:var(--sans);font-size:15px;font-weight:600;margin:0 0 8px}
+.card p{font-size:15px;line-height:1.5;color:var(--ink2);margin:0}
+
+/* --- таблицы --- */
+.tw{overflow-x:auto;margin:22px 0;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14.5px;background:var(--surface)}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink3);background:var(--sunk);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.was{color:var(--ink3);text-decoration:line-through}
+td.now{color:var(--brass);font-weight:500}
+
+/* --- список-последовательность --- */
+ol.steps{list-style:none;counter-reset:s;margin:22px 0;padding:0}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:14px;padding:0 0 20px}
+ol.steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--mono);font-size:12px;
+  color:var(--accent);padding-top:3px}
+ol.steps b{font-family:var(--sans);font-size:15.5px;display:block;margin-bottom:3px}
+ol.steps span{font-size:15px;color:var(--ink2);line-height:1.5}
+ul.plain{margin:14px 0;padding-left:1.1em}
+ul.plain li{margin-bottom:8px}
+
+/* --- сезонность --- */
+.season{margin:24px 0;overflow-x:auto;border:1px solid var(--line);background:var(--surface);padding:16px 18px 12px}
+.season .row{display:grid;grid-template-columns:126px repeat(12,1fr);gap:0 4px;align-items:end;min-width:600px}
+.season .row + .row{margin-top:10px}
+.season .lbl{font-family:var(--sans);font-size:12.5px;color:var(--ink2);white-space:nowrap;padding-right:12px;
+  line-height:1.2;align-self:center}
+.season .cell{height:34px;display:flex;align-items:flex-end}
+.season .cell i{display:block;width:100%;border-radius:1px}
+.season .fest i{background:var(--brass)}
+.season .prac i{background:var(--accent)}
+.season .months{display:grid;grid-template-columns:126px repeat(12,1fr);gap:0 4px;margin-top:7px;min-width:600px}
+.season .months span{font-family:var(--mono);font-size:10.5px;color:var(--ink3);text-align:center}
+.season .legend{font-family:var(--sans);font-size:12px;color:var(--ink3);margin-top:10px}
+
+/* --- модель --- */
+.model{background:var(--surface);border:1px solid var(--line2);margin:28px 0}
+.model .bar-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;
+  padding:14px 18px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.model .bar-top .t{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.presets{display:flex;gap:6px;flex-wrap:wrap}
+.presets button{font-family:var(--sans);font-size:12.5px;padding:5px 12px;border:1px solid var(--line2);
+  background:var(--surface);color:var(--ink2);border-radius:999px;cursor:pointer}
+.presets button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.presets button:focus-visible,.rail a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));background:var(--surface)}
+.f{padding:12px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.f label{display:block;font-family:var(--sans);font-size:12px;color:var(--ink3);margin-bottom:5px;line-height:1.3}
+.f input{width:100%;border:0;border-bottom:1px solid var(--line2);background:transparent;color:var(--ink);
+  font-family:var(--mono);font-size:16px;font-variant-numeric:tabular-nums;padding:3px 0}
+.out{border-top:1px solid var(--line2)}
+.outrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));background:var(--surface)}
+.o{padding:15px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.o .k{font-family:var(--sans);font-size:12px;color:var(--ink3);margin-bottom:4px}
+.o .v{font-family:var(--mono);font-size:21px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.o .v.money{color:var(--brass)}
+.o .s{font-family:var(--sans);font-size:12px;color:var(--ink3);margin-top:3px}
+.streams{padding:18px}
+.stream{display:grid;grid-template-columns:132px 1fr 108px;gap:12px;align-items:center;margin-bottom:9px;
+  font-family:var(--sans);font-size:13px}
+.stream .track{height:14px;background:var(--sunk);position:relative}
+.stream .fill{height:100%;background:var(--accent)}
+.stream .fill.g2{background:var(--brass)}
+.stream .fill.g3{background:var(--good)}
+.stream .fill.g4{background:var(--ink3)}
+.stream .val{font-family:var(--mono);font-size:13px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2)}
+.foot{font-family:var(--sans);font-size:12.5px;color:var(--ink3);padding:0 18px 16px;line-height:1.5}
+hr{border:0;border-top:1px solid var(--line);margin:56px 0}
+.end{font-family:var(--sans);font-size:13px;color:var(--ink3);border-top:1px solid var(--line);padding-top:20px}
+@media (prefers-reduced-motion:no-preference){.fill{transition:width .25s ease}}
+</style>
+
+<div class="wrap">
+<nav class="rail" aria-label="Разделы">
+  <p class="mark">HUMAN · стратегия</p>
+  <a href="#utp">УТП и отстройка</a>
+  <a href="#bridge">Одна роль, не две</a>
+  <a href="#products">Продукты и цены</a>
+  <a href="#model">Финансовая модель</a>
+  <a href="#brand">Личный бренд</a>
+  <a href="#risks">Риски и границы</a>
+  <a href="#plan">Первые 90 дней</a>
+</nav>
+
+<main>
+<header class="head col">
+  <p class="eyebrow">Стратегия практики · сентябрь 2026</p>
+  <h1>HUMAN</h1>
+  <p class="lede">Психоаналитический бизнес-коучинг для тех, кто принимает решения за других.</p>
+  <p class="thesis">Я не консультант, который читал про организации. Я управляю гастрономическим направлением фестиваля — и вижу, как внутренние сценарии руководителей превращаются в бюджеты, конфликты и сроки.</p>
+  <div class="chips">
+    <span class="chip">НИУ ВШЭ · Кетс де Врис</span>
+    <span class="chip">Супервизия АПКБК</span>
+    <span class="chip">115 точек питания, команда 10</span>
+    <span class="chip">3 года практики</span>
+  </div>
+</header>
+
+<!-- ============ УТП ============ -->
+<section id="utp">
+  <div class="col">
+    <p class="eyebrow">01 · Позиционирование</p>
+    <h2>УТП: управленческая оптика плюс психоаналитическая глубина</h2>
+    <p>На рынке помогающих практик есть три сильных игрока, и ни один не занимает пересечение, где стоите вы. Ваше преимущество не в том, что вы «психолог с бизнес-опытом» — таких много. Оно в том, что вы <strong>действующий руководитель, который прямо сейчас несёт операционную ответственность</strong>, и одновременно работаете методом, который объясняет, почему компетентные люди принимают решения против собственных интересов.</p>
+  </div>
+
+  <div class="note">
+    <span class="tag">Формулировка для сайта и бота</span>
+    «Психоанализ для тех, кто принимает решения». А ниже, в одну строку: разговор, в котором видно сценарий, управляющий вашими решениями — и что он стоит компании в деньгах, сроках и людях.
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Кто рядом</th><th>Что даёт</th><th>Чего не даёт</th><th>Ваш ход</th></tr></thead>
+      <tbody>
+        <tr><td>Коуч по целям (ICF)</td><td>Структуру, план, дисциплину</td><td>Работу с причиной: цель ставится третий раз и снова не достигается</td><td>«Мы разбираем не цель, а то, что её отменяет»</td></tr>
+        <tr><td>Психоаналитик, психотерапевт</td><td>Глубину и метод</td><td>Языка бизнеса: клиент не связывает сессию с решениями в компании</td><td>Перевод: сценарий → структура компании → цифры</td></tr>
+        <tr><td>ИИ-психолог</td><td>Доступность, мгновенность, ноль стыда</td><td>Сопротивления, переноса, ответственности, конфиденциальности</td><td>«Модель всегда на вашей стороне. Изменение начинается там, где другой может не согласиться»</td></tr>
+        <tr><td>Бизнес-консультант</td><td>Процессы, метрики, структуру</td><td>Работы с первым лицом как с источником этой структуры</td><td>«Процессы вы уже переписывали дважды»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col">
+    <h3>Три версии одной мысли — под три аудитории</h3>
+    <ul class="plain">
+      <li><strong>Собственнику:</strong> «Компания устроена по вашему внутреннему сценарию. Пока он не виден, вы будете нанимать одних и тех же людей и расставаться с ними одинаково».</li>
+      <li><strong>Руководителю в найме:</strong> «Вы выросли из роли исполнителя. Мешает не нехватка навыка, а то, что вы всё ещё доказываете что-то тому, кого здесь нет».</li>
+      <li><strong>Женщине-лидеру (группа):</strong> «Пространство, где можно быть неидеальной — и увидеть, как вы устроены, глазами других таких же».</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    <span class="tag">Отстройка от ИИ — ваш самый острый аргумент</span>
+    Языковая модель подстраивается под формулировку клиента: он приносит свою версию событий и получает подтверждение. Живой собеседник замечает, что обходят, выдерживает злость и не разваливается от неё, и сам становится материалом — то, как с вами строят отношения, показывает, как их строят с командой. Это не «человечнее». Это другой инструмент: <em class="q">зеркало без сопротивления не меняет того, кто в него смотрит</em>.
+  </div>
+</section>
+
+<hr>
+
+<!-- ============ МОСТ ============ -->
+<section id="bridge">
+  <div class="col">
+    <p class="eyebrow">02 · Идентичность</p>
+    <h2>Одна роль, а не две</h2>
+    <p>Ощущение «двух ролей» возникает, когда фестиваль подаётся как работа, а практика — как призвание. Соединение строится ровно наоборот: <strong>гастроменеджмент — это не вторая работа, это ваша лаборатория и ваш допуск</strong>. Психоаналитическое бизнес-консультирование выросло из наблюдения за организациями изнутри; у вас такая организация есть, и она работает в предельном режиме.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card"><h4>Поле</h4><p>Фестиваль — организационная динамика под давлением: 115 точек, подрядчики, два города, дата, которую нельзя сдвинуть. Расщепление, поиск виноватого, регрессия команды под стрессом — здесь видно за 48 часов то, что в обычной компании тянется годами.</p></div>
+    <div class="card"><h4>Достоверность</h4><p>Клиенту-собственнику не нужно объяснять, что такое кассовый разрыв, срыв поставки или сотрудник, которого жалко увольнять. Вы платите за те же решения своими нервами в этом сезоне.</p></div>
+    <div class="card"><h4>Ниша входа</h4><p>HoReCa, ивент, ритейл, фуд-проекты: рынок, где вы — своя, где вас уже знают и где нет психоаналитического консультанта с вашим опытом. Узкая ниша продаётся дороже и легче широкой.</p></div>
+    <div class="card"><h4>Язык</h4><p>Поток, отдача, высокий сезон, выгорание команды к августу. Метафоры сервиса делают психоаналитические понятия рабочими, а не университетскими.</p></div>
+  </div>
+
+  <div class="col">
+    <h3>Как это звучит в одном абзаце</h3>
+    <p><em class="q">«Днём я отвечаю за то, чтобы 115 точек питания открылись вовремя и заработали. Пять лет я смотрю, как решения принимаются под давлением: кто берёт на себя лишнее, кого назначают виноватым, почему сильная команда разваливается на третьем месяце. Второе моё образование — психоанализ и бизнес-консультирование. Я соединяю это в практике: разбираю с руководителями не процессы, а сценарии, из которых процессы вырастают».</em></p>
+  </div>
+
+  <div class="note warn">
+    <span class="tag">Чего не делать</span>
+    Не рассказывать про фестиваль как про «а ещё я работаю в». Бэкграунд работает только как источник наблюдений и кейсов — обезличенных. Второе: не переносить на людей клинические ярлыки в публичных текстах («у него нарциссическая организация») — это читается как высокомерие и отталкивает ровно ту аудиторию, ради которой всё делается.
+  </div>
+</section>
+
+<hr>
+
+<!-- ============ ПРОДУКТЫ ============ -->
+<section id="products">
+  <div class="col">
+    <p class="eyebrow">03 · Линейка</p>
+    <h2>Продукты и цены</h2>
+    <p>Главная проблема текущей линейки — она почасовая. При вашей занятости на фестивале часы жёстко ограничены, а значит доход упирается в потолок, который не сдвинуть усердием. Выход один: <strong>продавать программу и группу, а не час</strong>.</p>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Продукт</th><th class="num">Было</th><th class="num">Предложение</th><th>Почему</th></tr></thead>
+      <tbody>
+        <tr><td>Индивидуальная сессия, 50 мин</td><td class="num was">—</td><td class="num now">6 000 ₽</td><td>Ориентир для Москвы при магистратуре и супервизии. Разовые сессии — вход, не продукт</td></tr>
+        <tr><td>Программа для руководителя: 10 встреч + 2 диагностические</td><td class="num was">—</td><td class="num now">96 000 ₽</td><td>Продаётся результат за квартал, а не час. Предоплата фиксирует и вас, и клиента</td></tr>
+        <tr><td>Группа, встреча 2 ч (6–8 человек)</td><td class="num was">3 000 ₽</td><td class="num now">4 000 ₽</td><td>При семи участниках это 28 000 ₽ за встречу — вдвое эффективнее часа индивидуальной работы</td></tr>
+        <tr><td>Блок группы: 12 встреч</td><td class="num was">—</td><td class="num now">42 000 ₽</td><td>Оплата блоком, а не по факту прихода: закрытая группа требует обязательства</td></tr>
+        <tr><td>Мастерская, 3 ч</td><td class="num was">5 000 ₽</td><td class="num now">5 000 ₽</td><td>Не трогаем: это верх воронки и способ показать себя новым людям</td></tr>
+        <tr><td>Сессия с командой / диагностика организации</td><td class="num was">—</td><td class="num now">от 150 000 ₽</td><td>Самый маржинальный формат и единственный, где ваш управленческий опыт оплачивается напрямую</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note warn">
+    <span class="tag">Честно про цену</span>
+    Три года практики — ранняя стадия для коучинга первых лиц, где ставка 20–30 тысяч за час обеспечена репутацией и кейсами, а не дипломом. Путь к этой ставке лежит через нишу и накопленные результаты, а не через смелый прайс. Цены выше — рабочие ориентиры на год: проверьте их на пяти реальных переговорах, прежде чем печатать на сайте.
+  </div>
+</section>
+
+<hr>
+
+<!-- ============ МОДЕЛЬ ============ -->
+<section id="model">
+  <div class="col">
+    <p class="eyebrow">04 · Экономика</p>
+    <h2>Финансовая модель</h2>
+    <p>Дефицитный ресурс здесь не спрос, а ваши часы — и они распределены неравномерно: подготовка фестиваля забирает весну и начало лета. Модель это учитывает: практика набирает обороты в сентябре–феврале, а в высокий фестивальный сезон удерживает только индивидуальных клиентов.</p>
+  </div>
+
+  <div class="season">
+      <div class="row"><span class="lbl">Нагрузка фестиваля</span><span class="cell fest"><i style="height:25%"></i></span><span class="cell fest"><i style="height:25%"></i></span><span class="cell fest"><i style="height:25%"></i></span><span class="cell fest"><i style="height:25%"></i></span><span class="cell fest"><i style="height:50%"></i></span><span class="cell fest"><i style="height:50%"></i></span><span class="cell fest"><i style="height:75%"></i></span><span class="cell fest"><i style="height:75%"></i></span><span class="cell fest"><i style="height:100%"></i></span><span class="cell fest"><i style="height:100%"></i></span><span class="cell fest"><i style="height:75%"></i></span><span class="cell fest"><i style="height:100%"></i></span></div>
+      <div class="row"><span class="lbl">Ёмкость практики</span><span class="cell prac"><i style="height:100%"></i></span><span class="cell prac"><i style="height:100%"></i></span><span class="cell prac"><i style="height:100%"></i></span><span class="cell prac"><i style="height:75%"></i></span><span class="cell prac"><i style="height:100%"></i></span><span class="cell prac"><i style="height:75%"></i></span><span class="cell prac"><i style="height:50%"></i></span><span class="cell prac"><i style="height:50%"></i></span><span class="cell prac"><i style="height:25%"></i></span><span class="cell prac"><i style="height:25%"></i></span><span class="cell prac"><i style="height:50%"></i></span><span class="cell prac"><i style="height:25%"></i></span></div>
+      <div class="months"><span></span><span>сен</span><span>окт</span><span>ноя</span><span>дек</span><span>янв</span><span>фев</span><span>мар</span><span>апр</span><span>май</span><span>июн</span><span>июл</span><span>авг</span></div>
+      <p class="legend">Качественная шкала в четыре ступени: от одной четверти высоты — фон, до полной — пик. Две даты фестиваля, 26 июня и 7 августа, задают два гребня; практика набирает объём в сентябре и завершает циклы к марту.</p>
+    </div>
+
+  <div class="model">
+    <div class="bar-top">
+      <span class="t">Расчёт на год · 40 рабочих недель</span>
+      <div class="presets" role="group" aria-label="Сценарии">
+        <button type="button" data-p="careful">Осторожный</button>
+        <button type="button" data-p="base" aria-pressed="true">Базовый</button>
+        <button type="button" data-p="growth">Рост</button>
+      </div>
+    </div>
+
+    <div class="inputs">
+      <div class="f"><label for="i_sp">Сессия, ₽</label><input id="i_sp" type="number" value="6000" min="0" step="500"></div>
+      <div class="f"><label for="i_sw">Сессий в неделю</label><input id="i_sw" type="number" value="6" min="0" step="1"></div>
+      <div class="f"><label for="i_gw">Групп в неделю</label><input id="i_gw" type="number" value="1" min="0" step="1"></div>
+      <div class="f"><label for="i_gs">Человек в группе</label><input id="i_gs" type="number" value="7" min="0" step="1"></div>
+      <div class="f"><label for="i_gp">Участие в группе, ₽</label><input id="i_gp" type="number" value="4000" min="0" step="500"></div>
+      <div class="f"><label for="i_wq">Мастерских в квартал</label><input id="i_wq" type="number" value="2" min="0" step="1"></div>
+      <div class="f"><label for="i_ws">Человек на мастерской</label><input id="i_ws" type="number" value="15" min="0" step="1"></div>
+      <div class="f"><label for="i_wp">Мастерская, ₽</label><input id="i_wp" type="number" value="5000" min="0" step="500"></div>
+      <div class="f"><label for="i_cq">Корпоративных в квартал</label><input id="i_cq" type="number" value="1" min="0" step="1"></div>
+      <div class="f"><label for="i_cp">Корпоративный проект, ₽</label><input id="i_cp" type="number" value="150000" min="0" step="10000"></div>
+      <div class="f"><label for="i_ex">Расходы в месяц, ₽</label><input id="i_ex" type="number" value="70000" min="0" step="5000"></div>
+      <div class="f"><label for="i_tx">Налог, %</label><input id="i_tx" type="number" value="6" min="0" step="1"></div>
+    </div>
+
+    <div class="out">
+      <div class="outrow">
+        <div class="o"><div class="k">Выручка за год</div><div class="v money" id="o_year">—</div></div>
+        <div class="o"><div class="k">В среднем в месяц</div><div class="v money" id="o_month">—</div></div>
+        <div class="o"><div class="k">Чистыми в месяц</div><div class="v" id="o_net">—</div><div class="s" id="o_margin">—</div></div>
+        <div class="o"><div class="k">Часов практики в неделю</div><div class="v" id="o_hours">—</div><div class="s">включая подготовку и записи</div></div>
+        <div class="o"><div class="k">Эффективная ставка часа</div><div class="v" id="o_rate">—</div></div>
+        <div class="o"><div class="k">Точка безубыточности</div><div class="v" id="o_be">—</div><div class="s">сессий в месяц, если больше ничего нет</div></div>
+      </div>
+      <div class="streams" id="streams"></div>
+      <p class="foot">Часы считаются с подготовкой: сессия — 1 ч, встреча группы — 3 ч, мастерская — 5 ч, корпоративный проект — 16 ч. Расходы по умолчанию: супервизия 20 000, кабинет 25 000, продвижение 15 000, прочее 10 000. Модель считает год из 40 рабочих недель — отпуск и пик фестиваля вычтены.</p>
+    </div>
+  </div>
+
+  <div class="col">
+    <h3>Что видно в цифрах</h3>
+    <ul class="plain">
+      <li><strong>Группа выгоднее индивидуальной работы.</strong> Семь человек по 4 000 — это 28 000 ₽ за три ваших часа против 6 000 ₽ за час один на один. При ограниченном времени группы — не «социальная миссия», а ядро экономики.</li>
+      <li><strong>Один корпоративный проект в квартал равен примерно сотне индивидуальных сессий по деньгам</strong> и забирает несопоставимо меньше часов. Это направление, куда стоит вкладывать усилия продаж.</li>
+      <li><strong>Разовые сессии не масштабируются.</strong> При восьми сессиях в неделю потолок — около двух миллионов в год, и упирается он в календарь, а не в спрос.</li>
+      <li><strong>Главное ограничение — не деньги, а вы.</strong> Сценарий «Рост» требует примерно 17 часов практики в неделю поверх полной занятости на фестивале. Это выполнимо в сентябре–феврале и нереалистично в мае–июне: либо часть групп ставится на паузу, либо меняется доля вашего участия в фестивале. Третьего варианта модель не показывает, потому что его нет.</li>
+    </ul>
+  </div>
+</section>
+
+<hr>
+
+<!-- ============ БРЕНД ============ -->
+<section id="brand">
+  <div class="col">
+    <p class="eyebrow">05 · Бренд</p>
+    <h2>Личный бренд: человеческий фактор как управленческая величина</h2>
+    <p>HUMAN — удачное имя: оно уже содержит и метод, и отстройку от машины. Платформа бренда строится на одном утверждении: <strong>человеческое в организации — не помеха эффективности, а её механика</strong>. Всё остальное — доказательства этого тезиса.</p>
+
+    <h3>Три содержательных столпа</h3>
+  </div>
+  <div class="grid2">
+    <div class="card"><h4>Поле</h4><p>Наблюдения с площадки: как ведут себя команды под давлением дедлайна. Обезличенные кейсы, никаких узнаваемых деталей. Это ваш единственный неповторимый контент — ни у кого больше нет такого доступа.</p></div>
+    <div class="card"><h4>Метод</h4><p>Психоаналитические понятия в рабочем переводе: перенос, проекция, козёл отпущения, регрессия группы. Одно понятие — один разбор — один управленческий пример.</p></div>
+    <div class="card"><h4>Позиция</h4><p>Живой разговор против ИИ-поддержки. Тема горячая, у вас есть аргументы и право говорить. Здесь же — этика: конфиденциальность, границы, супервизия.</p></div>
+    <div class="card"><h4>Доказательства</h4><p>ВШЭ и Кетс де Врис, супервизия АПКБК, действующая управленческая роль, отзывы, публичные мастерские. Регалии называются один раз и работают фоном, а не заголовком.</p></div>
+  </div>
+
+  <div class="col">
+    <h3>Голос</h3>
+    <p>Спокойный, точный, без экзальтации и обещаний трансформации. Вы не спасаете — вы возвращаете человеку авторство его решений. Короткие фразы, конкретные примеры, ноль терапевтического жаргона в публичных текстах.</p>
+
+    <h3>Ритм и каналы</h3>
+    <ul class="plain">
+      <li><strong>Телеграм-канал:</strong> два текста в неделю по столпам, раз в месяц — развёрнутый разбор кейса.</li>
+      <li><strong>Бот:</strong> точка сбора заявок и вопросов, встроенная в каждый пост. Он уже считает, сколько людей дошли до конца презентации и сколько оставили заявку — это ваша воронка в цифрах.</li>
+      <li><strong>Офлайн:</strong> одна мастерская в квартал. Живое мероприятие — главный источник и клиентов, и доверия.</li>
+      <li><strong>Отраслевые площадки:</strong> конференции HoReCa и ивент-индустрии, где вы уже свой человек и где нет конкурентов с вашим методом.</li>
+    </ul>
+
+    <h3>Метрики, которые стоит смотреть ежемесячно</h3>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Показатель</th><th>Откуда</th><th class="num">Ориентир на первый год</th></tr></thead>
+      <tbody>
+        <tr><td>Заявок в месяц</td><td>Бот, <span style="font-family:var(--mono);font-size:13px">/stats</span></td><td class="num">8–12</td></tr>
+        <tr><td>Заявка → первая встреча</td><td>Ваш календарь</td><td class="num">60 %</td></tr>
+        <tr><td>Первая встреча → работа</td><td>Ваш календарь</td><td class="num">40 %</td></tr>
+        <tr><td>Доля дохода не от индивидуальных сессий</td><td>Модель выше</td><td class="num">55 %</td></tr>
+        <tr><td>Средний срок работы с клиентом</td><td>Записи практики</td><td class="num">6 месяцев</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr>
+
+<!-- ============ РИСКИ ============ -->
+<section id="risks">
+  <div class="col">
+    <p class="eyebrow">06 · Границы</p>
+    <h2>Риски, которые лучше закрыть заранее</h2>
+  </div>
+  <div class="grid2">
+    <div class="card"><h4>Двойные отношения</h4><p>Резиденты и подрядчики фестиваля — ваши коммерческие контрагенты. Брать их в коучинг нельзя: вы одновременно решаете, кому дать место, и знаете их уязвимости. Правило простое и его стоит проговаривать вслух — с действующими контрагентами вы не работаете как коуч.</p></div>
+    <div class="card"><h4>Конфиденциальность кейсов</h4><p>Индустрия узкая, и «один шеф-повар одного проекта» опознаётся мгновенно. Любой публичный кейс — только с изменёнными деталями и, лучше, письменным согласием.</p></div>
+    <div class="card"><h4>Смешение регистров</h4><p>Астрология, нумерология и эзотерика в личном пространстве — ваше дело. В публичном поле бизнес-коуча они обнуляют доказательную часть: аудитория собственников читает их как отсутствие метода. Это не оценка увлечений, а факт восприятия сегмента, ради которого строится позиционирование.</p></div>
+    <div class="card"><h4>Ёмкость и выгорание</h4><p>Практика плюс фестиваль — это две ответственности одновременно, и в марте–июне вторая забирает всё. Заранее заложите паузу в наборе групп и предупредите клиентов о графике, а не переносите встречи в последний момент.</p></div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ============ ПЛАН ============ -->
+<section id="plan">
+  <div class="col">
+    <p class="eyebrow">07 · Ближайший квартал</p>
+    <h2>Первые 90 дней</h2>
+    <p>Сентябрь–ноябрь — лучшее окно года: фестивальная нагрузка спала, у аудитории начался деловой сезон.</p>
+
+    <ol class="steps">
+      <li><b>Недели 1–2 · Зафиксировать оффер</b><span>Одна страница и бот с новой линейкой и ценами. Проверить формулировку УТП на пяти живых разговорах и записать возражения дословно.</span></li>
+      <li><b>Недели 2–4 · Запустить группу</b><span>Набор в «Динамику пары» и «Женское лидерство»: 6–8 человек, оплата блоком. Группа даёт и деньги, и материал для контента.</span></li>
+      <li><b>Недели 3–6 · Продать первый корпоративный проект</b><span>Три компании из индустрии, где вас знают. Предложение — диагностическая сессия с командой, дальше по результату.</span></li>
+      <li><b>Недели 4–12 · Наладить ритм контента</b><span>Два текста в неделю по трём столпам. Каждый заканчивается входом в бота — так воронка становится измеримой.</span></li>
+      <li><b>Неделя 12 · Свести цифры</b><span>Заявки, конверсии, выручка по потокам против модели выше. Пересчитать цены на реальных данных, а не на ориентирах.</span></li>
+    </ol>
+
+    <p class="end">Все цены и конверсии в документе — рабочие гипотезы, а не рыночные данные. Их задача — дать структуру для проверки, а не заменить её.</p>
+  </div>
+</section>
+</main>
+</div>
+
+<script>
+(function () {
+  var F = {
+    sp: 'i_sp', sw: 'i_sw', gw: 'i_gw', gs: 'i_gs', gp: 'i_gp',
+    wq: 'i_wq', ws: 'i_ws', wp: 'i_wp', cq: 'i_cq', cp: 'i_cp', ex: 'i_ex', tx: 'i_tx'
+  };
+  var WEEKS = 40;
+  var HOURS = { session: 1, group: 3, workshop: 5, corp: 16 };
+  var PRESETS = {
+    careful: { sp: 6000, sw: 4, gw: 1, gs: 6, gp: 4000, wq: 1, ws: 12, wp: 5000, cq: 0, cp: 150000, ex: 55000, tx: 6 },
+    base:    { sp: 6000, sw: 6, gw: 1, gs: 7, gp: 4000, wq: 2, ws: 15, wp: 5000, cq: 1, cp: 150000, ex: 70000, tx: 6 },
+    growth:  { sp: 7500, sw: 8, gw: 2, gs: 8, gp: 4500, wq: 3, ws: 18, wp: 5000, cq: 2, cp: 180000, ex: 95000, tx: 6 }
+  };
+
+  function el(id) { return document.getElementById(id); }
+  function val(k) { var v = parseFloat(el(F[k]).value); return isFinite(v) && v > 0 ? v : 0; }
+  function money(n) {
+    return Math.round(n).toLocaleString('ru-RU').replace(/,/g, ' ') + ' ₽';
+  }
+  function short(n) {
+    if (n >= 1000000) return (n / 1000000).toFixed(n >= 10000000 ? 0 : 1).replace('.', ',') + ' млн ₽';
+    return Math.round(n / 1000) + ' тыс ₽';
+  }
+
+  function calc() {
+    var sessions = val('sp') * val('sw') * WEEKS;
+    var groups   = val('gw') * val('gs') * val('gp') * WEEKS;
+    var shops    = val('wq') * 4 * val('ws') * val('wp');
+    var corp     = val('cq') * 4 * val('cp');
+    var year = sessions + groups + shops + corp;
+
+    var hoursYear = val('sw') * WEEKS * HOURS.session
+                  + val('gw') * WEEKS * HOURS.group
+                  + val('wq') * 4 * HOURS.workshop
+                  + val('cq') * 4 * HOURS.corp;
+
+    var month = year / 12;
+    var tax = month * val('tx') / 100;
+    var net = month - tax - val('ex');
+    var margin = month > 0 ? Math.round(net / month * 100) : 0;
+    var rate = hoursYear > 0 ? year / hoursYear : 0;
+    var perSessionNet = val('sp') * (1 - val('tx') / 100);
+    var be = perSessionNet > 0 ? Math.ceil(val('ex') / perSessionNet) : 0;
+
+    el('o_year').textContent = short(year);
+    el('o_month').textContent = money(month);
+    el('o_net').textContent = money(net);
+    el('o_net').style.color = net < 0 ? 'var(--warn)' : 'var(--good)';
+    el('o_margin').textContent = 'маржа ' + margin + '%';
+    el('o_hours').textContent = (hoursYear / WEEKS).toFixed(1).replace('.', ',') + ' ч';
+    el('o_rate').textContent = money(rate) + '/ч';
+    el('o_be').textContent = be;
+
+    var rows = [
+      { n: 'Индивидуально', v: sessions, c: '' },
+      { n: 'Группы', v: groups, c: 'g2' },
+      { n: 'Корпоративное', v: corp, c: 'g3' },
+      { n: 'Мастерские', v: shops, c: 'g4' }
+    ].sort(function (a, b) { return b.v - a.v; });
+    var max = Math.max.apply(null, rows.map(function (r) { return r.v; })) || 1;
+    el('streams').innerHTML = rows.map(function (r) {
+      var pct = year > 0 ? Math.round(r.v / year * 100) : 0;
+      return '<div class="stream"><span>' + r.n + '</span>' +
+        '<span class="track"><span class="fill ' + r.c + '" style="width:' + (r.v / max * 100) + '%"></span></span>' +
+        '<span class="val">' + short(r.v) + ' · ' + pct + '%</span></div>';
+    }).join('');
+  }
+
+  Object.keys(F).forEach(function (k) { el(F[k]).addEventListener('input', calc); });
+
+  var btns = document.querySelectorAll('.presets button');
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var p = PRESETS[b.dataset.p];
+      Object.keys(p).forEach(function (k) { el(F[k]).value = p[k]; });
+      btns.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      calc();
+    });
+  });
+
+  calc();
+})();
+</script>
