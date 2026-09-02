@@ -1,0 +1,322 @@
+<title>Сценарий бота HUMAN</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700&family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#e9eae7; --surface:#f4f5f2; --sunk:#dedfda; --bubble:#ffffff;
+  --ink:#17191a; --ink2:#54585a; --ink3:#7c8183;
+  --line:#d2d4d0; --line2:#bcbfba;
+  --accent:#2f5d57; --accent-soft:#dae5e3;
+  --warn:#a3532f; --warn-soft:#f0e2da;
+  --disp:"Manrope",-apple-system,"Segoe UI",Arial,sans-serif;
+  --body:"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121415; --surface:#1a1d1e; --sunk:#0d0f10; --bubble:#222627;
+    --ink:#e8eae8; --ink2:#a3a9a8; --ink3:#7d8382;
+    --line:#282c2d; --line2:#383d3e;
+    --accent:#8dc2b8; --accent-soft:#1c2b29;
+    --warn:#dd9a6c; --warn-soft:#2b201a;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121415; --surface:#1a1d1e; --sunk:#0d0f10; --bubble:#222627;
+  --ink:#e8eae8; --ink2:#a3a9a8; --ink3:#7d8382;
+  --line:#282c2d; --line2:#383d3e;
+  --accent:#8dc2b8; --accent-soft:#1c2b29;
+  --warn:#dd9a6c; --warn-soft:#2b201a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:940px;margin:0 auto;padding:44px 22px 90px}
+h1{font-family:var(--disp);font-size:clamp(30px,5vw,46px);font-weight:300;letter-spacing:-.02em;
+  line-height:1.08;margin:.2em 0 .3em;text-wrap:balance}
+h2{font-family:var(--disp);font-size:clamp(21px,2.8vw,27px);font-weight:500;letter-spacing:-.015em;
+  margin:0 0 .5em;text-wrap:balance}
+h3{font-family:var(--disp);font-size:17px;font-weight:600;margin:30px 0 10px}
+p{margin:0 0 1em;max-width:66ch}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink3);display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+.lede{font-size:19px;line-height:1.5;color:var(--ink2);max-width:60ch}
+section{padding:0 0 58px}
+hr{border:0;border-top:1px solid var(--line);margin:0 0 44px}
+strong{font-weight:600}
+code{font-family:var(--mono);font-size:13.5px;background:var(--sunk);padding:1px 5px}
+
+/* принципы */
+.rules{display:grid;gap:14px;grid-template-columns:1fr;margin:24px 0 0}
+@media(min-width:760px){.rules{grid-template-columns:1fr 1fr}}
+.rule{border-top:2px solid var(--accent);padding:12px 0 0}
+.rule b{font-family:var(--disp);font-size:16px;display:block;margin-bottom:5px}
+.rule span{font-size:15px;color:var(--ink2);line-height:1.5}
+
+/* партитура: реплика + ремарка */
+.scene{display:grid;grid-template-columns:1fr;gap:6px 26px;padding:22px 0;border-top:1px solid var(--line)}
+@media(min-width:820px){.scene{grid-template-columns:minmax(0,1fr) 260px}}
+.scene .no{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--ink3);
+  text-transform:uppercase;grid-column:1/-1;margin-bottom:2px}
+.bubble{background:var(--bubble);border:1px solid var(--line);border-radius:16px 16px 16px 4px;
+  padding:14px 16px;font-size:15.5px;line-height:1.55;white-space:pre-wrap}
+.bubble + .bubble{margin-top:8px}
+.btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.btn{font-family:var(--disp);font-size:13px;font-weight:500;border:1px solid var(--line2);
+  border-radius:999px;padding:5px 12px;color:var(--ink2);background:var(--surface)}
+.btn.key{border-color:var(--accent);color:var(--accent)}
+.why{font-size:14.5px;line-height:1.5;color:var(--ink3)}
+.why b{color:var(--ink2);font-weight:600;display:block;margin-bottom:3px;font-family:var(--disp);font-size:13.5px}
+
+/* схема */
+figure{margin:26px 0 0;padding:0}
+figure svg{width:100%;height:auto;color:var(--ink2);display:block}
+figcaption{font-size:14px;color:var(--ink3);margin-top:12px;max-width:62ch}
+
+/* таблицы */
+.tw{overflow-x:auto;border:1px solid var(--line);margin:22px 0}
+table{border-collapse:collapse;width:100%;background:var(--surface);font-size:14.5px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink3);background:var(--sunk);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);white-space:nowrap;font-variant-numeric:tabular-nums}
+
+.warnbox{border:1px solid var(--warn);background:var(--warn-soft);padding:18px 20px;margin:24px 0}
+.warnbox .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--warn);display:block;margin-bottom:8px}
+.warnbox p:last-child{margin-bottom:0}
+.no-list{list-style:none;padding:0;margin:18px 0}
+.no-list li{padding:10px 0 10px 26px;border-bottom:1px solid var(--line);position:relative;
+  font-size:15px;color:var(--ink2)}
+.no-list li::before{content:"×";position:absolute;left:4px;top:9px;color:var(--warn);font-size:15px}
+.no-list li b{color:var(--ink);font-weight:600}
+.end{font-size:14px;color:var(--ink3);border-top:1px solid var(--line);padding-top:18px;margin-top:10px}
+</style>
+
+<div class="page">
+
+<header>
+  <p class="eyebrow">Telegram · сценарий разговора</p>
+  <h1>Сценарий бота HUMAN</h1>
+  <p class="lede">Бот — не витрина услуг, а приёмная. У приёмной одна задача: спросить, с чем человек пришёл, вернуть ему его же слова и открыть нужную дверь.</p>
+</header>
+
+<section>
+  <p class="eyebrow" style="margin-top:34px">Правила, из которых собран весь сценарий</p>
+  <div class="rules">
+    <div class="rule"><b>Один вопрос на экран</b><span>Человек в тревоге не читает абзацами. Три коротких вопроса дают больше, чем одна анкета.</span></div>
+    <div class="rule"><b>Отражение вместо совета</b><span>Бот не интерпретирует и не утешает. Он возвращает формулировку — и человек впервые слышит себя со стороны.</span></div>
+    <div class="rule"><b>Бот не изображает терапию</b><span>Никаких «я тебя понимаю» и результатов тестов. Он маршрутизирует к живому разговору и на этом останавливается.</span></div>
+    <div class="rule"><b>Выход всегда виден</b><span>В каждом догоняющем сообщении — кнопка «не писать мне». Уважение к «нет» — часть метода, а не уступка.</span></div>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Механика</p>
+  <h2>Куда движется человек</h2>
+  <figure>
+    <svg viewBox="0 0 980 372" role="img" aria-label="Схема: вход, выбор ветки, два уточнения, отражение, предложение; дальше либо заявка, либо три догоняющих сообщения за десять дней; из любой точки — боковой выход на кризисные контакты">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+        </marker>
+        <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--warn)"/>
+        </marker>
+        <marker id="ara" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+
+      <!-- кризисный выход -->
+      <rect x="286" y="10" width="408" height="42" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1"/>
+      <text x="490" y="30" text-anchor="middle" font-size="12.5" fill="var(--warn)" font-weight="600">тревожные слова → контакты помощи</text>
+      <text x="490" y="45" text-anchor="middle" font-size="11.5" fill="var(--warn)">диалог остановлен, уведомление Маргарите</text>
+      <path d="M420 118 L420 54" stroke="var(--warn)" stroke-width="1.2" stroke-dasharray="4 4" fill="none" marker-end="url(#arw)"/>
+      <text x="428" y="88" font-size="11" fill="var(--warn)">из любого сообщения</text>
+
+      <!-- основная линия -->
+      <g fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="16" y="118" width="92" height="52" fill="var(--surface)"/>
+        <rect x="150" y="118" width="150" height="52" fill="var(--surface)"/>
+        <rect x="342" y="118" width="130" height="52" fill="var(--surface)"/>
+        <rect x="514" y="118" width="130" height="52" fill="var(--surface)"/>
+        <rect x="686" y="118" width="134" height="52" fill="var(--surface)"/>
+        <rect x="862" y="118" width="102" height="52" fill="var(--accent-soft)" stroke="var(--accent)"/>
+      </g>
+      <g font-size="12.5" text-anchor="middle" fill="currentColor" font-weight="500">
+        <text x="62" y="141">вход</text><text x="62" y="157" font-size="11" fill="var(--ink3)">/start</text>
+        <text x="225" y="141">с чем пришли</text><text x="225" y="157" font-size="11" fill="var(--ink3)">четыре двери</text>
+        <text x="407" y="141">два уточнения</text><text x="407" y="157" font-size="11" fill="var(--ink3)">кнопками</text>
+        <text x="579" y="141">отражение</text><text x="579" y="157" font-size="11" fill="var(--ink3)">его словами</text>
+        <text x="753" y="141">предложение</text><text x="753" y="157" font-size="11" fill="var(--ink3)">формат + раздел</text>
+        <text x="913" y="141" fill="var(--accent)">заявка</text><text x="913" y="157" font-size="11" fill="var(--accent)">и уведомление</text>
+      </g>
+      <g stroke="currentColor" stroke-width="1.2" fill="none" marker-end="url(#ar)">
+        <path d="M108 144 L146 144"/>
+        <path d="M300 144 L338 144"/>
+        <path d="M472 144 L510 144"/>
+        <path d="M644 144 L682 144"/>
+      </g>
+      <path d="M820 144 L858 144" stroke="var(--accent)" stroke-width="1.4" fill="none" marker-end="url(#ara)"/>
+      <text x="839" y="134" text-anchor="middle" font-size="11" fill="var(--accent)">да</text>
+
+      <!-- нижняя линия: догонялки -->
+      <path d="M753 170 L753 214 L470 214" stroke="currentColor" stroke-width="1.2" fill="none" marker-end="url(#ar)"/>
+      <text x="640" y="206" text-anchor="middle" font-size="11" fill="var(--ink3)">тишина</text>
+
+      <g fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="150" y="246" width="180" height="56" fill="var(--surface)"/>
+        <rect x="374" y="246" width="180" height="56" fill="var(--surface)"/>
+        <rect x="598" y="246" width="180" height="56" fill="var(--surface)"/>
+        <rect x="822" y="246" width="142" height="56" fill="var(--sunk)"/>
+      </g>
+      <g font-size="12.5" text-anchor="middle" fill="currentColor" font-weight="500">
+        <text x="240" y="270">что вас остановило</text><text x="240" y="286" font-size="11" fill="var(--ink3)">через 24 часа</text>
+        <text x="464" y="270">мысль по вашей ветке</text><text x="464" y="286" font-size="11" fill="var(--ink3)">через 4 дня</text>
+        <text x="688" y="270">приглашение в киноклуб</text><text x="688" y="286" font-size="11" fill="var(--ink3)">через 10 дней</text>
+        <text x="893" y="270" fill="var(--ink3)">тишина</text><text x="893" y="286" font-size="11" fill="var(--ink3)">больше не пишем</text>
+      </g>
+      <g stroke="currentColor" stroke-width="1.2" fill="none" marker-end="url(#ar)">
+        <path d="M330 274 L370 274"/>
+        <path d="M554 274 L594 274"/>
+        <path d="M778 274 L818 274"/>
+      </g>
+      <path d="M240 246 L240 214 L466 214" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+      <path d="M913 246 L913 176" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="4 4" fill="none" marker-end="url(#ara)"/>
+      <text x="900" y="216" text-anchor="end" font-size="11" fill="var(--accent)">заявка в любой момент</text>
+      <text x="16" y="330" font-size="11.5" fill="var(--ink3)">в каждом догоняющем — кнопка «не писать мне»; нажатие обрывает цепочку навсегда</text>
+    </svg>
+    <figcaption>Верхняя линия — минута разговора при первом входе. Нижняя — десять дней деликатного присутствия, если человек промолчал. Кризисный выход срабатывает из любой точки и отменяет всё остальное.</figcaption>
+  </figure>
+</section>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Партитура</p>
+  <h2>Первая минута, реплика за репликой</h2>
+  <p>Слева — то, что видит человек. Справа — зачем эта реплика стоит здесь.</p>
+
+  <div class="scene">
+    <p class="no">Сцена 1 · вход</p>
+    <div>
+      <div class="bubble">здесь тихо.
+
+я Маргарита — психоаналитический коуч и действующий руководитель. этот бот не консультирует и не ставит диагнозов. он поможет понять, с чем вы пришли, и предложит формат.
+
+три вопроса, минута времени.</div>
+      <div class="btns"><span class="btn">открыть разделы</span><span class="btn">задать вопрос</span></div>
+    </div>
+    <p class="why"><b>Зачем</b>Первая строка задаёт температуру: не «Добро пожаловать!», а тишина. Сразу названа граница — бот не лечит. И названа цена входа: минута, а не «пройдите опрос».</p>
+  </div>
+
+  <div class="scene">
+    <p class="no">Сцена 2 · четыре двери</p>
+    <div>
+      <div class="bubble">с чем вы пришли?</div>
+      <div class="btns"><span class="btn key">Я руковожу и упёрся в потолок</span><span class="btn key">Отношения ходят по кругу</span><span class="btn key">Тело, силы, долголетие</span><span class="btn">Просто посмотреть</span></div>
+    </div>
+    <p class="why"><b>Зачем</b>Сегментация с первого касания: дальше бот говорит на языке выбранной двери. Четвёртая кнопка — для тех, кто не готов заявлять запрос; без неё они просто уходят.</p>
+  </div>
+
+  <div class="scene">
+    <p class="no">Сцена 3 · два уточнения</p>
+    <div>
+      <div class="bubble">что ближе?</div>
+      <div class="btns"><span class="btn">команда буксует, и я не понимаю почему</span><span class="btn">знаю, что делать, и не делаю</span><span class="btn">выгораю, но остановиться не могу</span></div>
+      <div class="bubble">как давно это длится?</div>
+      <div class="btns"><span class="btn">меньше полугода</span><span class="btn">год или два</span><span class="btn">сколько себя помню в этой роли</span></div>
+    </div>
+    <p class="why"><b>Зачем</b>Второй вопрос — про время, и он важнее первого: он отличает ситуацию от сценария. От ответа зависит, что бот скажет дальше, и что вы предложите на встрече.</p>
+  </div>
+
+  <div class="scene">
+    <p class="no">Сцена 4 · отражение</p>
+    <div>
+      <div class="bubble">два года — это уже не совпадение. когда история повторяется, дело редко в людях вокруг.</div>
+    </div>
+    <p class="why"><b>Зачем</b>Ключевая реплика всего сценария. Не совет, не диагноз — короткое возвращение сказанного. Здесь человек либо узнаёт себя и остаётся, либо нет; и то и другое — честный результат.</p>
+  </div>
+
+  <div class="scene">
+    <p class="no">Сцена 5 · предложение</p>
+    <div>
+      <div class="bubble">вам, скорее всего, подойдёт индивидуальная работа: раз в неделю, пятьдесят минут. первая встреча — знакомство, вы ничего не решаете заранее.</div>
+      <div class="btns"><span class="btn key">записаться на встречу</span><span class="btn">посмотреть подробнее</span><span class="btn">задать вопрос</span><span class="btn">сообщать о наборах и событиях</span></div>
+    </div>
+    <p class="why"><b>Зачем</b>Один формат, а не меню из шести. «Посмотреть подробнее» открывает мини-апп сразу на нужном разделе. Последняя кнопка ловит тех, кто не готов сейчас, но готов остаться рядом.</p>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Если человек промолчал</p>
+  <h2>Три касания за десять дней</h2>
+  <p>Догоняющие сообщения — самое опасное место в любом боте: здесь легко превратиться в рассылку. Поэтому их три, они разные по жанру, и каждое несёт кнопку выхода.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Когда</th><th>Что приходит</th><th>Что это даёт вам</th></tr></thead>
+      <tbody>
+        <tr><td class="num">24 часа</td><td>«один вопрос, если можно: что вас остановило?» — четыре кнопки: дорого, не время, не уверен(а), просто читаю</td><td>Возражения дословно, а не в вашей интерпретации. Через месяц это готовый список того, что переписать на сайте</td></tr>
+        <tr><td class="num">4 дня</td><td>Короткая мысль по его ветке. Руководителю — про то, что компания воспроизводит человека наверху; паре — про спор о посуде, который не про посуду</td><td>Напоминание о себе через пользу, а не через «а вы ещё не записались?»</td></tr>
+        <tr><td class="num">10 дней</td><td>«последнее сообщение от меня, дальше не пишу» — и приглашение на киноклуб как вход с низким порогом</td><td>Честное завершение. Обещание больше не писать выполняется — и именно поэтому часть людей возвращается сама</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>На каждый ответ про возражение бот отвечает по-человечески, а не отработкой. На «дорого» — предлагает группу, где встреча выходит вчетверо дешевле. На «не уверен(а), что подойдёт» — соглашается: «это правильное сомнение».</p>
+</section>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Безопасность</p>
+  <h2>Кризисный маршрут</h2>
+  <div class="warnbox">
+    <span class="tag">Обязательная часть любого психологического продукта</span>
+    <p>Если в сообщении встречаются формулировки про нежелание жить или самоповреждение, бот прекращает сценарий. Он не задаёт уточняющих вопросов, не предлагает записаться и не отвечает кнопками.</p>
+    <p>Он говорит, что такие разговоры не ведут в переписке, даёт три номера — 112, 8&nbsp;800&nbsp;2000&nbsp;122, 051 (или +7&nbsp;495&nbsp;051 с мобильного) — и предлагает написать вам лично. Вам приходит уведомление.</p>
+    <p>Список слов и текст ответа лежат в <code>content.json → flow.crisis</code>. Пересмотрите их перед запуском: это единственное место, где ошибка стоит дорого.</p>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Измерения</p>
+  <h2>Что бот считает сам</h2>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Команда</th><th>Что показывает</th></tr></thead>
+      <tbody>
+        <tr><td class="num">/stats</td><td>Сколько людей вошло, сколько дошло до предложения, сколько оставило заявку и задало вопрос. Разбивка по четырём веткам и по разделам мини-аппа</td></tr>
+        <tr><td class="num">/leads</td><td>Последние десять заявок: кто, из какой ветки, с какими ответами. По ним видно, с чем к вам идут на самом деле</td></tr>
+        <tr><td class="num">/say</td><td>Сообщение тем, кто нажал «сообщать о событиях». С подтверждением перед отправкой — случайной рассылки не будет</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Главная цифра здесь не количество подписчиков, а <strong>доля дошедших до предложения</strong>. Если она ниже половины — вопросы сформулированы не тем языком, и это чинится за вечер правкой текстов.</p>
+</section>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Границы</p>
+  <h2>Чего этот бот не делает — и не будет</h2>
+  <ul class="no-list">
+    <li><b>Не проводит тестов с результатом.</b> «Ваш тип привязанности — тревожный» обесценивает метод и создаёт иллюзию, что работа уже случилась</li>
+    <li><b>Не имитирует эмпатию.</b> Никаких «мне жаль, что вам тяжело» от программы. Сочувствие — то, за чем человек приходит к вам, и подделка здесь читается мгновенно</li>
+    <li><b>Не пишет чаще трёх раз.</b> Цепочка обрывается сама, даже если человек не нажал «не писать мне»</li>
+    <li><b>Не хранит переписку.</b> В памяти бота — ветка, ответы кнопками и отметки о заявке. Тексты сообщений уходят вам и не накапливаются</li>
+    <li><b>Не заменяет первую встречу.</b> Всё, что он делает, — доводит человека до двери и открывает её</li>
+  </ul>
+  <p class="end">Все реплики лежат в <code>bot/content.json</code>, в разделе <code>flow</code>: приветствие, ветки, вопросы, отражения, предложения, догоняющие сообщения и кризисный текст. Бот перечитывает файл на лету — правка текста видна без перезапуска.</p>
+</section>
+
+</div>
