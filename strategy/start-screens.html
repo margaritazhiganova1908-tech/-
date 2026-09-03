@@ -1,0 +1,349 @@
+<title>Три стартовых экрана HUMAN</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Golos+Text:wght@400;500;600;700&family=Manrope:wght@300;500;800&display=swap">
+<style>
+:root{
+  --paper:#e3e4e0; --surface:#eeefeb; --sunk:#d5d7d2;
+  --ink:#131413; --ink2:#5c605c; --ink3:#84887f;
+  --line:#c8cac4; --line2:#b3b6af;
+  --pick:#2f4f3f;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sans:"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif;
+  --disp:"Manrope",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#131414; --surface:#1b1d1b; --sunk:#0d0e0d;
+    --ink:#e7e8e3; --ink2:#a0a49e; --ink3:#7b7f79;
+    --line:#292b28; --line2:#3a3d39; --pick:#8fbfa4;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131414; --surface:#1b1d1b; --sunk:#0d0e0d;
+  --ink:#e7e8e3; --ink2:#a0a49e; --ink3:#7b7f79;
+  --line:#292b28; --line2:#3a3d39; --pick:#8fbfa4;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:1220px;margin:0 auto;padding:40px 22px 80px}
+h1{font-family:var(--disp);font-weight:300;font-size:clamp(30px,5vw,44px);letter-spacing:-.025em;
+  line-height:1.06;margin:.1em 0 .35em;text-wrap:balance}
+h2{font-family:var(--disp);font-weight:500;font-size:clamp(20px,2.6vw,25px);letter-spacing:-.015em;margin:0 0 .5em}
+p{margin:0 0 1em;max-width:66ch}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink3);display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+.lede{font-size:18.5px;line-height:1.5;color:var(--ink2);max-width:62ch}
+hr{border:0;border-top:1px solid var(--line);margin:44px 0}
+
+/* ---------- витрина ---------- */
+.shelf{display:grid;gap:34px;grid-template-columns:1fr;margin:30px 0 0}
+@media(min-width:800px){.shelf{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1120px){.shelf{grid-template-columns:repeat(3,1fr)}}
+.slot{display:flex;flex-direction:column;gap:16px}
+.tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+.slot h3{font-family:var(--disp);font-size:20px;font-weight:600;letter-spacing:-.01em;margin:0}
+.crit{font-size:14.5px;line-height:1.5;color:var(--ink2);display:grid;gap:7px;margin:0;padding:0;list-style:none}
+.crit b{color:var(--ink);font-weight:600}
+.crit li{padding-left:16px;position:relative}
+.crit li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:1px;background:var(--line2)}
+
+/* ---------- телефон ---------- */
+.phone{width:100%;max-width:340px;aspect-ratio:340/716;border-radius:32px;overflow:hidden;
+  position:relative;box-shadow:0 1px 0 var(--line2),0 18px 40px -24px rgba(0,0,0,.5);
+  border:1px solid var(--line2)}
+.ph{position:absolute;inset:0;display:flex;flex-direction:column}
+.note{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+
+/* силуэт-заглушка */
+.shot{position:absolute;inset:0;overflow:hidden}
+.shot svg{width:100%;height:100%;display:block}
+.stub{position:absolute;right:10px;bottom:auto;top:50%;font-family:var(--mono);font-size:8px;
+  letter-spacing:.14em;text-transform:uppercase;opacity:.6;transform:rotate(90deg);transform-origin:right top}
+
+/* ============ A · ЧЕК ============ */
+.a{background:#08080a;color:#f2f3f7;font-family:var(--mono)}
+.a .shot{opacity:.55}
+.a .body{position:relative;z-index:2;padding:18px 16px 0;display:flex;flex-direction:column;height:100%}
+.a .brandbar{background:#1b2ff5;color:#fff;padding:7px 10px;font-size:10px;letter-spacing:.22em;
+  display:flex;justify-content:space-between}
+.a .h{text-align:center;margin:16px 0 4px;font-size:15px;letter-spacing:.34em}
+.a .sub{text-align:center;font-size:9px;letter-spacing:.2em;color:#9aa0b8;margin-bottom:12px}
+.a .cut{border-top:1px dashed #6a708c;margin:9px 0}
+.a .meta{font-size:9px;line-height:1.9;color:#c3c8dc;letter-spacing:.06em}
+.a table{width:100%;border-collapse:collapse;font-size:10px;letter-spacing:.05em}
+.a th{text-align:left}
+.a thead th{color:#8b91ab;font-weight:400;padding-bottom:4px}
+.a td{padding:3.5px 0;color:#eef0f7}
+.a td.r{text-align:right;color:#fff}
+.a .tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:9px}
+.a .tot span:first-child{font-size:11px;letter-spacing:.2em}
+.a .tot span:last-child{font-size:15px;color:#1b2ff5;background:#e9ecff;padding:1px 7px}
+.a .thanks{text-align:center;font-size:9px;letter-spacing:.24em;color:#c3c8dc;margin:12px 0 8px}
+.a .bars{display:flex;gap:1.6px;justify-content:center;height:26px;margin-bottom:10px}
+.a .bars i{display:block;background:#eef0f7}
+.a .acts{margin-top:auto;padding:0 0 16px;display:grid;gap:6px}
+.a .btn{border:1px solid #3b4160;color:#eef0f7;text-align:center;padding:10px;font-size:10px;letter-spacing:.18em}
+.a .btn.go{background:#1b2ff5;border-color:#1b2ff5;color:#fff}
+
+/* ============ B · ПЛАКАТ ============ */
+.b{background:#f1efec;color:#111;font-family:var(--disp)}
+.b .shot{inset:auto -10% 0 20%;height:78%;opacity:.95}
+.b .body{position:relative;z-index:2;padding:20px 18px 0;height:100%;display:flex;flex-direction:column}
+.b .kick{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#8a8683}
+.b h4{font-weight:800;font-size:40px;line-height:.92;letter-spacing:-.035em;color:#d9251d;
+  margin:8px 0 0;text-transform:uppercase}
+.b .role{font-family:var(--sans);font-size:11.5px;line-height:1.45;color:#3b3835;margin-top:10px;max-width:26ch;padding-right:6px}
+.b .rows{margin-top:auto;position:relative;z-index:3}
+.b .row{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #cfcac5;
+  padding:8px 0;font-family:var(--sans);font-size:13px;font-weight:600;color:#111}
+.b .row span:last-child{font-family:var(--mono);font-size:9.5px;color:#8a8683;letter-spacing:.1em}
+.b .club{background:#d9251d;color:#fff;padding:11px 12px;margin:10px 0 0;display:flex;
+  justify-content:space-between;align-items:center}
+.b .club b{font-size:13px;font-weight:800;letter-spacing:-.01em}
+.b .club span{font-family:var(--mono);font-size:9px;letter-spacing:.14em}
+.b .acts{display:grid;grid-template-columns:1fr auto;gap:6px;padding:10px 0 16px}
+.b .btn{background:#111;color:#f1efec;text-align:center;padding:12px;font-family:var(--sans);
+  font-size:13px;font-weight:600}
+.b .btn.ghost{background:none;color:#111;border:1px solid #111;padding:12px 14px}
+
+/* ============ C · РАЗМЕТКА ============ */
+.c{background:#d9d9d6;color:#15161a;font-family:var(--sans)}
+.c .shot{inset:0;opacity:1}
+.c .body{position:relative;z-index:2;height:100%;padding:16px 14px 0;display:flex;flex-direction:column}
+.c .hud{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:#3d3f45;
+  display:flex;justify-content:space-between}
+.c .frame{position:absolute;border:1.4px solid #15161a}
+.c .fl{position:absolute;font-family:var(--mono);font-size:8px;letter-spacing:.1em;
+  background:#15161a;color:#f5f4ef;padding:2px 5px;white-space:nowrap}
+.c .popover{position:absolute;left:50%;transform:translateX(-50%);top:246px;display:flex;
+  background:#2a2c31;border-radius:9px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.28);z-index:4}
+.c .popover span{color:#fff;font-size:10.5px;padding:7px 10px;white-space:nowrap}
+.c .popover span + span{border-left:1px solid #43464d}
+.c .quote{position:absolute;left:14px;right:14px;top:288px;z-index:3}
+.c .quote mark{background:#ffe500;color:#15161a;font-size:15.5px;font-weight:600;line-height:1.75;
+  padding:2px 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.c .dot{position:absolute;width:9px;height:9px;border-radius:50%;background:#ffe500;
+  border:1.5px solid #15161a;z-index:4}
+.c .list{margin-top:auto;position:relative;z-index:3;background:rgba(245,244,239,.92);
+  backdrop-filter:blur(2px);border:1px solid #15161a;padding:12px}
+.c .list b{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:#5c5f66;display:block;margin-bottom:7px}
+.c .li{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0;color:#15161a}
+.c .li i{font-style:normal;font-family:var(--mono);font-size:9px;color:#5c5f66}
+.c .acts{display:grid;grid-template-columns:1fr auto;gap:6px;padding:10px 0 16px;position:relative;z-index:3}
+.c .btn{background:#15161a;color:#f5f4ef;text-align:center;padding:12px;font-size:13px;font-weight:600;
+  border-radius:8px}
+.c .btn.ghost{background:#ffe500;color:#15161a;border-radius:8px;padding:12px 14px;font-weight:600;font-size:13px}
+
+/* ---------- клуб ---------- */
+.club-grid{display:grid;gap:14px;grid-template-columns:1fr;margin:22px 0 0}
+@media(min-width:720px){.club-grid{grid-template-columns:repeat(3,1fr)}}
+.ritual{border-top:2px solid var(--pick);padding:12px 0 0}
+.ritual b{font-family:var(--disp);font-size:16px;font-weight:600;display:block;margin-bottom:4px}
+.ritual span{font-size:14.5px;color:var(--ink2);line-height:1.5}
+.tw{overflow-x:auto;border:1px solid var(--line);margin:22px 0}
+table.money{border-collapse:collapse;width:100%;background:var(--surface);font-size:14.5px}
+table.money th,table.money td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line)}
+table.money thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink3);background:var(--sunk)}
+table.money tbody tr:last-child td{border-bottom:0}
+table.money td.n{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.end{font-size:14px;color:var(--ink3);border-top:1px solid var(--line);padding-top:18px;margin-top:34px}
+</style>
+
+<div class="page">
+
+<header>
+  <p class="eyebrow">Мини-апп · стартовый экран</p>
+  <h1>Три стартовых экрана HUMAN</h1>
+  <p class="lede">Один и тот же набор: имя, экспертиза, четыре формата работы, клуб по подписке и канал. Разная оптика. Фото на макетах — заглушка; на её месте ваш портрет, и он несёт половину впечатления.</p>
+</header>
+
+<div class="shelf">
+
+  <!-- ============ A ============ -->
+  <div class="slot">
+    <p class="tag">Вариант A</p>
+    <h3>Чек</h3>
+    <div class="phone a">
+      <div class="shot">
+        <svg viewBox="0 0 340 716" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs><radialGradient id="ga" cx="50%" cy="34%" r="52%">
+            <stop offset="0" stop-color="#3a3d4a"/><stop offset="1" stop-color="#08080a"/>
+          </radialGradient></defs>
+          <rect width="340" height="716" fill="#08080a"/>
+          <ellipse cx="170" cy="250" rx="118" ry="150" fill="url(#ga)"/>
+          <path d="M52 716c0-118 53-186 118-186s118 68 118 186z" fill="#22242c"/>
+        </svg>
+        <span class="stub" style="color:#8b91ab">ваше фото</span>
+      </div>
+      <div class="ph body">
+        <div class="brandbar"><span>HUMAN</span><span>03.09.2026</span></div>
+        <p class="h">М. ЖИГАНОВА</p>
+        <p class="sub">ПСИХОАНАЛИТИЧЕСКИЙ КОУЧ · ОРГ. ПСИХОЛОГ</p>
+        <div class="cut"></div>
+        <p class="meta">СЕАНС : 50 МИН &nbsp; МЕСТО : МОСКВА / ОНЛАЙН<br>СУПЕРВИЗИЯ : АПКБК &nbsp; ВШЭ : КЕТС ДЕ ВРИС</p>
+        <div class="cut"></div>
+        <table>
+          <thead><tr><th>ФОРМАТ</th><th style="text-align:right">ЦЕНА</th></tr></thead>
+          <tbody>
+            <tr><td>МЕНТОРИНГ</td><td class="r">8 000</td></tr>
+            <tr><td>КОУЧИНГ</td><td class="r">6 000</td></tr>
+            <tr><td>ГРУППА</td><td class="r">4 000</td></tr>
+            <tr><td>КЛУБ «КРУГ» / МЕС</td><td class="r">3 500</td></tr>
+          </tbody>
+        </table>
+        <div class="cut"></div>
+        <div class="tot"><span>ПЕРВАЯ ВСТРЕЧА</span><span>0 ₽</span></div>
+        <p class="thanks">*** КАНАЛ @PSYGROUPCHANNEL ***</p>
+        <div class="bars">
+          <i style="width:2px"></i><i style="width:5px"></i><i style="width:2px"></i><i style="width:3px"></i>
+          <i style="width:6px"></i><i style="width:2px"></i><i style="width:4px"></i><i style="width:2px"></i>
+          <i style="width:7px"></i><i style="width:3px"></i><i style="width:2px"></i><i style="width:5px"></i>
+          <i style="width:2px"></i><i style="width:4px"></i><i style="width:6px"></i><i style="width:2px"></i>
+          <i style="width:3px"></i><i style="width:5px"></i><i style="width:2px"></i><i style="width:4px"></i>
+        </div>
+        <div class="acts">
+          <div class="btn go">ЗАПИСАТЬСЯ</div>
+          <div class="btn">РАЗДЕЛЫ И КЛУБ</div>
+        </div>
+      </div>
+    </div>
+    <ul class="crit">
+      <li><b>Что делает.</b> Переворачивает ожидание: вместо мягкой психологии — прозрачная бухгалтерия. Цены на первом экране, ничего не спрятано.</li>
+      <li><b>Кому попадёт.</b> Собственникам и руководителям: они читают чеки быстрее, чем манифесты.</li>
+      <li><b>Риск.</b> Холодно для тех, кто идёт с личной болью. Для группы «Динамика пары» этот вход не сработает.</li>
+      <li><b>Что нужно.</b> Портрет анфас в тени, высокий контраст, синий фон или чёрный.</li>
+    </ul>
+  </div>
+
+  <!-- ============ B ============ -->
+  <div class="slot">
+    <p class="tag">Вариант B</p>
+    <h3>Плакат</h3>
+    <div class="phone b">
+      <div class="shot">
+        <svg viewBox="0 0 250 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+          <defs><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#b9b3ad"/><stop offset="1" stop-color="#6e6862"/>
+          </linearGradient></defs>
+          <ellipse cx="128" cy="112" rx="62" ry="76" fill="url(#gb)"/>
+          <path d="M28 500c0-124 46-196 100-196s100 72 100 196z" fill="url(#gb)"/>
+        </svg>
+        <span class="stub" style="color:#6e6862">ваше фото</span>
+      </div>
+      <div class="ph body">
+        <p class="kick">HUMAN · ПРАКТИКА</p>
+        <h4>Привет,<br>я Марга&shy;рита</h4>
+        <p class="role">психоаналитический коуч, организационный психолог и действующий руководитель</p>
+        <div class="rows">
+          <div class="row"><span>Менторинг</span><span>ДЛЯ РУКОВОДИТЕЛЕЙ</span></div>
+          <div class="row"><span>Коучинг</span><span>ПРОГРАММА НА КВАРТАЛ</span></div>
+          <div class="row"><span>Индивидуально</span><span>50 МИНУТ</span></div>
+          <div class="row"><span>Группа</span><span>6–8 ЧЕЛОВЕК</span></div>
+          <div class="club"><b>Клуб «Круг»</b><span>КИНО · КНИГИ · БЕГ</span></div>
+          <div class="acts">
+            <div class="btn">Записаться</div>
+            <div class="btn ghost">Канал</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="crit">
+      <li><b>Что делает.</b> Продаёт человека, а не услугу. Имя во весь экран — это заявка на то, что к вам идут именно к вам.</li>
+      <li><b>Кому попадёт.</b> Женской аудитории и всем, кто выбирает по ощущению от лица.</li>
+      <li><b>Риск.</b> Требует сильного портрета. На слабом фото вся конструкция рассыпается — здесь нечем прикрыться.</li>
+      <li><b>Что нужно.</b> Съёмка в полный рост на светлом фоне, живая поза, ч/б.</li>
+    </ul>
+  </div>
+
+  <!-- ============ C ============ -->
+  <div class="slot">
+    <p class="tag">Вариант C</p>
+    <h3>Разметка</h3>
+    <div class="phone c">
+      <div class="shot">
+        <svg viewBox="0 0 340 716" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs><linearGradient id="gc" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#c9c9c5"/><stop offset="1" stop-color="#a8a8a3"/>
+          </linearGradient></defs>
+          <rect width="340" height="716" fill="url(#gc)"/>
+          <ellipse cx="176" cy="176" rx="66" ry="82" fill="#8d8d88"/>
+          <path d="M74 470c0-104 46-166 102-166s102 62 102 166z" fill="#8d8d88"/>
+        </svg>
+        <span class="stub" style="color:#5c5f66">ваше фото</span>
+      </div>
+      <div class="ph body">
+        <div class="hud"><span>HUMAN / 2026</span><span>ПРАКТИКА · МОСКВА</span></div>
+        <div class="frame" style="left:104px;top:60px;width:140px;height:172px"></div>
+        <div class="fl" style="left:104px;top:38px">М. ЖИГАНОВА · КОУЧ</div>
+        <div class="frame" style="left:24px;top:250px;width:70px;height:150px;border-style:dashed"></div>
+        <div class="fl" style="left:24px;top:406px">СУПЕРВИЗИЯ · АПКБК</div>
+        <div class="popover"><span>Менторинг</span><span>Коучинг</span><span>Группа</span></div>
+        <div class="quote"><mark>Взгляд, который возвращает вам ваши решения</mark></div>
+        <div class="dot" style="left:8px;top:292px"></div>
+        <div class="dot" style="right:8px;top:352px"></div>
+        <div class="list">
+          <b>Клуб «Круг» · по подписке</b>
+          <div class="li"><span>Киноразборы</span><i>РАЗ В МЕСЯЦ</i></div>
+          <div class="li"><span>Книжный клуб</span><i>РАЗ В МЕСЯЦ</i></div>
+          <div class="li"><span>Беговой клуб</span><i>ПО СУББОТАМ</i></div>
+        </div>
+        <div class="acts">
+          <div class="btn">Записаться</div>
+          <div class="btn ghost">Канал</div>
+        </div>
+      </div>
+    </div>
+    <ul class="crit">
+      <li><b>Что делает.</b> Ваша тема буквально: рамка распознавания — это взгляд, который выделяет и называет. Услуги живут во всплывающем меню, как выделенный текст.</li>
+      <li><b>Кому попадёт.</b> Тем, кто ценит ум и точность; выделяет вас среди психологов радикально.</li>
+      <li><b>Риск.</b> Приём легко переиграть: две рамки — умно, шесть — шум. И он холоднее, чем кажется на макете.</li>
+      <li><b>Что нужно.</b> Обычное фото в среде — улица, кабинет, зал. Идеальная студия здесь мешает.</li>
+    </ul>
+  </div>
+
+</div>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Рекомендация</p>
+  <h2>Что бы взяла я</h2>
+  <p><strong>Вариант B как основа, приём из C как акцент.</strong> «Плакат» решает главную задачу визитки — за секунду показать человека, к которому идут. «Чек» блестящ, но он про сделку, а вы продаёте отношения: на первом экране это лишний холод. «Разметка» умнее всех, но она требует дисциплины, которую трудно удержать при обновлении контента — и стоит применить её точечно: жёлтое выделение фразы внутри разделов, а не на входе.</p>
+  <p>Собранный вход выглядит так: имя красным во весь экран, ваше фото, четыре формата тонкими строками, красная плашка клуба и две кнопки — записаться и канал. Внутри разделов работает жёлтый маркер как единственный акцент.</p>
+</section>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Продукт</p>
+  <h2>Клуб «Круг»: три ритуала под одной подпиской</h2>
+  <p>Киноразборы, книжный и беговой клуб по отдельности читаются как хобби. Вместе, под одним именем и одной подпиской, они становятся продуктом — и самым устойчивым в вашей линейке: он приносит выручку помесячно, а не набором.</p>
+  <p>Название «Круг» держит все три: круг общения, круг чтения, круг по парку. И это же слово в психодинамике означает группу.</p>
+
+  <div class="club-grid">
+    <div class="ritual"><b>Смотрим</b><span>Киноразборы раз в месяц. Фильм как чужое сновидение: не трактовка режиссёра, а то, что кино делает со зрителем.</span></div>
+    <div class="ritual"><b>Читаем</b><span>Книжный клуб раз в месяц. Одна книга — один разговор. Психоанализ, антропология, биографии — то, что вы и так читаете.</span></div>
+    <div class="ritual"><b>Бежим</b><span>Беговой клуб по субботам с короткой практикой дыхания. Ваш кундалини-бэкграунд здесь работает как метод, а не как эзотерика.</span></div>
+  </div>
+
+  <div class="tw">
+    <table class="money">
+      <thead><tr><th>Подписка</th><th>Что входит</th><th class="n">Цена</th></tr></thead>
+      <tbody>
+        <tr><td>Месяц</td><td>Все три встречи, чат участников, записи разборов</td><td class="n">3 500 ₽</td></tr>
+        <tr><td>Квартал</td><td>То же, оплата блоком</td><td class="n">9 000 ₽</td></tr>
+        <tr><td>Разовый вход</td><td>Одно событие на выбор</td><td class="n">2 500 ₽</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Тридцать подписчиков по 3 500 — это 105 000 ₽ в месяц при трёх встречах. По деньгам сопоставимо с терапевтической группой, а по нагрузке легче: клуб не требует от вас клинической включённости, он требует ведения.</p>
+  <p>Одна граница, которую стоит держать с самого начала: <strong>участник клуба — не клиент в терапии</strong>. Клуб может привести человека к вам в кабинет, но вести его одновременно в обеих ролях не нужно — вы окажетесь для него и ведущей вечеринки, и аналитиком.</p>
+
+  <p class="end">Канал <span style="font-family:var(--mono);font-size:13.5px">@psygroupchannel</span> подключён во всех трёх макетах отдельной кнопкой на первом экране. Выберите вариант — соберу его в боте на живых текстах за один заход.</p>
+</section>
+
+</div>
