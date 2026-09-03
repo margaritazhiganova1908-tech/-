@@ -1,0 +1,239 @@
+<title>Право на «нет»</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#eceeed; --surface:#f6f7f6; --sunk:#dfe3e1;
+  --ink:#16211d; --ink2:#4a5551; --ink3:#79837f;
+  --line:#ccd2cf; --line2:#b6bdb9;
+  --accent:#0f5c4a; --accent-soft:#dbe7e2;
+  --signal:#a94e26; --signal-soft:#f0e3dc;
+  --disp:"Bitter",Georgia,serif;
+  --body:"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121614; --surface:#1a201d; --sunk:#0c100e;
+    --ink:#e8ecea; --ink2:#9ba5a1; --ink3:#78827e;
+    --line:#27302c; --line2:#39433e;
+    --accent:#6fbfa5; --accent-soft:#172b25;
+    --signal:#d98a5e; --signal-soft:#2a1d16;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121614; --surface:#1a201d; --sunk:#0c100e;
+  --ink:#e8ecea; --ink2:#9ba5a1; --ink3:#78827e;
+  --line:#27302c; --line2:#39433e;
+  --accent:#6fbfa5; --accent-soft:#172b25;
+  --signal:#d98a5e; --signal-soft:#2a1d16;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.page{max-width:960px;margin:0 auto;padding:42px 22px 84px}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(32px,5.4vw,50px);line-height:1.04;
+  letter-spacing:-.02em;margin:.15em 0 .3em;text-wrap:balance}
+h2{font-family:var(--disp);font-weight:600;font-size:clamp(22px,3vw,29px);line-height:1.15;
+  letter-spacing:-.015em;margin:0 0 .55em;text-wrap:balance}
+h3{font-family:var(--body);font-weight:600;font-size:17px;margin:30px 0 10px}
+p{margin:0 0 1em;max-width:68ch}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink3);display:flex;align-items:center;gap:10px;margin:0 0 12px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+.lede{font-size:19px;line-height:1.5;color:var(--ink2);max-width:60ch}
+section{padding:0 0 56px}
+hr{border:0;border-top:1px solid var(--line);margin:0 0 44px}
+strong{font-weight:600}
+code{font-family:var(--mono);font-size:13.5px;background:var(--sunk);padding:1px 5px}
+
+/* материал из отчётов */
+.material{display:grid;gap:12px;grid-template-columns:1fr;margin:24px 0}
+@media(min-width:760px){.material{grid-template-columns:1fr 1fr}}
+.q{background:var(--surface);border-left:3px solid var(--signal);padding:14px 16px}
+.q p{font-size:15.5px;line-height:1.5;margin:0 0 8px;font-style:italic;color:var(--ink)}
+.q cite{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink3);font-style:normal}
+
+/* боли */
+.pains{counter-reset:p;list-style:none;padding:0;margin:24px 0}
+.pains li{counter-increment:p;display:grid;grid-template-columns:30px 1fr;gap:14px;
+  padding:16px 0;border-top:1px solid var(--line)}
+.pains li::before{content:counter(p);font-family:var(--mono);font-size:12px;color:var(--signal);padding-top:4px}
+.pains b{font-family:var(--disp);font-size:17px;font-weight:600;display:block;margin-bottom:4px}
+.pains span{color:var(--ink2);font-size:15px;line-height:1.5}
+
+/* таблица */
+.tw{overflow-x:auto;border:1px solid var(--line);margin:22px 0}
+table{border-collapse:collapse;width:100%;background:var(--surface);font-size:14.5px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink3);background:var(--sunk);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.tool{color:var(--accent);font-weight:500}
+td.out{color:var(--ink2)}
+
+/* модули */
+.mods{list-style:none;padding:0;margin:26px 0;counter-reset:m}
+.mods li{counter-increment:m;border-top:1px solid var(--line);padding:18px 0;
+  display:grid;gap:4px 18px;grid-template-columns:44px 1fr}
+@media(min-width:820px){.mods li{grid-template-columns:44px 1fr 250px}}
+.mods li::before{content:counter(m,decimal-leading-zero);font-family:var(--mono);font-size:12.5px;
+  color:var(--accent);padding-top:5px}
+.mods b{font-family:var(--disp);font-size:18px;font-weight:600;line-height:1.25}
+.mods .desc{color:var(--ink2);font-size:15px;line-height:1.5;grid-column:2/3}
+.mods .res{font-size:14px;line-height:1.45;color:var(--ink);background:var(--accent-soft);
+  padding:10px 12px;grid-column:2/-1}
+@media(min-width:820px){.mods .res{grid-column:3/4;grid-row:1/4;align-self:start}}
+.mods .res i{font-style:normal;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);display:block;margin-bottom:4px}
+
+.box{border:1px solid var(--line2);background:var(--surface);padding:18px 20px;margin:24px 0}
+.box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);display:block;margin-bottom:8px}
+.box.warn{border-color:var(--signal)}
+.box.warn .tag{color:var(--signal)}
+.box p:last-child{margin-bottom:0}
+.names{display:grid;gap:12px;grid-template-columns:1fr;margin:20px 0}
+@media(min-width:700px){.names{grid-template-columns:repeat(3,1fr)}}
+.name{border-top:2px solid var(--accent);padding:11px 0 0}
+.name b{font-family:var(--disp);font-size:17px;font-weight:600;display:block;margin-bottom:4px}
+.name span{font-size:14px;color:var(--ink2);line-height:1.45}
+.end{font-size:14px;color:var(--ink3);border-top:1px solid var(--line);padding-top:18px;margin-top:12px}
+</style>
+
+<div class="page">
+
+<header>
+  <p class="eyebrow">Продукт · синтез по шести супервизорским отчётам</p>
+  <h1>Право на «нет»</h1>
+  <p class="lede">Программа для тех, кого недавно повысили: из эксперта в руководителя за восемь недель. Собрана не из методичек, а из расшифровок реальных сессий 2022–2023 годов.</p>
+</header>
+
+<section>
+  <p class="eyebrow">Что в материале</p>
+  <h2>Шесть отчётов, четыре подходящих кейса</h2>
+  <p>В работу пошли клиенты, у которых роль руководителя новая или только предстоит: руководитель дошкольного направления сети «Ростум» (65 подчинённых, выросла из педагога), продакт-менеджер, ставшая лидом юнита, менеджер по платежам на пороге повышения и предприниматель, впервые нанимающий руководителей направлений. Отчёты по актрисе и бухгалтеру я отложила: там личный кризис, а не управленческий переход.</p>
+
+  <div class="material">
+    <div class="q"><p>«Я мягко всё делаю, кто-то этим пренебрегает, а у меня накапливаются негативные эмоции — и это забирает много энергии».</p><cite>Руководитель направления, 65 подчинённых</cite></div>
+    <div class="q"><p>«Я слепой, который идёт на ощупь».</p><cite>Она же, о своей роли</cite></div>
+    <div class="q"><p>«Мне дали роль лида, но не дали ментора».</p><cite>Продакт-менеджер, 28 лет</cite></div>
+    <div class="q"><p>«Сегодня в три часа отчёт с собственником. Я проснулась в три утра и не спала».</p><cite>Руководитель направления</cite></div>
+    <div class="q"><p>«Боюсь идти на повышение… Смотрю на наших руководителей — они вообще не вылазят с работы, с прибавкой всего лишь в десять тысяч».</p><cite>Менеджер, 33 года</cite></div>
+    <div class="q"><p>«Боюсь, что не хватит экспертизы в управлении хэдами».</p><cite>Предприниматель, 26 лет</cite></div>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Резюме</p>
+  <h2>Пять болей, которые повторяются во всех кейсах</h2>
+
+  <ol class="pains">
+    <li><b>Управление уговорами</b><span>Новый руководитель мотивирует энтузиазмом, объясняет, убеждает — и не требует. «Функция контроля западает». Прямо сказать нельзя, поэтому злость копится внутри и съедает ресурс. За этим стоит не нехватка навыка, а запрет на собственную агрессию: «нет» ощущается как удар по человеку.</span></li>
+    <li><b>Вчерашние равные</b><span>Старожилы саботируют изменения, бывшие коллеги не признают новую роль, администраторы транслируют своё несогласие вниз. Роль дана, а полномочия и поддержка — нет: «мне дали роль лида, но не дали ментора».</span></li>
+    <li><b>Регрессия перед начальством</b><span>На отчёте у собственника взрослый профессионал «превращается в Детское Я»: не спит ночь, теряется от незапланированного вопроса, готовится к одному — спрашивают другое. Разговор наверх пугает сильнее, чем разговор вниз.</span></li>
+    <li><b>Две работы в одной ставке</b><span>Руководитель направления остаётся методистом и ведёт найм. Лид юнита делает работу проджекта. Никто не сказал вслух, что перестало быть их работой, — поэтому не осталось времени ни на людей, ни на то, что делает только руководитель.</span></li>
+    <li><b>Сомнение в самом решении расти</b><span>«Может, не стоит уже заниматься никаким ростом?» и «зачем мне лишние проблемы за плюс десять тысяч». Цена роли не посчитана, поэтому каждая трудность читается как доказательство ошибки.</span></li>
+  </ol>
+
+  <div class="box">
+    <span class="tag">Что связывает все пять</span>
+    <p>Ни одна из этих болей не лечится знанием управленческой теории. Все пятеро знают, как надо: дать обратную связь, делегировать, обозначить границу. Не срабатывает разрешение — внутренний запрет быть тем, кто требует, отказывает и оценивает.</p>
+    <p>Отсюда точка сборки программы. В отчёте по «Ростуму» есть фраза, которая её называет: <strong>«простое слово „нет“ — это микродоза агрессии, после этого вы перестаёте быть хорошей».</strong> Программа учит выдерживать эту дозу.</p>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Матрица</p>
+  <h2>Боль → инструмент → что человек унесёт</h2>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Боль из отчётов</th><th>Инструмент</th><th>Результат недели</th></tr></thead>
+      <tbody>
+        <tr><td>Уговариваю вместо того, чтобы требовать</td><td class="tool">Разговор-отказ: три хода. Разведение «отказ» и «отвержение»</td><td class="out">Один отказ, который вы откладывали, произнесён вслух</td></tr>
+        <tr><td>Боюсь сказать прямо — сотрудник уволится</td><td class="tool">Структура прямого разговора: факт → эффект → требование → срок → проверка</td><td class="out">Обратная связь проведена, договорённость зафиксирована письменно</td></tr>
+        <tr><td>Старожилы саботируют, вчерашние равные не слушают</td><td class="tool">Карта влияния: кто выигрывает и кто теряет от изменения; отдельный разговор с неформальным лидером</td><td class="out">Список тех, с кем нужен персональный разговор, и первый такой разговор проведён</td></tr>
+        <tr><td>Теряюсь на встрече с топами, не сплю перед отчётом</td><td class="tool">Репетиция незапланированного вопроса. Легальный ход «не знаю — вернусь с ответом до пятницы»</td><td class="out">Отчёт наверх по новой схеме: три цифры, один риск, одна просьба</td></tr>
+        <tr><td>Быстрее сделать самой, чем объяснять</td><td class="tool">Матрица делегирования по цене ошибки. Правило «не переделывай — возвращай»</td><td class="out">Две задачи переданы насовсем; посчитано, сколько часов это вернуло</td></tr>
+        <tr><td>Контроль западает, а потом взрыв</td><td class="tool">Контрольные точки вместо надзора: когда, что и по какому признаку проверяем</td><td class="out">Календарь контроля на месяц, согласованный с командой</td></tr>
+        <tr><td>Делаю две работы: свою прежнюю и новую</td><td class="tool">Аудит недели по календарю: что здесь делает только руководитель</td><td class="out">Список дел, которые перестали быть вашими, — и разговор об этом с вашим руководителем</td></tr>
+        <tr><td>А стоило ли вообще идти в руководители</td><td class="tool">Цена роли: что вы теряете и что приобретаете. Коучинговая работа, не тренинг</td><td class="out">Осознанное «да» или осознанный отказ от роли — оба ответа рабочие</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <p class="eyebrow">Концепция</p>
+  <h2>Программа: восемь недель</h2>
+  <p><strong>Для кого.</strong> Руководители первого уровня, назначенные не более года назад: вчерашние эксперты, которые теперь управляют бывшими коллегами. От пяти до семидесяти подчинённых. Отдельно берём тех, кому повышение предложили и кто тянет с ответом.</p>
+  <p><strong>Формат.</strong> Группа шесть-восемь человек, восемь встреч по два часа раз в неделю, плюс две индивидуальные сессии — установочная до старта и итоговая. Между встречами — одно действие на своей реальной задаче, а не кейс из учебника.</p>
+
+  <ol class="mods">
+    <li><b>Что перестало быть вашей работой</b>
+      <span class="desc">Инвентаризация роли. Разбираем календарь недели и находим, где вы всё ещё делаете работу эксперта — и почему в ней спокойнее.</span>
+      <span class="res"><i>Артефакт</i>Список задач, которые вы отдаёте, и дата разговора об этом с вашим руководителем</span></li>
+    <li><b>Право на «нет»</b>
+      <span class="desc">Отказ как управленческий инструмент. Почему «нет» ощущается как удар и что происходит, когда вы перестаёте быть хорошим.</span>
+      <span class="res"><i>Артефакт</i>Один отказ, который вы откладывали месяцами, произнесён</span></li>
+    <li><b>Разговор, после которого остаются</b>
+      <span class="desc">Обратная связь без смягчения и без разноса. Что делать с ответной злостью, слезами и молчанием.</span>
+      <span class="res"><i>Артефакт</i>Проведённый разговор и письменная договорённость с сотрудником</span></li>
+    <li><b>Вчерашние равные</b>
+      <span class="desc">Старожилы, неформальные лидеры и те, кто саботирует тихо. Кто теряет от ваших изменений — и что с этим делать.</span>
+      <span class="res"><i>Артефакт</i>Карта влияния команды и первый персональный разговор</span></li>
+    <li><b>Делегирование без переделывания</b>
+      <span class="desc">Как отдать задачу и не забрать её обратно на третий день. Цена ошибки как критерий, что можно отпустить.</span>
+      <span class="res"><i>Артефакт</i>Две задачи переданы; посчитаны освободившиеся часы</span></li>
+    <li><b>Контроль вместо надзора</b>
+      <span class="desc">Почему «я всем доверяю» заканчивается взрывом. Контрольные точки, о которых команда знает заранее.</span>
+      <span class="res"><i>Артефакт</i>Календарь контроля на месяц, согласованный с командой</span></li>
+    <li><b>Разговор с властью</b>
+      <span class="desc">Отчёт наверх без бессонной ночи. Что делать с вопросом, к которому вы не готовились, и как перестать регрессировать перед собственником.</span>
+      <span class="res"><i>Артефакт</i>Схема отчёта: три цифры, один риск, одна просьба — применена на реальной встрече</span></li>
+    <li><b>Цена роли</b>
+      <span class="desc">Что вы теряете, становясь руководителем, и готовы ли платить. Индивидуальная сессия, а не групповая: этот разговор не для всех.</span>
+      <span class="res"><i>Артефакт</i>План на девяносто дней и честный ответ на вопрос, ваша ли это роль</span></li>
+  </ol>
+
+  <div class="box">
+    <span class="tag">Чем это отличается от школы менеджмента</span>
+    <p>Управленческие курсы дают инструменты людям, которые их уже знают. Эта программа работает с тем, что мешает применять известное: с запретом требовать, с виной за повышение, с регрессией перед начальством. Отсюда и группа — в ней видно то, чего не видно в кабинете: как человек занимает место, кого выбирает, от кого закрывается.</p>
+  </div>
+
+  <h3>Название</h3>
+  <div class="names">
+    <div class="name"><b>Право на «нет»</b><span>Основное. Выросло из реальной интервенции в сессии и покрывает четыре боли из пяти</span></div>
+    <div class="name"><b>Из эксперта в руководителя</b><span>Понятнее для корпоративного заказчика, слабее для человека</span></div>
+    <div class="name"><b>Первые сто дней</b><span>Точное по срокам, но занятое: так называются десятки программ</span></div>
+  </div>
+
+  <h3>Экономика</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Вариант</th><th>Что входит</th><th>Цена</th></tr></thead>
+      <tbody>
+        <tr><td>Открытый набор</td><td>8 групповых встреч, 2 индивидуальные сессии, материалы</td><td>48 000 ₽ с человека</td></tr>
+        <tr><td>Корпоративный</td><td>Та же программа для группы до 8 человек одной компании, плюс отчёт заказчику без имён</td><td>от 420 000 ₽ за группу</td></tr>
+        <tr><td>Диагностика</td><td>Одна встреча для тех, кто сомневается, нужна ли программа</td><td>6 000 ₽, засчитывается в оплату</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Группа из семи человек — 336 000 ₽ за восемь недель при примерно тридцати ваших часах с подготовкой. Это дороже терапевтической группы и продаётся легче: у программы есть измеримый результат и корпоративный бюджет, из которого её оплачивают.</p>
+
+  <div class="box warn">
+    <span class="tag">Две оговорки</span>
+    <p>Первая: все цитаты в этом документе — из ваших супервизорских отчётов. Для публичных материалов их нужно обезличить сильнее: «руководитель дошкольного направления сети образовательных центров» опознаётся в своём городе за минуту.</p>
+    <p>Вторая: программа обещает конкретные действия — проведённый разговор, переданные задачи. Это сильное обещание, и оно требует от вас удерживать группу в делании, а не только в осознавании. Именно здесь такие программы обычно рассыпаются.</p>
+  </div>
+
+  <p class="end">Материал: отчёты по клиентам «Ростум», «Доступный коучинг» и корпоративной работе, 2022–2023. Курсы, которые вы называли эталоном упаковки, в анализ не входили — доступа к ним у меня нет.</p>
+</section>
+
+</div>
