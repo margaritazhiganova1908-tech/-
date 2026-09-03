@@ -115,6 +115,44 @@
   .item:hover .t,.item:focus-visible .t{color:var(--mark-color-hover,var(--ink))}
   .item:focus-visible,.close:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
+
+  /* ---------- стартовый экран «Разметка» ---------- */
+  .mk{position:relative;margin:-18px -20px 0;height:454px;overflow:hidden;background:#cfcfcb}
+  .mk-photo{position:absolute;inset:0}
+  .mk-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.04)}
+  .mk-photo svg{width:100%;height:100%;display:block}
+  .mk-stub{position:absolute;right:8px;top:52%;font-family:var(--label);font-size:8px;
+    letter-spacing:.16em;text-transform:uppercase;color:#5c5f66;opacity:.7;
+    transform:rotate(90deg);transform-origin:right top}
+  .mk-hud{position:absolute;left:20px;right:20px;top:16px;display:flex;justify-content:space-between;
+    font-family:var(--label);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#3d3f45}
+  .mk-frame{position:absolute;border:1.4px solid var(--ink)}
+  .mk-frame.dashed{border-style:dashed}
+  .mk-tag{position:absolute;font-family:var(--label);font-size:8.5px;letter-spacing:.12em;
+    text-transform:uppercase;background:var(--ink);color:#f5f4ef;padding:3px 6px;white-space:nowrap}
+  .mk-pop{position:absolute;left:50%;transform:translateX(-50%);top:206px;display:flex;
+    background:#2a2c31;border-radius:10px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.3);z-index:3}
+  .mk-pop button{background:none;border:0;color:#fff;font-family:var(--body);font-size:12px;
+    padding:9px 12px;cursor:pointer;white-space:nowrap}
+  .mk-pop button + button{border-left:1px solid #43464d}
+  .mk-pop button:active{background:#3b3e45}
+  .mk-quote{position:absolute;left:16px;right:16px;top:258px;z-index:2}
+  .mk-quote mark{background:var(--accent);color:var(--ink);font-size:17px;font-weight:600;
+    line-height:1.75;padding:2px 5px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .mk-dot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--accent);
+    border:1.5px solid var(--ink);z-index:3}
+  .mk-club{position:absolute;left:16px;right:16px;bottom:14px;background:rgba(245,244,239,.94);
+    border:1px solid var(--ink);padding:12px 14px;cursor:pointer;text-align:left;z-index:2;
+    font-family:var(--body);color:var(--ink);width:calc(100% - 32px)}
+  .mk-club b{font-family:var(--label);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);display:block;margin-bottom:8px}
+  .mk-club .li{display:flex;justify-content:space-between;font-size:13px;padding:3px 0}
+  .mk-club .li i{font-style:normal;font-family:var(--label);font-size:9px;color:var(--muted)}
+  .mk-lead{font-size:15px;line-height:1.5;color:var(--ink);opacity:.8;margin:20px 0 6px}
+  .chan{flex:0 0 auto;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);
+    border-radius:var(--radius);padding:0 18px;font-family:var(--contrast);font-size:14px;
+    font-weight:600;text-decoration:none}
+  .chan[hidden]{display:none}
   .bottom{flex:0 0 auto;padding:10px 20px calc(10px + env(safe-area-inset-bottom));
     background:var(--paper);box-shadow:0 -14px 18px -6px var(--paper)}
   .navrow{display:flex;gap:10px;align-items:stretch}
@@ -153,6 +191,7 @@
         <span class="lbl" id="nextLabel">дальше →</span>
         <span class="hint" id="nextHint"></span>
       </button>
+      <a class="chan" id="chan" target="_blank" rel="noopener" hidden>Канал</a>
     </div>
     <div class="ctaline"><span id="ctaPrefix"></span> <button id="cta"></button></div>
     <div class="foot" id="foot"></div>
@@ -204,6 +243,24 @@
       label: '"Manrope",-apple-system,"Helvetica Neue",Arial,sans-serif',
       contrast: '"Manrope",-apple-system,"Helvetica Neue",Arial,sans-serif',
       fonts: 'https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;500;600&family=Golos+Text:wght@400;500&display=swap',
+    },
+
+    // «Разметка»: фото, рамки распознавания, жёлтый маркер, всплывающее меню
+    markup: {
+      accent: '#ffe500', accentInk: '#15161a',
+      ink: '#15161a', paper: '#e6e6e3', muted: '#5c5f66', line: '#c9c9c4', card: '#f5f4ef',
+      radius: '8px', chipRadius: '0px', badgeRadius: '0px',
+      chipBg: 'transparent', chipColor: '#5c5f66', chipSize: '11px',
+      barDone: '#c2c2bd', barNow: '#15161a',
+      markBg: '#ffe500', markPad: '0 5px',
+      titleSize: '8.8vw', titleCase: 'none', titleWeight: '700', titleTrack: '-.025em', titleLh: '1.15',
+      quoteStyle: 'normal', labelCase: 'uppercase', labelTrack: '.14em', labelSize: '10px',
+      display: '"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif',
+      body: '"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif',
+      label: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
+      contrast: '"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif',
+      chipFont: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
+      fonts: 'https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap',
     },
 
     // «Кабинет»: бумага, машинописный шрифт, ноль скруглений, красный карандаш
@@ -277,11 +334,52 @@
   function sec() { return deck.sections[si]; }
 
   /* ---------- меню ---------- */
+  // силуэт вместо фото, пока фото нет
+  var SILHOUETTE = '<svg viewBox="0 0 340 454" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+    '<defs><linearGradient id="sil" x1="0" y1="0" x2="0" y2="1">' +
+    '<stop offset="0" stop-color="#c9c9c5"/><stop offset="1" stop-color="#a8a8a3"/></linearGradient></defs>' +
+    '<rect width="340" height="454" fill="url(#sil)"/>' +
+    '<ellipse cx="176" cy="150" rx="64" ry="80" fill="#8d8d88"/>' +
+    '<path d="M76 454c0-104 45-166 100-166s100 62 100 166z" fill="#8d8d88"/></svg>';
+
+  function renderMarkupHero(m) {
+    var photo = (deck.brand && deck.brand.photo)
+      ? '<img src="' + esc(deck.brand.photo) + '" alt="">'
+      : SILHOUETTE + '<span class="mk-stub">ваше фото</span>';
+    var pop = (m.pop || []).map(function (x, k) {
+      return '<button type="button" data-go="' + esc(x.section) + '">' + esc(x.label) + '</button>';
+    }).join('');
+    var club = deck.sections.filter(function (x) { return x.id === 'club'; })[0];
+    var clubRows = (m.club || []).map(function (it) {
+      return '<span class="li"><span>' + esc(it.label) + '</span><i>' + esc(it.when) + '</i></span>';
+    }).join('');
+
+    return '<div class="mk">' +
+      '<div class="mk-photo">' + photo + '</div>' +
+      '<div class="mk-hud"><span>' + esc(m.title || '') + ' / 2026</span><span>' + esc(m.hud || '') + '</span></div>' +
+      '<div class="mk-frame" style="left:104px;top:56px;width:144px;height:176px"></div>' +
+      '<div class="mk-tag" style="left:104px;top:34px">' + esc(m.name || '') + '</div>' +
+      '<div class="mk-tag" style="left:20px;top:66px">' + esc(m.note || '') + '</div>' +
+      '<div class="mk-pop">' + pop + '</div>' +
+      '<div class="mk-quote"><mark>' + esc(m.tagline || '') + '</mark></div>' +
+      '<div class="mk-dot" style="left:6px;top:272px"></div>' +
+      '<div class="mk-dot" style="right:6px;top:330px"></div>' +
+      (club ? '<button class="mk-club" type="button" data-go="club">' +
+        '<b>' + esc(club.title) + ' · по подписке</b>' + clubRows + '</button>' : '') +
+      '</div>';
+  }
+
   function renderHome() {
     var m = deck.menu || {};
+    var markup = deck.brand && deck.brand.homeStyle === 'markup';
     var h = '<div class="home">';
-    if (m.title) h += '<h1>' + rich(m.title) + '</h1>';
-    if (m.lead) h += '<p class="lead">' + rich(m.lead) + '</p>';
+    if (markup) {
+      h += renderMarkupHero(m);
+      if (m.lead) h += '<p class="mk-lead">' + rich(m.lead) + '</p>';
+    } else {
+      if (m.title) h += '<h1>' + rich(m.title) + '</h1>';
+      if (m.lead) h += '<p class="lead">' + rich(m.lead) + '</p>';
+    }
     h += '<div class="menu">';
     deck.sections.forEach(function (s, k) {
       h += '<button class="item" type="button" data-s="' + k + '">' +
@@ -306,6 +404,18 @@
     Array.prototype.forEach.call($('view').querySelectorAll('.item'), function (b) {
       b.onclick = function () { openSection(+b.dataset.s); };
     });
+    Array.prototype.forEach.call($('view').querySelectorAll('[data-go]'), function (b) {
+      b.onclick = function () {
+        var k = deck.sections.findIndex(function (x) { return x.id === b.dataset.go; });
+        if (k >= 0) openSection(k);
+      };
+    });
+    var chan = $('chan');
+    if (deck.brand && deck.brand.channel) {
+      chan.href = deck.brand.channel;
+      chan.textContent = (deck.menu && deck.menu.channelLabel) || 'Канал';
+      chan.hidden = false;
+    }
   }
 
   /* ---------- слайд ---------- */
@@ -347,6 +457,7 @@
     $('closeLabel').textContent = 'разделы';
     $('back').hidden = false;
     $('back').disabled = false;
+    $('chan').hidden = true;
 
     var last = i === s.slides.length - 1;
     var toLead = last && s.end === 'lead';
