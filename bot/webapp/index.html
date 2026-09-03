@@ -116,6 +116,26 @@
   .item:focus-visible,.close:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 
+  /* ---------- ревизия роли ---------- */
+  .qz .num{font-family:var(--label);font-size:var(--label-size);letter-spacing:var(--label-track);
+    text-transform:var(--label-case);color:var(--muted);margin:0 0 14px}
+  .qz h2{font-family:var(--display);font-size:23px;line-height:1.3;font-weight:600;
+    letter-spacing:-.015em;margin:0 0 22px;text-wrap:balance}
+  .opts{display:grid;gap:8px}
+  .opt{text-align:left;width:100%;background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:15px 16px;font-family:var(--body);font-size:15.5px;
+    color:var(--ink);cursor:pointer;line-height:1.35}
+  .opt:active{background:var(--accent);color:var(--accent-ink)}
+  .res-hours{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--ink);
+    padding-bottom:14px;margin-bottom:8px}
+  .res-hours b{font-family:var(--display);font-size:56px;line-height:1;font-weight:700;
+    letter-spacing:-.04em;background:var(--accent);color:var(--accent-ink);padding:0 8px}
+  .res-hours span{font-size:14px;color:var(--muted);line-height:1.35}
+  .res-note{font-size:13px;color:var(--muted);line-height:1.45;margin:0 0 26px}
+  .res-name{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.02em;margin:6px 0 10px}
+  .gift{width:100%;background:var(--accent);color:var(--accent-ink);border:0;border-radius:var(--radius);
+    padding:16px;font-family:var(--contrast);font-size:15.5px;font-weight:600;cursor:pointer;margin-top:8px}
+
   /* ---------- стартовый экран «Разметка» ---------- */
   .mk{position:relative;margin:-18px -20px 0;height:454px;overflow:hidden;background:#cfcfcb}
   .mk-photo{position:absolute;inset:0}
@@ -472,8 +492,118 @@
     send({ action: 'progress', section: s.id, slide: i + 1, total: s.slides.length });
   }
 
-  function openSection(k) { si = k; i = 0; view = 'deck'; haptic('light'); renderSlide(); }
-  function toHome() { view = 'home'; haptic('light'); renderHome(); }
+  /* ---------- ревизия роли ---------- */
+  var qz = { step: -1, answers: [] };
+
+  function quizIntro() {
+    var q = sec(), t = q.intro;
+    $('view').innerHTML = '<div class="qz">' +
+      '<div class="num">' + esc(t.kicker || '') + '</div>' +
+      '<h1>' + rich(t.title) + (t.title2 ? '<br>' + esc(t.title2) : '') + '</h1>' +
+      '<p class="lead">' + rich(t.lead) + '</p></div>';
+    $('scroll').scrollTop = 0;
+    $('bars').hidden = true;
+    $('where').textContent = q.title;
+    $('closeLabel').textContent = 'разделы';
+    $('chan').hidden = true;
+    $('back').hidden = false;
+    document.querySelector('.navrow').hidden = false;
+    document.querySelector('.ctaline').style.visibility = 'hidden';
+    $('nextLabel').textContent = t.start || 'Начать';
+    $('nextHint').textContent = q.questions.length + ' вопросов';
+  }
+
+  function quizQuestion() {
+    var q = sec(), item = q.questions[qz.step];
+    $('view').innerHTML = '<div class="qz">' +
+      '<div class="num">' + pad(qz.step + 1) + ' / ' + pad(q.questions.length) + '</div>' +
+      '<h2>' + esc(item.q) + '</h2><div class="opts">' +
+      item.options.map(function (o, k) {
+        return '<button class="opt" type="button" data-a="' + k + '">' + esc(o.l) + '</button>';
+      }).join('') + '</div></div>';
+    $('scroll').scrollTop = 0;
+
+    var bars = '';
+    for (var k = 0; k < q.questions.length; k++) {
+      bars += '<div class="bar ' + (k < qz.step ? 'done' : k === qz.step ? 'now' : '') + '"></div>';
+    }
+    $('bars').innerHTML = bars;
+    $('bars').hidden = false;
+    $('where').textContent = q.title;
+    document.querySelector('.navrow').hidden = true;
+    document.querySelector('.ctaline').style.visibility = 'hidden';
+
+    Array.prototype.forEach.call($('view').querySelectorAll('.opt'), function (b) {
+      b.onclick = function () {
+        qz.answers[qz.step] = item.options[+b.dataset.a];
+        haptic('light');
+        qz.step++;
+        qz.step < q.questions.length ? quizQuestion() : quizResult();
+      };
+    });
+  }
+
+  function quizResult() {
+    var q = sec(), r = q.result;
+    var hours = 0, score = {};
+    qz.answers.forEach(function (a) {
+      if (!a) return;
+      if (a.t === 'expert') hours += a.h;
+      score[a.t] = (score[a.t] || 0) + a.h;
+    });
+    var order = ['no', 'expert', 'up', 'peers', 'doubt'], best = 'no', top = -1;
+    order.forEach(function (t) { if ((score[t] || 0) > top) { top = score[t] || 0; best = t; } });
+    var pr = q.profiles[best];
+
+    $('view').innerHTML = '<div class="qz">' +
+      '<div class="num">' + esc(r.kicker) + '</div>' +
+      '<p class="lead" style="margin-bottom:10px">' + esc(r.hours) + '</p>' +
+      '<div class="res-hours"><b>' + hours + '</b><span>' + esc(r.unit) + '</span></div>' +
+      '<p class="res-note">' + esc(r.disclaimer) + '</p>' +
+      '<div class="section">' + esc(r.profileLabel) + '</div>' +
+      '<div class="res-name">' + esc(pr.name) + '</div>' +
+      '<p class="lead">' + esc(pr.text) + '</p>' +
+      '<div class="section">' + esc(r.stepsLabel) + '</div>' +
+      '<ol class="steps">' + pr.steps.map(function (x, k) {
+        return '<li><span class="n">' + pad(k + 1) + '</span><div><div class="q">' + esc(x) + '</div></div></li>';
+      }).join('') + '</ol>' +
+      '<button class="gift" type="button" id="gift">' + esc(r.giftLabel) + '</button>' +
+      '</div>';
+    $('scroll').scrollTop = 0;
+    $('bars').hidden = true;
+    document.querySelector('.navrow').hidden = false;
+    $('nextLabel').textContent = r.bookLabel || 'Записаться';
+    $('nextHint').textContent = '';
+    document.querySelector('.ctaline').style.visibility = 'hidden';
+    send({ action: 'quiz', profile: pr.name, key: best, hours: hours });
+    $('gift').onclick = function () {
+      haptic('medium');
+      var ok = send({ action: 'gift', profile: pr.name });
+      if (ok && tg && tg.close) setTimeout(function () { tg.close(); }, 150);
+    };
+  }
+
+  function quizStep() {
+    if (qz.step < 0) return quizIntro();
+    if (qz.step < sec().questions.length) return quizQuestion();
+    return quizResult();
+  }
+
+  function openSection(k) {
+    si = k; i = 0; haptic('light');
+    if (deck.sections[k].type === 'quiz') {
+      view = 'quiz'; qz = { step: -1, answers: [] };
+      if (tg && tg.BackButton) tg.BackButton.show();
+      return quizStep();
+    }
+    view = 'deck';
+    renderSlide();
+  }
+  function toHome() {
+    view = 'home'; haptic('light');
+    document.querySelector('.navrow').hidden = false;
+    renderHome();
+  }
   function go(step) {
     var s = sec(), n = i + step;
     if (n < 0) return toHome();
@@ -492,8 +622,15 @@
   }
 
   function bind() {
-    $('back').onclick = function () { go(-1); };
+    $('back').onclick = function () {
+      if (view === 'quiz') { qz.step--; return qz.step < -1 ? toHome() : quizStep(); }
+      go(-1);
+    };
     $('next').onclick = function () {
+      if (view === 'quiz') {
+        if (qz.step < 0) { qz.step = 0; return quizQuestion(); }
+        return submit('quiz');
+      }
       if (view === 'home') return submit('menu');
       var s = sec(), last = i === s.slides.length - 1;
       if (!last) return go(1);
@@ -501,10 +638,14 @@
     };
     $('cta').onclick = function () { submit(view === 'home' ? 'menu_line' : sec().id + '_line'); };
     $('close').onclick = function () {
-      if (view === 'deck') return toHome();
+      if (view === 'deck' || view === 'quiz') return toHome();
       if (tg && tg.close) tg.close(); else window.close();
     };
-    if (tg && tg.BackButton) tg.BackButton.onClick(function () { view === 'deck' ? go(-1) : tg.close(); });
+    if (tg && tg.BackButton) tg.BackButton.onClick(function () {
+      if (view === 'deck') return go(-1);
+      if (view === 'quiz') return toHome();
+      tg.close();
+    });
 
     document.addEventListener('keydown', function (e) {
       if (view !== 'deck') return;

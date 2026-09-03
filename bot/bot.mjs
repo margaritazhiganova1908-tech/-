@@ -257,8 +257,18 @@ async function onStats(msg) {
     '',
     'разделы мини-аппа:',
     ...content.sections.map((s) => `  ${s.title}: ${bySection[s.id] || 0}`),
+    '',
+    `прошли ревизию роли: ${users.filter((u) => u.profile).length}`,
+    ...profileRows(users),
+    `забрали гайд: ${users.filter((u) => u.gift).length}`,
   ].join('\n'));
 }
+function profileRows(users) {
+  const by = {};
+  for (const u of users) if (u.profile) by[u.profile] = (by[u.profile] || 0) + 1;
+  return Object.entries(by).map(([name, n]) => `  ${name}: ${n}`);
+}
+
 async function onLeads(msg) {
   const last = state.leads.slice(-10).reverse();
   if (!last.length) return send(msg.chat.id, 'заявок пока нет');
@@ -302,6 +312,31 @@ async function onWebAppData(msg) {
     return;
   }
   if (data.action === 'lead') return onBook(msg.chat.id, msg.from, 'мини-апп: ' + data.source);
+
+  if (data.action === 'quiz') {
+    rec.profile = data.profile;
+    rec.profileKey = data.key;
+    rec.hours = data.hours;
+    save();
+    await send(msg.chat.id,
+      `ваш результат: ${data.hours} ч в неделю на работу, переставшую быть вашей.\nчто мешает больше остального — «${data.profile}».\n\nгайд с готовыми формулировками отказа — по кнопке ниже.`,
+      { inline_keyboard: [[{ text: flow().buttons.gift, callback_data: 'gift' }],
+                          [{ text: flow().buttons.book, callback_data: 'book' }]] });
+    await notifyAdmin(`ревизия роли · ${who(msg.from)}\nпрофиль: ${data.profile}\nчасов: ${data.hours}`);
+    return;
+  }
+
+  if (data.action === 'gift') return sendGift(msg.chat.id, msg.from);
+}
+
+async function sendGift(chatId, from) {
+  const rec = user(from);
+  rec.gift = true;
+  save();
+  const g = flow().gift;
+  await send(chatId, `${g.title.toUpperCase()}\n\n${g.text}`,
+    { inline_keyboard: [[{ text: flow().buttons.book, callback_data: 'book' }]] });
+  await notifyAdmin(`забрал(а) гайд: ${who(from)}${rec.profile ? ' · ' + rec.profile : ''}`);
 }
 
 /* ---------- маршрутизация ---------- */
@@ -313,6 +348,7 @@ async function onCallback(q) {
   if (d.startsWith('b:')) return onBranch(q, d.slice(2));
   if (d.startsWith('a:')) { const [, b, s, o] = d.split(':'); return onAnswer(q, b, s, o); }
   if (d === 'book') return onBook(chatId, q.from, 'кнопка в чате');
+  if (d === 'gift') return sendGift(chatId, q.from);
   if (d === 'ask') return askQuestion(chatId, q.from);
   if (d === 'consent:on') {
     const rec = user(q.from); rec.consent = true; save();
