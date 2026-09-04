@@ -1,0 +1,1318 @@
+<title>Дорожная карта GASTRO 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&family=Golos+Text:wght@400;600;700;800&family=Literata:opsz,wght@7..72,400;7..72,600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --ink:#0A0A0A; --panel:#131313; --panel-2:#1A1A1A; --panel-3:#212121;
+  --line:#2C2C2C; --line-soft:#1F1F1F;
+  --text:#F4F2ED; --muted:#A5A19A; --muted-2:#6E6A64;
+  --acc:#F2CE0C; --acc-ink:#0A0A0A; --acc-dim:rgba(242,206,12,.13); --acc-line:rgba(242,206,12,.42);
+  --alarm:#E5484D; --alarm-dim:rgba(229,72,77,.15); --alarm-text:#FF9296;
+  --paper:#EDEAE3;
+  --f-display:'Archivo','Golos Text','Helvetica Neue',Arial,sans-serif;
+  --f-text:'Literata',Georgia,'Times New Roman',serif;
+  --f-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --r:4px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{background:var(--ink);color:var(--text);font-family:var(--f-text);font-size:14px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+h1,h2,h3,h4,.dsp{font-family:var(--f-display);font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* ---------- каркас ---------- */
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+.rail{background:var(--panel);border-right:1px solid var(--line);position:sticky;top:0;height:100vh;
+  overflow:auto;display:flex;flex-direction:column;padding:20px 12px 14px}
+.mark{margin:0 8px 20px}
+.mark .badge{display:inline-block;background:var(--acc);color:var(--acc-ink);font-family:var(--f-display);
+  font-weight:800;font-size:19px;letter-spacing:.14em;padding:5px 10px 4px;line-height:1}
+.mark p{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted-2);margin-top:9px;line-height:1.5}
+.nav{display:flex;flex-direction:column;gap:1px}
+.nav h5{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted-2);padding:14px 10px 5px;font-weight:500}
+.nav h5:first-child{padding-top:0}
+.nav button{display:flex;align-items:center;gap:9px;padding:8px 10px;font-family:var(--f-display);
+  font-size:13px;font-weight:600;color:var(--muted);text-align:left;border-left:2px solid transparent}
+.nav button:hover{color:var(--text);background:var(--panel-2)}
+.nav button[aria-current="true"]{color:var(--acc);border-left-color:var(--acc);background:var(--panel-2)}
+.nav .c{margin-left:auto;font-family:var(--f-mono);font-size:10px;color:var(--muted-2)}
+.nav .c.hot{color:var(--alarm)}
+.rail-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--line-soft);
+  font-family:var(--f-mono);font-size:9.5px;color:var(--muted-2);line-height:1.7;padding-left:10px}
+.rail-foot .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--muted-2);margin-right:6px}
+.rail-foot .dot.live{background:var(--acc)}
+
+.main{min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:40;background:var(--ink);border-bottom:1px solid var(--line);
+  padding:18px 28px 14px;display:flex;align-items:flex-end;gap:28px;flex-wrap:wrap}
+.top h1{font-size:24px;line-height:1.1;text-transform:uppercase}
+.top .sub{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted-2);margin-top:6px}
+.top .st{margin-left:auto;display:flex;gap:26px;flex-wrap:wrap}
+.st > div{display:flex;flex-direction:column;gap:3px}
+.st span{font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
+.st b{font-family:var(--f-display);font-size:21px;line-height:1;font-variant-numeric:tabular-nums}
+.st b.acc{color:var(--acc)} .st b.al{color:var(--alarm)}
+.view{padding:24px 28px 80px;max-width:1500px}
+.view[hidden]{display:none}
+
+/* ---------- примитивы ---------- */
+.panel{background:var(--panel);border:1px solid var(--line-soft);padding:20px;border-radius:var(--r)}
+.h-sec{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted-2);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.h-sec::after{content:"";flex:1;height:1px;background:var(--line-soft)}
+.lead{font-size:15px;line-height:1.65;max-width:74ch;color:var(--text)}
+.dim{color:var(--muted)}
+.grid{display:grid;gap:14px}
+.grid>*{min-width:0}
+.two{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:start}
+.two>*{min-width:0}
+.scroll-x{overflow-x:auto;overscroll-behavior-x:contain}
+.tag{display:inline-flex;align-items:center;gap:5px;font-family:var(--f-mono);font-size:9.5px;
+  letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border:1px solid var(--line);
+  color:var(--muted);white-space:nowrap;border-radius:2px}
+.tag.acc{border-color:var(--acc-line);color:var(--acc);background:var(--acc-dim)}
+.tag.al{border-color:var(--alarm);color:var(--alarm-text);background:var(--alarm-dim)}
+.tag.solid{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.btn{font-family:var(--f-display);font-size:12.5px;font-weight:700;padding:8px 14px;
+  border:1px solid var(--line);color:var(--text);border-radius:2px;transition:border-color .12s,color .12s}
+.btn:hover{border-color:var(--acc);color:var(--acc)}
+.btn.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.btn.on:hover{color:var(--acc-ink)}
+.btn.sm{font-size:11px;padding:5px 10px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+select,input[type=text],input[type=date],textarea{background:var(--panel-2);border:1px solid var(--line);
+  padding:7px 9px;font-size:13px;border-radius:2px;font-family:var(--f-text)}
+input[type=date],select{font-family:var(--f-mono);font-size:12px}
+textarea{resize:vertical;line-height:1.5}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-family:var(--f-mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted-2);font-weight:500;padding:9px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top;font-size:13px}
+tr:last-child td{border-bottom:0}
+.src{font-family:var(--f-mono);font-size:9.5px;color:var(--muted-2);letter-spacing:.03em}
+.note{border-left:2px solid var(--acc);background:var(--panel-2);padding:12px 14px;font-size:13px;
+  line-height:1.6;color:var(--muted)}
+.note.al{border-left-color:var(--alarm)}
+.empty{padding:34px;text-align:center;color:var(--muted-2);border:1px dashed var(--line);font-size:13px}
+</style>
+<style>
+/* ---------- статусы ---------- */
+.s-new{border:1px solid var(--line);color:var(--muted)}
+.s-wip{background:var(--acc);color:var(--acc-ink);border:1px solid var(--acc)}
+.s-risk{background:var(--acc-dim);border:1px solid var(--acc-line);color:var(--acc)}
+.s-block{background:var(--alarm-dim);border:1px solid var(--alarm);color:var(--alarm-text)}
+.s-done{background:var(--paper);color:var(--ink);border:1px solid var(--paper)}
+.s-drop{border:1px dashed var(--line);color:var(--muted-2);text-decoration:line-through}
+
+/* ---------- горизонты ---------- */
+.hz{border:1px solid var(--line);border-radius:var(--r);margin-bottom:16px;background:var(--panel);overflow:hidden}
+.hz-h{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;
+  padding:16px 20px;background:var(--panel-2);border-bottom:1px solid var(--line);cursor:pointer}
+.hz-h:hover{background:var(--panel-3)}
+.hz-id{font-family:var(--f-display);font-size:26px;font-weight:800;color:var(--acc);line-height:1;letter-spacing:0}
+.hz-t h3{font-size:16px;line-height:1.2}
+.hz-t .p{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted-2);margin-top:5px}
+.hz-m{display:flex;align-items:center;gap:14px}
+.meter{width:132px}
+.meter .bar{height:5px;background:var(--panel-3);border-radius:0;overflow:hidden}
+.meter .bar i{display:block;height:100%;background:var(--acc);transition:width .35s}
+.meter .lb{font-family:var(--f-mono);font-size:9.5px;color:var(--muted-2);margin-top:5px;display:flex;
+  justify-content:space-between;letter-spacing:.05em}
+.hz-gate{padding:13px 20px;border-bottom:1px solid var(--line-soft);background:var(--panel);
+  font-size:12.5px;color:var(--muted);display:flex;gap:10px;align-items:baseline}
+.hz-gate b{font-family:var(--f-mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted-2);white-space:nowrap}
+.hz-body{padding:4px 0}
+
+/* ---------- строка задачи ---------- */
+.t-row{display:grid;grid-template-columns:34px 1fr 128px 96px 118px;gap:14px;align-items:start;
+  padding:13px 20px;border-bottom:1px solid var(--line-soft);cursor:pointer}
+.t-row:last-child{border-bottom:0}
+.t-row:hover{background:var(--panel-2)}
+.t-row.sel{background:var(--panel-2);box-shadow:inset 2px 0 0 var(--acc)}
+.t-n{font-family:var(--f-mono);font-size:10px;color:var(--muted-2);padding-top:3px}
+.t-t{font-size:13.5px;line-height:1.45}
+.t-t .added{color:var(--acc);font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;margin-left:6px}
+.t-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.t-blk{margin-top:7px;font-size:12px;color:var(--alarm-text);display:flex;gap:7px;align-items:baseline}
+.t-blk b{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.t-own{font-size:12px;color:var(--muted);line-height:1.4}
+.t-own span{display:block;font-family:var(--f-mono);font-size:9.5px;color:var(--muted-2);margin-top:3px}
+.t-due{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.t-due.late{color:var(--alarm)}
+.t-due span{display:block;font-size:9px;color:var(--muted-2);margin-top:3px;letter-spacing:.06em}
+.t-st{display:flex;justify-content:flex-end}
+.t-st .chip{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 8px;border-radius:2px;white-space:nowrap}
+
+/* ---------- фильтры ---------- */
+.filters{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;padding:15px 18px;
+  background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r)}
+.frow{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.frow>label{font-family:var(--f-mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted-2);width:82px;flex:0 0 auto}
+.chipb{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  padding:5px 9px;border:1px solid var(--line);color:var(--muted);border-radius:2px}
+.chipb:hover{border-color:var(--muted);color:var(--text)}
+.chipb[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.chipb .n{opacity:.6;margin-left:5px}
+
+/* ---------- панель задачи ---------- */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:60}
+.dw{position:fixed;top:0;right:0;bottom:0;width:min(480px,95vw);background:var(--panel);z-index:61;
+  border-left:1px solid var(--line);overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:18px}
+.dw h2{font-size:19px;line-height:1.3}
+.fld{display:flex;flex-direction:column;gap:7px}
+.fld>label{font-family:var(--f-mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-2)}
+.stpick{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.stpick button{font-family:var(--f-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;
+  padding:9px 4px;border-radius:2px}
+.dw .req{color:var(--alarm-text);font-size:11.5px;font-family:var(--f-mono)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;font-size:12.5px}
+.kv dt{font-family:var(--f-mono);font-size:9px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted-2);padding-top:3px;white-space:nowrap}
+.kv dd{color:var(--text)}
+.linkrow{display:flex;gap:6px;flex-wrap:wrap}
+
+/* ---------- монтаж ---------- */
+.tl{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+.tl-h{display:grid;background:var(--panel-2);border-bottom:1px solid var(--line)}
+.tl-h>div{padding:9px 6px;font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted-2);text-align:center;border-left:1px solid var(--line-soft)}
+.tl-h>div:first-child{text-align:left;padding-left:16px;border-left:0}
+.tl-h>div.d0{color:var(--acc)}
+.tl-r{display:grid;border-top:1px solid var(--line-soft);min-height:40px;align-items:center}
+.tl-r:hover{background:var(--panel-2)}
+.tl-n{padding:9px 10px 9px 16px;font-size:12.5px;line-height:1.35}
+.tl-n span{display:block;font-family:var(--f-mono);font-size:9px;color:var(--muted-2);margin-top:3px}
+.tl-t{grid-column:2/-1;position:relative;min-height:40px}
+.tl-c{position:absolute;inset:0;display:grid;pointer-events:none}
+.tl-c i{border-left:1px solid var(--line-soft)}
+.tl-c i.d0{background:var(--acc-dim);border-left-color:var(--acc-line)}
+.tl-b{position:absolute;top:50%;transform:translateY(-50%);height:19px;border-radius:2px;
+  display:flex;align-items:center;padding:0 8px;font-family:var(--f-mono);font-size:9.5px;
+  white-space:nowrap;overflow:hidden}
+
+/* ---------- прочее ---------- */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px}
+.kcard{border:1px solid var(--line-soft);background:var(--panel);padding:15px 16px;border-radius:var(--r);
+  display:flex;flex-direction:column;gap:8px}
+.kcard .l{font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
+.kcard .v{font-family:var(--f-display);font-size:29px;font-weight:800;line-height:.95;font-variant-numeric:tabular-nums}
+.kcard .v.acc{color:var(--acc)} .kcard .v.al{color:var(--alarm)}
+.kcard .s{font-size:11.5px;color:var(--muted-2);line-height:1.45}
+.bn{border:1px solid var(--line-soft);background:var(--panel);border-radius:var(--r);padding:17px;
+  border-left:2px solid var(--muted-2)}
+.bn.crit{border-left-color:var(--alarm)}
+.bn.mid{border-left-color:var(--acc)}
+.bn h4{font-size:15px;line-height:1.3;margin:8px 0 8px}
+.bn p{font-size:13px;color:var(--muted);line-height:1.6}
+.bn .fix{margin-top:12px;padding-top:12px;border-top:1px solid var(--line-soft);font-size:13px}
+.bn .fix b{display:block;font-family:var(--f-mono);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted-2);margin-bottom:6px}
+.diff{border:1px solid var(--alarm);background:var(--alarm-dim);padding:14px 16px;border-radius:var(--r)}
+.diff b{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--alarm-text);display:block;margin-bottom:8px}
+.exp{width:100%;min-height:280px;font-family:var(--f-mono);font-size:11px;background:var(--ink);
+  border:1px solid var(--line);padding:11px;line-height:1.5;white-space:pre;overflow:auto}
+.pmark{display:inline-block;font-family:var(--f-mono);font-size:9px;letter-spacing:.08em;
+  padding:2px 5px;border:1px solid var(--line);color:var(--muted-2);border-radius:2px;margin-left:6px;
+  text-transform:uppercase;vertical-align:1px}
+.pmark.est{border-color:var(--acc-line);color:var(--acc)}
+
+@media (max-width:1080px){
+  .app{grid-template-columns:1fr}
+  .rail{position:static;height:auto;padding:14px}
+  .mark{margin-bottom:14px}
+  .nav{flex-direction:row;flex-wrap:wrap;gap:5px}
+  .nav h5{width:100%;padding:8px 2px 2px}
+  .nav button{border-left:0;border-bottom:2px solid transparent;padding:6px 9px;font-size:12px}
+  .nav button[aria-current="true"]{border-left:0;border-bottom-color:var(--acc)}
+  .rail-foot{margin-top:12px;padding-left:2px}
+  .two{grid-template-columns:1fr}
+  .t-row{grid-template-columns:26px 1fr;gap:10px}
+  .t-own,.t-due{grid-column:2;font-size:11.5px}
+  .t-st{grid-column:2;justify-content:flex-start}
+  .top{padding:14px 16px}
+  .view{padding:18px 16px 60px}
+  .frow>label{width:100%}
+}
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="mark">
+      <span class="badge">GASTRO</span>
+      <p>Пикник Афиши<br>дорожная карта сезона 2027</p>
+    </div>
+    <nav class="nav" id="nav">
+      <h5>Сезон</h5>
+      <button data-v="over" aria-current="true">Обзор</button>
+      <button data-v="road">Дорожная карта</button>
+      <button data-v="mount">Монтаж H3</button>
+      <h5>Разрезы</h5>
+      <button data-v="bn">Узкие места<span class="c" id="c-bn">9</span></button>
+      <button data-v="kpi">KPI 2027</button>
+      <button data-v="ext">Внешние зависимости<span class="c" id="c-ext">0</span></button>
+      <button data-v="loops">Контуры и процессы</button>
+      <h5>Основание</h5>
+      <button data-v="base">Сезон 2026</button>
+      <button data-v="exp">Экспорт</button>
+    </nav>
+    <div class="rail-foot">
+      <div><span class="dot" id="dot"></span><span id="sync">подключение…</span></div>
+      <div style="margin-top:6px">Брифинг 30.08.2026<br>Владелец — М. Жиганова</div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="top">
+      <div>
+        <h1 id="vT">Обзор</h1>
+        <div class="sub" id="vS">Сезон сентябрь 2026 — октябрь 2027</div>
+      </div>
+      <div class="st">
+        <div><span>Горизонт</span><b class="acc" id="s-hz">H0</b></div>
+        <div><span>Закрыто</span><b id="s-done">0/0</b></div>
+        <div><span>Под риском</span><b id="s-risk">0</b></div>
+        <div><span>Блокеров</span><b class="al" id="s-blk">0</b></div>
+      </div>
+    </header>
+
+    <section class="view" id="v-over"></section>
+    <section class="view" id="v-road" hidden></section>
+    <section class="view" id="v-mount" hidden></section>
+    <section class="view" id="v-bn" hidden></section>
+    <section class="view" id="v-kpi" hidden></section>
+    <section class="view" id="v-ext" hidden></section>
+    <section class="view" id="v-loops" hidden></section>
+    <section class="view" id="v-base" hidden></section>
+    <section class="view" id="v-exp" hidden></section>
+  </div>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<div class="dw" id="dw" hidden></div>
+
+<script>
+/* =========================================================================
+   ДОРОЖНАЯ КАРТА GASTRO 2027
+   Источник структуры: брифинг «Интерактивная дорожная карта ПА», 30.08.2026.
+   Правила с цифрами: у каждой цифры источник; план, факт и оценка различаются;
+   показатель без механики замера идёт задачей «настроить замер»;
+   расхождения между источниками показываются, а не сглаживаются.
+   ========================================================================= */
+const d_ = s=>{const[y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d);};
+const addD=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
+const DAY=864e5, days=(a,b)=>Math.round((b-a)/DAY);
+const today=(()=>{const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate());})();
+const MS=['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+const fD = d=>`${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getFullYear()).slice(2)}`;
+const fL = d=>`${d.getDate()} ${MS[d.getMonth()]} ${d.getFullYear()}`;
+const esc = s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = s=>document.querySelector(s);
+const plural=(n,a,b,c)=>{const t=n%10,h=n%100;return n+' '+(t===1&&h!==11?a:(t>=2&&t<=4&&(h<10||h>=20)?b:c));};
+
+const FEST = {msk:d_('2027-06-20'), spb:d_('2027-08-08')};
+
+const HORIZONS = [
+ {id:'H0', n:'Оцифровать сезон',                p:'сентябрь — ноябрь 2026',  s:'2026-09-01', e:'2026-11-30',
+  gate:'Есть единый реестр с LTV и NPS, посчитан P&L сезона, написано ТЗ на личный кабинет.'},
+ {id:'H1', n:'Продукт и ранний старт продаж',   p:'декабрь 2026 — февраль 2027', s:'2026-12-01', e:'2027-02-28',
+  gate:'Пакеты и оферта утверждены, рассылка ушла, спонсорский лонглист закрыт, MVP личного кабинета работает на онбординге.'},
+ {id:'H2', n:'Вал продаж и проектирование площадки', p:'март — май 2027',    s:'2027-03-01', e:'2027-05-31',
+  gate:'80% точек проданы и оплачены, карта площадки заморожена, смета застройки утверждена.'},
+ {id:'H3', n:'Реализация',                      p:'июнь — август 2027',      s:'2027-06-01', e:'2027-08-31',
+  gate:'Оба города отработали, Z-отчёты сняты со 100% точек, инциденты на заезде зафиксированы.'},
+ {id:'H4', n:'Закрытие и капитализация',        p:'сентябрь — октябрь 2027', s:'2027-09-01', e:'2027-10-31',
+  gate:'P&L закрыт, отчёты партнёрам отправлены, база резидентов обновлена, приоритеты 2028 сформулированы.'}
+];
+const HZ = Object.fromEntries(HORIZONS.map(h=>[h.id,h]));
+
+const TRACKS = [
+ {id:'com',  n:'коммерция',        ab:'КОМ'},
+ {id:'prod', n:'продакшн',         ab:'ПРО'},
+ {id:'serv', n:'сервис резидента', ab:'СЕР'},
+ {id:'dig',  n:'цифра',            ab:'ЦИФ'},
+ {id:'data', n:'данные',           ab:'ДАН'},
+ {id:'team', n:'команда',          ab:'КМД'}
+];
+const TR = Object.fromEntries(TRACKS.map(t=>[t.id,t]));
+
+const OWNERS = [
+ {id:'head', n:'Руководитель',   who:'Маргарита Жиганова',     fmt:'160 тыс/мес × 10 + бонус 1% от плана'},
+ {id:'sales',n:'Продажи',        who:'менеджер по продажам, OOFF Studio', fmt:'125 тыс/мес × 10 + 10% от новых пакетов'},
+ {id:'tech', n:'Тех. продакшн',  who:'OOFF Studio',            fmt:'80 тыс/мес × 10'},
+ {id:'tman', n:'Тех. менеджер',  who:'не закреплён',           fmt:'зона К4 вместе с операционным'},
+ {id:'ops',  n:'Операционный',   who:'Наталья Арсентьева',     fmt:'35 тыс/мес × 8 + бонус 40 тыс'},
+ {id:'k6',   n:'Владелец К6',    who:'НЕ ЗАКРЕПЛЁН',           fmt:'IT проектно, 0 ₽ в финмодели 2026', gap:true},
+ {id:'mkt',  n:'Маркетолог',     who:'вакансия',               fmt:'65 тыс/мес × 10', gap:true},
+ {id:'comm', n:'Коммерческий',   who:'Даша',                   fmt:'коммерческий отдел'},
+ {id:'cre',  n:'Креатив',        who:'подряд',                 fmt:'150–250 тыс разово'},
+ {id:'law',  n:'Юрист',          who:'юридический отдел',      fmt:'внутренний ресурс'}
+];
+const OW = Object.fromEntries(OWNERS.map(o=>[o.id,o]));
+
+const CITIES = [{id:'both',n:'оба города',ab:'ОБА'},{id:'msk',n:'Москва',ab:'МСК'},{id:'spb',n:'Петербург',ab:'СПБ'}];
+const CT = Object.fromEntries(CITIES.map(c=>[c.id,c]));
+
+const STATUS = [
+ {id:'new',  n:'не начата',     cls:'s-new'},
+ {id:'wip',  n:'в работе',      cls:'s-wip'},
+ {id:'risk', n:'под риском',    cls:'s-risk', needBlocker:true},
+ {id:'block',n:'заблокирована', cls:'s-block',needBlocker:true},
+ {id:'done', n:'закрыта',       cls:'s-done'},
+ {id:'drop', n:'снята',         cls:'s-drop'}
+];
+const ST = Object.fromEntries(STATUS.map(s=>[s.id,s]));
+
+/* ---------- задачи ----------
+   add:true — задачи нет в таблицах брифинга, добавлена по его же правилам
+   (замер показателя или реакция на риск). Помечена в интерфейсе.          */
+const TASKS = [
+ /* H0 */
+ {id:'t01', hz:'H0', tr:'data', ow:'head', ct:'both', due:'2026-09-30', bn:['Д-04','Д-08'], kpi:['NPS резидента'],
+  t:'Пост-мортем сезона: разбор обратной связи, сводка повторяющихся проблем',
+  src:'Аналитика/Опрос 360.xlsx'},
+ {id:'t02', hz:'H0', tr:'data', ow:'ops',  ct:'both', due:'2026-11-15', bn:['Д-02','Д-07','Д-08'],
+  kpi:['LTV резидента','Возвращаемость резидентов','Срок сделки: контакт → деньги'],
+  t:'Достроить дашборд из 18 срезов Master Sales Report: LTV, возвращаемость, NPS, рейтинг резидентов, срок сделки',
+  src:'Аналитика/Master Sales Report.xlsx, листы 2024/2025/2026/ДАШБОРД'},
+ {id:'t03', hz:'H0', tr:'data', ow:'ops',  ct:'both', due:'2026-10-15', bn:['Д-07'], kpi:['NPS резидента'],
+  t:'Замер NPS резидентов формой после демонтажа, оценка пилота доставки Купер'},
+ {id:'t04', hz:'H0', tr:'dig',  ow:'k6',   ct:'both', due:'2026-11-30', bn:['Д-03','Д-09'],
+  kpi:['Доля резидентов в самообслуживании','Полнота документов к дедлайну'], ext:['e-dev'],
+  t:'ТЗ и выбор подрядчика на личный кабинет резидента; запуск телеграм-бота по готовому ТЗ',
+  src:'Пикник 26/БОТ/Тз бот ФК.docx — 8 разделов'},
+ {id:'t05', hz:'H0', tr:'com',  ow:'head', ct:'both', due:'2026-11-30', bn:['Д-01','Д-05'],
+  kpi:['Средняя цена пакета СПб к МСК','Продажа пакетов'],
+  t:'Пересборка матрицы пакетов: питерский прайс от выручки резидента, тарификация по зонам видимости',
+  src:'Пикник 26/Резиденты 26/Матрица пакетов.xlsx'},
+ {id:'t06', hz:'H0', tr:'team', ow:'head', ct:'both', due:'2026-11-30', bn:['Д-06'], kpi:[],
+  t:'Найм: менеджер по продажам, маркетолог, владелец цифрового контура'},
+ {id:'t07', hz:'H0', tr:'serv', ow:'ops',  ct:'both', due:'2026-10-31', bn:['Д-03'], kpi:[], ext:['e-fin'],
+  t:'Закрывающие документы и взаиморасчёты сезона 2026'},
+
+ /* H1 */
+ {id:'t08', hz:'H1', tr:'com',  ow:'head', ct:'both', due:'2026-12-20', bn:['Д-01'], kpi:['Продажа пакетов'],
+  t:'Утверждение концепции гастроблока 2027 и презентации для резидентов'},
+ {id:'t09', hz:'H1', tr:'com',  ow:'head', ct:'both', due:'2027-01-15', bn:['Д-01','Д-09'], ext:['e-law'],
+  kpi:['Продажа пакетов','Средняя цена пакета СПб к МСК'], co:'law',
+  t:'Финальная матрица пакетов и цен, оферта, форма документа'},
+ {id:'t10', hz:'H1', tr:'com',  ow:'sales',ct:'both', due:'2027-01-31', bn:['Д-02'],
+  kpi:['Возвращаемость резидентов','Срок сделки: контакт → деньги'],
+  t:'Ранний старт продаж: Early Birds по горячей базе сразу после анонса'},
+ {id:'t11', hz:'H1', tr:'com',  ow:'head', ct:'both', due:'2027-02-28', bn:[], kpi:['Спонсорские пакеты'], co:'comm',
+  t:'Спонсорский цикл: питчи гастропартнёра вип-зоны, технологического партнёра, партнёра фудкорта'},
+ {id:'t12', hz:'H1', tr:'dig',  ow:'k6',   ct:'both', due:'2026-12-20', bn:['Д-03','Д-09'], ext:['e-dev'],
+  kpi:['Доля резидентов в самообслуживании','Полнота документов к дедлайну','Комиссия Эвент Стафф'],
+  t:'MVP личного кабинета: анкета, документы, электричество, статус оплаты'},
+ {id:'t13', hz:'H1', tr:'com',  ow:'head', ct:'both', due:'2027-01-31', bn:['Д-02'],
+  kpi:['Возвращаемость резидентов','LTV резидента'],
+  t:'LTV-программа: условия для возвращающихся резидентов, комбо, многолетние договорённости'},
+ {id:'t14', hz:'H1', tr:'prod', ow:'tech', ct:'both', due:'2027-02-28', bn:[], ext:['e-build'],
+  kpi:['Снижение сметы к плану'],
+  t:'Тендер застройщиков: ТЗ, референсы, сметы'},
+ {id:'t15', hz:'H1', tr:'data', ow:'ops',  ct:'both', due:'2027-01-31', bn:['Д-07'], add:true,
+  kpi:['Срок сделки: контакт → деньги','Срок продажи пакета','Срок оплаты от резидента'],
+  t:'Настроить учёт сроков: контакт → сделка → оплата',
+  why:'Три KPI 2027 не имеют механики замера. По правилу брифинга показатель без замера становится задачей.'},
+ {id:'t16', hz:'H1', tr:'prod', ow:'law',  ct:'both', due:'2027-02-28', bn:[], add:true, ext:['e-dept','e-mchs'],
+  kpi:[], co:'tech',
+  t:'Разрешительная часть: открытый огонь, фудтраки, алкоголь, Департамент торговли',
+  why:'Реакция на риск «разрешительная часть поздно»: брифинг требует вынести разрешения в H1 отдельным треком с юристом.'},
+
+ /* H2 */
+ {id:'t17', hz:'H2', tr:'com',  ow:'sales',ct:'both', due:'2027-05-31', bn:['Д-01','Д-02'],
+  kpi:['Продажа пакетов','Срок сделки: контакт → деньги','Срок продажи пакета'],
+  t:'Основной вал продаж пакетов по двум городам, соблюдение целей по срокам сделки'},
+ {id:'t18', hz:'H2', tr:'prod', ow:'tech', ct:'both', due:'2027-04-30', bn:['Д-05'], kpi:[],
+  t:'Карта объектов: конфигурация корнеров, нумерация, тех. локации, рассадка, форкаст трафика на точку'},
+ {id:'t19', hz:'H2', tr:'prod', ow:'tech', ct:'msk',  due:'2027-05-26', bn:['Д-04'], kpi:[],
+  t:'Заморозка планировки Москвы за 21 день до монтажа'},
+ {id:'t20', hz:'H2', tr:'serv', ow:'tech', ct:'both', due:'2027-03-31', bn:['Д-04'], ext:['e-power'],
+  kpi:['NPS резидента','Полнота документов к дедлайну'],
+  t:'Стандарт «Тех хостинг»: габариты тех. зоны, электрика, WiFi, тележки, слоты заезда'},
+ {id:'t21', hz:'H2', tr:'serv', ow:'ops',  ct:'both', due:'2027-03-31', bn:['Д-03'], ext:['e-sber'], kpi:[],
+  t:'Эквайринг Сбера предлагается на этапе онбординга, а не за две недели до фестиваля'},
+ {id:'t22', hz:'H2', tr:'com',  ow:'cre',  ct:'both', due:'2027-04-30', bn:[], kpi:['Спонсорские пакеты'],
+  t:'Спецпроекты: зарубежные гастроли, open kitchen, гастролекторий, ужин с артистом'},
+ {id:'t23', hz:'H2', tr:'com',  ow:'mkt',  ct:'both', due:'2027-05-31', bn:['Д-06'], kpi:[],
+  t:'Медиаплан и контент-план гастроблока, съёмки до фестиваля'},
+ {id:'t24', hz:'H2', tr:'data', ow:'tech', ct:'both', due:'2027-04-30', bn:['Д-07'], add:true,
+  kpi:['Снижение сметы к плану'],
+  t:'Настроить учёт сметы факт/план по застройке',
+  why:'KPI «снижение сметы к плану» без механики замера. Учёт заводится вместе с тендером застройщиков.'},
+
+ /* H3 — Москва */
+ {id:'t25', hz:'H3', tr:'serv', ow:'tman', ct:'msk', due:'2027-06-13', bn:['Д-03','Д-04'],
+  kpi:['Полнота документов к дедлайну'],
+  t:'Москва · финальная подготовка: меню, печать, аккредитация, списки персонала и машин'},
+ {id:'t26', hz:'H3', tr:'prod', ow:'tech', ct:'msk', due:'2027-06-19', bn:['Д-04'], ext:['e-mchs','e-dept'], kpi:[],
+  t:'Москва · монтаж по таймлайну, приёмка МЧС зоны грилей, брифинги'},
+ {id:'t27', hz:'H3', tr:'serv', ow:'tman', ct:'msk', due:'2027-06-21', bn:[], kpi:['NPS резидента'],
+  t:'Москва · работа на площадке: онлайн-поддержка, контроль служб, вывоз мусора, менеджеры зон'},
+ {id:'t28', hz:'H3', tr:'data', ow:'k6',   ct:'msk', due:'2027-06-21', bn:['Д-06','Д-07'],
+  kpi:['Время обслуживания','NPS гостя','Доля онлайн-заказов'],
+  t:'Москва · замеры в поле: время обслуживания, NPS гостя, доля онлайн-заказов'},
+ {id:'t29', hz:'H3', tr:'data', ow:'tman', ct:'msk', due:'2027-06-25', bn:['Д-08'],
+  kpi:['Оборот резидентов','Средний чек МСК / СПб'],
+  t:'Москва · Z-отчёты и финансовая дисциплина резидентов'},
+ {id:'t30', hz:'H3', tr:'prod', ow:'tech', ct:'msk', due:'2027-06-24', bn:[], kpi:[],
+  t:'Москва · демонтаж, сдача и приём мест, логистика в Петербург'},
+
+ /* H3 — Петербург */
+ {id:'t31', hz:'H3', tr:'prod', ow:'tech', ct:'spb', due:'2027-07-18', bn:['Д-04'], kpi:[],
+  t:'Петербург · заморозка планировки за 21 день до монтажа'},
+ {id:'t32', hz:'H3', tr:'serv', ow:'tman', ct:'spb', due:'2027-08-01', bn:['Д-03','Д-04'],
+  kpi:['Полнота документов к дедлайну'],
+  t:'Петербург · финальная подготовка: меню, печать, аккредитация, списки персонала и машин'},
+ {id:'t33', hz:'H3', tr:'prod', ow:'tech', ct:'spb', due:'2027-08-07', bn:['Д-04'], ext:['e-mchs','e-dept'], kpi:[],
+  t:'Петербург · монтаж по таймлайну, приёмка МЧС зоны грилей, брифинги'},
+ {id:'t34', hz:'H3', tr:'serv', ow:'tman', ct:'spb', due:'2027-08-09', bn:[], kpi:['NPS резидента'],
+  t:'Петербург · работа на площадке: онлайн-поддержка, контроль служб, вывоз мусора, менеджеры зон'},
+ {id:'t35', hz:'H3', tr:'data', ow:'k6',   ct:'spb', due:'2027-08-09', bn:['Д-06','Д-07'],
+  kpi:['Время обслуживания','NPS гостя','Доля онлайн-заказов'],
+  t:'Петербург · замеры в поле: время обслуживания, NPS гостя, доля онлайн-заказов'},
+ {id:'t36', hz:'H3', tr:'data', ow:'tman', ct:'spb', due:'2027-08-13', bn:['Д-08'],
+  kpi:['Оборот резидентов','Средний чек МСК / СПб'],
+  t:'Петербург · Z-отчёты и финансовая дисциплина резидентов'},
+ {id:'t37', hz:'H3', tr:'prod', ow:'tech', ct:'spb', due:'2027-08-12', bn:[], kpi:[],
+  t:'Петербург · демонтаж, сдача и приём мест'},
+
+ /* H4 */
+ {id:'t38', hz:'H4', tr:'data', ow:'ops',  ct:'both', due:'2027-09-15', bn:['Д-03'], ext:['e-fin'], kpi:[],
+  t:'Закрывающие документы, взаиморасчёты, итоговый P&L направления'},
+ {id:'t39', hz:'H4', tr:'com',  ow:'mkt',  ct:'both', due:'2027-09-30', bn:[], kpi:['Спонсорские пакеты'],
+  t:'Пост-отчёты спонсорам и партнёрам как основание для пролонгации'},
+ {id:'t40', hz:'H4', tr:'com',  ow:'sales',ct:'both', due:'2027-10-15', bn:['Д-02'],
+  kpi:['LTV резидента','Возвращаемость резидентов'],
+  t:'Обновление LTV и рейтинга резидентов, ранние договорённости на 2028'},
+ {id:'t41', hz:'H4', tr:'serv', ow:'head', ct:'both', due:'2027-10-31', bn:['Д-04'], kpi:['NPS резидента'],
+  t:'Разбор сезона: что из стандарта «Тех хостинг» сработало, что переписываем'}
+];
+TASKS.forEach(t=>{ t.dueD = d_(t.due); });
+const TBY = Object.fromEntries(TASKS.map(t=>[t.id,t]));
+</script>
+
+<script>
+/* ---------- узкие места ---------- */
+const BOTTLE = [
+ {id:'Д-01', lvl:'crit', t:'Петербург недомонетизирован',
+  f:'Средняя цена пакета СПб 81 620 ₽ против 201 570 ₽ в Москве — 40%. Чеков на гостя одинаково, 0,84 в обоих городах. Разрыв в прайсинге, не в спросе. Потенциал от 2,0 млн ₽ (до 60% московской цены) до 6,2 млн ₽ (паритет).',
+  fix:'Пересобрать питерский прайс от выручки резидента, развести комбо на две строки, ввести минимальную цену пакета.',
+  src:'Master Sales Report.xlsx, лист 2026'},
+ {id:'Д-02', lvl:'crit', t:'Воронка описывает только new business',
+  f:'0,6 × 0,5 × 0,7 × 0,4 = 8,4%. При 400 лидах это 34 точки против 65 фактических в Москве. Основную массу дают повторные резиденты, которых воронка не описывает.',
+  fix:'Разделить на треки retention и new business со своими конверсиями. Считать LTV резидента по стоимости пакетов.',
+  src:'Воронка : орг структура.pptx'},
+ {id:'Д-03', lvl:'crit', t:'Ручной документооборот на 117 точек',
+  f:'CRM нет, трекера задач нет. Всё в чатах, почте и 1С. Каждая точка — это анкета, документы, электричество, аккредитация и статус оплаты, собираемые вручную.',
+  fix:'MVP личного кабинета резидента к декабрю: анкета, документы, электричество, аккредитация, статус оплаты. Бот как первый слой.',
+  src:'Реестр участников, 117 строк'},
+ {id:'Д-04', lvl:'mid', t:'Тех. зона и логистика заезда',
+  f:'Жалоба третий сезон подряд: оборудование не проходит, очереди на въезде, изменение планировки за день до монтажа.',
+  fix:'Стандарт «Тех хостинг» с измеримыми параметрами. Заморозка планировки за 21 день до монтажа.',
+  src:'Опрос 360.xlsx'},
+ {id:'Д-05', lvl:'mid', t:'Планировка не даёт равную видимость',
+  f:'Разброс выручки на общем фудкорте Москвы от 71 610 ₽ до 1 344 600 ₽ при одной цене пакета. Разница в 19 раз за одни деньги.',
+  fix:'Форкаст трафика на точку плюс тарифная сетка по зонам видимости.',
+  src:'Master Sales Report.xlsx, лист 2026'},
+ {id:'Д-06', lvl:'mid', t:'Цифровой контур без владельца',
+  f:'Контур К6 не закреплён ни за кем. QR-меню: 198 уникальных посетителей в Москве за июнь при 25 000 гостей — 0,8%.',
+  fix:'Один владелец К6 с бюджетом и roadmap. QR либо довести до сервиса, либо не считать каналом.',
+  src:'Куары аналитика переходов МСК.xlsx, Яндекс.Метрика UTM qr'},
+ {id:'Д-07', lvl:'mid', t:'Пять из тринадцати KPI 2026 без механики замера',
+  f:'Время обслуживания, NPS гостей и резидентов, доля онлайн-заказов не замерялись вовсе. Показатель без замера не показатель.',
+  fix:'До ноября закрыть три замера: NPS резидента формой, NPS гостя в опросе фестиваля, тайминг на 5 корнерах.',
+  src:'2026 Пикник ФК.xlsx, лист KPI'},
+ {id:'Д-08', lvl:'low', t:'Расхождения в базовых цифрах',
+  f:'Гостей: 40 000 по реестру против 35 000 в презентации направления и 50 000 в сервисе резидентов. Точек: 117 строк реестра против 110 резидентов.',
+  fix:'Один источник правды — реестр. Зафиксировать правила подсчёта: что считаем точкой, что резидентом, откуда берём гостей.',
+  src:'реестр vs презентация vs index.html сервиса резидентов'},
+ {id:'Д-09', lvl:'low', t:'Комиссия Эвент Стафф больше дохода направления',
+  f:'2,5 млн ₽ комиссии против планового дохода направления 2,12 млн ₽. Платится за документооборот.',
+  fix:'Считать личный кабинет как замещение комиссии. 1 процентный пункт ≈ 250 тыс ₽ в год.',
+  src:'2026 Пикник ФК.xlsx, ФИН МОДЕЛЬ 2026'}
+];
+const BN = Object.fromEntries(BOTTLE.map(b=>[b.id,b]));
+
+/* ---------- внешние зависимости ---------- */
+const EXTERNAL = [
+ {id:'e-law',  side:'Юридический отдел', need:'Оферта и форма договора резидента',       block:'2027-01-15'},
+ {id:'e-fin',  side:'Финотдел, 1С',      need:'Взаиморасчёты и закрывающие документы',   block:'2026-10-31'},
+ {id:'e-dev',  side:'Подрядчик разработки', need:'Договор и старт работ по личному кабинету', block:'2026-11-15'},
+ {id:'e-build',side:'Застройщики',       need:'Сметы по тендеру',                        block:'2027-02-28'},
+ {id:'e-power',side:'Энергетики',        need:'Подтверждение мощностей по площадкам',    block:'2027-04-30'},
+ {id:'e-sber', side:'Сбер',              need:'Эквайринг на этапе онбординга',           block:'2027-03-31'},
+ {id:'e-dept', side:'Департамент торговли', need:'Разрешения на торговлю',               block:'2027-05-20'},
+ {id:'e-mchs', side:'МЧС',               need:'Приёмка зоны грилей',                     block:'2027-06-19'}
+];
+EXTERNAL.forEach(e=>{ e.blockD = d_(e.block); });
+const EX = Object.fromEntries(EXTERNAL.map(e=>[e.id,e]));
+
+/* ---------- KPI 2027 ---------- */
+const KPI27 = [
+ {n:'Продажа пакетов',                    b:'17,3 млн ₽',      g:'24,0 млн ₽',   o:'sales', s:'Реестр / 1С'},
+ {n:'Спонсорские пакеты',                 b:'н/д',             g:'13–15 млн ₽',  o:'head',  s:'Коммерческий отдел', nom:true},
+ {n:'Средняя цена пакета СПб к МСК',       b:'40%',             g:'60%',          o:'sales', s:'Реестр'},
+ {n:'Срок сделки: контакт → деньги',       b:'н/д',             g:'≤ 30 дней',    o:'sales', s:'CRM', nom:true, fix:'t15'},
+ {n:'Срок продажи пакета',                 b:'н/д',             g:'≤ 10 дней',    o:'sales', s:'CRM', nom:true, fix:'t15'},
+ {n:'Срок оплаты от резидента',            b:'н/д',             g:'≤ 7 дней',     o:'ops',   s:'1С', nom:true, fix:'t15'},
+ {n:'Возвращаемость резидентов',           b:'н/д',             g:'≥ 65%',        o:'sales', s:'Реестр год к году', nom:true, fix:'t02'},
+ {n:'LTV резидента',                       b:'н/д',             g:'считаем',      o:'ops',   s:'Реестр', nom:true, fix:'t02'},
+ {n:'NPS резидента',                       b:'н/д',             g:'≥ 50',         o:'ops',   s:'Форма после демонтажа', nom:true, fix:'t03'},
+ {n:'Полнота документов к дедлайну',       b:'н/д',             g:'≥ 90%',        o:'tman',  s:'Личный кабинет', nom:true, fix:'t12'},
+ {n:'Доля резидентов в самообслуживании',  b:'0%',              g:'≥ 70%',        o:'k6',    s:'Личный кабинет', fix:'t12'},
+ {n:'Средний чек МСК / СПб',               b:'1 128 / 1 036 ₽', g:'1 300 / 1 200 ₽', o:'head', s:'Z-отчёты'},
+ {n:'Оборот резидентов',                   b:'33,5 млн ₽',      g:'42,0 млн ₽',   o:'head',  s:'Z-отчёты'},
+ {n:'Время обслуживания',                  b:'н/д',             g:'≤ 3 мин',      o:'tman',  s:'Тайминг на 5 корнерах', nom:true, fix:'t28'},
+ {n:'Снижение сметы к плану',              b:'н/д',             g:'5–10%',        o:'tech',  s:'Смета факт/план', nom:true, fix:'t24'},
+ {n:'Комиссия Эвент Стафф',                b:'10%',             g:'≤ 7%',         o:'head',  s:'Финмодель'},
+ {n:'NPS гостя',                           b:'н/д',             g:'замерить',     o:'k6',    s:'Опрос фестиваля', nom:true, fix:'t28'},
+ {n:'Доля онлайн-заказов',                 b:'н/д',             g:'замерить',     o:'k6',    s:'Купер / QR', nom:true, fix:'t28'}
+];
+
+/* ---------- контуры и процессы ---------- */
+const LOOPS = [
+ {id:'К1', n:'Привлечение и продажа резидентов', o:'Менеджер по продажам (OOFF) + Наталья Арсентьева',
+  m:'Лидов → точек, конверсия, срок сделки, средний чек пакета'},
+ {id:'К2', n:'Спонсорство и гастропартнёрства',  o:'Руководитель + коммерческий отдел (Даша)',
+  m:'Сумма спонсорских пакетов, число кастомных зон'},
+ {id:'К3', n:'Застройка и техническая инфраструктура', o:'Тех. продакшн (OOFF) + Лена',
+  m:'Смета факт/план, срыв сроков, инциденты на заезде'},
+ {id:'К4', n:'Хостинг резидента',                o:'Тех. менеджер + операционный менеджер',
+  m:'Полнота документов к дедлайну, NPS, возвращаемость'},
+ {id:'К5', n:'ВИП-зона и бары',                  o:'Руководитель',
+  m:'Выручка бара, доля Афиши, чек вип-гостя'},
+ {id:'К6', n:'Цифровые сервисы',                 o:'НЕ ЗАКРЕПЛЁН — критический пробел', gap:true,
+  m:'Доля самообслуживания, переходы по QR, доля онлайн-заказов'}
+];
+const PROC = [
+ {id:'П1', n:'Воронка продаж резидента', p:'декабрь → август',
+  s:['генерация лидов — 400 МСК / 200 СПб','квалификация 60%, контакт в 15 минут','презентация и встреча 50%',
+     'КП и оферта 70%','оплата и онбординг 40%','финальная подготовка — 100% готовность']},
+ {id:'П2', n:'Хостинг резидента', p:'от −45 дней до +30',
+  s:['сбор документации и тех. данных, −45 дней','меню и печать','аккредитация и логистика заезда, списки −7 дней в 12:00',
+     'монтаж и приёмка МЧС','работа на площадке','демонтаж и закрывающие, ≤ 30 дней']},
+ {id:'П3', n:'Спонсорский цикл', p:'сентябрь → февраль',
+  s:['прогноз и лонглист','пакетирование и питч','реализация интеграции','пост-отчёт партнёру']},
+ {id:'П4', n:'Финансовый контур', p:'весь сезон',
+  s:['счёт','оплата — 3 дня по оферте','проблемные ситуации','Z-отчёты','закрывающие и P&L']},
+ {id:'П5', n:'Цифровые сервисы', p:'весь сезон',
+  s:['QR-меню','доставка Купер, дарк-китчен','телеграм-бот «Фудкорт Помощник» — ТЗ написано, 8 разделов',
+     'личный кабинет резидента — не запущен']}
+];
+
+/* ---------- сезон 2026 ---------- */
+const FACTS26 = {
+ rows:[
+  {n:'Гостей',                    msk:'25 000',      spb:'15 000',      tot:'40 000',      k:'факт'},
+  {n:'Точек в реестре',           msk:'65',          spb:'52',          tot:'117',         k:'факт'},
+  {n:'Продажа пакетов',           msk:'13 102 000 ₽',spb:'4 244 150 ₽', tot:'17 346 150 ₽',k:'факт'},
+  {n:'Средняя цена пакета',       msk:'201 570 ₽',   spb:'81 620 ₽',    tot:'—',           k:'факт'},
+  {n:'Доп. электричество',        msk:'637 855 ₽',   spb:'332 990 ₽',   tot:'970 845 ₽',   k:'факт'},
+  {n:'Оборот резидентов',         msk:'21 758 853 ₽',spb:'11 762 331 ₽',tot:'33 521 184 ₽',k:'факт'},
+  {n:'Чеков',                     msk:'20 928',      spb:'12 593',      tot:'33 521',      k:'факт'},
+  {n:'Средний чек',               msk:'1 128 ₽',     spb:'1 036 ₽',     tot:'—',           k:'факт'},
+  {n:'Чеков на гостя',            msk:'0,84',        spb:'0,84',        tot:'—',           k:'расчёт'},
+  {n:'Бар, доля Афиши',           msk:'840 196 ₽',   spb:'381 426 ₽',   tot:'1 221 622 ₽', k:'факт'}
+ ],
+ note:'Плюс 270 000 ₽ опций алкоголя резидентам. Итого доход Афиши по гастро ≈ 19,8 млн ₽.',
+ src:'Аналитика/Master Sales Report.xlsx — листы 2026, БАРЫ, ДАШБОРД'
+};
+const DYN26 = {
+ head:['Показатель','2024 факт','2025 план','2026 план','2026 факт'],
+ rows:[
+  ['Пакеты, млн ₽',              '12,3','16,9','20,0','17,3'],
+  ['Бары и алко-опции, млн ₽',   '1,8', '1,1', '2,5', '1,49'],
+  ['Итого доход Афиши, млн ₽',   '14,1','≈18,0','≈25,0','≈19,8'],
+  ['Оборот резидентов, млн ₽',   '35,0','—',   '50,0','33,5'],
+  ['Логистика и застройка, млн ₽','9,5','8,5', '8,0', '—'],
+  ['ФОТ с бонусами, млн ₽',      '—',  '2,35','5,89','—'],
+  ['Комиссия Эвент Стафф',       '—',  '15%', '10%', '10%']
+ ],
+ src:'Аналитика/2026 Пикник ФК.xlsx — ФИН МОДЕЛЬ 2026/2025'
+};
+const KPI26 = [
+ {n:'Точек МСК',            g:'70',            f:'65',       p:93},
+ {n:'Точек СПб',            g:'45',            f:'52',       p:116},
+ {n:'Средний чек МСК',      g:'1 500 ₽',       f:'1 128 ₽',  p:75},
+ {n:'Средний чек СПб',      g:'1 300–1 500 ₽', f:'1 036 ₽',  p:73},
+ {n:'Оборот резидентов МСК',g:'30 млн ₽',      f:'21,8 млн ₽',p:73},
+ {n:'Оборот резидентов СПб',g:'20 млн ₽',      f:'11,8 млн ₽',p:59},
+ {n:'Продажи пакетов',      g:'25 млн ₽',      f:'17,3 млн ₽',p:69},
+ {n:'Вип-бары МСК',         g:'3 млн ₽',       f:'1,63 млн ₽',p:54},
+ {n:'Вип-бары СПб',         g:'2 млн ₽',       f:'0,99 млн ₽',p:49},
+ {n:'Время обслуживания',   g:'3 мин',         f:'не замерялось', p:null},
+ {n:'NPS гостей',           g:'—',             f:'не замерялось', p:null},
+ {n:'NPS резидентов',       g:'—',             f:'не замерялось', p:null},
+ {n:'Доля онлайн-заказов',  g:'—',             f:'не считалась',  p:null}
+];
+const DIFFS = [
+ {n:'Гостей за сезон 2026', v:[['реестр','40 000'],['презентация направления','35 000'],['сервис резидентов, дашборд «О фестивале»','50 000']],
+  r:'Источник правды — реестр. Разница с презентацией 14%, с сервисом резидентов 25%.'},
+ {n:'Количество точек',     v:[['реестр, строк','117'],['резидентов','110']],
+  r:'Строка реестра ≠ резидент: один резидент может держать несколько корнеров. Зафиксировать правило подсчёта.'}
+];
+const RISKS = [
+ {t:'Bus factor руководителя', s:'Единственная точка стыка шести контуров',
+  r:'Явные владельцы К3, К4, К6 с правом решения'},
+ {t:'Личный кабинет не успевает к продажам', s:'Онбординг снова уходит в чаты и почту',
+  r:'MVP по узкому скоупу к декабрю, бот как страховка'},
+ {t:'Поднятие цен без улучшения сервиса', s:'Резиденты, третий год жалующиеся на тех. зону, не принимают прайс',
+  r:'Стандарт «Тех хостинг» продаётся до цены'},
+ {t:'Зависимость от одного подрядчика', s:'Продажи и тех. продакшн у одного контрагента — OOFF Studio',
+  r:'База и CRM остаются у Афиши, разделение на два контракта'},
+ {t:'Трафик фестиваля падает', s:'Часть резидентов 2026 отметила поток ниже прошлогоднего при большем числе точек',
+  r:'Плотность точек на 1 000 гостей как отдельный KPI'},
+ {t:'Разрешительная часть', s:'Открытый огонь, фудтраки, алкоголь, Департамент торговли — поздно',
+  r:'Вынести разрешения в H1 отдельным треком с юристом'}
+];
+</script>
+
+<script>
+/* =========================================================================
+   СОСТОЯНИЕ
+   ========================================================================= */
+const LS={get(k,f){try{const v=localStorage.getItem('pa27.'+k);return v?JSON.parse(v):f;}catch(e){return f;}},
+          set(k,v){try{localStorage.setItem('pa27.'+k,JSON.stringify(v));}catch(e){}}};
+
+const Store={
+  db:null, online:false, s:{}, subs:[],
+  on(f){this.subs.push(f);}, fire(){this.subs.forEach(f=>{try{f();}catch(e){console.error(e);}});},
+  async init(){
+    try{ this.db = await claude.use('db'); }catch(e){ this.db=null; }
+    if(!this.db){ this.s = LS.get('tasks',{}); this.online=false; sync(false); this.fire(); return; }
+    this.online=true; sync(true);
+    this.db.collection('tasks').onSnapshot(sn=>{ const n={}; sn.docs.forEach(d=>{n[d.id]=d.data()||{};});
+      this.s=n; this.fire(); }, e=>sync(false,e.code));
+  },
+  get(id){ return this.s[id] || {st:'new', blocker:'', due:'', note:'', by:'', at:''}; },
+  async save(id,patch){
+    const next=Object.assign({},this.get(id),patch,{at:new Date().toISOString()});
+    this.s=Object.assign({},this.s,{[id]:next}); this.fire();
+    if(this.db){ try{ await this.db.doc('tasks/'+id).set(next); }catch(e){ sync(false,e.code); } }
+    else LS.set('tasks',this.s);
+  }
+};
+function sync(ok,code){ const d=$('#dot'),t=$('#sync'); if(!d)return;
+  d.classList.toggle('live',!!ok);
+  t.textContent = ok?'общая база · синхронно':(code?'офлайн · '+code:'локальный режим');
+}
+
+/* ---------- производные ---------- */
+const stOf   = t=>Store.get(t.id).st || 'new';
+const dueOf  = t=>{ const o=Store.get(t.id).due; return o? d_(o) : t.dueD; };
+const isOpen = t=>['new','wip','risk','block'].includes(stOf(t));
+const isLate = t=>isOpen(t) && dueOf(t) < today;
+const blkOf  = t=>Store.get(t.id).blocker||'';
+const curHz  = ()=>{ const h=HORIZONS.find(h=>today>=d_(h.s)&&today<=d_(h.e)); return h||(today<d_(HORIZONS[0].s)?HORIZONS[0]:HORIZONS[4]); };
+const hzTasks= id=>TASKS.filter(t=>t.hz===id);
+const cnt    = (list,f)=>list.filter(f).length;
+const doneOf = list=>cnt(list,t=>stOf(t)==='done');
+const liveOf = list=>list.filter(t=>stOf(t)!=='drop');
+const pctOf  = list=>{ const l=liveOf(list); return l.length?Math.round(doneOf(l)/l.length*100):0; };
+const tasksOfBn = id=>TASKS.filter(t=>(t.bn||[]).includes(id));
+const tasksOfEx = id=>TASKS.filter(t=>(t.ext||[]).includes(id));
+const tasksOfKpi= n=>TASKS.filter(t=>(t.kpi||[]).includes(n));
+const extState = e=>{ const ts=tasksOfEx(e.id); const open=ts.filter(isOpen).length;
+  if(!open) return {k:'done', n:'закрыто'};
+  if(today > e.blockD) return {k:'block', n:'блокирует'};
+  const left=days(today,e.blockD);
+  return left<=30 ? {k:'risk', n:`${plural(left,'день','дня','дней')} до блокировки`} : {k:'new', n:`${plural(left,'день','дня','дней')} в запасе`};
+};
+
+/* ---------- фильтры ---------- */
+const F = {hz:new Set(), tr:new Set(), ow:new Set(), ct:new Set(), st:new Set()};
+const passF = t =>
+  (!F.hz.size||F.hz.has(t.hz)) && (!F.tr.size||F.tr.has(t.tr)) &&
+  (!F.ow.size||F.ow.has(t.ow)||(t.co&&F.ow.has(t.co))) &&
+  (!F.ct.size||F.ct.has(t.ct)) && (!F.st.size||F.st.has(stOf(t)));
+const anyF = ()=>F.hz.size||F.tr.size||F.ow.size||F.ct.size||F.st.size;
+
+/* ---------- атомы разметки ---------- */
+const chipSt = t=>{const s=ST[stOf(t)];return `<span class="chip ${s.cls}">${s.n}</span>`;};
+const tagTr  = id=>`<span class="tag" title="${esc(TR[id].n)}">${TR[id].ab}</span>`;
+const tagCt  = id=>`<span class="tag">${CT[id].ab}</span>`;
+const tagBn  = id=>`<span class="tag ${BN[id].lvl==='crit'?'al':''}" title="${esc(BN[id].t)}">${id}</span>`;
+const ownerN = t=>OW[t.ow].n + (t.co?' + '+OW[t.co].n:'');
+const ownerW = t=>OW[t.ow].who;
+
+/* =========================================================================
+   ПАНЕЛЬ ЗАДАЧИ
+   ========================================================================= */
+let dwId=null, dwPending=null;
+function openTask(id){
+  const t=TBY[id]; if(!t) return; dwId=id;
+  const s=Store.get(id), cur=dwPending||s.st||'new', need=ST[cur].needBlocker;
+  const due=dueOf(t), late=isLate(t);
+  const exts=(t.ext||[]).map(e=>EX[e]);
+  $('#dw').innerHTML = `
+    <div style="display:flex;gap:9px;align-items:center;flex-wrap:wrap">
+      <span class="tag acc">${t.hz}</span>${tagTr(t.tr)}${tagCt(t.ct)}
+      ${t.add?'<span class="tag acc">добавлена по правилу</span>':''}
+      <button class="btn sm" id="dwX" style="margin-left:auto">Закрыть</button>
+    </div>
+    <h2>${esc(t.t)}</h2>
+    ${t.why?`<div class="note">${esc(t.why)}</div>`:''}
+    <div class="fld"><label>Статус</label>
+      <div class="stpick">${STATUS.map(x=>`<button class="${x.cls}" data-st="${x.id}"
+        aria-pressed="${cur===x.id}" style="${cur===x.id?'':'opacity:.5'}">${x.n}</button>`).join('')}</div>
+      ${need?`<label style="margin-top:6px">Блокер · обязательное поле</label>
+        <textarea id="dwB" rows="2" placeholder="Что именно держит задачу и от кого зависит">${esc(s.blocker||'')}</textarea>
+        <div class="req" id="dwReq" hidden>Для статуса «${esc(ST[cur].n)}» блокер обязателен — без него статус не сохранится.</div>`:''}
+      <button class="btn ${dwPending?'on':''}" id="dwSave" style="margin-top:8px">Сохранить статус</button>
+    </div>
+    <div class="fld"><label>Срок</label>
+      <div style="display:flex;gap:9px;align-items:center">
+        <input type="date" id="dwD" value="${esc(Store.get(id).due||t.due)}">
+        <span class="src" style="color:${late?'var(--alarm)':'var(--muted-2)'}">
+          ${late?`просрочено на ${plural(days(due,today),'день','дня','дней')}`:`осталось ${plural(Math.max(0,days(today,due)),'день','дня','дней')}`}</span>
+      </div>
+      ${Store.get(id).due?'':'<div class="src">срок — оценка на основе горизонта, уточните и сохраните</div>'}</div>
+    <dl class="kv">
+      <dt>Горизонт</dt><dd>${t.hz} · ${esc(HZ[t.hz].n)} · ${esc(HZ[t.hz].p)}</dd>
+      <dt>Трек</dt><dd>${esc(TR[t.tr].n)}</dd>
+      <dt>Владелец</dt><dd>${esc(ownerN(t))}<div class="src">${esc(ownerW(t))}</div></dd>
+      <dt>Город</dt><dd>${esc(CT[t.ct].n)}</dd>
+      ${t.src?`<dt>Источник</dt><dd class="src">${esc(t.src)}</dd>`:''}
+    </dl>
+    ${(t.bn||[]).length?`<div class="fld"><label>Узкое место</label>
+      <div class="linkrow">${t.bn.map(b=>`<button class="tag ${BN[b].lvl==='crit'?'al':''}" data-bn="${b}">${b} · ${esc(BN[b].t)}</button>`).join('')}</div></div>`:''}
+    ${(t.kpi||[]).length?`<div class="fld"><label>Работает на KPI</label>
+      <div class="linkrow">${t.kpi.map(k=>`<span class="tag">${esc(k)}</span>`).join('')}</div></div>`:''}
+    ${exts.length?`<div class="fld"><label>Внешние зависимости</label>
+      ${exts.map(e=>{const st=extState(e);return `<div style="display:flex;gap:9px;align-items:baseline;font-size:12.5px;margin-bottom:6px">
+        <span class="tag ${st.k==='block'?'al':st.k==='risk'?'acc':''}">${fD(e.blockD)}</span>
+        <span>${esc(e.side)} — ${esc(e.need)}<div class="src">после этой даты становится блокером · ${esc(st.n)}</div></span></div>`;}).join('')}</div>`:''}
+    <div class="fld"><label>Комментарий</label>
+      <textarea id="dwN" rows="3" placeholder="Что сделано, чего ждём">${esc(s.note||'')}</textarea>
+      <button class="btn sm" id="dwNS" style="align-self:flex-start">Сохранить комментарий</button></div>
+    <div class="src">${s.at?`изменено ${esc(new Date(s.at).toLocaleString('ru-RU'))}`:'изменений не было'}
+      · ${Store.online?'общая база':'локально, база недоступна'}</div>`;
+  $('#dw').hidden=false; $('#scrim').hidden=false;
+  $('#dwX').onclick=closeDw;
+  $('#dwSave').onclick=()=>{
+    const st=dwPending||cur;
+    if(ST[st].needBlocker){
+      const b=($('#dwB')?$('#dwB').value:'').trim();
+      if(!b){ const r=$('#dwReq'); if(r) r.hidden=false; if($('#dwB')) $('#dwB').focus(); return; }
+      Store.save(id,{st, blocker:b});
+    } else Store.save(id,{st, blocker: ST[st].needBlocker?blkOf(t):''});
+    dwPending=null;
+  };
+  $('#dwD').onchange=e=>Store.save(id,{due:e.target.value});
+  $('#dwNS').onclick=()=>Store.save(id,{note:$('#dwN').value});
+}
+function closeDw(){ dwId=null; dwPending=null; $('#dw').hidden=true; $('#scrim').hidden=true; }
+</script>
+
+<script>
+/* =========================================================================
+   ВИДЫ
+   ========================================================================= */
+function taskRow(t){
+  const s=Store.get(t.id), due=dueOf(t), late=isLate(t), b=blkOf(t);
+  return `<div class="t-row ${dwId===t.id?'sel':''}" data-open="${t.id}">
+    <div class="t-n">${t.id.replace('t','')}</div>
+    <div><div class="t-t">${esc(t.t)}${t.add?'<span class="added">+ по правилу</span>':''}</div>
+      <div class="t-meta">${tagTr(t.tr)}${t.ct!=='both'?tagCt(t.ct):''}
+        ${(t.bn||[]).map(tagBn).join('')}
+        ${(t.ext||[]).map(e=>{const st=extState(EX[e]);
+          return `<span class="tag ${st.k==='block'?'al':st.k==='risk'?'acc':''}" title="${esc(EX[e].side)}: ${esc(EX[e].need)}">${esc(EX[e].side)}</span>`;}).join('')}
+        ${(t.kpi||[]).length?`<span class="tag" title="${esc(t.kpi.join(' · '))}">KPI ${t.kpi.length}</span>`:''}</div>
+      ${b?`<div class="t-blk"><b>Блокер</b><span>${esc(b)}</span></div>`:''}</div>
+    <div class="t-own">${esc(ownerN(t))}<span>${esc(ownerW(t))}</span></div>
+    <div class="t-due ${late?'late':''}">${fD(due)}<span>${late?'просрочено':(s.due?'уточнён':'оценка')}</span></div>
+    <div class="t-st">${chipSt(t)}</div>
+  </div>`;
+}
+
+/* ---------- 1. ОБЗОР ---------- */
+function renderOver(){
+  const live=liveOf(TASKS), h=curHz();
+  const k=(cls,l,v,s)=>`<div class="kcard"><span class="l">${l}</span><span class="v ${cls}">${v}</span><span class="s">${s}</span></div>`;
+  const blocked=TASKS.filter(t=>stOf(t)==='block'), risky=TASKS.filter(t=>stOf(t)==='risk'), late=TASKS.filter(isLate);
+  const extHot=EXTERNAL.map(e=>({e,st:extState(e)})).filter(x=>x.st.k==='block'||x.st.k==='risk');
+  const noMeas=KPI27.filter(x=>x.nom).length;
+  $('#v-over').innerHTML=`
+    <div class="kpi-grid">
+      ${k('acc','Текущий горизонт',h.id,`${h.n} · ${h.p}`)}
+      ${k('','Задач в карте',live.length,`${doneOf(live)} закрыто · ${TASKS.length-live.length} снято`)}
+      ${k(late.length?'al':'','Просрочено',late.length,late.length?'срок вышел, задача открыта':'сроки в порядке')}
+      ${k(risky.length?'acc':'','Под риском',risky.length,'у каждой заполнен блокер')}
+      ${k(blocked.length?'al':'','Заблокировано',blocked.length,blocked.length?'нужна эскалация':'блокеров нет')}
+      ${k(extHot.length?'al':'','Внешние на грани',extHot.length,'до даты блокировки меньше 30 дней')}
+    </div>
+
+    <div class="two" style="margin-top:18px">
+      <div class="panel">
+        <div class="h-sec">Горизонты сезона</div>
+        ${HORIZONS.map(hz=>{const l=liveOf(hzTasks(hz.id)),p=pctOf(hzTasks(hz.id));
+          const isNow=hz.id===h.id;
+          return `<div style="padding:12px 0;border-bottom:1px solid var(--line-soft)">
+            <div style="display:flex;gap:12px;align-items:baseline">
+              <span class="dsp" style="font-size:15px;color:${isNow?'var(--acc)':'var(--muted-2)'};width:30px">${hz.id}</span>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13.5px;font-weight:600">${esc(hz.n)}</div>
+                <div class="src">${esc(hz.p)}</div>
+              </div>
+              <span class="mono" style="font-size:12px">${doneOf(l)}/${l.length}</span>
+              <span class="mono" style="font-size:12px;width:38px;text-align:right;color:${p?'var(--acc)':'var(--muted-2)'}">${p}%</span>
+            </div>
+            <div class="meter" style="width:100%;margin-top:8px"><div class="bar"><i style="width:${p}%"></i></div></div>
+          </div>`;}).join('')}
+      </div>
+      <div class="panel">
+        <div class="h-sec">Пробелы, которые видит карта</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="note al"><b class="mono" style="font-size:10px;letter-spacing:.1em">К6 БЕЗ ВЛАДЕЛЬЦА</b><br>
+            Цифровой контур не закреплён ни за кем, а на нём висят
+            ${plural(TASKS.filter(t=>t.ow==='k6').length,'задача','задачи','задач')} и
+            ${plural(KPI27.filter(x=>x.o==='k6').length,'показатель','показателя','показателей')} 2027 года.</div>
+          <div class="note"><b class="mono" style="font-size:10px;letter-spacing:.1em">${noMeas} KPI БЕЗ МЕХАНИКИ ЗАМЕРА</b><br>
+            По правилу брифинга показатель без замера не идёт в панель как показатель.
+            Под каждый заведена задача «настроить замер» — они помечены в карте.</div>
+          <div class="note"><b class="mono" style="font-size:10px;letter-spacing:.1em">ДВЕ РОЛИ НЕ ЗАКРЫТЫ</b><br>
+            Маркетолог — вакансия, владелец К6 — не закреплён. Найм стоит в H0 со сроком 30 ноября 2026.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <div class="h-sec">Ближайшие сроки · 60 дней</div>
+      ${(()=>{const soon=TASKS.filter(t=>isOpen(t)&&days(today,dueOf(t))<=60).sort((a,b)=>dueOf(a)-dueOf(b));
+        return soon.length?soon.map(taskRow).join(''):'<div class="empty">В ближайшие два месяца открытых сроков нет</div>';})()}
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <div class="h-sec">Риски сезона</div>
+      <div class="scroll-x"><table>
+        <thead><tr><th style="width:26%">Риск</th><th style="width:37%">Проявление</th><th>Реакция</th></tr></thead>
+        <tbody>${RISKS.map(r=>`<tr><td><b>${esc(r.t)}</b></td><td class="dim">${esc(r.s)}</td><td>${esc(r.r)}</td></tr>`).join('')}</tbody>
+      </table></div>
+    </div>`;
+}
+
+/* ---------- 2. ДОРОЖНАЯ КАРТА ---------- */
+let openHz = null;
+function renderRoad(){
+  if(openHz===null) openHz = curHz().id;
+  const fset=(k,list,lab)=>`<div class="frow"><label>${lab}</label>${list.map(x=>{
+      const n=TASKS.filter(t=>k==='ow'?(t.ow===x.id||t.co===x.id):k==='st'?stOf(t)===x.id:t[k]===x.id).length;
+      return `<button class="chipb" data-f="${k}" data-fv="${x.id}" aria-pressed="${F[k].has(x.id)}">${esc(x.ab||x.n)}<span class="n">${n}</span></button>`;
+    }).join('')}</div>`;
+  const shown=TASKS.filter(passF);
+  $('#v-road').innerHTML=`
+    <div class="filters">
+      ${fset('hz',HORIZONS.map(h=>({id:h.id,ab:h.id})),'Горизонт')}
+      ${fset('tr',TRACKS,'Трек')}
+      ${fset('ow',OWNERS.map(o=>({id:o.id,ab:o.n})),'Владелец')}
+      ${fset('ct',CITIES,'Город')}
+      ${fset('st',STATUS.map(s=>({id:s.id,ab:s.n})),'Статус')}
+      <div class="frow"><label></label>
+        <span class="src">Показано ${plural(shown.length,'задача','задачи','задач')} из ${TASKS.length}</span>
+        ${anyF()?'<button class="btn sm" id="fClear">Сбросить фильтры</button>':''}
+        <span style="margin-left:auto"></span>
+        <button class="btn sm" data-go="exp">Экспорт в таблицу</button></div>
+    </div>
+    ${HORIZONS.map(hz=>{
+      const all=hzTasks(hz.id), list=all.filter(passF), live=liveOf(all), p=pctOf(all);
+      if(anyF() && !list.length) return '';
+      const open = anyF() ? true : openHz===hz.id;
+      return `<section class="hz">
+        <div class="hz-h" data-hz="${hz.id}">
+          <span class="hz-id">${hz.id}</span>
+          <div class="hz-t"><h3>${esc(hz.n)}</h3><div class="p">${esc(hz.p)}</div></div>
+          <div class="hz-m"><div class="meter"><div class="bar"><i style="width:${p}%"></i></div>
+            <div class="lb"><span>${doneOf(live)} из ${live.length}</span><span>${p}%</span></div></div>
+            <span class="mono" style="font-size:15px;color:var(--muted-2)">${open?'−':'+'}</span></div>
+        </div>
+        <div class="hz-gate"><b>Критерий выхода</b><span>${esc(hz.gate)}</span></div>
+        ${open?`<div class="hz-body">${list.map(taskRow).join('')||'<div class="empty">Под фильтр ничего не попало</div>'}</div>`:''}
+      </section>`;
+    }).join('')}`;
+  const c=$('#fClear'); if(c) c.onclick=()=>{Object.values(F).forEach(s=>s.clear()); renderRoad();};
+}
+
+/* ---------- 3. МОНТАЖ H3 ---------- */
+const MOUNT=[
+ {n:'Завоз конструкций и застройка',      o:'tech', a:-5, b:-3},
+ {n:'Электрика: щиты, разводка, подключение', o:'tech', a:-4, b:-2},
+ {n:'Заезд резидентов по слотам',         o:'tman', a:-2, b:-1},
+ {n:'Приёмка МЧС зоны грилей',            o:'tech', a:-1, b:-1, hard:true},
+ {n:'Брифинг менеджеров зон',             o:'tman', a:-1, b:-1},
+ {n:'Работа площадки',                    o:'tman', a:0,  b:1, main:true},
+ {n:'Z-отчёты и финансовая дисциплина',   o:'tman', a:1,  b:2},
+ {n:'Демонтаж резидентов',                o:'tman', a:2,  b:2},
+ {n:'Демонтаж застройки, сдача мест',     o:'tech', a:2,  b:4}
+];
+function figMount(city){
+  const D0=FEST[city], D=[]; for(let i=-5;i<=4;i++) D.push(i);
+  const cols=`260px repeat(${D.length},minmax(58px,1fr))`;
+  return `<div class="tl"><div class="scroll-x"><div style="min-width:820px">
+    <div class="tl-h" style="grid-template-columns:${cols}">
+      <div>Работа · владелец</div>
+      ${D.map(i=>`<div class="${i===0?'d0':''}">${i===0?'ДЕНЬ 0':(i<0?'−'+Math.abs(i):'+'+i)}<br>
+        <span style="font-size:8.5px;opacity:.7">${fD(addD(D0,i)).slice(0,5)}</span></div>`).join('')}
+    </div>
+    ${MOUNT.map(m=>{
+      const L=(m.a+5)/D.length*100, W=(m.b-m.a+1)/D.length*100;
+      const bg = m.main?'var(--acc)':m.hard?'var(--alarm-dim)':'var(--panel-3)';
+      const fg = m.main?'var(--acc-ink)':m.hard?'var(--alarm-text)':'var(--text)';
+      const br = m.hard?'1px solid var(--alarm)':'1px solid var(--line)';
+      return `<div class="tl-r" style="grid-template-columns:${cols}">
+        <div class="tl-n">${esc(m.n)}<span>${esc(OW[m.o].n)}</span></div>
+        <div class="tl-t"><div class="tl-c" style="grid-template-columns:repeat(${D.length},1fr)">
+          ${D.map(i=>`<i class="${i===0?'d0':''}"></i>`).join('')}</div>
+          <div class="tl-b" style="left:${L}%;width:${W}%;background:${bg};color:${fg};border:${br}">
+            ${esc(m.n.length>26?m.n.slice(0,26)+'…':m.n)}</div></div>
+      </div>`;}).join('')}
+  </div></div></div>`;
+}
+function renderMount(){
+  $('#v-mount').innerHTML=`
+    <div class="note">Суточный таймлайн монтажа. День 0 — первый день фестиваля: Москва
+      ${fL(FEST.msk)}, Петербург ${fL(FEST.spb)}.
+      <b>Слоты — оценка на основе процесса П2</b>, а не выгрузка: реальные таймлайны лежат в
+      <span class="src">Пикник 26/ПИКНИК/Таймлайн Пикник Афиши Фудкорты.xlsx — листы «Таймлайн МСК» и «Таймлайн СПБ»</span>.
+      Замените этими данными, когда файл будет под рукой.</div>
+    ${['msk','spb'].map(c=>`
+      <div style="margin-top:18px">
+        <div class="h-sec">${c==='msk'?'Москва · день 0 = '+fL(FEST.msk):'Петербург · день 0 = '+fL(FEST.spb)}</div>
+        ${figMount(c)}
+        <div style="margin-top:12px">
+          <div class="h-sec">Задачи H3 по городу</div>
+          <div class="panel" style="padding:0">${TASKS.filter(t=>t.hz==='H3'&&t.ct===c).map(taskRow).join('')}</div>
+        </div>
+      </div>`).join('')}
+    <div class="note al" style="margin-top:18px">Между городами 49 дней. Демонтаж Москвы
+      (${fD(addD(FEST.msk,2))} — ${fD(addD(FEST.msk,4))}) и заморозка планировки Петербурга
+      (${fD(addD(FEST.spb,-21))}) идут в одном месяце — это тот же ресурс тех. продакшна.</div>`;
+}
+</script>
+
+<script>
+/* ---------- 4. УЗКИЕ МЕСТА ---------- */
+function renderBn(){
+  const lvlN={crit:'критично',mid:'средне',low:'низко'};
+  $('#v-bn').innerHTML=`
+    <div class="note">Девять находок из разбора сезона 2026. Каждая связана с задачами карты —
+      если у находки нет ни одной открытой задачи, она либо закрыта, либо забыта.</div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(380px,1fr));margin-top:16px">
+      ${BOTTLE.map(b=>{const ts=tasksOfBn(b.id), open=ts.filter(isOpen);
+        return `<article class="bn ${b.lvl}">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <span class="tag ${b.lvl==='crit'?'al':b.lvl==='mid'?'acc':''}">${b.id}</span>
+            <span class="tag">${lvlN[b.lvl]}</span>
+            <span class="tag ${open.length?'':'solid'}">${ts.length?`${open.length} из ${ts.length} открыто`:'задач нет'}</span>
+          </div>
+          <h4>${esc(b.t)}</h4>
+          <p>${esc(b.f)}</p>
+          <div class="fix"><b>Что делать</b>${esc(b.fix)}</div>
+          <div class="src" style="margin-top:9px">Источник: ${esc(b.src)}</div>
+          ${ts.length?`<div class="linkrow" style="margin-top:11px">${ts.map(t=>
+            `<button class="tag ${stOf(t)==='done'?'solid':''}" data-open="${t.id}" title="${esc(t.t)}">
+              ${t.hz} · ${esc(t.t.length>34?t.t.slice(0,34)+'…':t.t)}</button>`).join('')}</div>`:''}
+        </article>`;}).join('')}
+    </div>`;
+}
+
+/* ---------- 5. KPI 2027 ---------- */
+function renderKpi(){
+  const nom=KPI27.filter(x=>x.nom);
+  $('#v-kpi').innerHTML=`
+    <div class="note">Показатель без механики замера не идёт в панель как показатель. Такие помечены
+      «нет замера» и ведут на задачу, которая этот замер настраивает —
+      ${plural(nom.length,'показатель','показателя','показателей')} из ${KPI27.length}.</div>
+    <div class="panel" style="margin-top:16px">
+      <div class="scroll-x"><table>
+        <thead><tr><th style="width:24%">KPI</th><th>База 2026</th><th>Цель 2027</th>
+          <th>Владелец</th><th>Источник данных</th><th style="width:22%">Задачи карты</th></tr></thead>
+        <tbody>${KPI27.map(x=>{
+          const ts=tasksOfKpi(x.n), fx=x.fix?TBY[x.fix]:null, o=OW[x.o];
+          return `<tr>
+            <td><b>${esc(x.n)}</b>${x.nom?'<span class="pmark est">нет замера</span>':''}</td>
+            <td class="mono ${x.nom?'dim':''}" style="font-size:12px">${esc(x.b)}</td>
+            <td class="mono" style="font-size:12px;color:var(--acc)">${esc(x.g)}</td>
+            <td style="font-size:12px">${esc(o.n)}${o.gap?'<div class="src" style="color:var(--alarm-text)">не закреплён</div>':`<div class="src">${esc(o.who)}</div>`}</td>
+            <td class="src">${esc(x.s)}</td>
+            <td>${ts.length?`<div class="linkrow">${ts.slice(0,3).map(t=>
+                `<button class="tag ${stOf(t)==='done'?'solid':''}" data-open="${t.id}" title="${esc(t.t)}">${t.hz}·${t.id.replace('t','')}</button>`).join('')}
+                ${ts.length>3?`<span class="tag">+${ts.length-3}</span>`:''}</div>`
+              :'<span class="tag al">задачи нет</span>'}
+              ${fx?`<div class="src" style="margin-top:5px">замер: <button class="tag acc" data-open="${fx.id}">${fx.id.replace('t','')}</button></div>`:''}</td>
+          </tr>`;}).join('')}</tbody>
+      </table></div>
+    </div>`;
+}
+
+/* ---------- 6. ВНЕШНИЕ ЗАВИСИМОСТИ ---------- */
+function renderExt(){
+  const rows=EXTERNAL.map(e=>({e, st:extState(e), ts:tasksOfEx(e.id)}))
+    .sort((a,b)=>a.e.blockD-b.e.blockD);
+  $('#v-ext').innerHTML=`
+    <div class="note">Стороны вне направления. У каждой — дата, после которой ожидание превращается в блокер
+      задачи. Дата считается от срока самой ранней зависящей задачи, а не от удобства подрядчика.</div>
+    <div class="panel" style="margin-top:16px">
+      <div class="scroll-x"><table>
+        <thead><tr><th style="width:18%">Сторона</th><th style="width:26%">Что нужно</th>
+          <th>Блокер с</th><th>Состояние</th><th>Задачи</th></tr></thead>
+        <tbody>${rows.map(({e,st,ts})=>`<tr>
+          <td><b>${esc(e.side)}</b></td>
+          <td class="dim">${esc(e.need)}</td>
+          <td class="mono" style="font-size:12px;color:${st.k==='block'?'var(--alarm)':st.k==='risk'?'var(--acc)':'var(--muted)'}">${fD(e.blockD)}</td>
+          <td><span class="tag ${st.k==='block'?'al':st.k==='risk'?'acc':st.k==='done'?'solid':''}">${esc(st.n)}</span></td>
+          <td><div class="linkrow">${ts.map(t=>`<button class="tag ${stOf(t)==='done'?'solid':''}" data-open="${t.id}"
+            title="${esc(t.t)}">${t.hz} · ${esc(t.t.length>30?t.t.slice(0,30)+'…':t.t)}</button>`).join('')}</div></td>
+        </tr>`).join('')}</tbody>
+      </table></div>
+    </div>`;
+}
+
+/* ---------- 7. КОНТУРЫ И ПРОЦЕССЫ ---------- */
+function renderLoops(){
+  $('#v-loops').innerHTML=`
+    <div class="panel">
+      <div class="h-sec">Шесть контуров</div>
+      <div class="scroll-x"><table>
+        <thead><tr><th style="width:5%">ID</th><th style="width:26%">Контур</th><th style="width:26%">Владелец</th>
+          <th>Метрика</th><th>Задач в карте</th></tr></thead>
+        <tbody>${LOOPS.map(l=>{
+          const map={'К1':['com'],'К2':['com'],'К3':['prod'],'К4':['serv'],'К5':[],'К6':['dig']};
+          const n = l.id==='К6' ? TASKS.filter(t=>t.tr==='dig'||t.ow==='k6').length
+                  : l.id==='К5' ? 0 : TASKS.filter(t=>map[l.id].includes(t.tr)).length;
+          return `<tr>
+            <td class="mono" style="color:var(--acc);font-weight:700">${l.id}</td>
+            <td><b>${esc(l.n)}</b></td>
+            <td style="font-size:12.5px;${l.gap?'color:var(--alarm-text)':''}">${esc(l.o)}</td>
+            <td class="dim" style="font-size:12.5px">${esc(l.m)}</td>
+            <td class="mono">${n||'<span class="tag al">0</span>'}</td></tr>`;}).join('')}</tbody>
+      </table></div>
+      <div class="note al" style="margin-top:14px">К5 «ВИП-зона и бары» не имеет ни одной задачи в дорожной карте,
+        хотя в 2026 году дал 1,22 млн ₽ доли Афиши и провалил план на 46–51%. Либо контур ведётся вне этой карты,
+        либо на сезон 2027 у него нет плана.</div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <div class="h-sec">Пять процессов</div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(290px,1fr))">
+        ${PROC.map(p=>`<div style="border:1px solid var(--line-soft);padding:15px;border-radius:var(--r)">
+          <div style="display:flex;gap:9px;align-items:baseline">
+            <span class="mono" style="color:var(--acc);font-weight:700">${p.id}</span>
+            <div><b style="font-size:13.5px">${esc(p.n)}</b><div class="src">${esc(p.p)}</div></div></div>
+          <ol style="margin:11px 0 0 17px;display:flex;flex-direction:column;gap:5px">
+            ${p.s.map(s=>`<li style="font-size:12.5px;line-height:1.45">${esc(s)}</li>`).join('')}</ol>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <div class="h-sec">Роли и формат по финмодели 2026</div>
+      <div class="scroll-x"><table>
+        <thead><tr><th style="width:22%">Роль</th><th style="width:26%">Кто</th><th>Формат</th><th>Задач</th></tr></thead>
+        <tbody>${OWNERS.map(o=>{const n=TASKS.filter(t=>t.ow===o.id||t.co===o.id).length;
+          return `<tr><td><b>${esc(o.n)}</b></td>
+            <td style="${o.gap?'color:var(--alarm-text)':''}">${esc(o.who)}</td>
+            <td class="src">${esc(o.fmt)}</td>
+            <td class="mono">${n}</td></tr>`;}).join('')}
+          <tr><td><b>Стройка фудкортов и маркета</b></td><td>Лена</td><td class="src">внутренний ресурс</td><td class="mono">—</td></tr>
+          <tr><td><b>Эвент Стафф</b></td><td>подряд</td><td class="src">10% от продаж пакетов · Д-09</td><td class="mono">—</td></tr>
+        </tbody>
+      </table></div>
+    </div>`;
+}
+</script>
+
+<script>
+/* ---------- 8. СЕЗОН 2026 ---------- */
+function renderBase(){
+  $('#v-base').innerHTML=`
+    <div class="note">Базовая линия для целей 2027. План, факт и расчёт помечены отдельно;
+      расхождения между источниками показаны, а не сглажены.</div>
+
+    <div class="panel" style="margin-top:16px">
+      <div class="h-sec">Факты сезона 2026</div>
+      <div class="scroll-x"><table>
+        <thead><tr><th style="width:28%">Показатель</th><th>Москва</th><th>Петербург</th><th>Итого</th><th>Тип</th></tr></thead>
+        <tbody>${FACTS26.rows.map(r=>`<tr><td><b>${esc(r.n)}</b></td>
+          <td class="mono" style="font-size:12.5px">${esc(r.msk)}</td>
+          <td class="mono" style="font-size:12.5px">${esc(r.spb)}</td>
+          <td class="mono" style="font-size:12.5px;color:var(--acc)">${esc(r.tot)}</td>
+          <td><span class="tag">${esc(r.k)}</span></td></tr>`).join('')}</tbody>
+      </table></div>
+      <div class="note" style="margin-top:14px">${esc(FACTS26.note)}</div>
+      <div class="src" style="margin-top:10px">Источник: ${esc(FACTS26.src)}</div>
+    </div>
+
+    <div class="two" style="margin-top:16px">
+      <div class="panel">
+        <div class="h-sec">Динамика по сезонам</div>
+        <div class="scroll-x"><table>
+          <thead><tr>${DYN26.head.map((h,i)=>`<th${i===0?' style="width:34%"':''}>${esc(h)}</th>`).join('')}</tr></thead>
+          <tbody>${DYN26.rows.map(r=>`<tr>${r.map((c,i)=>i===0
+            ? `<td><b>${esc(c)}</b></td>`
+            : `<td class="mono" style="font-size:12.5px;${i===4?'color:var(--acc)':'color:var(--muted)'}">${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody>
+        </table></div>
+        <div class="src" style="margin-top:10px">Источник: ${esc(DYN26.src)}</div>
+      </div>
+      <div class="panel">
+        <div class="h-sec">KPI 2026: план против факта</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          ${KPI26.map(k=>`<div>
+            <div style="display:flex;gap:10px;align-items:baseline;font-size:12.5px">
+              <span style="flex:1;min-width:0">${esc(k.n)}</span>
+              <span class="mono dim" style="font-size:11px">${esc(k.g)}</span>
+              <span class="mono" style="font-size:11.5px;width:78px;text-align:right;
+                color:${k.p===null?'var(--alarm-text)':k.p>=100?'var(--acc)':'var(--text)'}">${esc(k.f)}</span>
+              <span class="mono" style="font-size:11px;width:38px;text-align:right;
+                color:${k.p===null?'var(--alarm)':k.p>=90?'var(--acc)':'var(--muted-2)'}">${k.p===null?'—':k.p+'%'}</span>
+            </div>
+            ${k.p!==null?`<div class="meter" style="width:100%;margin-top:5px"><div class="bar">
+              <i style="width:${Math.min(100,k.p)}%;background:${k.p>=90?'var(--acc)':'var(--muted-2)'}"></i></div></div>`:''}
+          </div>`).join('')}
+        </div>
+        <div class="src" style="margin-top:12px">Пять из тринадцати KPI не имели механики замера · Д-07</div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <div class="h-sec">Расхождения между источниками · Д-08</div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+        ${DIFFS.map(d=>`<div class="diff"><b>${esc(d.n)}</b>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+            ${d.v.map(([s,v])=>`<div style="display:flex;gap:12px;align-items:baseline">
+              <span class="mono" style="font-size:15px;font-weight:700;width:82px">${esc(v)}</span>
+              <span class="src" style="color:var(--muted)">${esc(s)}</span></div>`).join('')}</div>
+          <div style="font-size:12.5px;color:var(--muted)">${esc(d.r)}</div></div>`).join('')}
+      </div>
+    </div>`;
+}
+
+/* ---------- 9. ЭКСПОРТ ---------- */
+const EXP_COLS=['ID','Горизонт','Период','Трек','Задача','Владелец','Исполнитель','Город','Статус',
+  'Блокер','Срок','Срок уточнён','Просрочено','Узкие места','KPI','Внешние зависимости','Дата блокировки',
+  'Добавлена по правилу','Комментарий','Изменено'];
+function expRows(list){
+  return list.map(t=>{const s=Store.get(t.id), due=dueOf(t);
+    return [t.id.replace('t',''), t.hz, HZ[t.hz].p, TR[t.tr].n, t.t, ownerN(t), ownerW(t), CT[t.ct].n,
+      ST[stOf(t)].n, s.blocker||'', fD(due), s.due?'да':'оценка', isLate(t)?'да':'',
+      (t.bn||[]).join(' '), (t.kpi||[]).join('; '),
+      (t.ext||[]).map(e=>EX[e].side).join('; '), (t.ext||[]).map(e=>fD(EX[e].blockD)).join('; '),
+      t.add?'да':'', (s.note||'').replace(/\s+/g,' '),
+      s.at?new Date(s.at).toLocaleString('ru-RU'):''];
+  });
+}
+const toTSV = r=>[EXP_COLS].concat(r).map(x=>x.map(c=>String(c).replace(/[\t\r\n]/g,' ')).join('\t')).join('\r\n');
+const toCSV = r=>'﻿'+[EXP_COLS].concat(r).map(x=>x.map(c=>{
+  const v=String(c).replace(/"/g,'""'); return /[";\r\n]/.test(v)?`"${v}"`:v;}).join(';')).join('\r\n');
+
+function renderExp(){
+  const list=TASKS.filter(passF), rows=expRows(list);
+  $('#v-exp').innerHTML=`
+    <div class="note">Трекера задач у команды нет, поэтому карта отдаёт данные в лист.
+      TSV вставляется в Excel и Google Sheets как есть: выделите поле, скопируйте, вставьте в ячейку A1.
+      CSV с точкой с запятой и BOM — для русской локали Excel.</div>
+    <div class="panel" style="margin-top:16px">
+      <div class="h-sec">Выгрузка · ${plural(list.length,'задача','задачи','задач')}${anyF()?' (по текущему фильтру)':''}</div>
+      <div style="display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px">
+        <button class="btn" id="eSel">Выделить всё</button>
+        <button class="btn" id="eCopy">Скопировать TSV</button>
+        <button class="btn" id="eCsv">Скачать CSV</button>
+        <span class="src" id="eMsg" style="align-self:center"></span>
+      </div>
+      <textarea class="exp" id="eBox" readonly>${esc(toTSV(rows))}</textarea>
+      <div class="src" style="margin-top:10px">${EXP_COLS.length} колонок · срок помечен как «оценка», пока его не уточнили в карточке задачи</div>
+    </div>`;
+  const box=$('#eBox'), msg=$('#eMsg');
+  const say=s=>{msg.textContent=s; setTimeout(()=>{if(msg)msg.textContent='';},2600);};
+  $('#eSel').onclick=()=>{box.focus();box.select();say('выделено — Ctrl+C');};
+  $('#eCopy').onclick=async()=>{
+    box.focus(); box.select();
+    try{ await navigator.clipboard.writeText(box.value); say('скопировано в буфер'); }
+    catch(e){ try{ document.execCommand('copy'); say('скопировано'); }
+      catch(e2){ say('буфер недоступен — скопируйте выделенное вручную'); } }
+  };
+  $('#eCsv').onclick=async()=>{
+    const name=`gastro-2027-${new Date().toISOString().slice(0,10)}.csv`;
+    let dl=null; try{ dl=await claude.use('downloads'); }catch(e){}
+    if(!dl){ say('скачивание недоступно — используйте TSV'); return; }
+    try{ await dl.save({filename:name, data:toCSV(rows)}); say('файл предложен к сохранению'); }
+    catch(e){ say(e&&e.code==='cancelled'?'сохранение отменено':'не удалось сохранить'); }
+  };
+}
+</script>
+
+<script>
+/* =========================================================================
+   МАРШРУТИЗАЦИЯ И СТАРТ
+   ========================================================================= */
+const R={over:renderOver, road:renderRoad, mount:renderMount, bn:renderBn, kpi:renderKpi,
+         ext:renderExt, loops:renderLoops, base:renderBase, exp:renderExp};
+const T={
+  over :['Обзор','Сезон сентябрь 2026 — октябрь 2027'],
+  road :['Дорожная карта','Пять горизонтов, шесть треков, 41 задача'],
+  mount:['Монтаж H3','Суточный таймлайн по двум городам'],
+  bn   :['Узкие места','Девять находок из разбора сезона 2026'],
+  kpi  :['KPI 2027','База, цель, владелец, источник данных'],
+  ext  :['Внешние зависимости','Кто вне направления и с какой даты блокирует'],
+  loops:['Контуры и процессы','Как устроено направление'],
+  base :['Сезон 2026','Базовая линия и расхождения источников'],
+  exp  :['Экспорт','Выгрузка в лист Excel или Google Sheets']
+};
+let VIEW='over';
+function go(v){
+  VIEW=v;
+  document.querySelectorAll('#nav button').forEach(b=>b.setAttribute('aria-current',String(b.dataset.v===v)));
+  Object.keys(R).forEach(k=>{ $('#v-'+k).hidden = k!==v; });
+  $('#vT').textContent=T[v][0]; $('#vS').textContent=T[v][1];
+  render(); window.scrollTo({top:0});
+}
+function render(){
+  paintTop();
+  const f=R[VIEW]; if(f) f();
+  if(dwId && document.activeElement!==$('#dwB') && document.activeElement!==$('#dwN')) openTask(dwId);
+}
+function paintTop(){
+  const live=liveOf(TASKS), h=curHz();
+  $('#s-hz').textContent=h.id;
+  $('#s-done').textContent=`${doneOf(live)}/${live.length}`;
+  const r=TASKS.filter(t=>stOf(t)==='risk').length, b=TASKS.filter(t=>stOf(t)==='block').length;
+  $('#s-risk').textContent=r; $('#s-risk').className=r?'acc':'';
+  $('#s-blk').textContent=b; $('#s-blk').className=b?'al':'';
+  const eb=EXTERNAL.filter(e=>{const s=extState(e);return s.k==='block'||s.k==='risk';}).length;
+  const ce=$('#c-ext'); ce.textContent=eb||''; ce.className='c'+(eb?' hot':''); ce.hidden=!eb;
+}
+
+document.addEventListener('click', e=>{
+  const t=e.target.closest('[data-v],[data-go],[data-open],[data-hz],[data-f],[data-st],[data-bn]');
+  if(!t) return;
+  const d=t.dataset;
+  if(d.v) return go(d.v);
+  if(d.go) return go(d.go);
+  if(d.st!==undefined){ dwPending=d.st; return openTask(dwId); }
+  if(d.bn){ closeDw(); go('bn'); return; }
+  if(d.open){ e.preventDefault(); return openTask(d.open); }
+  if(d.hz){ openHz = (openHz===d.hz? null : d.hz); return renderRoad(); }
+  if(d.f){ const s=F[d.f]; s.has(d.fv)?s.delete(d.fv):s.add(d.fv); return renderRoad(); }
+});
+$('#scrim').onclick=closeDw;
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !$('#dw').hidden) closeDw(); });
+
+sync(false);
+go('over');
+Store.on(render);
+Store.init();
+</script>
