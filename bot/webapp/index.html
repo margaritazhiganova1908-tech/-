@@ -5,215 +5,198 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <title>HUMAN</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Golos+Text:wght@400;500;600&display=swap">
 <style>
-  /* значения токенов приходят из brand.preset и brand.theme */
   :root{
-    --accent:#c9f24a; --accent-ink:#111111;
-    --ink:#111111; --paper:#ffffff; --muted:#8b8b8b; --line:#ececec; --card:#ffffff;
-    --radius:14px; --chip-radius:0px; --badge-radius:var(--chip-radius);
-    --chip-bg:var(--accent); --chip-color:var(--accent-ink); --chip-font:var(--label); --chip-size:11px;
-    --bar-done:#dfe9c4; --bar-now:var(--accent);
-    --mark-bg:var(--accent); --mark-underline:none; --mark-pad:0 .06em; --mark-color:inherit;
-    --title-size:9vw; --title-case:lowercase; --title-weight:800; --title-track:-.02em; --title-lh:1.04;
-    --quote-style:italic;
-    --label-case:uppercase; --label-track:.16em; --label-size:11px;
-    --mono:"SFMono-Regular",ui-monospace,"JetBrains Mono","Menlo",Consolas,monospace;
-    --sans:-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue","Segoe UI",Arial,sans-serif;
-    --display:var(--sans); --body:var(--sans); --label:var(--mono); --contrast:var(--sans);
+    --paper:#0a0a0b; --ink:#f2f4f6; --muted:#8b9099; --line:#2a2c31; --card:#131417;
+    --accent:#cfe0ea; --accent-ink:#0a0a0b; --accent-dim:#7d94a3;
+    --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+    --sans:"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;height:100%}
-  body{background:var(--paper);color:var(--ink);font-family:var(--body);
+  body{background:var(--paper);color:var(--ink);font-family:var(--mono);
     -webkit-font-smoothing:antialiased;overflow:hidden;overscroll-behavior:none;
     -webkit-tap-highlight-color:transparent}
-  .app{display:flex;flex-direction:column;height:100dvh;max-width:560px;margin:0 auto;position:relative;z-index:1}
+  .app{display:flex;flex-direction:column;height:100dvh;max-width:560px;margin:0 auto}
+  button{font:inherit;color:inherit;cursor:pointer}
+  button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-  /* дышащее свечение — только в теме «Тишина» */
-  .theme-still body::before{content:"";position:fixed;inset:-25%;pointer-events:none;z-index:0;
-    background:radial-gradient(46% 34% at 50% 26%,rgba(150,196,183,.20),rgba(150,196,183,0) 70%);
-    animation:breathe 9s ease-in-out infinite}
-  @keyframes breathe{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.07)}}
-  @media (prefers-reduced-motion:reduce){.theme-still body::before{animation:none;opacity:.75}}
+  /* ---------- заставка ---------- */
+  .splash{position:fixed;inset:0;z-index:20;background:var(--paper);display:flex;
+    flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center}
+  .splash h1{font-size:34px;font-weight:500;letter-spacing:.62em;margin:0 0 0 .62em;color:var(--ink)}
+  .splash .rule{width:min(78vw,340px);height:1px;margin:20px 0 18px;
+    background:repeating-linear-gradient(90deg,var(--accent-dim) 0 6px,transparent 6px 12px)}
+  .splash p{font-family:var(--sans);font-size:14px;color:var(--muted);margin:0;max-width:24ch;line-height:1.5}
+  .splash .line{font-size:10px;letter-spacing:.28em;color:var(--accent-dim);margin-top:26px}
+  .splash .skip{position:absolute;bottom:30px;background:none;border:0;color:var(--muted);
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:10px}
+  @media (prefers-reduced-motion:no-preference){
+    .splash h1{animation:track 1.5s cubic-bezier(.2,.7,.2,1) both}
+    .splash .rule{animation:print .7s .8s both}
+    .splash p{animation:up .6s 1.15s both}
+    .splash .line{animation:up .6s 1.45s both}
+    .splash.out{animation:fade .45s both}
+  }
+  @keyframes track{from{letter-spacing:.02em;opacity:0}to{letter-spacing:.62em;opacity:1}}
+  @keyframes print{from{width:0}to{width:min(78vw,340px)}}
+  @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes fade{to{opacity:0;visibility:hidden}}
 
-  .top{padding:14px 20px 0;flex:0 0 auto}
-  .toprow{display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:var(--label);
-    font-size:var(--label-size);letter-spacing:var(--label-track);text-transform:var(--label-case);color:var(--muted)}
-  .close{background:none;border:0;padding:4px 0;font:inherit;color:var(--muted);cursor:pointer;
-    letter-spacing:inherit;text-transform:inherit}
-  .close b{font-weight:400;margin-right:6px}
-  .where{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .bars{display:flex;gap:6px;margin:12px 0 0}
-  .bar{height:3px;flex:1;background:var(--line);border-radius:2px;transition:background .25s}
-  .bar.done{background:var(--bar-done)}
-  .bar.now{background:var(--bar-now)}
+  /* ---------- шапка ---------- */
+  .top{flex:0 0 auto;padding:12px 18px 0}
+  .toprow{display:flex;justify-content:space-between;align-items:center;font-size:10px;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .toprow button{background:none;border:0;padding:4px 0;letter-spacing:.2em;color:var(--muted)}
+  .bars{display:flex;gap:5px;margin-top:10px}
+  .bar{height:2px;flex:1;background:var(--line)}
+  .bar.done{background:var(--accent-dim)}
+  .bar.now{background:var(--accent)}
   .bars[hidden]{display:none}
 
-  .scroll{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;padding:18px 20px 20px;
+  .scroll{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;padding:14px 18px 18px;
     -webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-  .view{animation:in .22s ease-out}
-  @keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .view{animation:in .2s ease-out}
+  @keyframes in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){.view{animation:none}}
 
-  .kicker{font-family:var(--label);font-size:var(--label-size);letter-spacing:var(--label-track);
-    text-transform:var(--label-case);color:var(--muted);margin:0 0 14px}
-  .kicker .num{color:var(--ink)}
-  h1{font-family:var(--display);font-size:clamp(29px,var(--title-size),44px);line-height:var(--title-lh);
-    letter-spacing:var(--title-track);font-weight:var(--title-weight);margin:0 0 16px;
-    text-transform:var(--title-case)}
-  h1 mark{background:var(--mark-bg);background-image:var(--mark-underline);background-repeat:repeat-x;
-    background-position:0 100%;background-size:auto 7px;color:var(--mark-color);padding:var(--mark-pad);
-    box-decoration-break:clone;-webkit-box-decoration-break:clone}
-  h1 .alt{font-family:var(--contrast);font-weight:700;letter-spacing:-.02em}
-  h1 .doodle{display:inline-block;vertical-align:.05em;margin-left:.12em}
-  .doodle svg{width:.6em;height:.6em;overflow:visible}
-  .lead{font-size:16px;line-height:1.55;color:var(--ink);opacity:.82;margin:0 0 18px;max-width:34em}
+  /* ---------- чек ---------- */
+  .brandbar{display:flex;justify-content:space-between;background:var(--accent);color:var(--accent-ink);
+    padding:7px 10px;font-size:10px;letter-spacing:.22em;font-weight:600}
+  .r-title{text-align:center;font-size:15px;letter-spacing:.34em;margin:18px 0 5px}
+  .r-sub{text-align:center;font-size:9px;letter-spacing:.18em;color:var(--muted);margin:0 0 14px;line-height:1.7}
+  .cut{border-top:1px dashed #4a4f5a;margin:12px 0}
+  .kv{display:flex;justify-content:space-between;gap:12px;font-size:10.5px;letter-spacing:.06em;
+    color:var(--muted);padding:3px 0}
+  .kv b{color:var(--ink);font-weight:500;text-align:right}
+  .about{font-family:var(--sans);font-size:14.5px;line-height:1.55;color:#c8ccd4;margin:12px 0}
+  .th{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.18em;color:var(--muted);
+    padding-bottom:6px}
+  .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;
+    background:none;border:0;border-bottom:1px solid var(--line);padding:12px 0;text-align:left}
+  .row .n{font-size:12.5px;letter-spacing:.1em;color:var(--ink)}
+  .row .t{display:block;font-family:var(--sans);font-size:12px;color:var(--muted);
+    letter-spacing:0;margin-top:3px}
+  .row .p{font-size:12px;color:var(--accent);white-space:nowrap}
+  .row:active{background:#111318}
+  .total{display:flex;justify-content:space-between;align-items:center;margin:12px 0 0}
+  .total span:first-child{font-size:11px;letter-spacing:.2em}
+  .total span:last-child{font-size:15px;background:var(--accent);color:var(--accent-ink);padding:2px 8px}
+  .thanks{text-align:center;font-size:9px;letter-spacing:.24em;color:var(--muted);margin:16px 0 10px}
+  .bars-code{display:flex;gap:2px;justify-content:center;height:28px;margin-bottom:6px}
+  .bars-code i{display:block;background:#e7eaef}
 
-  .meta{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);
-    border-bottom:1px solid var(--ink);margin:0 0 20px}
-  .meta div{padding:10px 12px 12px}
-  .meta div + div{border-left:1px solid var(--line)}
-  .meta .l{font-family:var(--label);font-size:10px;letter-spacing:var(--label-track);color:var(--muted);
-    text-transform:var(--label-case);margin-bottom:6px}
-  .meta .v{font-family:var(--display);font-size:16px;font-weight:600}
-  .section{font-family:var(--label);font-size:var(--label-size);letter-spacing:var(--label-track);
-    text-transform:var(--label-case);color:var(--muted);border-bottom:1px solid var(--line);
-    padding-bottom:8px;margin:0 0 4px}
+  /* ---------- страница услуги ---------- */
+  .s-tag{font-size:9px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase}
+  .s-title{font-size:22px;letter-spacing:.1em;margin:8px 0 12px}
+  .s-price{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
+  .s-price b{font-size:24px;background:var(--accent);color:var(--accent-ink);padding:1px 8px;font-weight:500}
+  .s-price span{font-size:10px;letter-spacing:.16em;color:var(--muted)}
+  .s-desc{font-family:var(--sans);font-size:15px;line-height:1.6;color:#ccd1d9;margin:0 0 16px}
+  .inc{list-style:none;margin:0;padding:0}
+  .inc li{font-family:var(--sans);font-size:14px;line-height:1.5;color:#c2c7d0;padding:8px 0 8px 18px;
+    border-bottom:1px solid var(--line);position:relative}
+  .inc li::before{content:"→";position:absolute;left:0;top:8px;color:var(--accent-dim);font-family:var(--mono);font-size:12px}
 
+  /* ---------- календарь ---------- */
+  .cal-label{font-size:9px;letter-spacing:.2em;color:var(--muted);margin:20px 0 8px}
+  .days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+  .days::-webkit-scrollbar{display:none}
+  .day{flex:0 0 auto;width:56px;border:1px solid var(--line);background:var(--card);padding:8px 0;
+    text-align:center;color:var(--muted)}
+  .day i{display:block;font-style:normal;font-size:9px;letter-spacing:.14em}
+  .day b{display:block;font-size:17px;font-weight:500;color:var(--ink);margin:3px 0 1px}
+  .day u{display:block;text-decoration:none;font-size:8.5px;letter-spacing:.1em}
+  .day[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .day[aria-pressed="true"] b{color:var(--accent-ink)}
+  .times{display:flex;flex-wrap:wrap;gap:6px}
+  .time{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px;font-size:13px}
+  .time[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .cal-note{font-family:var(--sans);font-size:12.5px;line-height:1.5;color:var(--muted);margin:14px 0 0}
+
+  /* ---------- разделы и опрос ---------- */
+  .item{display:flex;gap:12px;align-items:baseline;width:100%;background:none;border:0;
+    border-bottom:1px solid var(--line);padding:14px 0;text-align:left}
+  .item .idx{font-size:10px;color:var(--muted);min-width:20px}
+  .item .t{font-size:14px;letter-spacing:.06em;display:block}
+  .item .s{font-family:var(--sans);font-size:12.5px;color:var(--muted);display:block;margin-top:3px;line-height:1.4}
+  .item .go{margin-left:auto;color:var(--muted)}
+  h1.slide{font-size:26px;line-height:1.25;letter-spacing:.02em;font-weight:500;margin:0 0 14px}
+  h1.slide mark{background:var(--accent);color:var(--accent-ink);padding:0 4px}
+  .kicker{font-size:9.5px;letter-spacing:.2em;color:var(--muted);margin:0 0 12px;text-transform:uppercase}
+  .lead{font-family:var(--sans);font-size:15px;line-height:1.6;color:#c8ccd4;margin:0 0 16px}
+  .meta{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--accent-dim);
+    border-bottom:1px solid var(--accent-dim);margin:0 0 18px}
+  .meta div{padding:9px 8px}
+  .meta div+div{border-left:1px solid var(--line)}
+  .meta .l{font-size:8.5px;letter-spacing:.16em;color:var(--muted);margin-bottom:5px}
+  .meta .v{font-size:13px}
+  .section{font-size:9px;letter-spacing:.2em;color:var(--muted);border-bottom:1px solid var(--line);
+    padding-bottom:7px;margin:0 0 2px}
   ol{list-style:none;margin:0;padding:0}
-  .n{flex:0 0 auto;min-width:26px;height:26px;display:grid;place-items:center;background:var(--chip-bg);
-    color:var(--chip-color);font-family:var(--chip-font);font-size:var(--chip-size);font-weight:600;
-    padding:0 6px;border-radius:var(--chip-radius)}
-  .rows li{display:flex;gap:12px;align-items:flex-start;padding:14px 2px;border-bottom:1px solid var(--line)}
-  .rows .t{font-size:16px;line-height:1.35;font-weight:600}
-  .rows .q{font-size:14px;line-height:1.45;color:var(--muted);margin-top:4px}
-  .cards li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
-    border-radius:var(--radius);padding:16px;margin-bottom:10px}
-  .cards .t{font-size:16px;font-weight:700;line-height:1.3}
-  .cards .q{font-size:14px;line-height:1.5;color:var(--muted);font-style:var(--quote-style);margin-top:6px}
-  .steps li{display:flex;gap:12px;align-items:flex-start;padding:0 0 18px;position:relative}
-  .steps li:not(:last-child)::before{content:"";position:absolute;left:12px;top:26px;bottom:2px;
-    width:1px;background:var(--line)}
-  .steps .n{border-radius:50%;min-width:26px;width:26px;padding:0;box-shadow:inset 0 0 0 1px var(--line)}
-  .steps .t{font-size:16px;font-weight:700}
-  .steps .q{font-size:14px;color:var(--muted);margin-top:4px;line-height:1.45}
-  .note{font-size:14px;line-height:1.55;color:var(--muted);border-left:2px solid var(--accent);
-    padding:2px 0 2px 12px;margin:18px 0 0}
-
-  /* ---------- меню разделов ---------- */
-  .home h1{margin-bottom:12px}
-  .home .lead{margin-bottom:24px}
-  .menu{display:flex;flex-direction:column;gap:0}
-  .item{display:flex;gap:14px;align-items:baseline;width:100%;text-align:left;background:none;
-    border:0;border-top:1px solid var(--line);padding:16px 2px;cursor:pointer;color:var(--ink);
-    font-family:var(--body)}
-  .item:last-child{border-bottom:1px solid var(--line)}
-  .item .idx{font-family:var(--label);font-size:11px;color:var(--muted);min-width:22px}
-  .item .t{font-family:var(--display);font-size:19px;font-weight:600;letter-spacing:-.01em;
-    line-height:1.2;display:block}
-  .item .s{font-size:13.5px;color:var(--muted);margin-top:4px;display:block;line-height:1.4}
-  .item .go{margin-left:auto;color:var(--muted);font-size:17px}
-  .item:hover .t,.item:focus-visible .t{color:var(--mark-color-hover,var(--ink))}
-  .item:focus-visible,.close:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-
-
-  /* ---------- ревизия роли ---------- */
-  .qz .num{font-family:var(--label);font-size:var(--label-size);letter-spacing:var(--label-track);
-    text-transform:var(--label-case);color:var(--muted);margin:0 0 14px}
-  .qz h2{font-family:var(--display);font-size:23px;line-height:1.3;font-weight:600;
-    letter-spacing:-.015em;margin:0 0 22px;text-wrap:balance}
-  .opts{display:grid;gap:8px}
-  .opt{text-align:left;width:100%;background:var(--card);border:1px solid var(--line);
-    border-radius:var(--radius);padding:15px 16px;font-family:var(--body);font-size:15.5px;
-    color:var(--ink);cursor:pointer;line-height:1.35}
+  .n{flex:0 0 auto;min-width:24px;font-size:10px;color:var(--accent);padding-top:3px}
+  .rows li,.cards li,.steps li{display:flex;gap:10px;align-items:flex-start;padding:12px 0;
+    border-bottom:1px solid var(--line)}
+  .rows .t,.cards .t,.steps .t{font-family:var(--sans);font-size:14.5px;font-weight:500;line-height:1.35}
+  .rows .q,.cards .q,.steps .q{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--muted);margin-top:3px}
+  .note{font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--muted);
+    border-left:2px solid var(--accent-dim);padding-left:11px;margin:16px 0 0}
+  .opts{display:grid;gap:7px}
+  .opt{text-align:left;width:100%;background:var(--card);border:1px solid var(--line);padding:14px;
+    font-family:var(--sans);font-size:14.5px;line-height:1.35}
   .opt:active{background:var(--accent);color:var(--accent-ink)}
-  .res-hours{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--ink);
-    padding-bottom:14px;margin-bottom:8px}
-  .res-hours b{font-family:var(--display);font-size:56px;line-height:1;font-weight:700;
-    letter-spacing:-.04em;background:var(--accent);color:var(--accent-ink);padding:0 8px}
-  .res-hours span{font-size:14px;color:var(--muted);line-height:1.35}
-  .res-note{font-size:13px;color:var(--muted);line-height:1.45;margin:0 0 26px}
-  .res-name{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.02em;margin:6px 0 10px}
-  .gift{width:100%;background:var(--accent);color:var(--accent-ink);border:0;border-radius:var(--radius);
-    padding:16px;font-family:var(--contrast);font-size:15.5px;font-weight:600;cursor:pointer;margin-top:8px}
+  .qz h2{font-family:var(--sans);font-size:19px;line-height:1.35;font-weight:600;margin:0 0 18px}
+  .res-hours{display:flex;align-items:baseline;gap:10px;border-bottom:1px solid var(--accent-dim);
+    padding-bottom:12px;margin-bottom:8px}
+  .res-hours b{font-size:48px;line-height:1;background:var(--accent);color:var(--accent-ink);padding:0 8px;font-weight:500}
+  .res-hours span{font-size:12px;color:var(--muted)}
+  .res-note{font-family:var(--sans);font-size:12.5px;color:var(--muted);line-height:1.45;margin:0 0 22px}
+  .res-name{font-size:19px;letter-spacing:.06em;margin:8px 0 10px}
+  .gift{width:100%;background:var(--accent);color:var(--accent-ink);border:0;padding:15px;
+    font-size:12px;letter-spacing:.16em;margin-top:10px}
 
-  /* ---------- стартовый экран «Разметка» ---------- */
-  .mk{position:relative;margin:-18px -20px 0;height:454px;overflow:hidden;background:#cfcfcb}
-  .mk-photo{position:absolute;inset:0}
-  .mk-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.04)}
-  .mk-photo svg{width:100%;height:100%;display:block}
-  .mk-stub{position:absolute;right:8px;top:52%;font-family:var(--label);font-size:8px;
-    letter-spacing:.16em;text-transform:uppercase;color:#5c5f66;opacity:.7;
-    transform:rotate(90deg);transform-origin:right top}
-  .mk-hud{position:absolute;left:20px;right:20px;top:16px;display:flex;justify-content:space-between;
-    font-family:var(--label);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#3d3f45}
-  .mk-frame{position:absolute;border:1.4px solid var(--ink)}
-  .mk-frame.dashed{border-style:dashed}
-  .mk-tag{position:absolute;font-family:var(--label);font-size:8.5px;letter-spacing:.12em;
-    text-transform:uppercase;background:var(--ink);color:#f5f4ef;padding:3px 6px;white-space:nowrap}
-  .mk-pop{position:absolute;left:50%;transform:translateX(-50%);top:206px;display:flex;
-    background:#2a2c31;border-radius:10px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.3);z-index:3}
-  .mk-pop button{background:none;border:0;color:#fff;font-family:var(--body);font-size:12px;
-    padding:9px 12px;cursor:pointer;white-space:nowrap}
-  .mk-pop button + button{border-left:1px solid #43464d}
-  .mk-pop button:active{background:#3b3e45}
-  .mk-quote{position:absolute;left:16px;right:16px;top:258px;z-index:2}
-  .mk-quote mark{background:var(--accent);color:var(--ink);font-size:17px;font-weight:600;
-    line-height:1.75;padding:2px 5px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
-  .mk-dot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--accent);
-    border:1.5px solid var(--ink);z-index:3}
-  .mk-club{position:absolute;left:16px;right:16px;bottom:14px;background:rgba(245,244,239,.94);
-    border:1px solid var(--ink);padding:12px 14px;cursor:pointer;text-align:left;z-index:2;
-    font-family:var(--body);color:var(--ink);width:calc(100% - 32px)}
-  .mk-club b{font-family:var(--label);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--muted);display:block;margin-bottom:8px}
-  .mk-club .li{display:flex;justify-content:space-between;font-size:13px;padding:3px 0}
-  .mk-club .li i{font-style:normal;font-family:var(--label);font-size:9px;color:var(--muted)}
-  .mk-lead{font-size:15px;line-height:1.5;color:var(--ink);opacity:.8;margin:20px 0 6px}
-  .chan{flex:0 0 auto;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);
-    border-radius:var(--radius);padding:0 18px;font-family:var(--contrast);font-size:14px;
-    font-weight:600;text-decoration:none}
+  /* ---------- низ ---------- */
+  .bottom{flex:0 0 auto;padding:8px 18px calc(10px + env(safe-area-inset-bottom));background:var(--paper);
+    border-top:1px solid var(--line)}
+  .navrow{display:flex;gap:6px}
+  .navrow[hidden]{display:none}
+  .back{flex:0 0 auto;width:48px;border:1px solid var(--line);background:none;font-size:16px}
+  .next{flex:1 1 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;
+    background:var(--accent);color:var(--accent-ink);border:0;padding:15px 16px;text-align:left}
+  .next[disabled]{background:var(--card);color:var(--muted);border:1px solid var(--line)}
+  .next .lbl{font-size:12px;letter-spacing:.18em;font-weight:600}
+  .next .hint{font-size:9px;letter-spacing:.1em;opacity:.7}
+  .chan{flex:0 0 auto;display:grid;place-items:center;border:1px solid var(--line);color:var(--ink);
+    padding:0 14px;font-size:10px;letter-spacing:.18em;text-decoration:none}
   .chan[hidden]{display:none}
-  .bottom{flex:0 0 auto;padding:10px 20px calc(10px + env(safe-area-inset-bottom));
-    background:var(--paper);box-shadow:0 -14px 18px -6px var(--paper)}
-  .navrow{display:flex;gap:10px;align-items:stretch}
-  .back{flex:0 0 auto;width:56px;border:1px solid var(--line);background:transparent;
-    border-radius:var(--radius);font-size:20px;color:var(--ink);cursor:pointer}
-  .back[disabled]{opacity:.3;cursor:default}
-  .next{flex:1 1 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;
-    background:var(--ink);color:var(--paper);border:0;border-radius:var(--radius);padding:18px 20px;
-    cursor:pointer;font-family:var(--body);text-align:left}
-  .next .lbl{font-family:var(--contrast);font-size:18px;font-weight:700;letter-spacing:-.01em}
-  .next .hint{font-family:var(--label);font-size:11px;letter-spacing:.08em;opacity:.6;text-align:right}
-  .next:active{transform:translateY(1px)}
-  .ctaline{text-align:center;font-family:var(--label);font-size:12px;color:var(--muted);margin:12px 0 2px}
-  .ctaline button{font:inherit;color:var(--ink);border:0;padding:0 2px 3px;cursor:pointer;font-weight:600;
-    background:linear-gradient(var(--accent),var(--accent)) 0 100%/100% 3px no-repeat}
-  .foot{text-align:center;font-family:var(--label);font-size:12px;color:var(--muted);opacity:.7;
-    background:var(--card);padding:12px 0 calc(12px + env(safe-area-inset-bottom));margin:10px -20px -10px}
+  .foot{text-align:center;font-size:9.5px;letter-spacing:.16em;color:#585d66;padding-top:9px}
 </style>
 </head>
 <body>
+<div class="splash" id="splash">
+  <h1 id="spTitle">HUMAN</h1>
+  <div class="rule"></div>
+  <p id="spSub"></p>
+  <div class="line" id="spLine"></div>
+  <button class="skip" id="spSkip">пропустить</button>
+</div>
+
 <div class="app">
   <header class="top">
     <div class="toprow">
-      <button class="close" id="close"><b>×</b><span id="closeLabel">закрыть</span></button>
-      <div class="where" id="where"></div>
+      <button id="close">× <span id="closeLabel">закрыть</span></button>
+      <div id="where"></div>
     </div>
     <div class="bars" id="bars" hidden></div>
   </header>
-
   <main class="scroll" id="scroll"><section class="view" id="view"></section></main>
-
   <footer class="bottom">
-    <div class="navrow">
+    <div class="navrow" id="navrow">
       <button class="back" id="back" aria-label="назад">‹</button>
-      <button class="next" id="next">
-        <span class="lbl" id="nextLabel">дальше →</span>
-        <span class="hint" id="nextHint"></span>
-      </button>
-      <a class="chan" id="chan" target="_blank" rel="noopener" hidden>Канал</a>
+      <button class="next" id="next"><span class="lbl" id="nextLabel"></span><span class="hint" id="nextHint"></span></button>
+      <a class="chan" id="chan" target="_blank" rel="noopener" hidden>КАНАЛ</a>
     </div>
-    <div class="ctaline"><span id="ctaPrefix"></span> <button id="cta"></button></div>
     <div class="foot" id="foot"></div>
   </footer>
 </div>
@@ -221,119 +204,12 @@
 <script>
 (function () {
   var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-  if (tg) { tg.ready(); tg.expand(); }
+  if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor('#0a0a0b'); tg.setBackgroundColor('#0a0a0b'); } catch (e) {} }
   var $ = function (id) { return document.getElementById(id); };
 
-  /* ---------- визуальные пресеты ---------- */
-  var PRESETS = {
-    // формат gconf: белое, лайм, гротеск, всё строчными
-    brutal: {},
-
-    // тёплая редакционная подача: антиква и рисованные пометки
-    editorial: {
-      accent: '#e7e0d2', accentInk: '#17150f',
-      ink: '#17150f', paper: '#f4f1ea', muted: '#8a8375', line: '#e2dcd0', card: '#fbfaf6',
-      radius: '22px', chipRadius: '50%', badgeRadius: '999px',
-      chipBg: 'transparent', chipColor: '#8a8375', chipFont: '"Playfair Display",Georgia,serif', chipSize: '15px',
-      barDone: '#d8d1c2', barNow: '#17150f',
-      markBg: 'transparent', markPad: '0 .04em',
-      titleSize: '11.5vw', titleCase: 'none', titleWeight: '500', titleTrack: '-.015em',
-      quoteStyle: 'normal', labelCase: 'none', labelTrack: '.02em', labelSize: '12px',
-      display: '"Playfair Display","Times New Roman",Georgia,serif',
-      body: '"Lora",Georgia,"Times New Roman",serif',
-      label: '"Inter",-apple-system,"Helvetica Neue",Arial,sans-serif',
-      contrast: '"Inter",-apple-system,"Helvetica Neue",Arial,sans-serif',
-      markUnderline: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'120\' height=\'8\' viewBox=\'0 0 120 8\'%3E%3Cpath d=\'M1 5.5c14-3 26-1 40 .5s26 2.5 40-.5 26-3.5 38-1\' fill=\'none\' stroke=\'%23c9a227\' stroke-width=\'2\' stroke-linecap=\'round\'/%3E%3C/svg%3E")',
-      fonts: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap',
-    },
-
-    // «Тишина»: ночной фон, дышащее свечение, лёгкий гротеск, много воздуха
-    still: {
-      bodyClass: 'theme-still',
-      accent: '#9cc6b8', accentInk: '#0d1013',
-      ink: '#e8edeb', paper: '#0d1013', muted: '#7d8b88', line: '#1e2528', card: '#141a1d',
-      radius: '18px', chipRadius: '50%', badgeRadius: '999px',
-      chipBg: 'transparent', chipColor: '#9cc6b8', chipSize: '12px',
-      barDone: '#2c3a38', barNow: '#9cc6b8',
-      markBg: 'transparent', markColor: '#9cc6b8', markPad: '0',
-      titleSize: '10vw', titleCase: 'lowercase', titleWeight: '250', titleTrack: '.005em', titleLh: '1.22',
-      quoteStyle: 'normal', labelCase: 'lowercase', labelTrack: '.22em', labelSize: '11px',
-      display: '"Manrope",-apple-system,"Helvetica Neue",Arial,sans-serif',
-      body: '"Golos Text",-apple-system,"Helvetica Neue",Arial,sans-serif',
-      label: '"Manrope",-apple-system,"Helvetica Neue",Arial,sans-serif',
-      contrast: '"Manrope",-apple-system,"Helvetica Neue",Arial,sans-serif',
-      fonts: 'https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;500;600&family=Golos+Text:wght@400;500&display=swap',
-    },
-
-    // «Разметка»: фото, рамки распознавания, жёлтый маркер, всплывающее меню
-    markup: {
-      accent: '#ffe500', accentInk: '#15161a',
-      ink: '#15161a', paper: '#e6e6e3', muted: '#5c5f66', line: '#c9c9c4', card: '#f5f4ef',
-      radius: '8px', chipRadius: '0px', badgeRadius: '0px',
-      chipBg: 'transparent', chipColor: '#5c5f66', chipSize: '11px',
-      barDone: '#c2c2bd', barNow: '#15161a',
-      markBg: '#ffe500', markPad: '0 5px',
-      titleSize: '8.8vw', titleCase: 'none', titleWeight: '700', titleTrack: '-.025em', titleLh: '1.15',
-      quoteStyle: 'normal', labelCase: 'uppercase', labelTrack: '.14em', labelSize: '10px',
-      display: '"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif',
-      body: '"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif',
-      label: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
-      contrast: '"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif',
-      chipFont: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
-      fonts: 'https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap',
-    },
-
-    // «Кабинет»: бумага, машинописный шрифт, ноль скруглений, красный карандаш
-    case: {
-      accent: '#8c3b34', accentInk: '#f2f1ec',
-      ink: '#1b1c19', paper: '#eef0ec', muted: '#6f7370', line: '#cfd3ce', card: '#f7f8f5',
-      radius: '0px', chipRadius: '0px', badgeRadius: '0px',
-      chipBg: 'transparent', chipColor: '#8c3b34', chipSize: '12px',
-      barDone: '#c2c7c1', barNow: '#8c3b34',
-      markBg: 'transparent', markPad: '0 .02em',
-      titleSize: '7.6vw', titleCase: 'none', titleWeight: '500', titleTrack: '-.03em', titleLh: '1.16',
-      quoteStyle: 'normal', labelCase: 'uppercase', labelTrack: '.13em', labelSize: '10.5px',
-      display: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
-      body: '"Literata",Georgia,"Times New Roman",serif',
-      label: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
-      contrast: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
-      chipFont: '"IBM Plex Mono",ui-monospace,Menlo,monospace',
-      markUnderline: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'6\' viewBox=\'0 0 80 6\'%3E%3Cpath d=\'M0 3.2h80\' stroke=\'%238c3b34\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-dasharray=\'0.1 3.6\'/%3E%3C/svg%3E")',
-      fonts: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap',
-    },
-  };
-
-  var DOODLES = {
-    star: '<path d="M12 2l2.6 6.3L21 9.4l-4.6 4.3 1.3 6.3L12 17l-5.7 3 1.3-6.3L3 9.4l6.4-1.1z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>',
-    bolt: '<path d="M14 2L5 13.5h5.5L9 22l9-11.5h-5.5z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>',
-    swirl: '<path d="M3 16c4-7 8-9 12-6s2 9-2 8-3-6 2-8 6 1 7 4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>',
-    arrow: '<path d="M3 17c5-8 11-11 18-11m0 0l-5-3m5 3l-3 5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>',
-  };
-
-  var deck = null, view = 'home', si = 0, i = 0, seen = {};
-
-  function applyTheme(brand) {
-    brand = brand || {};
-    var forced = new URLSearchParams(location.search).get('preset');
-    var name = PRESETS[forced] ? forced : brand.preset;
-    var tokens = Object.assign({}, PRESETS[name] || PRESETS.brutal, brand.theme || {});
-    if (brand.accent) tokens.accent = brand.accent;
-    if (tokens.fonts) {
-      var l = document.createElement('link');
-      l.rel = 'stylesheet'; l.href = tokens.fonts;
-      document.head.appendChild(l);
-      delete tokens.fonts;
-    }
-    if (tokens.bodyClass) { document.documentElement.classList.add(tokens.bodyClass); delete tokens.bodyClass; }
-    Object.keys(tokens).forEach(function (k) {
-      document.documentElement.style.setProperty(
-        '--' + k.replace(/[A-Z]/g, function (c) { return '-' + c.toLowerCase(); }), tokens[k]);
-    });
-    var paper = getComputedStyle(document.documentElement).getPropertyValue('--paper').trim();
-    if (tg && tg.setHeaderColor && /^#[0-9a-f]{6}$/i.test(paper)) {
-      try { tg.setHeaderColor(paper); tg.setBackgroundColor(paper); } catch (e) {}
-    }
-  }
+  var deck = null, view = 'home', si = 0, i = 0, sv = null, seen = {};
+  var qz = { step: -1, answers: [] };
+  var pick = { date: null, time: null };
 
   function haptic(k) { try { tg.HapticFeedback.impactOccurred(k || 'light'); } catch (e) {} }
   function send(p) { try { tg.sendData(JSON.stringify(p)); return true; } catch (e) { return false; } }
@@ -342,210 +218,236 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c];
     });
   }
-  function rich(s) {
-    return esc(s).replace(/==(.+?)==/g, '<mark>$1</mark>')
-                 .replace(/\*\*(.+?)\*\*/g, '<span class="alt">$1</span>')
-                 .replace(/\n/g, '<br>');
-  }
-  function doodle(n) {
-    return DOODLES[n] ? '<span class="doodle"><svg viewBox="0 0 24 24">' + DOODLES[n] + '</svg></span>' : '';
-  }
+  function rich(s) { return esc(s).replace(/==(.+?)==/g, '<mark>$1</mark>').replace(/\n/g, '<br>'); }
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   function sec() { return deck.sections[si]; }
-
-  /* ---------- меню ---------- */
-  // силуэт вместо фото, пока фото нет
-  var SILHOUETTE = '<svg viewBox="0 0 340 454" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
-    '<defs><linearGradient id="sil" x1="0" y1="0" x2="0" y2="1">' +
-    '<stop offset="0" stop-color="#c9c9c5"/><stop offset="1" stop-color="#a8a8a3"/></linearGradient></defs>' +
-    '<rect width="340" height="454" fill="url(#sil)"/>' +
-    '<ellipse cx="176" cy="150" rx="64" ry="80" fill="#8d8d88"/>' +
-    '<path d="M76 454c0-104 45-166 100-166s100 62 100 166z" fill="#8d8d88"/></svg>';
-
-  function renderMarkupHero(m) {
-    var photo = (deck.brand && deck.brand.photo)
-      ? '<img src="' + esc(deck.brand.photo) + '" alt="">'
-      : SILHOUETTE + '<span class="mk-stub">ваше фото</span>';
-    var pop = (m.pop || []).map(function (x, k) {
-      return '<button type="button" data-go="' + esc(x.section) + '">' + esc(x.label) + '</button>';
-    }).join('');
-    var club = deck.sections.filter(function (x) { return x.id === 'club'; })[0];
-    var clubRows = (m.club || []).map(function (it) {
-      return '<span class="li"><span>' + esc(it.label) + '</span><i>' + esc(it.when) + '</i></span>';
-    }).join('');
-
-    return '<div class="mk">' +
-      '<div class="mk-photo">' + photo + '</div>' +
-      '<div class="mk-hud"><span>' + esc(m.title || '') + ' / 2026</span><span>' + esc(m.hud || '') + '</span></div>' +
-      '<div class="mk-frame" style="left:104px;top:56px;width:144px;height:176px"></div>' +
-      '<div class="mk-tag" style="left:104px;top:34px">' + esc(m.name || '') + '</div>' +
-      '<div class="mk-tag" style="left:20px;top:66px">' + esc(m.note || '') + '</div>' +
-      '<div class="mk-pop">' + pop + '</div>' +
-      '<div class="mk-quote"><mark>' + esc(m.tagline || '') + '</mark></div>' +
-      '<div class="mk-dot" style="left:6px;top:272px"></div>' +
-      '<div class="mk-dot" style="right:6px;top:330px"></div>' +
-      (club ? '<button class="mk-club" type="button" data-go="club">' +
-        '<b>' + esc(club.title) + ' · по подписке</b>' + clubRows + '</button>' : '') +
-      '</div>';
+  function nav(show) { $('navrow').hidden = !show; }
+  function barcode() {
+    var w = [2, 5, 2, 3, 6, 2, 4, 2, 7, 3, 2, 5, 2, 4, 6, 2, 3, 5, 2, 4, 2, 6, 3, 2];
+    return '<div class="bars-code">' + w.map(function (x) {
+      return '<i style="width:' + x + 'px"></i>';
+    }).join('') + '</div>';
   }
 
+  /* ================= ВИТРИНА (ЧЕК) ================= */
   function renderHome() {
-    var m = deck.menu || {};
-    var markup = deck.brand && deck.brand.homeStyle === 'markup';
-    var h = '<div class="home">';
-    if (markup) {
-      h += renderMarkupHero(m);
-      if (m.lead) h += '<p class="mk-lead">' + rich(m.lead) + '</p>';
-    } else {
-      if (m.title) h += '<h1>' + rich(m.title) + '</h1>';
-      if (m.lead) h += '<p class="lead">' + rich(m.lead) + '</p>';
+    var h = deck.home, out = '';
+    out += '<div class="brandbar"><span>' + esc(h.brand) + '</span><span>' + esc(h.date) + '</span></div>';
+    out += '<p class="r-title">' + esc(h.title) + '</p>';
+    out += '<p class="r-sub">' + esc(h.sub) + '</p>';
+    out += '<div class="cut"></div>';
+    out += h.meta.map(function (m) {
+      return '<div class="kv"><span>' + esc(m[0]) + '</span><b>' + esc(m[1]) + '</b></div>';
+    }).join('');
+    out += '<div class="cut"></div>';
+    out += '<p class="about">' + esc(h.about) + '</p>';
+    out += '<div class="th"><span>' + esc(h.listLabel) + '</span><span>' + esc(h.priceLabel) + '</span></div>';
+    out += deck.services.map(function (s, k) {
+      return '<button class="row" type="button" data-svc="' + k + '">' +
+        '<span><span class="n">' + esc(s.title) + '</span><span class="t">' + esc(s.tag) + '</span></span>' +
+        '<span class="p">' + esc(s.price) + '</span></button>';
+    }).join('');
+    var quiz = deck.sections.filter(function (x) { return x.type === 'quiz'; })[0];
+    if (quiz) {
+      out += '<button class="row" type="button" data-quiz="1">' +
+        '<span><span class="n">РЕВИЗИЯ РОЛИ</span><span class="t">' + esc(quiz.summary) + '</span></span>' +
+        '<span class="p">' + esc(h.free) + '</span></button>';
     }
-    h += '<div class="menu">';
-    deck.sections.forEach(function (s, k) {
-      h += '<button class="item" type="button" data-s="' + k + '">' +
-             '<span class="idx">' + pad(k + 1) + '</span>' +
-             '<span><span class="t">' + esc(s.title) + '</span>' +
-             (s.summary ? '<span class="s">' + esc(s.summary) + '</span>' : '') + '</span>' +
-             '<span class="go">›</span></button>';
-    });
-    h += '</div></div>';
+    out += '<div class="cut"></div>';
+    out += '<div class="total"><span>' + esc(h.totalLabel) + '</span><span>' + esc(h.totalValue) + '</span></div>';
+    out += '<div class="cut"></div>';
+    out += '<button class="row" type="button" data-more="1">' +
+      '<span><span class="n">' + esc(h.more) + '</span><span class="t">' + esc(h.moreHint) + '</span></span>' +
+      '<span class="p">→</span></button>';
+    out += '<p class="thanks">' + esc(h.thanks) + '</p>' + barcode();
 
-    $('view').innerHTML = h;
+    $('view').innerHTML = out;
     $('scroll').scrollTop = 0;
     $('bars').hidden = true;
-    $('where').textContent = deck.brand && deck.brand.botUsername ? '' : '';
-    $('closeLabel').textContent = (deck.brand && deck.brand.closeLabel) || 'закрыть';
+    $('where').textContent = '';
+    $('closeLabel').textContent = 'закрыть';
     $('back').hidden = true;
-    $('nextLabel').textContent = (deck.cta && deck.cta.label) || 'записаться';
+    nav(true);
+    $('nextLabel').textContent = h.book;
     $('nextHint').textContent = '';
-    document.querySelector('.ctaline').style.visibility = 'hidden';
+    $('next').disabled = false;
+    $('chan').hidden = false;
     if (tg && tg.BackButton) tg.BackButton.hide();
 
-    Array.prototype.forEach.call($('view').querySelectorAll('.item'), function (b) {
-      b.onclick = function () { openSection(+b.dataset.s); };
-    });
-    Array.prototype.forEach.call($('view').querySelectorAll('[data-go]'), function (b) {
-      b.onclick = function () {
-        var k = deck.sections.findIndex(function (x) { return x.id === b.dataset.go; });
-        if (k >= 0) openSection(k);
-      };
-    });
-    var chan = $('chan');
-    if (deck.brand && deck.brand.channel) {
-      chan.href = deck.brand.channel;
-      chan.textContent = (deck.menu && deck.menu.channelLabel) || 'Канал';
-      chan.hidden = false;
-    }
+    bindData();
   }
 
-  /* ---------- слайд ---------- */
+  /* ================= УСЛУГА + КАЛЕНДАРЬ ================= */
+  function dates(service) {
+    var b = deck.booking, out = [], d = new Date(), n = 0;
+    d.setDate(d.getDate() + 1);
+    while (out.length < 8 && n < 40) {
+      if (service.days.indexOf(d.getDay()) >= 0) {
+        out.push({ dow: b.dows[d.getDay()], day: d.getDate(), mon: b.months[d.getMonth()],
+                   iso: d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) });
+      }
+      d.setDate(d.getDate() + 1); n++;
+    }
+    return out;
+  }
+
+  function renderService() {
+    var s = deck.services[sv], b = deck.booking, ds = dates(s), out = '';
+    out += '<p class="s-tag">' + esc(s.tag) + '</p>';
+    out += '<h1 class="s-title">' + esc(s.title) + '</h1>';
+    out += '<div class="s-price"><b>' + esc(s.price) + '</b><span>' + esc(s.duration) + '</span></div>';
+    out += '<p class="s-desc">' + esc(s.desc) + '</p>';
+    out += '<div class="meta">' + s.meta.map(function (m) {
+      return '<div><div class="l">' + esc(m[0]) + '</div><div class="v">' + esc(m[1]) + '</div></div>';
+    }).join('') + '</div>';
+    out += '<div class="section">ЧТО ВХОДИТ</div><ul class="inc">' +
+      s.includes.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+    out += '<div class="cut"></div>';
+    out += '<p class="cal-label">' + esc(b.kicker) + ' · ' + esc(b.pickDate) + '</p>';
+    out += '<div class="days">' + ds.map(function (d, k) {
+      return '<button class="day" type="button" data-d="' + k + '" aria-pressed="' +
+        (pick.date === d.iso ? 'true' : 'false') + '">' +
+        '<i>' + esc(d.dow) + '</i><b>' + d.day + '</b><u>' + esc(d.mon.slice(0, 3)) + '</u></button>';
+    }).join('') + '</div>';
+    out += '<p class="cal-label">' + esc(b.pickTime) + '</p>';
+    out += '<div class="times">' + s.slots.map(function (t) {
+      return '<button class="time" type="button" data-t="' + esc(t) + '" aria-pressed="' +
+        (pick.time === t ? 'true' : 'false') + '">' + esc(t) + '</button>';
+    }).join('') + '</div>';
+    out += '<p class="cal-note">' + esc(b.note) + '</p>';
+
+    $('view').innerHTML = out;
+    $('scroll').scrollTop = 0;
+    $('bars').hidden = true;
+    $('where').textContent = s.title;
+    $('closeLabel').textContent = 'к списку';
+    $('back').hidden = false;
+    nav(true);
+    $('chan').hidden = true;
+    if (tg && tg.BackButton) tg.BackButton.show();
+    updateBookButton(ds);
+
+    Array.prototype.forEach.call($('view').querySelectorAll('.day'), function (el) {
+      el.onclick = function () {
+        pick.date = ds[+el.dataset.d].iso; pick.human = ds[+el.dataset.d];
+        haptic('light'); renderService();
+      };
+    });
+    Array.prototype.forEach.call($('view').querySelectorAll('.time'), function (el) {
+      el.onclick = function () { pick.time = el.dataset.t; haptic('light'); renderService(); };
+    });
+  }
+
+  function updateBookButton(ds) {
+    var b = deck.booking, ready = pick.date && pick.time;
+    $('next').disabled = !ready;
+    $('nextLabel').textContent = b.cta;
+    $('nextHint').textContent = ready ? (pick.human.day + ' ' + pick.human.mon + ', ' + pick.time) : 'выберите день и время';
+  }
+
+  /* ================= РАЗДЕЛЫ ================= */
+  function renderMore() {
+    var out = '<p class="kicker">' + esc(deck.home.more) + '</p>';
+    out += deck.sections.map(function (s, k) {
+      return '<button class="item" type="button" data-s="' + k + '">' +
+        '<span class="idx">' + pad(k + 1) + '</span>' +
+        '<span><span class="t">' + esc(s.title) + '</span>' +
+        (s.summary ? '<span class="s">' + esc(s.summary) + '</span>' : '') + '</span>' +
+        '<span class="go">›</span></button>';
+    }).join('');
+    $('view').innerHTML = out;
+    $('scroll').scrollTop = 0;
+    $('bars').hidden = true;
+    $('where').textContent = '';
+    $('closeLabel').textContent = 'к списку';
+    $('back').hidden = false;
+    nav(true);
+    $('next').disabled = false;
+    $('nextLabel').textContent = deck.home.book;
+    $('nextHint').textContent = '';
+    $('chan').hidden = true;
+    bindData();
+  }
+
   function renderList(list) {
     if (!list || !list.items || !list.items.length) return '';
-    var style = list.style || 'rows';
-    return '<ol class="' + style + '">' + list.items.map(function (it, k) {
+    return '<ol class="' + (list.style || 'rows') + '">' + list.items.map(function (it, k) {
       return '<li><span class="n">' + pad(k + 1) + '</span><div>' +
-             '<div class="t">' + esc(it.title) + '</div>' +
-             (it.quote ? '<div class="q">' + esc(it.quote) + '</div>' : '') + '</div></li>';
+        '<div class="t">' + esc(it.title) + '</div>' +
+        (it.quote ? '<div class="q">' + esc(it.quote) + '</div>' : '') + '</div></li>';
     }).join('') + '</ol>';
   }
 
   function renderSlide() {
-    var s = sec(), sl = s.slides[i], h = '';
-    h += '<div class="kicker"><span class="num">' + pad(i + 1) + '</span> // ' + esc(sl.kicker || s.title) + '</div>';
-    if (sl.badge) h += '<div class="badge">' + esc(sl.badge) + '</div>';
-    if (sl.title) h += '<h1>' + rich(sl.title) + doodle(sl.doodle) + '</h1>';
-    if (sl.lead) h += '<p class="lead">' + rich(sl.lead) + '</p>';
+    var s = sec(), sl = s.slides[i], out = '';
+    out += '<p class="kicker">' + pad(i + 1) + ' // ' + esc(sl.kicker || s.title) + '</p>';
+    if (sl.title) out += '<h1 class="slide">' + rich(sl.title) + '</h1>';
+    if (sl.lead) out += '<p class="lead">' + rich(sl.lead) + '</p>';
     if (sl.meta && sl.meta.length) {
-      h += '<div class="meta">' + sl.meta.map(function (m) {
+      out += '<div class="meta">' + sl.meta.map(function (m) {
         return '<div><div class="l">' + esc(m.label) + '</div><div class="v">' + esc(m.value) + '</div></div>';
       }).join('') + '</div>';
     }
-    if (sl.sectionTitle) h += '<div class="section">' + esc(sl.sectionTitle) + '</div>';
-    h += renderList(sl.list);
-    if (sl.note) h += '<p class="note">' + rich(sl.note) + '</p>';
+    if (sl.sectionTitle) out += '<div class="section">' + esc(sl.sectionTitle) + '</div>';
+    out += renderList(sl.list);
+    if (sl.note) out += '<p class="note">' + rich(sl.note) + '</p>';
 
-    $('view').innerHTML = h;
+    $('view').innerHTML = out;
     $('scroll').scrollTop = 0;
-
     var bars = '';
     for (var k = 0; k < s.slides.length; k++) {
       bars += '<div class="bar ' + (k < i ? 'done' : k === i ? 'now' : '') + '"></div>';
     }
-    $('bars').innerHTML = bars;
-    $('bars').hidden = false;
+    $('bars').innerHTML = bars; $('bars').hidden = false;
     $('where').textContent = s.title + ' · ' + pad(i + 1) + '/' + pad(s.slides.length);
-    $('closeLabel').textContent = 'разделы';
+    $('closeLabel').textContent = 'к списку';
     $('back').hidden = false;
-    $('back').disabled = false;
+    nav(true);
+    $('next').disabled = false;
     $('chan').hidden = true;
-
     var last = i === s.slides.length - 1;
-    var toLead = last && s.end === 'lead';
-    $('nextLabel').textContent = last
-      ? (toLead ? (deck.cta.label || 'записаться') : 'вернуться к разделам')
-      : 'дальше →';
+    $('nextLabel').textContent = last ? (s.end === 'lead' ? deck.home.book : 'К РАЗДЕЛАМ') : 'ДАЛЬШЕ →';
     $('nextHint').textContent = last ? '' : (s.slides[i + 1].kicker || '');
-    document.querySelector('.ctaline').style.visibility = last && toLead ? 'hidden' : 'visible';
-
     seen[s.id + ':' + i] = true;
-    if (tg && tg.BackButton) tg.BackButton.show();
     send({ action: 'progress', section: s.id, slide: i + 1, total: s.slides.length });
   }
 
-  /* ---------- ревизия роли ---------- */
-  var qz = { step: -1, answers: [] };
-
+  /* ================= РЕВИЗИЯ РОЛИ ================= */
   function quizIntro() {
     var q = sec(), t = q.intro;
-    $('view').innerHTML = '<div class="qz">' +
-      '<div class="num">' + esc(t.kicker || '') + '</div>' +
-      '<h1>' + rich(t.title) + (t.title2 ? '<br>' + esc(t.title2) : '') + '</h1>' +
-      '<p class="lead">' + rich(t.lead) + '</p></div>';
-    $('scroll').scrollTop = 0;
-    $('bars').hidden = true;
-    $('where').textContent = q.title;
-    $('closeLabel').textContent = 'разделы';
-    $('chan').hidden = true;
-    $('back').hidden = false;
-    document.querySelector('.navrow').hidden = false;
-    document.querySelector('.ctaline').style.visibility = 'hidden';
-    $('nextLabel').textContent = t.start || 'Начать';
+    $('view').innerHTML = '<div class="qz"><p class="kicker">' + esc(t.kicker) + '</p>' +
+      '<h1 class="slide">' + rich(t.title) + (t.title2 ? '<br>' + esc(t.title2) : '') + '</h1>' +
+      '<p class="lead">' + esc(t.lead) + '</p></div>';
+    $('scroll').scrollTop = 0; $('bars').hidden = true;
+    $('where').textContent = q.title; $('closeLabel').textContent = 'к списку';
+    $('back').hidden = false; nav(true); $('chan').hidden = true; $('next').disabled = false;
+    $('nextLabel').textContent = (t.start || 'НАЧАТЬ').toUpperCase();
     $('nextHint').textContent = q.questions.length + ' вопросов';
   }
-
   function quizQuestion() {
     var q = sec(), item = q.questions[qz.step];
-    $('view').innerHTML = '<div class="qz">' +
-      '<div class="num">' + pad(qz.step + 1) + ' / ' + pad(q.questions.length) + '</div>' +
-      '<h2>' + esc(item.q) + '</h2><div class="opts">' +
+    $('view').innerHTML = '<div class="qz"><p class="kicker">' + pad(qz.step + 1) + ' / ' +
+      pad(q.questions.length) + '</p><h2>' + esc(item.q) + '</h2><div class="opts">' +
       item.options.map(function (o, k) {
         return '<button class="opt" type="button" data-a="' + k + '">' + esc(o.l) + '</button>';
       }).join('') + '</div></div>';
     $('scroll').scrollTop = 0;
-
     var bars = '';
     for (var k = 0; k < q.questions.length; k++) {
       bars += '<div class="bar ' + (k < qz.step ? 'done' : k === qz.step ? 'now' : '') + '"></div>';
     }
-    $('bars').innerHTML = bars;
-    $('bars').hidden = false;
-    $('where').textContent = q.title;
-    document.querySelector('.navrow').hidden = true;
-    document.querySelector('.ctaline').style.visibility = 'hidden';
-
+    $('bars').innerHTML = bars; $('bars').hidden = false;
+    nav(false);
     Array.prototype.forEach.call($('view').querySelectorAll('.opt'), function (b) {
       b.onclick = function () {
         qz.answers[qz.step] = item.options[+b.dataset.a];
-        haptic('light');
-        qz.step++;
+        haptic('light'); qz.step++;
         qz.step < q.questions.length ? quizQuestion() : quizResult();
       };
     });
   }
-
   function quizResult() {
-    var q = sec(), r = q.result;
-    var hours = 0, score = {};
+    var q = sec(), r = q.result, hours = 0, score = {};
     qz.answers.forEach(function (a) {
       if (!a) return;
       if (a.t === 'expert') hours += a.h;
@@ -554,27 +456,22 @@
     var order = ['no', 'expert', 'up', 'peers', 'doubt'], best = 'no', top = -1;
     order.forEach(function (t) { if ((score[t] || 0) > top) { top = score[t] || 0; best = t; } });
     var pr = q.profiles[best];
-
-    $('view').innerHTML = '<div class="qz">' +
-      '<div class="num">' + esc(r.kicker) + '</div>' +
-      '<p class="lead" style="margin-bottom:10px">' + esc(r.hours) + '</p>' +
+    $('view').innerHTML = '<div class="qz"><p class="kicker">' + esc(r.kicker) + '</p>' +
+      '<p class="lead" style="margin-bottom:8px">' + esc(r.hours) + '</p>' +
       '<div class="res-hours"><b>' + hours + '</b><span>' + esc(r.unit) + '</span></div>' +
       '<p class="res-note">' + esc(r.disclaimer) + '</p>' +
       '<div class="section">' + esc(r.profileLabel) + '</div>' +
-      '<div class="res-name">' + esc(pr.name) + '</div>' +
+      '<p class="res-name">' + esc(pr.name) + '</p>' +
       '<p class="lead">' + esc(pr.text) + '</p>' +
-      '<div class="section">' + esc(r.stepsLabel) + '</div>' +
-      '<ol class="steps">' + pr.steps.map(function (x, k) {
+      '<div class="section">' + esc(r.stepsLabel) + '</div><ol class="steps">' +
+      pr.steps.map(function (x, k) {
         return '<li><span class="n">' + pad(k + 1) + '</span><div><div class="q">' + esc(x) + '</div></div></li>';
       }).join('') + '</ol>' +
-      '<button class="gift" type="button" id="gift">' + esc(r.giftLabel) + '</button>' +
-      '</div>';
-    $('scroll').scrollTop = 0;
-    $('bars').hidden = true;
-    document.querySelector('.navrow').hidden = false;
-    $('nextLabel').textContent = r.bookLabel || 'Записаться';
+      '<button class="gift" type="button" id="gift">' + esc(r.giftLabel).toUpperCase() + '</button></div>';
+    $('scroll').scrollTop = 0; $('bars').hidden = true; nav(true);
+    $('next').disabled = false;
+    $('nextLabel').textContent = (r.bookLabel || 'ЗАПИСАТЬСЯ').toUpperCase();
     $('nextHint').textContent = '';
-    document.querySelector('.ctaline').style.visibility = 'hidden';
     send({ action: 'quiz', profile: pr.name, key: best, hours: hours });
     $('gift').onclick = function () {
       haptic('medium');
@@ -582,13 +479,33 @@
       if (ok && tg && tg.close) setTimeout(function () { tg.close(); }, 150);
     };
   }
-
   function quizStep() {
     if (qz.step < 0) return quizIntro();
     if (qz.step < sec().questions.length) return quizQuestion();
     return quizResult();
   }
 
+  /* ================= НАВИГАЦИЯ ================= */
+  function bindData() {
+    Array.prototype.forEach.call($('view').querySelectorAll('[data-svc]'), function (b) {
+      b.onclick = function () { openService(+b.dataset.svc); };
+    });
+    Array.prototype.forEach.call($('view').querySelectorAll('[data-quiz]'), function (b) {
+      b.onclick = function () {
+        var k = deck.sections.findIndex(function (x) { return x.type === 'quiz'; });
+        if (k >= 0) openSection(k);
+      };
+    });
+    Array.prototype.forEach.call($('view').querySelectorAll('[data-more]'), function (b) {
+      b.onclick = function () { view = 'more'; haptic('light'); renderMore(); };
+    });
+    Array.prototype.forEach.call($('view').querySelectorAll('[data-s]'), function (b) {
+      b.onclick = function () { openSection(+b.dataset.s); };
+    });
+  }
+  function openService(k) {
+    sv = k; view = 'service'; pick = { date: null, time: null }; haptic('light'); renderService();
+  }
   function openSection(k) {
     si = k; i = 0; haptic('light');
     if (deck.sections[k].type === 'quiz') {
@@ -596,98 +513,112 @@
       if (tg && tg.BackButton) tg.BackButton.show();
       return quizStep();
     }
-    view = 'deck';
-    renderSlide();
+    view = 'deck'; renderSlide();
   }
-  function toHome() {
-    view = 'home'; haptic('light');
-    document.querySelector('.navrow').hidden = false;
-    renderHome();
-  }
+  function toHome() { view = 'home'; haptic('light'); nav(true); renderHome(); }
   function go(step) {
     var s = sec(), n = i + step;
     if (n < 0) return toHome();
     if (n >= s.slides.length) return;
     i = n; haptic('light'); renderSlide();
   }
-
-  function submit(source) {
+  function book(source, extra) {
     haptic('medium');
-    var ok = send({ action: 'lead', source: source, seen: Object.keys(seen).length });
+    var payload = { action: 'lead', source: source };
+    if (extra) Object.keys(extra).forEach(function (k) { payload[k] = extra[k]; });
+    var ok = send(payload);
     if (!ok && deck.cta && deck.cta.url) {
       try { tg.openLink(deck.cta.url); } catch (e) { window.open(deck.cta.url, '_blank'); }
       return;
     }
-    if (tg && tg.close) setTimeout(function () { tg.close(); }, 120);
+    if (tg && tg.close) setTimeout(function () { tg.close(); }, 150);
   }
 
   function bind() {
     $('back').onclick = function () {
+      if (view === 'service' || view === 'more') return toHome();
       if (view === 'quiz') { qz.step--; return qz.step < -1 ? toHome() : quizStep(); }
-      go(-1);
+      if (view === 'deck') return go(-1);
+      return toHome();
     };
     $('next').onclick = function () {
+      if (view === 'home' || view === 'more') return book('витрина');
+      if (view === 'service') {
+        var s = deck.services[sv];
+        return book('услуга', { service: s.title, date: pick.human.day + ' ' + pick.human.mon,
+                                time: pick.time, price: s.price });
+      }
       if (view === 'quiz') {
         if (qz.step < 0) { qz.step = 0; return quizQuestion(); }
-        return submit('quiz');
+        return book('ревизия роли');
       }
-      if (view === 'home') return submit('menu');
-      var s = sec(), last = i === s.slides.length - 1;
+      var s2 = sec(), last = i === s2.slides.length - 1;
       if (!last) return go(1);
-      return s.end === 'lead' ? submit(s.id) : toHome();
+      return s2.end === 'lead' ? book(s2.id) : toHome();
     };
-    $('cta').onclick = function () { submit(view === 'home' ? 'menu_line' : sec().id + '_line'); };
     $('close').onclick = function () {
-      if (view === 'deck' || view === 'quiz') return toHome();
+      if (view !== 'home') return toHome();
       if (tg && tg.close) tg.close(); else window.close();
     };
     if (tg && tg.BackButton) tg.BackButton.onClick(function () {
       if (view === 'deck') return go(-1);
-      if (view === 'quiz') return toHome();
+      if (view !== 'home') return toHome();
       tg.close();
     });
-
     document.addEventListener('keydown', function (e) {
       if (view !== 'deck') return;
       if (e.key === 'ArrowRight') go(1);
       if (e.key === 'ArrowLeft') go(-1);
       if (e.key === 'Escape') toHome();
     });
-    var x0 = null, y0 = null;
-    document.addEventListener('touchstart', function (e) {
-      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
-    }, { passive: true });
-    document.addEventListener('touchend', function (e) {
-      if (x0 === null || view !== 'deck') { x0 = null; return; }
-      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
-      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) go(dx < 0 ? 1 : -1);
-      x0 = y0 = null;
-    }, { passive: true });
+  }
+
+  /* ================= ЗАСТАВКА ================= */
+  function splash(done) {
+    var sp = deck.splash || {};
+    $('spTitle').textContent = sp.title || 'HUMAN';
+    $('spSub').textContent = sp.sub || '';
+    $('spLine').textContent = sp.line || '';
+    $('spSkip').textContent = sp.skip || 'пропустить';
+    var el = $('splash'), gone = false;
+    function hide() {
+      if (gone) return; gone = true;
+      el.classList.add('out');
+      setTimeout(function () { el.style.display = 'none'; done(); }, 420);
+    }
+    $('spSkip').onclick = hide;
+    el.onclick = hide;
+    setTimeout(hide, 2600);
   }
 
   function boot(data) {
     deck = data;
     document.title = (deck.brand && deck.brand.name) || 'HUMAN';
-    applyTheme(deck.brand);
     $('foot').textContent = (deck.brand && deck.brand.botUsername) || '';
-    $('ctaPrefix').textContent = (deck.cta && deck.cta.prefix) || '';
-    $('cta').textContent = (deck.cta && deck.cta.label) || 'записаться';
+    if (deck.brand && deck.brand.channel) {
+      $('chan').href = deck.brand.channel;
+      $('chan').textContent = deck.home.channel || 'КАНАЛ';
+    }
     bind();
     renderHome();
-    // ?section=groups в адресе или start_param — открываем нужный раздел сразу
     var want = new URLSearchParams(location.search).get('section') ||
                (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || '';
-    var k = deck.sections.findIndex(function (x) { return x.id === want; });
-    if (k >= 0) openSection(k);
+    var svk = deck.services.findIndex(function (x) { return x.id === want; });
+    var sk = deck.sections.findIndex(function (x) { return x.id === want; });
+    var noSplash = new URLSearchParams(location.search).get('splash') === '0';
+    function after() {
+      if (svk >= 0) return openService(svk);
+      if (sk >= 0) return openSection(sk);
+    }
+    noSplash ? ($('splash').style.display = 'none', after()) : splash(after);
   }
 
-  var src = new URLSearchParams(location.search).get('content') || '../content.json';
-  fetch(src, { cache: 'no-store' })
+  fetch(new URLSearchParams(location.search).get('content') || '../content.json', { cache: 'no-store' })
     .then(function (r) { return r.json(); })
     .then(boot)
     .catch(function () {
-      $('view').innerHTML = '<h1>контент не загрузился</h1><p class="lead">откройте страницу через ' +
-        'http-сервер: <code>npx serve</code> или <code>python3 -m http.server</code>.</p>';
+      $('splash').style.display = 'none';
+      $('view').innerHTML = '<p class="lead">контент не загрузился. откройте страницу через http-сервер.</p>';
     });
 })();
 </script>

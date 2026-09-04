@@ -160,11 +160,26 @@ async function onAnswer(q, branchId, stepIndex, optionId) {
   return showOffer(q.message.chat.id, rec, branchId);
 }
 
-async function onBook(chatId, from, source) {
+async function onBook(chatId, from, source, slot) {
   const rec = user(from);
   rec.lead = true;
-  state.leads.push({ user: who(from), id: from.id, branch: rec.branch || null, source, at: Date.now() });
+  state.leads.push({
+    user: who(from), id: from.id, branch: rec.branch || null, source,
+    service: slot?.service || null, date: slot?.date || null, time: slot?.time || null, at: Date.now(),
+  });
   save();
+
+  // запись на конкретный слот подтверждаем отдельно
+  if (slot && slot.service && slot.date) {
+    await send(chatId,
+      `заявка принята.\n\nформат: ${slot.service}\nдата: ${slot.date}${slot.time ? ', ' + slot.time : ''}` +
+      `${slot.price ? '\nстоимость: ' + slot.price : ''}\n\nвремя предварительное — подтвержу его здесь в течение дня. если что-то поменяется, просто напишите.`,
+      { inline_keyboard: [[{ text: 'написать лично', url: content.cta.url }]] });
+    await notifyAdmin(`ЗАПИСЬ · ${who(from)}\n${slot.service} — ${slot.date}${slot.time ? ', ' + slot.time : ''}` +
+      `${slot.price ? ' · ' + slot.price : ''}\nподтвердите слот в чате с человеком`);
+    return;
+  }
+
   await send(chatId, content.cta.message, {
     inline_keyboard: [[{ text: content.cta.label, url: content.cta.url }]],
   });
@@ -311,7 +326,10 @@ async function onWebAppData(msg) {
     save();
     return;
   }
-  if (data.action === 'lead') return onBook(msg.chat.id, msg.from, 'мини-апп: ' + data.source);
+  if (data.action === 'lead') {
+    return onBook(msg.chat.id, msg.from, 'мини-апп: ' + data.source,
+      data.service ? { service: data.service, date: data.date, time: data.time, price: data.price } : null);
+  }
 
   if (data.action === 'quiz') {
     rec.profile = data.profile;
