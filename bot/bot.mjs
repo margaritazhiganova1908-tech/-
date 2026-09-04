@@ -107,7 +107,7 @@ function offerKeyboard(section) {
   const b = flow().buttons;
   const rows = [[{ text: b.book, callback_data: 'book' }]];
   rows.push([webAppButton(b.open, section)]);
-  rows.push([{ text: b.ask, callback_data: 'ask' }]);
+  rows.push([{ text: b.ask, callback_data: 'ask' }, { text: b.gift, callback_data: 'gift' }]);
   rows.push([{ text: b.events, callback_data: 'consent:on' }]);
   return { inline_keyboard: rows };
 }
