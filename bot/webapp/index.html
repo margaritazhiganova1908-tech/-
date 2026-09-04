@@ -40,6 +40,19 @@
     .splash.out{animation:fade .45s both}
   }
   @keyframes track{from{letter-spacing:.02em;opacity:0}to{letter-spacing:.62em;opacity:1}}
+  /* вариант «набор»: буквы набираются, курсор мигает, снизу выезжает синяя плашка */
+  .splash.type h1{animation:none;letter-spacing:.5em;margin-left:.5em}
+  .splash.type h1 .cur{display:inline-block;width:.5em;background:var(--accent);color:transparent;
+    margin-left:-.12em;animation:blink 1s steps(1,end) infinite}
+  .splash.type .rule{animation:none;width:min(78vw,340px);opacity:.5}
+  .splash.type .plate{position:absolute;left:0;right:0;bottom:0;background:var(--accent);
+    color:#fff;padding:16px 0;font-size:10px;letter-spacing:.28em;text-align:center}
+  @media (prefers-reduced-motion:no-preference){
+    .splash.type .plate{animation:rise .6s 1.5s both}
+    .splash.type p{animation:up .5s 1.3s both}
+  }
+  @keyframes blink{50%{opacity:0}}
+  @keyframes rise{from{transform:translateY(100%)}to{transform:none}}
   @keyframes print{from{width:0}to{width:min(78vw,340px)}}
   @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   @keyframes fade{to{opacity:0;visibility:hidden}}
@@ -121,6 +134,9 @@
   .time{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px;font-size:13px}
   .time[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
   .cal-note{font-family:var(--sans);font-size:12.5px;line-height:1.5;color:var(--muted);margin:14px 0 0}
+  .linkbtn{display:block;margin:16px 0 0;border:1px solid var(--accent);color:var(--accent-dim);
+    text-align:center;padding:14px 12px;font-size:11px;letter-spacing:.16em;text-decoration:none}
+  .linkbtn:active{background:var(--accent);color:#fff}
 
   /* ---------- разделы и опрос ---------- */
   .item{display:flex;gap:12px;align-items:baseline;width:100%;background:none;border:0;
@@ -186,6 +202,7 @@
   <div class="rule"></div>
   <p id="spSub"></p>
   <div class="line" id="spLine"></div>
+  <div class="plate" id="spPlate" hidden></div>
   <button class="skip" id="spSkip">пропустить</button>
 </div>
 
@@ -259,7 +276,10 @@
     out += '<button class="row" type="button" data-more="1">' +
       '<span><span class="n">' + esc(h.more) + '</span><span class="t">' + esc(h.moreHint) + '</span></span>' +
       '<span class="p">→</span></button>';
-    out += '<p class="thanks">' + esc(h.thanks) + '</p>' + barcode();
+    out += h.channelUrl
+      ? '<a class="thanks" style="display:block;text-decoration:none" href="' + esc(h.channelUrl) +
+        '" target="_blank" rel="noopener">' + esc(h.thanks) + '</a>' + barcode()
+      : '<p class="thanks">' + esc(h.thanks) + '</p>' + barcode();
 
     $('view').innerHTML = out;
     $('scroll').scrollTop = 0;
@@ -321,6 +341,11 @@
         (pick.time === t ? 'true' : 'false') + '">' + esc(t) + '</button>';
     }).join('') + '</div>';
     out += '<p class="cal-note">' + esc(b.note) + '</p>';
+    if (s.link) {
+      out += '<a class="linkbtn" href="' + esc(s.link.url) + '" target="_blank" rel="noopener">' +
+        esc(s.link.label) + '</a>';
+      if (s.link.note) out += '<p class="cal-note">' + esc(s.link.note) + '</p>';
+    }
 
     $('view').innerHTML = out;
     $('scroll').scrollTop = 0;
@@ -493,11 +518,28 @@
   /* ================= ЗАСТАВКА ================= */
   function splash(done) {
     var sp = deck.splash || {};
-    $('spTitle').textContent = sp.title || 'HUMAN';
+    var style = new URLSearchParams(location.search).get('splash');
+    if (style !== 'type' && style !== 'print') style = (deck.brand && deck.brand.splashStyle) || 'print';
+    var el = $('splash'), gone = false;
     $('spSub').textContent = sp.sub || '';
     $('spLine').textContent = sp.line || '';
     $('spSkip').textContent = sp.skip || 'пропустить';
-    var el = $('splash'), gone = false;
+    var title = sp.title || 'HUMAN';
+
+    if (style === 'type') {
+      el.classList.add('type');
+      $('spLine').textContent = '';
+      $('spPlate').hidden = false;
+      $('spPlate').textContent = sp.line || '';
+      $('spTitle').innerHTML = '<span id="typed"></span><span class="cur">&nbsp;</span>';
+      var typed = document.getElementById('typed'), n = 0;
+      var tick = setInterval(function () {
+        typed.textContent = title.slice(0, ++n);
+        if (n >= title.length) clearInterval(tick);
+      }, 130);
+    } else {
+      $('spTitle').textContent = title;
+    }
     function hide() {
       if (gone) return; gone = true;
       el.classList.add('out');
