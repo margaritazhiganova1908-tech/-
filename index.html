@@ -1098,6 +1098,98 @@ footer a:hover{text-decoration:underline}
   .chart-row .lbl{width:110px;font-size:11.5px}
   .menu-hero h1{font-size:38px}
 }
+
+/* ============ ДОХОД НАПРАВЛЕНИЯ ============ */
+:root{ --inc-paid:#7E9C05; --inc-hold:#C2408F; --inc-step:rgba(126,156,5,.42); }
+:root[data-theme="dark"]{ --inc-paid:#C8E82D; --inc-hold:#FF6FD8; --inc-step:rgba(200,232,45,.42); }
+
+.an-mode{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.an-mode button{font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:99px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.an-mode button.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+
+.inc-alert{display:flex;gap:16px;align-items:flex-start;background:var(--surface);
+  border:1px solid var(--line);border-left:4px solid var(--inc-hold);border-radius:var(--r);
+  padding:20px;margin-bottom:16px}
+.inc-alert .ic{font-family:var(--font-display);font-size:26px;font-weight:900;
+  color:var(--inc-hold);line-height:1;flex:none}
+.inc-alert h4{font-family:var(--font-display);font-size:15px;font-weight:800;margin-bottom:6px}
+.inc-alert p{font-size:13px;color:var(--muted);max-width:80ch}
+.inc-alert b{color:var(--text)}
+
+.inc-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);
+  margin-bottom:14px}
+.inc-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;
+  vertical-align:-1px}
+
+/* строка потока: составной бар оплачено / бронь, остальное — незалитый трек */
+.inc-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line-soft)}
+.inc-row:last-child{border-bottom:0}
+.inc-row .lbl{width:190px;flex:none;font-size:12.5px;font-weight:700}
+.inc-row .lbl small{display:block;color:var(--muted-2);font-size:10.5px;font-weight:600;margin-top:2px}
+.inc-row .track{flex:1;min-width:80px;height:14px;border-radius:99px;background:var(--surface-3);
+  overflow:hidden;display:flex;border:1px solid var(--line-soft)}
+.inc-row .track i{display:block;height:100%;width:0;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.inc-row .track i + i{border-left:2px solid var(--surface)}
+.inc-row .val{width:112px;text-align:right;font-size:12.5px;font-weight:800;
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.inc-row .val small{display:block;font-size:10.5px;font-weight:600;color:var(--muted-2)}
+
+/* мост от факта к прогнозу */
+.wf-row{display:flex;align-items:center;gap:12px;padding:7px 0}
+.wf-row .lbl{width:190px;flex:none;font-size:12.5px;font-weight:600}
+.wf-row .lbl small{display:block;color:var(--muted-2);font-size:10.5px;font-weight:600}
+.wf-row .track{flex:1;min-width:80px;height:22px;position:relative}
+.wf-row .track i{position:absolute;top:3px;height:16px;border-radius:4px;width:0;
+  transition:width .8s cubic-bezier(.2,.8,.2,1),left .8s cubic-bezier(.2,.8,.2,1)}
+.wf-row.total .track i{border-radius:4px;opacity:1}
+.wf-row .val{width:112px;text-align:right;font-size:12.5px;font-weight:800;
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.wf-row.total{border-top:1px solid var(--line);margin-top:6px;padding-top:11px}
+.wf-row.total .lbl{font-weight:800}
+.wf-plan{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--text);z-index:2}
+.wf-plan::after{content:attr(data-l);position:absolute;top:-15px;left:50%;transform:translateX(-50%);
+  font-size:9.5px;font-weight:800;letter-spacing:.4px;color:var(--text);white-space:nowrap}
+
+/* сценарии */
+.inc-scen{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.inc-scen .sc{background:var(--surface-2);border:1px solid var(--line-soft);
+  border-radius:var(--r-sm);padding:15px}
+.inc-scen .sc.base{border-color:var(--accent-line);background:var(--accent-dim)}
+.inc-scen .sc span{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.3px}
+.inc-scen .sc b{display:block;font-family:var(--font-display);font-size:24px;font-weight:800;
+  letter-spacing:-1px;margin:7px 0 3px}
+.inc-scen .sc em{font-style:normal;font-size:11px;color:var(--muted-2);font-weight:600}
+
+.inc-sliders{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.inc-sl label{display:flex;justify-content:space-between;gap:8px;font-size:12px;
+  font-weight:600;color:var(--muted);margin-bottom:7px}
+.inc-sl label b{color:var(--text);font-weight:800;font-variant-numeric:tabular-nums}
+.inc-sl input[type=range]{width:100%;accent-color:var(--inc-paid)}
+.inc-sl small{display:block;font-size:10.5px;color:var(--muted-2);margin-top:5px}
+
+/* рычаги роста */
+.lever{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line-soft)}
+.lever:last-child{border-bottom:0}
+.lever .n{font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--muted-2);
+  width:24px;flex:none}
+.lever .i{flex:1;min-width:0}
+.lever .i b{display:block;font-size:13px;font-weight:800;margin-bottom:3px}
+.lever .i span{display:block;font-size:11.5px;color:var(--muted)}
+.lever .sum{font-family:var(--font-display);font-size:19px;font-weight:800;letter-spacing:-.5px;
+  color:var(--inc-paid);white-space:nowrap;flex:none}
+.lever .go{flex:none}
+
+.eff{display:inline-flex;align-items:center;gap:3px;vertical-align:1px;margin-left:8px}
+.eff i{width:5px;height:5px;border-radius:99px;background:var(--line);display:block}
+.eff i.on{background:var(--muted-2)}
+
+@media(max-width:900px){
+  .inc-scen,.inc-sliders{grid-template-columns:1fr}
+  .inc-row .lbl,.wf-row .lbl{width:130px}
+  .inc-row .val,.wf-row .val{width:92px}
+  .lever{flex-wrap:wrap}
+}
 </style>
 </head>
 <body>
@@ -1397,6 +1489,9 @@ footer a:hover{text-decoration:underline}
     <p>География продаж, прогресс по площадкам и полный список резидентов Москвы и Санкт-Петербурга.</p>
   </div>
 
+  <div class="an-mode" id="anMode"></div>
+
+  <div id="anMain">
   <div class="city-tabs" id="anCityTabs"></div>
   <div class="an-kpi" id="anKpi"></div>
 
@@ -1451,6 +1546,82 @@ footer a:hover{text-decoration:underline}
     </div>
     <div class="tbl-wrap"><table class="res-table" id="resTable"></table></div>
   </div>
+  </div>
+
+  <div id="anInc" hidden>
+    <div id="incAlert"></div>
+    <div class="an-kpi" id="incKpi"></div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-h"><h3>Потоки дохода направления</h3>
+        <span class="hint">от чего складывается сезон 2027</span></div>
+      <div class="inc-legend">
+        <span><i style="background:var(--inc-paid)"></i>оплачено</span>
+        <span><i style="background:var(--inc-hold)"></i>в работе · бронь и сделки</span>
+        <span><i style="background:var(--surface-3);border:1px solid var(--line)"></i>не продано</span>
+        <span style="margin-left:auto">доля от потолка потока</span>
+      </div>
+      <div id="incStreams"></div>
+    </div>
+
+    <div class="g-an">
+      <div class="card">
+        <div class="card-h"><h3>Мост от факта к прогнозу</h3>
+          <span class="hint">что прибавляет каждый шаг</span></div>
+        <div id="incBridge"></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3>Сценарии сезона</h3>
+          <span class="hint" id="incScenHint"></span></div>
+        <div class="inc-scen" id="incScen"></div>
+        <div class="sec-title" style="margin:4px 0 12px">Допущения базового сценария</div>
+        <div class="inc-sliders">
+          <div class="inc-sl">
+            <label>Бронь доходит до оплаты<b id="incLHold">80%</b></label>
+            <input type="range" id="incHold" min="0" max="100" step="5" value="80">
+            <small id="incHoldN">—</small>
+          </div>
+          <div class="inc-sl">
+            <label>Догрузим свободных мест<b id="incLFill">55%</b></label>
+            <input type="range" id="incFill" min="0" max="100" step="5" value="55">
+            <small id="incFillN">—</small>
+          </div>
+          <div class="inc-sl">
+            <label>Резидентов возьмут услуги<b id="incLReach">70%</b></label>
+            <input type="range" id="incReach" min="0" max="100" step="5" value="70">
+            <small>электричество и аккредитации</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-h"><h3>Рычаги роста</h3>
+        <span class="hint">отсортированы по деньгам · точки приложения силы</span></div>
+      <div id="incLevers"></div>
+    </div>
+
+    <div class="g-an">
+      <div class="card">
+        <div class="card-h"><h3>План и потолок по городам</h3>
+          <span class="hint">факт · прогноз · план</span></div>
+        <div id="incCities"></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3>Модель и её границы</h3><span class="hint">на чём стоят цифры</span></div>
+        <div id="incNotes"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><h3>Пайплайн крупных сделок</h3>
+        <div style="display:flex;align-items:center;gap:12px;margin-left:auto">
+          <span class="hint" id="incDealHint"></span>
+          <button class="btn btn-acc btn-sm" data-act="inc-xls">Выгрузить модель</button>
+        </div></div>
+      <div class="tbl-wrap"><table class="res-table" id="incDeals"></table></div>
+    </div>
+  </div>
 </section>
 
 </main>
@@ -1504,8 +1675,8 @@ const priceText = c => c.price ? money(c.price) : 'по договору';
    ПЛОЩАДКИ И МЕСТА
    ============================================================ */
 const CITIES = [
-  {id:'msk', name:'Москва',          plan:26000000, deadline:'14 мая'},
-  {id:'spb', name:'Санкт-Петербург', plan:18000000, deadline:'21 мая'}
+  {id:'msk', name:'Москва',          gen:'Москвы',          plan:26000000, deadline:'14 мая'},
+  {id:'spb', name:'Санкт-Петербург', gen:'Санкт-Петербурга', plan:18000000, deadline:'21 мая'}
 ];
 
 const VENUES = [
@@ -1920,6 +2091,8 @@ const S = {
   stage:'dannye',
   city:'msk',
   anCity:'msk',
+  anMode:'main',
+  inc:{hold:80, fill:55, reach:70},
   fStatus:'all',
   fSize:'all',
   sel:null,
@@ -3515,6 +3688,9 @@ function renderAnalytics(){
   renderResidents();
   renderCurators();
   renderTrack();
+  renderAnMode();
+  renderIncome();
+  bindIncSliders();
 }
 function renderCurators(){
   const on = CURATORS.filter(c=>c.online).length;
@@ -3589,6 +3765,381 @@ function renderResidents(){
 }
 
 /* ============================================================
+   ДОХОД НАПРАВЛЕНИЯ
+   ============================================================ */
+const INC_STAGES = {
+  lead:    {t:'лид',          p:20},
+  talks:   {t:'переговоры',   p:40},
+  offer:   {t:'КП у клиента', p:60},
+  contract:{t:'договор',      p:85},
+  paid:    {t:'оплачено',     p:100}
+};
+/* крупные сделки живут не на карте мест: спонсорство, бренд-зоны, барные линии, реклама */
+const INC_DEALS = [
+  {n:'Спонсорский пакет «Партнёр фуд-корта»', s:'sponsor', c:'msk', sum:15000000, st:'offer',
+   who:'Маргарита Жиганова', next:'Ответ по КП до 14 мая'},
+  {n:'Спонсорский пакет «Партнёр фуд-корта»', s:'sponsor', c:'spb', sum:15000000, st:'lead',
+   who:'Наталья Арсентьева',  next:'Выход на бренд через агентство'},
+  {n:'Бренд-зона VIP · 100 м²', s:'brand', c:'msk', sum:7000000, st:'talks',
+   who:'Маргарита Жиганова', next:'Смета застройки на согласовании'},
+  {n:'Бренд-зона VIP · 100 м²', s:'brand', c:'spb', sum:7000000, st:'lead',
+   who:'Алина Пятакова',     next:'Собрать пул брендов после Москвы'},
+  {n:'Барная линия 12 м · DFF', s:'bar', c:'msk', sum:2400000, st:'contract',
+   who:'Наталья Арсентьева', next:'Подписание до 30 апреля'},
+  {n:'Барная линия 12 м · Catch22', s:'bar', c:'spb', sum:1800000, st:'talks',
+   who:'Наталья Арсентьева', next:'Согласовать процент с выручки'},
+  {n:'Реклама в сервисе · 812am club', s:'ads', c:'spb', sum:250000, st:'paid',
+   who:'Ульяна Ким',         next:'Оплачено, креатив в ротации'}
+];
+/* допущения модели — всё, что не считается из данных напрямую */
+const INC_A = {kw:12, acc:6, reachNow:45, adSlots:5, adPrice:250000, clubPct:6};
+
+const incNorm = t => (t||'').replace('Бронь · ','').replace('Предбронь · ','');
+const servPer = () => INC_A.kw*RATES.kw + INC_A.acc*RATES.acc;
+
+/* места, приносящие аренду: без тех. зон, бренд-зон и барных линий (они в пайплайне) */
+function incCells(city){
+  const cs = city ? cityCells(city) : CITIES.flatMap(c=>cityCells(c.id));
+  return cs.filter(c=>c.block !== 'BRAND' && c.block !== 'BAR');
+}
+function incRent(city){
+  const r = incCells(city);
+  const sum = st => r.filter(c=>c.status===st).reduce((s,c)=>s+c.price,0);
+  const cnt = st => r.filter(c=>c.status===st).length;
+  return {paid:sum('taken'), hold:sum('hold'), free:sum('free'),
+          nPaid:cnt('taken'), nHold:cnt('hold'), nFree:cnt('free'),
+          nNoPrice:r.filter(c=>!c.price).length,
+          cap:sum('taken')+sum('hold')+sum('free')};
+}
+/* резиденты, которые взяли места в двух городах, — им положен комбо-пакет −20% */
+function incCombo(city){
+  const map = {};
+  incCells().filter(c=>c.status!=='free' && c.tenant).forEach(c=>{
+    const n = incNorm(c.tenant);
+    map[n] = map[n] || {cities:new Set(), cells:[]};
+    map[n].cities.add(c.venue.slice(0,3));
+    map[n].cells.push(c);
+  });
+  const both = Object.entries(map).filter(([,v])=>v.cities.size > 1);
+  const cells = both.flatMap(([,v])=>v.cells).filter(c=>!city || c.venue.slice(0,3)===city);
+  return {names:both.map(([n])=>n),
+          sum:Math.round(cells.reduce((s,c)=>s+c.price,0) * COMBO_PCT/100)};
+}
+const incDeals  = city => INC_DEALS.filter(d=>!city || d.c===city);
+const dealCap   = (s,city) => incDeals(city).filter(d=>d.s===s).reduce((a,d)=>a+d.sum,0);
+const dealPaid  = (s,city) => incDeals(city).filter(d=>d.s===s && d.st==='paid').reduce((a,d)=>a+d.sum,0);
+/* mode: 'w' — взвешенно по стадии, 'low' — только то, что уже в договоре, 'high' — закрываем всё */
+const dealWork = (s,city,mode) => Math.round(incDeals(city)
+  .filter(d=>d.s===s && d.st!=='paid')
+  .reduce((a,d)=>{
+    const pr = mode === 'high' ? 100 : (mode === 'low' ? (INC_STAGES[d.st].p >= 85 ? 100 : 0) : INC_STAGES[d.st].p);
+    return a + d.sum*pr/100;
+  }, 0));
+
+/* ядро модели: p — допущения базового сценария, city — срез или всё направление */
+function incModel(p, city){
+  const r = incRent(city), per = servPer(), combo = incCombo(city);
+  const dm = p.deal || 'w';
+  const nFore = r.nPaid + Math.round(r.nHold*p.hold/100) + Math.round(r.nFree*p.fill/100);
+  const adSlots = city ? (city==='spb' ? 3 : 2) : INC_A.adSlots;
+  const adCap = adSlots * INC_A.adPrice;
+
+  const st = [
+    {k:'rent', t:'Аренда корнеров', sub:r.nPaid+' оплачено · '+r.nHold+' бронь · '+r.nFree+' свободно',
+     paid:r.paid, work:Math.round(r.hold*p.hold/100), cap:r.cap,
+     fore:r.paid + Math.round(r.hold*p.hold/100) + Math.round(r.free*p.fill/100)},
+    {k:'sponsor', t:'Спонсорские пакеты', sub:incDeals(city).filter(d=>d.s==='sponsor').length+' × 15 млн · титульное партнёрство',
+     paid:dealPaid('sponsor',city), work:dealWork('sponsor',city,dm), cap:dealCap('sponsor',city),
+     fore:dealPaid('sponsor',city)+dealWork('sponsor',city,dm)},
+    {k:'brand', t:'Бренд-зоны VIP', sub:'100 м² · застройка бренда в VIP-зоне',
+     paid:dealPaid('brand',city), work:dealWork('brand',city,dm), cap:dealCap('brand',city),
+     fore:dealPaid('brand',city)+dealWork('brand',city,dm)},
+    {k:'bar', t:'Барные линии', sub:'12 м · спецдоговор, на карте без цены',
+     paid:dealPaid('bar',city), work:dealWork('bar',city,dm), cap:dealCap('bar',city),
+     fore:dealPaid('bar',city)+dealWork('bar',city,dm)},
+    {k:'serv', t:'Услуги резидентам', sub:INC_A.kw+' кВт и '+INC_A.acc+' бейджей на корнер · '+money(per),
+     paid:Math.round(r.nPaid*per*INC_A.reachNow/100),
+     work:Math.max(0, Math.round(nFore*per*p.reach/100) - Math.round(r.nPaid*per*INC_A.reachNow/100)),
+     cap:(r.nPaid+r.nHold+r.nFree)*per,
+     fore:Math.round(nFore*per*p.reach/100)},
+    {k:'ads', t:'Реклама в сервисе', sub:adSlots+' слотов по '+tys(INC_A.adPrice)+' ₽ за сезон',
+     paid:dealPaid('ads',city),
+     work:Math.round((adCap - dealPaid('ads',city)) * p.fill/100), cap:adCap,
+     fore:dealPaid('ads',city) + Math.round((adCap - dealPaid('ads',city)) * p.fill/100)}
+  ];
+
+  const g = k => st.reduce((s,x)=>s+x[k], 0);
+  const club = Math.round(st[0].fore * INC_A.clubPct/100);
+  const disc = {combo:combo.sum, club, total:combo.sum + club, names:combo.names};
+  const plan = city ? CITIES.find(c=>c.id===city).plan : CITIES.reduce((s,c)=>s+c.plan,0);
+
+  return {r, per, nFore, st, disc, plan,
+          paid:g('paid'), work:g('work'), cap:g('cap'),
+          fore:Math.max(0, g('fore') - disc.total),
+          net:Math.max(0, g('paid') - disc.combo)};
+}
+
+/* ---------- рендер ---------- */
+function incBar(paid, work, cap){
+  const w = v => cap ? Math.max(0, Math.min(100, v/cap*100)) : 0;
+  return '<div class="track">'+
+    '<i data-w="'+w(paid).toFixed(1)+'" style="background:var(--inc-paid)"></i>'+
+    '<i data-w="'+w(work).toFixed(1)+'" style="background:var(--inc-hold)"></i></div>';
+}
+function renderIncome(){
+  const p = S.inc, m = incModel(p, null);
+
+  /* ——— разрыв плана: аренда физически не закрывает цель ——— */
+  const worst = CITIES.map(c=>{
+    const rc = incRent(c.id);
+    return {c, pct:Math.round(rc.cap/c.plan*100), cap:rc.cap};
+  }).sort((a,b)=>a.pct-b.pct)[0];
+  const bigTicket = dealCap('sponsor') + dealCap('brand');
+  $('#incAlert').innerHTML =
+    '<div class="inc-alert"><div class="ic">!</div><div>'+
+      '<h4>План направления не закрывается арендой корнеров</h4>'+
+      '<p>Все места '+worst.c.gen+' при <b>100% продаже</b> дают '+mln(worst.cap)+
+      ' — это <b>'+worst.pct+'%</b> плана в '+mln(worst.c.plan)+'. '+
+      'По двум городам вся аренда — '+mln(incRent().cap)+' при плане '+mln(m.plan)+
+      ', разрыв <b>'+mln(m.plan - incRent().cap)+'</b>. Его закрывают четыре сделки: '+
+      'спонсорские пакеты и бренд-зоны на <b>'+mln(bigTicket)+'</b>. '+
+      'Дедлайн 14 мая критичен не для корнеров, а для них.</p>'+
+    '</div></div>';
+
+  /* ——— KPI ——— */
+  const donePct = Math.round(m.net/m.plan*100), forePct = Math.round(m.fore/m.plan*100);
+  const gap = m.plan - m.fore;
+  $('#incKpi').innerHTML =
+    '<div class="k"><span>Оплачено</span><b>'+mln(m.net)+'</b>'+
+      '<div class="d">план '+mln(m.plan)+' · <em>'+donePct+'%</em></div></div>'+
+    '<div class="k"><span>В работе</span><b style="color:var(--warn-ink)">'+mln(m.work)+'</b>'+
+      '<div class="d">брони и сделки с поправкой на вероятность</div></div>'+
+    '<div class="k"><span>Прогноз сезона</span><b style="color:var(--accent-ink)">'+mln(m.fore)+'</b>'+
+      '<div class="d">базовый сценарий · <em>'+forePct+'%</em> плана</div></div>'+
+    '<div class="k"><span>'+(gap > 0 ? 'Разрыв до плана' : 'Запас над планом')+'</span>'+
+      '<b style="color:'+(gap > 0 ? 'var(--bad-ink)' : 'var(--accent-ink)')+'">'+mln(Math.abs(gap))+'</b>'+
+      '<div class="d">потолок направления '+mln(m.cap)+'</div></div>';
+
+  /* ——— потоки ——— */
+  $('#incStreams').innerHTML = m.st.slice().sort((a,b)=>b.cap-a.cap).map(s=>
+    '<div class="inc-row"><div class="lbl">'+s.t+'<small>'+s.sub+'</small></div>'+
+    incBar(s.paid, s.work, s.cap)+
+    '<div class="val">'+mln(s.paid + s.work)+'<small>из '+mln(s.cap)+'</small></div></div>').join('');
+
+  /* ——— мост от факта к прогнозу ——— */
+  const steps = [
+    {t:'Оплачено сейчас',            v:m.net, base:true},
+    {t:'Брони доходят до оплаты',    v:m.st[0].work, s:'бронь × '+p.hold+'%'},
+    {t:'Догрузка свободных мест',    v:m.st[0].fore - m.st[0].paid - m.st[0].work, s:'остаток × '+p.fill+'%'},
+    {t:'Спонсорские пакеты',         v:m.st[1].fore - m.st[1].paid, s:'взвешенно по стадиям'},
+    {t:'Бренд-зоны VIP',             v:m.st[2].fore - m.st[2].paid, s:'взвешенно по стадиям'},
+    {t:'Барные линии',               v:m.st[3].fore - m.st[3].paid, s:'взвешенно по стадиям'},
+    {t:'Услуги резидентам',          v:m.st[4].fore - m.st[4].paid, s:INC_A.kw+' кВт + '+INC_A.acc+' бейджей × '+p.reach+'%'},
+    {t:'Реклама в сервисе',          v:m.st[5].fore - m.st[5].paid, s:'свободные слоты'},
+    {t:'Скидки клуба и комбо',       v:-m.disc.total, s:'комбо −'+COMBO_PCT+'% и клуб −'+INC_A.clubPct+'%'}
+  ];
+  const scale = Math.max(m.fore, m.plan) * 1.08;
+  let cum = 0, wf = '';
+  steps.filter(s=>s.base || Math.round(s.v)).forEach(s=>{
+    const from = s.base ? 0 : cum, to = s.base ? s.v : cum + s.v;
+    const l = Math.min(from, to)/scale*100, w = Math.abs(s.v)/scale*100;
+    cum = to;
+    wf += '<div class="wf-row"><div class="lbl">'+s.t+(s.s?'<small>'+s.s+'</small>':'')+'</div>'+
+      '<div class="track"><i data-l="'+l.toFixed(2)+'" data-w="'+w.toFixed(2)+'" style="left:'+l.toFixed(2)+
+        '%;background:'+(s.v < 0 ? 'var(--inc-hold)' : (s.base ? 'var(--inc-paid)' : 'var(--inc-step)'))+
+        (s.v < 0 || s.base ? '' : ';border:1px solid var(--inc-paid)')+'"></i></div>'+
+      '<div class="val">'+(s.v < 0 ? '−' : (s.base ? '' : '+'))+mln(Math.abs(s.v))+'</div></div>';
+  });
+  wf += '<div class="wf-row total"><div class="lbl">Прогноз сезона</div>'+
+    '<div class="track"><i data-l="0" data-w="'+(m.fore/scale*100).toFixed(2)+
+      '" style="left:0;background:var(--inc-paid)"></i>'+
+    '<span class="wf-plan" data-l="план '+mln(m.plan)+'" style="left:'+(m.plan/scale*100).toFixed(2)+'%"></span></div>'+
+    '<div class="val">'+mln(m.fore)+'</div></div>';
+  $('#incBridge').innerHTML = wf;
+
+  /* ——— сценарии ——— */
+  const pess = incModel({hold:60, fill:25, reach:45, deal:'low'},  null).fore;
+  const opt  = incModel({hold:95, fill:85, reach:90, deal:'high'}, null).fore;
+  $('#incScenHint').textContent = 'прогноз к 26 июня 2027';
+  $('#incScen').innerHTML =
+    '<div class="sc"><span>Пессимистичный</span><b>'+mln(pess)+'</b>'+
+      '<em>'+Math.round(pess/m.plan*100)+'% плана · из сделок только договор</em></div>'+
+    '<div class="sc base"><span>Базовый</span><b>'+mln(m.fore)+'</b>'+
+      '<em>'+forePct+'% плана · сделки взвешенно</em></div>'+
+    '<div class="sc"><span>Оптимистичный</span><b>'+mln(opt)+'</b>'+
+      '<em>'+Math.round(opt/m.plan*100)+'% плана · закрываем все сделки</em></div>';
+
+  /* ——— рычаги роста ——— */
+  const avgPrice = 180000;
+  const levers = [
+    {t:'Продать спонсорские пакеты', v:dealCap('sponsor') - dealPaid('sponsor'), e:3,
+     d:'Два титульных партнёрства по 15 млн. Один пакет закрывает больше, чем вся аренда Петербурга.',
+     who:'Маргарита Жиганова · до 14 мая'},
+    {t:'Продать бренд-зоны VIP', v:dealCap('brand') - dealPaid('brand'), e:3,
+     d:'Два участка по 100 м² в VIP-зонах. Сейчас на карте свободны и никем не ведутся как сделка.',
+     who:'Маргарита Жиганова, Алина Пятакова'},
+    {t:'Догрузить свободные корнеры', v:m.r.free, e:2,
+     d:m.r.nFree+' свободных '+plural(m.r.nFree,'места','мест','мест')+' в двух городах. Самый предсказуемый поток, но самый трудоёмкий на место.',
+     who:'Кураторы городов · до 14 мая'},
+    {t:'Закрыть барные линии', v:dealCap('bar') - dealPaid('bar'), e:2,
+     d:'DFF и Catch22 стоят в предброни по спецдоговору, на карте — без цены. Деньги есть, суммы не зафиксированы.',
+     who:'Наталья Арсентьева'},
+    {t:'Апсейл услуг резидентам', v:m.st[4].cap - m.st[4].paid, e:1,
+     d:'Электричество '+money(RATES.kw)+'/кВт и аккредитации '+money(RATES.acc)+'/бейдж. Берут '+
+       INC_A.reachNow+'% резидентов — это самый дешёвый рост.',
+     who:'Алина Пятакова · тех. хостинг'},
+    {t:'Довести брони до оплаты', v:m.r.hold, e:1,
+     d:m.r.nHold+' '+plural(m.r.nHold,'место','места','мест')+' в брони ждут счёта. Каждый день просрочки — риск, что место вернётся в продажу.',
+     who:'Кураторы · еженедельный обзвон'},
+    {t:'Заполнить рекламные слоты', v:m.st[5].cap - m.st[5].paid, e:1,
+     d:'Свободные слоты в сервисе резидентов. Продан один — 812am club.',
+     who:'Ульяна Ким'},
+    {t:'Оценить места «по договору»', v:m.r.nNoPrice*avgPrice, e:1,
+     d:m.r.nNoPrice+' '+plural(m.r.nNoPrice,'место','места','мест')+' ФК3 Купер в Москве стоят без цены — они не попадают ни в план, ни в прогноз.',
+     who:'Департамент торговли · оценка по '+money(avgPrice)}
+  ].filter(l=>l.v > 0).sort((a,b)=>b.v-a.v);
+  $('#incLevers').innerHTML = levers.map((l,i)=>
+    '<div class="lever"><div class="n">'+(i+1)+'</div>'+
+    '<div class="i"><b>'+l.t+
+      '<span class="eff" title="усилие">'+[1,2,3].map(k=>'<i class="'+(k<=l.e?'on':'')+'"></i>').join('')+'</span></b>'+
+      '<span>'+l.d+' <b style="color:var(--muted-2)">'+l.who+'</b></span></div>'+
+    '<div class="sum">+'+mln(l.v)+'</div>'+
+    '<div class="go"><button class="btn btn-light btn-sm" data-act="lever" data-t="'+l.t+
+      '" data-v="'+l.v+'">В работу</button></div></div>').join('');
+
+  /* ——— города ——— */
+  $('#incCities').innerHTML = CITIES.map(c=>{
+    const cm = incModel(p, c.id);
+    const sc = Math.max(cm.cap, cm.plan) * 1.04;
+    return '<div style="padding:12px 0;border-bottom:1px solid var(--line-soft)">'+
+      '<div class="dept-row" style="margin-bottom:8px"><span>'+c.name+'</span>'+
+        '<b>'+mln(cm.fore)+'</b></div>'+
+      '<div class="wf-row" style="padding:0"><div class="track" style="height:18px">'+
+        '<i style="left:0;width:'+(cm.net/sc*100).toFixed(2)+'%;background:var(--inc-paid)"></i>'+
+        '<i style="left:'+(cm.net/sc*100).toFixed(2)+'%;width:'+
+          (Math.max(0,cm.fore-cm.net)/sc*100).toFixed(2)+'%;'+
+          'background:var(--inc-step);border:1px solid var(--inc-paid)"></i>'+
+        '<span class="wf-plan" data-l="план '+mln(c.plan)+'" style="left:'+(c.plan/sc*100).toFixed(2)+'%"></span>'+
+      '</div></div>'+
+      '<div style="display:flex;gap:16px;margin-top:10px;font-size:11.5px;color:var(--muted-2)">'+
+        '<span>оплачено <b style="color:var(--text)">'+mln(cm.net)+'</b></span>'+
+        '<span>прогноз <b style="color:var(--text)">'+mln(cm.fore)+'</b></span>'+
+        '<span>потолок <b style="color:var(--text)">'+mln(cm.cap)+'</b></span>'+
+        '<span style="margin-left:auto">аренда закрывает '+
+          Math.round(incRent(c.id).cap/c.plan*100)+'% плана</span>'+
+      '</div></div>';
+  }).join('');
+
+  /* ——— границы модели ——— */
+  $('#incNotes').innerHTML =
+    '<div class="kv"><span>План направления</span><b>'+mln(m.plan)+' · Москва '+
+      mln(CITIES[0].plan)+' + Петербург '+mln(CITIES[1].plan)+'</b></div>'+
+    '<div class="kv"><span>Считается из карты мест</span><b>аренда корнеров, '+
+      (m.r.nPaid+m.r.nHold+m.r.nFree)+' '+plural(m.r.nPaid+m.r.nHold+m.r.nFree,'место','места','мест')+
+      '</b></div>'+
+    '<div class="kv"><span>Считается из пайплайна</span><b>спонсорство, бренд-зоны, барные линии, реклама</b></div>'+
+    '<div class="kv"><span>Допущение · услуги</span><b>'+INC_A.kw+' кВт и '+INC_A.acc+
+      ' бейджей на корнер = '+money(m.per)+'</b></div>'+
+    '<div class="kv"><span>Допущение · охват услуг сейчас</span><b>'+INC_A.reachNow+'% резидентов</b></div>'+
+    '<div class="kv"><span>Допущение · скидки клуба</span><b>−'+INC_A.clubPct+'% средневзвешенно</b></div>'+
+    '<div class="kv"><span>Комбо-пакет посчитан по факту</span><b>'+
+      (m.disc.names.length ? m.disc.names.join(', ')+' · −'+mln(m.disc.combo) : 'нет резидентов в двух городах')+'</b></div>'+
+    '<div class="kv"><span>Вне модели</span><b>'+m.r.nNoPrice+' '+
+      plural(m.r.nNoPrice,'место','места','мест')+' без цены · ФК3 Купер, Москва</b></div>';
+
+  /* ——— пайплайн ——— */
+  const ds = INC_DEALS.slice().sort((a,b)=>
+    INC_STAGES[b.st].p*b.sum - INC_STAGES[a.st].p*a.sum);
+  const wsum = ds.reduce((s,d)=>s + d.sum*INC_STAGES[d.st].p/100, 0);
+  $('#incDealHint').textContent = ds.length + ' сделок · ' + mln(ds.reduce((s,d)=>s+d.sum,0)) +
+    ' в потенциале · ' + mln(wsum) + ' взвешенно';
+  $('#incDeals').innerHTML =
+    '<thead><tr><th>Сделка</th><th>Город</th><th>Стадия</th><th class="num">Сумма</th>'+
+    '<th class="num">Вероятность</th><th class="num">Взвешенно</th><th>Ответственный</th>'+
+    '<th>Следующий шаг</th></tr></thead><tbody>'+
+    ds.map(d=>{
+      const stg = INC_STAGES[d.st];
+      const cls = d.st==='paid' ? 'p-ok' : (stg.p >= 60 ? 'p-warn' : 'p-mute');
+      return '<tr><td>'+d.n+'</td><td>'+CITIES.find(c=>c.id===d.c).name+'</td>'+
+        '<td><span class="pill '+cls+'">'+stg.t+'</span></td>'+
+        '<td class="num">'+money(d.sum)+'</td><td class="num">'+stg.p+'%</td>'+
+        '<td class="num">'+money(Math.round(d.sum*stg.p/100))+'</td>'+
+        '<td>'+d.who+'</td><td>'+d.next+'</td></tr>';
+    }).join('')+'</tbody>';
+
+  const hn = $('#incHoldN'), fn = $('#incFillN');
+  if(hn) hn.textContent = 'сейчас в брони ' + m.r.nHold + ' ' +
+    plural(m.r.nHold,'место','места','мест') + ' на ' + mln(m.r.hold);
+  if(fn) fn.textContent = 'свободно ' + m.r.nFree + ' ' +
+    plural(m.r.nFree,'место','места','мест') + ' на ' + mln(m.r.free);
+
+  requestAnimationFrame(()=>{
+    $$('#incStreams .track i').forEach(i=>{ i.style.width = i.dataset.w + '%'; });
+    $$('#incBridge .track i').forEach(i=>{ i.style.width = i.dataset.w + '%'; });
+  });
+}
+function renderAnMode(){
+  const modes = [{id:'main', t:'Сбор мест'}, {id:'inc', t:'Доход направления'}];
+  $('#anMode').innerHTML = modes.map(x=>
+    '<button class="'+(S.anMode===x.id?'active':'')+'" data-m="'+x.id+'">'+x.t+'</button>').join('');
+  $$('#anMode button').forEach(b=>b.addEventListener('click', ()=>{
+    S.anMode = b.dataset.m; renderAnalytics();
+  }));
+  $('#anMain').hidden = S.anMode !== 'main';
+  $('#anInc').hidden  = S.anMode !== 'inc';
+}
+function bindIncSliders(){
+  [['incHold','hold','incLHold'],['incFill','fill','incLFill'],['incReach','reach','incLReach']]
+  .forEach(([id,key,lab])=>{
+    const el = $('#'+id);
+    if(!el || el.dataset.bound) return;
+    el.dataset.bound = '1';
+    el.value = S.inc[key];
+    $('#'+lab).textContent = S.inc[key] + '%';
+    el.addEventListener('input', ()=>{
+      S.inc[key] = +el.value;
+      $('#'+lab).textContent = el.value + '%';
+      renderIncome();
+    });
+  });
+}
+function downloadIncome(){
+  const m = incModel(S.inc, null);
+  const rows = [['ПОТОКИ ДОХОДА','оплачено','в работе','прогноз','потолок']];
+  m.st.forEach(s=>rows.push([s.t, s.paid, s.work, s.fore, s.cap]));
+  rows.push(['Скидки клуба и комбо', 0, 0, -m.disc.total, 0]);
+  rows.push(['ИТОГО', m.paid, m.work, m.fore, m.cap]);
+  rows.push([]);
+  rows.push(['ПЛАН','','','',m.plan]);
+  CITIES.forEach(c=>{
+    const cm = incModel(S.inc, c.id);
+    rows.push([c.name, cm.net, cm.work, cm.fore, c.plan]);
+  });
+  rows.push([]);
+  rows.push(['ПАЙПЛАЙН','город','стадия','сумма','вероятность','взвешенно','ответственный','следующий шаг']);
+  INC_DEALS.forEach(d=>rows.push([d.n, CITIES.find(c=>c.id===d.c).name, INC_STAGES[d.st].t,
+    d.sum, INC_STAGES[d.st].p+'%', Math.round(d.sum*INC_STAGES[d.st].p/100), d.who, d.next]));
+  rows.push([]);
+  rows.push(['ДОПУЩЕНИЯ']);
+  rows.push(['Бронь доходит до оплаты', S.inc.hold+'%']);
+  rows.push(['Догрузка свободных мест', S.inc.fill+'%']);
+  rows.push(['Резидентов берут услуги', S.inc.reach+'%']);
+  rows.push(['Услуги на корнер', m.per]);
+  rows.push(['Скидка клуба', INC_A.clubPct+'%']);
+  const html = '<table border="1">'+rows.map(r=>'<tr>'+
+    r.map(c=>'<td>'+(c===undefined?'':c)+'</td>').join('')+'</tr>').join('')+'</table>';
+  try{
+    const blob = new Blob(['﻿<html><head><meta charset="utf-8"></head><body>'+html+'</body></html>'],
+      {type:'application/vnd.ms-excel'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'model-dohoda-picnic-2027.xls';
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1200);
+  }catch(e){}
+}
+
+/* ============================================================
    ТЕМА
    ============================================================ */
 function applyTheme(name){
@@ -3627,6 +4178,18 @@ document.addEventListener('click', e=>{
   if(a === 'go-about')  return go('about');
   if(a === 'go-cab')    return go('cab');
   if(a === 'theme')     return applyTheme(S.theme === 'picnic' ? 'dark' : 'picnic');
+  if(a === 'inc-xls'){
+    downloadIncome();
+    toast('Модель дохода выгружена', 'Потоки, пайплайн и допущения — в Excel');
+    return;
+  }
+  if(a === 'lever'){
+    const t = b.dataset.t, v = +b.dataset.v;
+    TRACK.unshift({who:'Маргарита Жиганова', txt:'взяла в работу рычаг «'+t+'» на '+mln(v), k:'ok', at:Date.now()});
+    renderTrack();
+    toast('Рычаг в работе', t + ' · потенциал ' + mln(v));
+    return;
+  }
 
   if(a === 'apply')         return startApply(b.dataset.uid);
   if(a === 'attach'){
