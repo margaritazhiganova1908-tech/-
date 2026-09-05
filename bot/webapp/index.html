@@ -194,6 +194,9 @@
     padding:0 14px;font-size:10px;letter-spacing:.18em;text-decoration:none}
   .chan[hidden]{display:none}
   .foot{text-align:center;font-size:9.5px;letter-spacing:.16em;color:#585d66;padding-top:9px}
+  .toast{position:fixed;left:14px;right:14px;bottom:92px;z-index:30;background:var(--accent);color:#fff;
+    font-family:var(--sans);font-size:13.5px;line-height:1.4;padding:12px 14px;text-align:center;
+    animation:up .25s both}
 </style>
 </head>
 <body>
@@ -469,10 +472,22 @@
     if (n >= s.slides.length) return;
     i = n; haptic('light'); renderSlide();
   }
+  function toast(text) {
+    var t = document.createElement('div');
+    t.className = 'toast'; t.textContent = text;
+    document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, 3200);
+  }
+
   function book(source, extra) {
     haptic('medium');
     var payload = { action: 'lead', source: source };
     if (extra) Object.keys(extra).forEach(function (k) { payload[k] = extra[k]; });
+    if (window.PROTOTYPE) {
+      return toast(extra && extra.service
+        ? 'В боте это уходит в чат: ' + extra.service + ' — ' + extra.date + ', ' + extra.time
+        : 'В боте это уходит в чат как заявка');
+    }
     var ok = send(payload);
     if (!ok && deck.cta && deck.cta.url) {
       try { tg.openLink(deck.cta.url); } catch (e) { window.open(deck.cta.url, '_blank'); }
