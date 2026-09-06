@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Доступ вместо корнера</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F2F1F6; --surface:#FFFFFF; --surface2:#EAE8F1;
+  --ink:#15121D; --muted:#5D5870; --faint:#8C87A0; --line:#DAD6E4;
+  --accent:#6A32E8;
+  --crit:#C2372F; --warn:#B07A12; --good:#2F8C55;
+  --tintcrit:#FBE7E5; --tintwarn:#FAF1D8; --tintgood:#E4F5E9; --tintacc:#EDE6FD;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111019; --surface:#1A1825; --surface2:#221F30;
+    --ink:#ECEAF3; --muted:#A29DB4; --faint:#7C7691; --line:#302C40;
+    --accent:#9A72FF;
+    --crit:#F2796E; --warn:#E5BE4A; --good:#5FC98A;
+    --tintcrit:#37191A; --tintwarn:#33290F; --tintgood:#17301F; --tintacc:#241C40;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111019; --surface:#1A1825; --surface2:#221F30;
+  --ink:#ECEAF3; --muted:#A29DB4; --faint:#7C7691; --line:#302C40;
+  --accent:#9A72FF;
+  --crit:#F2796E; --warn:#E5BE4A; --good:#5FC98A;
+  --tintcrit:#37191A; --tintwarn:#33290F; --tintgood:#17301F; --tintacc:#241C40;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Golos Text","Helvetica Neue",Arial,sans-serif; font-size:16px; line-height:1.55}
+.wrap{max-width:1180px; margin:0 auto; padding:0 28px 96px}
+h1,h2,h3{font-family:"Unbounded","Golos Text",sans-serif; text-wrap:balance; letter-spacing:-.02em}
+.ref{font-family:"JetBrains Mono",monospace; font-size:.72em; color:var(--faint); white-space:nowrap}
+
+header{padding:64px 0 40px; border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 22px}
+h1{font-size:clamp(40px,7.6vw,84px); line-height:.95; font-weight:800; margin:0 0 20px}
+.sub{font-size:clamp(17px,2vw,21px); color:var(--muted); max-width:62ch; margin:0}
+.meta{display:flex; flex-wrap:wrap; gap:10px 26px; margin-top:30px; font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--faint)}
+
+section{margin-top:72px}
+.shead{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin:0 0 8px}
+.shead h2{font-size:clamp(23px,3.2vw,34px); font-weight:600; margin:0}
+.snote{font-size:15px; color:var(--muted); max-width:70ch; margin:0 0 28px}
+
+/* thesis */
+.thesis{display:grid; grid-template-columns:1fr auto 1fr; gap:28px; align-items:center; margin-top:8px}
+.state{padding:26px 28px; border-radius:16px}
+.state.now{background:var(--tintcrit)}
+.state.next{background:var(--tintacc)}
+.state .lbl{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 10px}
+.state .big{font-family:"Unbounded",sans-serif; font-weight:600; font-size:clamp(18px,2.4vw,25px); line-height:1.22; margin:0 0 10px}
+.state p{margin:0; font-size:14.5px; color:var(--muted)}
+.arrow{font-family:"Unbounded",sans-serif; font-size:30px; color:var(--accent); text-align:center}
+
+/* keynumber */
+.key{margin-top:26px; background:var(--surface); border:2px solid var(--crit); border-radius:16px; padding:30px; display:grid; grid-template-columns:auto 1fr; gap:32px; align-items:center}
+.key .n{font-family:"Unbounded",sans-serif; font-size:clamp(64px,12vw,112px); font-weight:800; line-height:.85; color:var(--crit)}
+.key h3{margin:0 0 10px; font-size:20px; font-weight:600}
+.key p{margin:0; color:var(--muted); font-size:15px; max-width:62ch}
+
+/* knot */
+.knot{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-top:24px}
+.kn{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px}
+.kn .t{font-size:14.5px; line-height:1.4}
+.kn .r{margin-top:10px}
+
+/* pains */
+.pains{display:flex; flex-direction:column; gap:0}
+.pain{padding:26px 0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:56px 1fr; gap:22px}
+.pain:first-child{border-top:1px solid var(--line)}
+.sev{font-family:"JetBrains Mono",monospace; font-size:12px; font-weight:600; text-align:center; padding:5px 0; border-radius:6px; height:fit-content}
+.sev.c{background:var(--tintcrit); color:var(--crit)}
+.sev.w{background:var(--tintwarn); color:var(--warn)}
+.pain h3{margin:0 0 8px; font-size:19px; font-weight:600}
+.pain .lead{margin:0 0 12px; color:var(--muted); font-size:15px; max-width:76ch}
+.pain ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:7px}
+.pain li{font-size:14.5px; padding-left:14px; border-left:2px solid var(--line); line-height:1.42}
+.tags{margin-top:12px; font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--faint)}
+
+/* aims */
+.aims{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px}
+.aim{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px}
+.aim b{display:block; font-size:16px; margin-bottom:7px; font-weight:600}
+.aim span{font-size:14.5px; color:var(--muted)}
+
+/* culture */
+.cult{display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:0 30px}
+.cu{padding:15px 0; border-bottom:1px solid var(--line); font-size:15px; display:flex; gap:10px; align-items:baseline}
+.cu b{font-weight:600}
+
+/* verdict */
+.verdict{margin-top:26px; background:var(--surface2); border-radius:16px; padding:32px}
+.verdict h3{margin:0 0 14px; font-size:clamp(19px,2.4vw,25px); font-weight:600}
+.verdict p{margin:0 0 12px; font-size:15.5px; color:var(--muted); max-width:78ch}
+.verdict p:last-child{margin-bottom:0}
+.verdict b{color:var(--ink)}
+
+footer{margin-top:78px; padding-top:26px; border-top:2px solid var(--ink); font-size:13.5px; color:var(--muted)}
+@media (max-width:760px){
+  .thesis{grid-template-columns:1fr}
+  .arrow{transform:rotate(90deg)}
+  .key{grid-template-columns:1fr; gap:16px}
+  .pain{grid-template-columns:1fr; gap:12px}
+  .sev{width:fit-content; padding:5px 12px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Пикник Афиши · портрет проекта · гастронаправление</p>
+  <h1>Доступ вместо корнера</h1>
+  <p class="sub">Собрано из 110 рабочих заметок. Ваш собственный диагноз проекта, сведённый в одну картину: что он есть, чем болен, чем хочет стать. Номера в скобках — номера заметок.</p>
+  <div class="meta"><span>110 заметок</span><span>6 сентября 2026</span><span>7 групп проблем · 1 узел</span></div>
+</header>
+
+<section>
+  <div class="shead"><h2>Суть и сдвиг</h2></div>
+  <p class="snote">Обе формулировки — ваши. Между ними и лежит вся работа.</p>
+  <div class="thesis">
+    <div class="state now">
+      <p class="lbl">Что есть сейчас</p>
+      <p class="big">«Фестиваль просто рынок уровня садовод»</p>
+      <p>Продаётся место. Корнер как единица. Резидента приходится уговаривать, партнёр не возвращается, маркетинг работает на билеты. <span class="ref">(103 · 69 · 19 · 144)</span></p>
+    </div>
+    <div class="arrow">→</div>
+    <div class="state next">
+      <p class="lbl">Чем должен стать</p>
+      <p class="big">«Продавать доступ, а не корнер. Ценностный сдвиг УТП, смена продукта»</p>
+      <p>Маркетплейс и площадка для брендов. Резидентство как продукт, который покупают. Локальный культурный код. <span class="ref">(105 · 103 · 69 · 104)</span></p>
+    </div>
+  </div>
+
+  <div class="key">
+    <div class="n">0</div>
+    <div>
+      <h3>Коэффициент возврата коммерческих партнёров <span class="ref">(19)</span></h3>
+      <p>Единственная цифра во всём корпусе заметок — и она нулевая. Ни один партнёр не пришёл во второй раз. Это не деталь подбора, как записано в заметке 19: это итоговый показатель всей продуктовой логики фестиваля, и он сводит воедино пять других ваших наблюдений.</p>
+    </div>
+  </div>
+
+  <div class="knot">
+    <div class="kn"><div class="t">«У нас нет очереди из клиентов»</div><div class="r"><span class="ref">заметка 58</span></div></div>
+    <div class="kn"><div class="t">«Тон оф войс о партнёрах — мы их хаим»</div><div class="r"><span class="ref">заметка 96</span></div></div>
+    <div class="kn"><div class="t">«Партнёры не сопровождаются идеологически, только технически»</div><div class="r"><span class="ref">заметка 1</span></div></div>
+    <div class="kn"><div class="t">«Продукт, который впихивают, а не который покупают»</div><div class="r"><span class="ref">заметка 69</span></div></div>
+    <div class="kn"><div class="t">«Резидент не движется к покупке самостоятельно»</div><div class="r"><span class="ref">заметка 133</span></div></div>
+  </div>
+  <p class="snote" style="margin-top:22px"><b>Это одна проблема, описанная с пяти сторон.</b> Проект относится к партнёру как к источнику денег, а не как к клиенту, — и партнёр не возвращается. Ноль возврата не случайность и не следствие «странного подбора»: это прямое следствие тона, отсутствия смысловой рамки и продукта, собранного изнутри, а не от клиента. Всё остальное в этом документе — механика, которая привела к этому нулю.</p>
+</section>
+
+<section>
+  <div class="shead"><h2>Боли</h2></div>
+  <p class="snote">Семь групп, отсортированы по тому, сколько заметок на каждую и насколько она блокирует остальные. Красная метка — блокирует другие группы; жёлтая — болезненна, но локальна.</p>
+  <div class="pains">
+
+    <div class="pain">
+      <div class="sev c">1</div>
+      <div>
+        <h3>Ответственность размазана, архитектора нет</h3>
+        <p class="lead">Самая блокирующая группа: пока не назван владелец процесса, ни одна другая проблема не чинится — её некому чинить.</p>
+        <ul>
+          <li>«На кураторе направления лежат функции директора по развитию + исполнительного директора + маркетинга продаж + коммуникации с коммерческими партнёрами» <span class="ref">(44)</span> — четыре должности на одном человеке</li>
+          <li>«Конкуренция среди продюсеров за свой кусок… человек-архитектор фестиваля должен смотреть на карту и распределять объекты, это не происходит» <span class="ref">(28)</span></li>
+          <li>«Ведение коммерческих партнёров комдиректором — размазывается ответственность на всю команду, непонятно, кто кого ведёт» <span class="ref">(3)</span></li>
+          <li>«Смежные процессы — каша полная, хаос» <span class="ref">(45)</span></li>
+        </ul>
+        <div class="tags">3 · 21 · 28 · 38 · 44 · 45 · 70 · 124 — 8 заметок</div>
+      </div>
+    </div>
+
+    <div class="pain">
+      <div class="sev c">2</div>
+      <div>
+        <h3>Коммуникация не закрывается</h3>
+        <p class="lead">Заметка 52 — самый точный вопрос во всём корпусе про то, как в проекте устроена власть.</p>
+        <ul>
+          <li>«Маркетинг начинает работать, когда включается Лера; бухгалтерия — когда включается Кирилл. Если все эти люди реагируют на вышестоящие инстанции, то зачем соединять нас напрямую?» <span class="ref">(52)</span></li>
+          <li>«Дай точки на карте Купер? — нет ответа. Дай смету по диджейке — нет ответа» <span class="ref">(25)</span></li>
+          <li>«Задача по спорту отправилась в чат в пятницу в 14:00, ответ не получен вообще никогда» <span class="ref">(29)</span></li>
+          <li>«Приход маркетинга на созвон с 812 происходит через звонок генпродюсера и как одолжение» <span class="ref">(41)</span></li>
+        </ul>
+        <div class="tags">25 · 29 · 34 · 41 · 52 · 71 — 6 заметок</div>
+      </div>
+    </div>
+
+    <div class="pain">
+      <div class="sev c">3</div>
+      <div>
+        <h3>Слияние вместо ролей</h3>
+        <p class="lead">Ваш самый глубокий разбор культуры. Он же объясняет группы 1 и 2: роли не разделяются, потому что разделение делает ответственность видимой.</p>
+        <ul>
+          <li>«Команда склеивается, на границах ролей рождается агрессия, команда стремится к слиянию, потому что все боятся ответственности… это защитный паттерн коллектива от своей тени» <span class="ref">(39)</span></li>
+          <li>«Они заменяют рабочую субординацию семейными и дружескими паттернами… тебе платят за одобрение, а не за результат?» <span class="ref">(76)</span></li>
+          <li>«Эта дружба начинает препятствовать результату; я обнаруживаю себя в точке, где эта дружба является ограничением» <span class="ref">(46)</span></li>
+          <li>«Поведением управляет страх обидеть человека — это лаг» <span class="ref">(93)</span></li>
+        </ul>
+        <div class="tags">23 · 39 · 40 · 46 · 51 · 76 · 92 · 93 · 118 — 9 заметок</div>
+      </div>
+    </div>
+
+    <div class="pain">
+      <div class="sev c">4</div>
+      <div>
+        <h3>Маркетинг не обслуживает направление</h3>
+        <p class="lead">Самая многочисленная группа: 13 заметок. И единственная, где процессный конфликт вы сами фиксируете как перешедший в личный.</p>
+        <ul>
+          <li>«У маркетинга нет задачи по отработке гастроблока» <span class="ref">(79)</span> · «Маркетинг только на билетку» <span class="ref">(144)</span></li>
+          <li>«Маркетинг крутится вокруг человека, а не вокруг результата — два узких горла» <span class="ref">(24)</span></li>
+          <li>«Провал продвижения сервиса доставки: маркетинг говорит, что у Купера большой отдел, пусть они и занимаются» <span class="ref">(13)</span></li>
+          <li>«Процессный конфликт… перерос в личностный: агрессия с управленцев перешла на исполнителя» <span class="ref">(49)</span></li>
+          <li>«Кураторы выпускают редакционный материал в Афишу — это не их работа» <span class="ref">(20)</span></li>
+        </ul>
+        <div class="tags">2 · 7 · 13 · 14 · 20 · 24 · 30 · 35 · 41 · 48 · 49 · 79 · 144 — 13 заметок</div>
+      </div>
+    </div>
+
+    <div class="pain">
+      <div class="sev w">5</div>
+      <div>
+        <h3>Продукт резидентства не собран</h3>
+        <p class="lead">Здесь лежит выручка. И здесь же — ответ на нулевой возврат партнёров.</p>
+        <ul>
+          <li>«Превратить процесс набора резидентов в продукт, который покупают, а не впихивают» <span class="ref">(69)</span></li>
+          <li>«Точно понимать, кому мы продаём и кому не продаём» <span class="ref">(88)</span></li>
+          <li>«Себестоимость пакета: не общий котёл — есть расходы продукта, есть расходы бизнеса. Сформулировать формулу» <span class="ref">(53)</span> · «Как построить стоимость пакета» <span class="ref">(150)</span></li>
+          <li>«Онлайн-магазин для резидентов с личным кабинетом и полным треком онбординга» <span class="ref">(26)</span></li>
+        </ul>
+        <div class="tags">12 · 26 · 53 · 58 · 69 · 77 · 88 · 102 · 111 · 133 · 150 — 11 заметок</div>
+      </div>
+    </div>
+
+    <div class="pain">
+      <div class="sev w">6</div>
+      <div>
+        <h3>Ручное управление вместо систем</h3>
+        <p class="lead">Источник вашего истощения и главная причина, по которой вы не можете отпустить контроль.</p>
+        <ul>
+          <li>«Меняем что-то, когда проблема накатила и об этом сказали, а не когда на старте строишь системы. Всё происходит задним числом» <span class="ref">(67)</span></li>
+          <li>«Не совпадает количество аккредитаций никогда, всегда какой-то доп, и это приводит к хаосу» <span class="ref">(99)</span></li>
+          <li>«А подписали договор? А сейчас подписали?» <span class="ref">(116)</span></li>
+          <li>«Долгий фоторепорт, 1 ТБ, не знаем, когда что выложим» <span class="ref">(146)</span></li>
+        </ul>
+        <div class="tags">8 · 27 · 31 · 66 · 67 · 74 · 99 · 116 · 117 · 146 — 10 заметок</div>
+      </div>
+    </div>
+
+    <div class="pain">
+      <div class="sev c">7</div>
+      <div>
+        <h3>Нет экономики и нет рамки сверху</h3>
+        <p class="lead">Единственная группа, на которую вы не можете ответить изнутри своей роли. И самая важная: смотрите вывод внизу.</p>
+        <ul>
+          <li>«Экономическая модель фестиваля — что это? Финмодель гибридная? Задача? Самоокупаемость? Или что?» <span class="ref">(98)</span></li>
+          <li>«Что мешает Пикнику расти? Стояла ли эта задача? Рост в чём заключался?» <span class="ref">(142)</span></li>
+          <li>«Как стратегия Пикника коррелирует с общей стратегией Сбера?» <span class="ref">(140)</span> · «Какая стратегия развития индустрии развлечений у Сбера?» <span class="ref">(141)</span></li>
+          <li>«Результат такой же? Просто выросли косты?» <span class="ref">(89)</span></li>
+        </ul>
+        <div class="tags">43 · 89 · 98 · 103 · 108 · 140 · 141 · 142 — 8 заметок</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="shead"><h2>Стремления проекта</h2></div>
+  <p class="snote">Что вы хотите из него сделать. Всё — ваши формулировки, сгруппированы по типу сдвига.</p>
+  <div class="aims">
+    <div class="aim"><b>Сменить продукт</b><span>Продавать доступ, а не корнер. Ценностный сдвиг УТП. <span class="ref">(105)</span></span></div>
+    <div class="aim"><b>Сменить рамку</b><span>Маркетплейс и площадка для брендов вместо рынка. Location based entertainment. <span class="ref">(103 · 112)</span></span></div>
+    <div class="aim"><b>Собрать резидентство как продукт</b><span>Онлайн-магазин, личный кабинет, полный трек онбординга. <span class="ref">(26 · 69)</span></span></div>
+    <div class="aim"><b>Построить гастроинфраструктуру</b><span>Новая гастроконцепция, сетка гастробрендов с категориями. <span class="ref">(65 · 64 · 4)</span></span></div>
+    <div class="aim"><b>Выйти за периметр площадки</b><span>Спешлы под фестиваль в заведениях резидентов, которых нет офлайн. <span class="ref">(5)</span></span></div>
+    <div class="aim"><b>Сделать медиа из кухонь</b><span>Афиша Рестораны как бренд-зона, гастрогид, съёмки с поварами. <span class="ref">(17 · 16)</span></span></div>
+    <div class="aim"><b>Персональный сервис уровня А</b><span>Отдельный сервис для клиентов масштаба Газпрома. <span class="ref">(22)</span></span></div>
+    <div class="aim"><b>Технологичность и бесшовность</b><span>ИИ-автоматизация вместо ручных статусов. <span class="ref">(74 · 27)</span></span></div>
+    <div class="aim"><b>Комьюнити вместо арендаторов</b><span>Качество резидентов, локальный культурный код. <span class="ref">(78 · 104)</span></span></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><h2>Культура, которую вы хотите построить</h2></div>
+  <p class="snote">Собрано из ваших управленческих заметок. Это готовый устав направления — его осталось только записать в одну страницу и предъявить команде.</p>
+  <div class="cult">
+    <div class="cu"><b>Владельцы процессов поимённо</b><span class="ref">38</span></div>
+    <div class="cu"><b>Репорт-сессия: цифры, следующий шаг, левел, готовность команды</b><span class="ref">121</span></div>
+    <div class="cu"><b>Еженедельная десятиминутная преза по направлению</b><span class="ref">139</span></div>
+    <div class="cu"><b>«Что поможет тебе работать эффективнее?» вместо «всё нормально?»</b><span class="ref">72</span></div>
+    <div class="cu"><b>Команда — лучший источник обратной связи</b><span class="ref">87</span></div>
+    <div class="cu"><b>20% времени на то, что человеку по-настоящему нравится</b><span class="ref">119</span></div>
+    <div class="cu"><b>Право на ошибку в новом — но не терпимость к невыполненному</b><span class="ref">80 vs 118</span></div>
+    <div class="cu"><b>Презентация успеха в отчётах</b><span class="ref">100</span></div>
+    <div class="cu"><b>Спортивная команда, а не семья</b><span class="ref">123 · 92</span></div>
+    <div class="cu"><b>Платить больше конкретным, не раздувать штат</b><span class="ref">36</span></div>
+    <div class="cu"><b>Приоритет сильным; человека можно поставить над схемой</b><span class="ref">63 · 95</span></div>
+    <div class="cu"><b>Пересобрать тон о партнёрах: думать о человеке, а не о лиде</b><span class="ref">96 · 97</span></div>
+  </div>
+  <p class="snote" style="margin-top:24px"><b>Одна развилка внутри этого устава.</b> Заметки 118 и 80 сейчас звучат одинаково, но означают противоположное. «Высокая толерантность к ошибке» в связке с заметками 19, 25, 29, 42, 43 и 99 — это не добродетель, а причина, по которой в проекте ничего не закрывается. «Делегировать право на ошибку» <span class="ref">(80)</span> — условие роста. Развести эти два понятия явно нужно раньше, чем предъявлять устав: иначе команда услышит то, что ей удобнее.</p>
+</section>
+
+<section>
+  <div class="shead"><h2>Вывод</h2></div>
+  <div class="verdict">
+    <h3>Вы чините систему, у которой, возможно, не сформулирована задача</h3>
+    <p>Заметка 142: <b>«Что мешает Пикнику расти? Стояла ли эта задача? Рост в чём заключался?»</b> Заметка 98: <b>«Экономическая модель фестиваля — что это? Самоокупаемость? Или что?»</b> Вы задали оба вопроса и не получили ответа.</p>
+    <p>Если задача роста не ставилась и финмодель не определена, то большинство остальных болей — не дефекты исполнения, а закономерное поведение организации без цели. Нулевой возврат партнёров, отсутствие маркетинга на гастро, размазанная ответственность, слияние ролей — всё это ровно то, что происходит с проектом, который успешно проводится каждый год и не обязан расти.</p>
+    <p><b>Практическое следствие.</b> Прежде чем строить систему управления, стоит получить письменный ответ на 98 и 142 от того, кто отвечает за проект целиком. Два исхода, и оба полезны: либо задача роста есть — и тогда у вас появляется мандат под всё остальное в этом документе; либо её нет — и тогда становится ясно, что вы вкладываете архитектурное мышление в конструкцию, которая от вас этого не просит. Это и есть ваш вопрос из личных заметок — «сжать себя до размеров приемлемого понимания… надоело» — только заданный организации, а не себе.</p>
+  </div>
+</section>
+
+<footer>
+  Портрет собран из 110 рабочих заметок без внешних допущений. Операционный бэклог с задачами по каждой группе — в файле <span class="ref">backlog-picnic.md</span>.
+</footer>
+
+</div>
+</body>
+</html>

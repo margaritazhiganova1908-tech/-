@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Полный рост</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F2F1F6; --surface:#FFFFFF; --surface2:#EAE8F1;
+  --ink:#15121D; --muted:#5D5870; --faint:#8C87A0; --line:#DAD6E4;
+  --accent:#6A32E8;
+  --c1:#3E9FD8; --c2:#3FAE68; --c3:#6A32E8; --c4:#0E9FAC; --c5:#C79A18; --c6:#CE4B8E;
+  --tint1:#E4F1FA; --tint2:#E4F5E9; --tint3:#EDE6FD; --tint4:#DEF2F4; --tint5:#FAF1D8; --tint6:#FBE6F1;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111019; --surface:#1A1825; --surface2:#221F30;
+    --ink:#ECEAF3; --muted:#A29DB4; --faint:#7C7691; --line:#302C40;
+    --accent:#9A72FF;
+    --c1:#69BEEE; --c2:#6FD394; --c3:#9A72FF; --c4:#3FCBD6; --c5:#E5BE4A; --c6:#EE7CB4;
+    --tint1:#16283A; --tint2:#17301F; --tint3:#241C40; --tint4:#123034; --tint5:#33290F; --tint6:#331A2A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111019; --surface:#1A1825; --surface2:#221F30;
+  --ink:#ECEAF3; --muted:#A29DB4; --faint:#7C7691; --line:#302C40;
+  --accent:#9A72FF;
+  --c1:#69BEEE; --c2:#6FD394; --c3:#9A72FF; --c4:#3FCBD6; --c5:#E5BE4A; --c6:#EE7CB4;
+  --tint1:#16283A; --tint2:#17301F; --tint3:#241C40; --tint4:#123034; --tint5:#33290F; --tint6:#331A2A;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Golos Text","Helvetica Neue",Arial,sans-serif;
+  font-size:16px; line-height:1.55; letter-spacing:.005em;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:0 28px 96px}
+h1,h2,h3,.disp{font-family:"Unbounded","Golos Text",sans-serif; text-wrap:balance; letter-spacing:-.02em}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+.ref{font-family:"JetBrains Mono",monospace; font-size:.72em; color:var(--faint); white-space:nowrap}
+q,.q{font-style:normal}
+
+/* header */
+header{padding:64px 0 40px; border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0 0 22px}
+h1{font-size:clamp(44px,8.5vw,92px); line-height:.94; font-weight:800; margin:0 0 20px}
+.sub{font-size:clamp(17px,2vw,21px); color:var(--muted); max-width:60ch; margin:0}
+.meta{display:flex; flex-wrap:wrap; gap:10px 26px; margin-top:30px; font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--faint)}
+
+/* sections */
+section{margin-top:76px}
+.shead{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin:0 0 8px}
+.shead h2{font-size:clamp(24px,3.4vw,36px); font-weight:600; margin:0}
+.snote{font-size:15px; color:var(--muted); max-width:66ch; margin:0 0 30px}
+.dot{width:11px; height:11px; border-radius:50%; flex:none; align-self:center}
+
+/* core */
+.core{display:flex; flex-direction:column; gap:0}
+.core .item{padding:30px 0; border-bottom:1px solid var(--line)}
+.core .item:first-child{border-top:1px solid var(--line)}
+.core .lead{font-family:"Unbounded",sans-serif; font-weight:600; font-size:clamp(19px,2.5vw,27px); line-height:1.24; margin:0 0 14px; letter-spacing:-.02em}
+.core .lead em{font-style:normal; color:var(--accent)}
+.core p{margin:0; color:var(--muted); max-width:74ch; font-size:15.5px}
+
+/* motives */
+.motives{display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr)); gap:18px}
+.mot{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:24px 24px 22px; display:flex; flex-direction:column; gap:13px}
+.mot .top{display:flex; align-items:center; gap:10px}
+.mot h3{font-size:19px; font-weight:600; margin:0; line-height:1.22; flex:1}
+.bar{height:6px; background:var(--surface2); border-radius:3px; overflow:hidden}
+.bar span{display:block; height:100%; border-radius:3px}
+.cnt{font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--faint); letter-spacing:.04em}
+.quotes{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:7px}
+.quotes li{font-size:14.5px; color:var(--ink); padding-left:14px; border-left:2px solid var(--line); line-height:1.42}
+.read{font-size:14.5px; color:var(--muted); margin:0; padding-top:4px; border-top:1px dashed var(--line)}
+.read b{color:var(--ink); font-weight:600}
+
+/* values */
+.vals{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:0 34px}
+.vals .v{padding:16px 0; border-bottom:1px solid var(--line); display:flex; gap:12px; align-items:baseline}
+.vals .v b{font-weight:600; font-size:16px}
+.vals .v span{color:var(--muted); font-size:14.5px}
+
+/* tensions */
+.tens{display:flex; flex-direction:column; gap:0}
+.t{display:grid; grid-template-columns:1fr 40px 1fr; align-items:center; gap:0; padding:20px 0; border-bottom:1px solid var(--line)}
+.t:first-child{border-top:1px solid var(--line)}
+.t .side{font-size:15.5px; line-height:1.4}
+.t .side.r{text-align:right}
+.t .vs{text-align:center; font-family:"JetBrains Mono",monospace; font-size:15px; color:var(--c6); font-weight:600}
+.t .verdict{grid-column:1 / -1; margin:12px 0 0; font-size:14.5px; color:var(--muted); padding-left:0}
+.t .verdict b{color:var(--ink); font-weight:600}
+
+/* goals table */
+.tbl{width:100%; border-collapse:collapse; font-size:15px}
+.tbl th{text-align:left; font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); font-weight:400; padding:0 14px 10px 0; border-bottom:1px solid var(--line)}
+.tbl td{padding:13px 14px 13px 0; border-bottom:1px solid var(--line); vertical-align:top}
+.tbl td:first-child{font-weight:600; white-space:nowrap}
+.mood{font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--faint); white-space:nowrap}
+tr.flag td{background:var(--tint6)}
+tr.flag .mood{color:var(--c6); font-weight:600}
+
+/* interests */
+.chips{display:flex; flex-wrap:wrap; gap:9px; margin-bottom:24px}
+.chip{background:var(--tint2); color:var(--ink); border-radius:999px; padding:7px 15px; font-size:14.5px; border:1px solid transparent}
+.chip.thin{background:transparent; border-color:var(--line); color:var(--muted)}
+
+/* absent */
+.absent{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px}
+.ab{background:var(--surface2); border-radius:12px; padding:20px}
+.ab .n{font-family:"Unbounded",sans-serif; font-size:34px; font-weight:800; line-height:1; color:var(--ink)}
+.ab .l{font-size:14px; color:var(--muted); margin-top:8px}
+.ab .s{font-size:12.5px; color:var(--faint); margin-top:5px}
+
+footer{margin-top:80px; padding-top:26px; border-top:2px solid var(--ink); font-size:13.5px; color:var(--muted)}
+@media (max-width:640px){
+  .t{grid-template-columns:1fr; gap:8px}
+  .t .side.r{text-align:left}
+  .t .vs{text-align:left}
+}
+@media (prefers-reduced-motion:no-preference){
+  .mot{transition:border-color .18s ease}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Карта идентичности · версия 1.0</p>
+  <h1>Полный рост</h1>
+  <p class="sub">Собрано из 160 рабочих и личных заметок. Всё, что здесь написано, выведено из ваших формулировок — ничего не додумано и не смягчено. Номера в скобках — номера заметок.</p>
+  <div class="meta">
+    <span>160 заметок</span><span>6 сентября 2026</span><span>источник: Google Keep · доска блоков</span>
+  </div>
+</header>
+
+<section>
+  <div class="shead"><span class="dot" style="background:var(--c3)"></span><h2>Ядро</h2></div>
+  <p class="snote">Три вещи, которые не зависят от зоны, роли и настроения. Выведены не из самоописания, а из того, что вы делаете в тексте.</p>
+  <div class="core">
+    <div class="item">
+      <p class="lead">Масштаб мышления <em>превышает выданный мандат</em></p>
+      <p>Ваши 150 рабочих заметок — это аудит организации целиком: маркетинг, бухгалтерия, финмодель, культура, стратегия Сбера, себестоимость продукта, оргструктура. Никто вам этого не поручал. Вы курируете гастронаправление, а описываете компанию. Отсюда растёт всё остальное: и «сжать себя до размеров приемлемого понимания… надоело» <span class="ref">(60)</span>, и «я доросла до уровня собственной некомпетентности» <span class="ref">(125)</span>, и конфликт с маркетингом. Это не амбиция. Вы просто не умеете видеть кусок, когда видна система.</p>
+    </div>
+    <div class="item">
+      <p class="lead">Переводит аффект <em>в структуру</em></p>
+      <p>Агрессия → «если переработать мою агрессию, желание звучит так: я хочу управлять, быть главной королевой» <span class="ref">(136)</span>. Страх → «там много людей… я боюсь» <span class="ref">(51)</span>. Раздражение на команду → готовая теория защитного паттерна коллектива <span class="ref">(39)</span>. Это редкий механизм и главный ваш рабочий инструмент. У него есть цена: то, что переведено в структуру, бывает не прожито. Блок про «ферменты для триумфа» — ровно об этом.</p>
+    </div>
+    <div class="item">
+      <p class="lead">Не выносит <em>приблизительности</em></p>
+      <p>«Фестиваль просто рынок уровня садовод» <span class="ref">(103)</span>, «никакущие соцсети, примитивный формат» <span class="ref">(14)</span>, «смежные процессы — каша полная» <span class="ref">(45)</span>, «а подписали договор? а сейчас? — это пиздец» <span class="ref">(116)</span>. Реакция на низкое качество у вас телесная, а не оценочная. Это делает вас точным диагностом и плохо совместимо со средой, которая живёт на «и так сойдёт».</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="dot" style="background:var(--c6)"></span><h2>Истинные мотивы</h2></div>
+  <p class="snote">Восемь желаний, стоящих за заметками. Полоса под названием — сколько записей в корпусе работают на этот мотив; чем длиннее, тем настойчивее он повторяется.</p>
+  <div class="motives">
+
+    <article class="mot">
+      <div class="top"><h3>Суверенитет, а не лидерство</h3></div>
+      <div class="bar"><span style="width:100%;background:var(--c3)"></span></div>
+      <div class="cnt">16 заметок · самый настойчивый</div>
+      <ul class="quotes">
+        <li>«Я хочу управлять, я хочу быть главной королевой, я хочу строить, влиять и управлять» <span class="ref">(136)</span></li>
+        <li>«Я строю империю одна» <span class="ref">(129)</span> · «Я единственная владелица бизнеса» <span class="ref">(5 лет)</span></li>
+        <li>«Мне вообще никто не нужен в коммуникации, кроме моей команды» <span class="ref">(107)</span></li>
+      </ul>
+      <p class="read"><b>Разница существенная.</b> Лидерству нужны последователи. Суверенитету нужна территория. Все ваши формулировки — про территорию: империя, единственная владелица, никто не нужен. Это не про то, чтобы вести людей.</p>
+    </article>
+
+    <article class="mot">
+      <div class="top"><h3>Перестать сжиматься</h3></div>
+      <div class="bar"><span style="width:56%;background:var(--c6)"></span></div>
+      <div class="cnt">9 заметок · самый заряженный</div>
+      <ul class="quotes">
+        <li>«Сжать себя до размеров приемлемого понимания… надоело» <span class="ref">(60)</span></li>
+        <li>«Система управления не рассчитана на сильных кандидатов» <span class="ref">(61)</span></li>
+        <li>«Я ищу поле, где могу расти, и создаю это поле сама» <span class="ref">(перс. 2)</span></li>
+      </ul>
+      <p class="read"><b>Единственное «надоело» во всём корпусе.</b> 160 заметок написаны ровным аналитическим тоном — кроме этой. Там, где прорывается интонация, обычно и находится настоящее.</p>
+    </article>
+
+    <article class="mot">
+      <div class="top"><h3>Взрослость вместо семьи</h3></div>
+      <div class="bar"><span style="width:62%;background:var(--c4)"></span></div>
+      <div class="cnt">10 заметок</div>
+      <ul class="quotes">
+        <li>«Культура результата и взрослого поведения — отмена эмоциональной зависимости» <span class="ref">(46)</span></li>
+        <li>«Внедрение псевдоблизости для снижения бдительности… тебе платят за одобрение, а не за результат?» <span class="ref">(76)</span></li>
+        <li>«Я переросла детскую форму взаимоотношений в команде» <span class="ref">(101)</span></li>
+      </ul>
+      <p class="read"><b>Ваше слово — «взрослое».</b> Мотив: выйти из семейной модели отношений в профессиональную, где можно не нравиться и продолжать работать вместе.</p>
+    </article>
+
+    <article class="mot">
+      <div class="top"><h3>Система как право отпустить</h3></div>
+      <div class="bar"><span style="width:87%;background:var(--c1)"></span></div>
+      <div class="cnt">14 заметок</div>
+      <ul class="quotes">
+        <li>«Строить экосистему процессов, а не спрашивать каждый раз, кто это делает» <span class="ref">(117)</span></li>
+        <li>«Меняем что-то, когда проблема накатила, а не когда на старте строишь системы» <span class="ref">(67)</span></li>
+        <li>«Отсутствие границ и системы управления меня истощает» <span class="ref">(113)</span></li>
+      </ul>
+      <p class="read"><b>Система для вас не про эффективность.</b> Пока её нет, всё нужно держать руками — то есть невозможно отпустить. Мотив здесь не «порядок», а разрешение не контролировать.</p>
+    </article>
+
+    <article class="mot">
+      <div class="top"><h3>Качество как несводимый критерий</h3></div>
+      <div class="bar"><span style="width:69%;background:var(--c5)"></span></div>
+      <div class="cnt">11 заметок</div>
+      <ul class="quotes">
+        <li>«Фестиваль просто рынок уровня садовод» <span class="ref">(103)</span></li>
+        <li>«Стильные целевые резиденты уровня А» <span class="ref">(102)</span> · «Акцент на качество резидентов, комьюнити» <span class="ref">(78)</span></li>
+        <li>«Роскошное внутреннее состояние» · «свой красивый дом на земле» <span class="ref">(5 лет)</span></li>
+      </ul>
+      <p class="read"><b>Эстетика у вас не украшение, а порог допуска.</b> «Садовод» — не про деньги и не про формат. Это про невозможность в этом находиться.</p>
+    </article>
+
+    <article class="mot">
+      <div class="top"><h3>Быть среди сильных</h3></div>
+      <div class="bar"><span style="width:44%;background:var(--c2)"></span></div>
+      <div class="cnt">7 заметок</div>
+      <ul class="quotes">
+        <li>«Больше внимания сильным; сюсюкаясь со слабыми, мы забираем у сильных» <span class="ref">(63)</span></li>
+        <li>«Исправление чужой некомпетентности постоянно» <span class="ref">(31)</span></li>
+        <li>«Не раздувать команду, а платить больше конкретным людям» <span class="ref">(36)</span></li>
+      </ul>
+      <p class="read"><b>Это же и «селекция людей»</b> из блока ценностей — но здесь видно, что фильтр настроен не на приятность, а на профессиональный уровень.</p>
+    </article>
+
+    <article class="mot">
+      <div class="top"><h3>Чтобы сделанное было названо</h3></div>
+      <div class="bar"><span style="width:31%;background:var(--c1)"></span></div>
+      <div class="cnt">5 заметок</div>
+      <ul class="quotes">
+        <li>«Нарциссизм в отчётах — презентация успеха — важно внедрить!» <span class="ref">(100)</span></li>
+        <li>«Прописать свои премиальные показатели… аргументы в пользу повышения» <span class="ref">(85)</span></li>
+        <li>«Критики — главные фанаты. Критика — маска, под которой восхищение» <span class="ref">(126)</span></li>
+      </ul>
+      <p class="read"><b>Записано как управленческий инструмент</b> — но 85 и 109 про вас лично. Заметка 126 при этом делает критику нечитаемой: если вся она — скрытое восхищение, из неё нельзя извлечь информацию.</p>
+    </article>
+
+    <article class="mot">
+      <div class="top"><h3>Производить смысл, а не только продукт</h3></div>
+      <div class="bar"><span style="width:37%;background:var(--c2)"></span></div>
+      <div class="cnt">6 заметок</div>
+      <ul class="quotes">
+        <li>«Я <b>должна</b> заниматься просвещением бесплатно, социальной деятельностью»</li>
+        <li>«Локальный культурный код» <span class="ref">(104)</span> · «Коммерческие партнёры никак не сопровождаются идеологически» <span class="ref">(1)</span></li>
+        <li>«Лиминальность… что во мне пытается родиться?» <span class="ref">(перс. 3)</span></li>
+      </ul>
+      <p class="read"><b>Единственное «должна» во всём корпусе</b> — в строке про бесплатное просвещение. Всё остальное сформулировано через «хочу», «строю», «мне платят». Одно долженствование на 160 записей стоит проверить: чьё оно.</p>
+    </article>
+
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="dot" style="background:var(--c4)"></span><h2>Ценности</h2></div>
+  <p class="snote">Не декларации, а то, что вы защищаете в каждом конфликте. Выведено из повторяющихся требований к другим — самый надёжный источник, потому что требуют обычно того, что считают неотменяемым.</p>
+  <div class="vals">
+    <div class="v"><b>Ответственность закреплена за именем</b><span class="ref">38 · 3 · 44 · 45</span></div>
+    <div class="v"><b>Роли разделены, границы видны</b><span class="ref">40 · 39 · 46</span></div>
+    <div class="v"><b>Коммуникация закрывается</b><span class="ref">25 · 29 · 71 · 34</span></div>
+    <div class="v"><b>Слово равно договорённости</b><span class="ref">91 · 116 · 129</span></div>
+    <div class="v"><b>Качество выше объёма</b><span class="ref">78 · 102 · 36</span></div>
+    <div class="v"><b>Факты выше эмоций</b><span class="ref">114 · 115 · 73</span></div>
+    <div class="v"><b>Сила заслуживает приоритета</b><span class="ref">63 · 95 · 61</span></div>
+    <div class="v"><b>Взрослость выше уюта</b><span class="ref">46 · 92 · 101</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="dot" style="background:var(--c6)"></span><h2>Противоречия</h2></div>
+  <p class="snote">Не ошибки. Это места, где карта становится рабочей: пока они не разрешены, каждое решение будет отменять предыдущее.</p>
+  <div class="tens">
+
+    <div class="t">
+      <div class="side">«Перестать играть в одинокого царя» <span class="ref">(128)</span></div>
+      <div class="vs">↔</div>
+      <div class="side r">«Я строю империю одна» <span class="ref">(129)</span></div>
+      <p class="verdict"><b>Восемь строк между ними, одна запись.</b> Плюс «я единственная владелица бизнеса» в пятилетке. Пока не решено, одиночество во власти — ценность или симптом, конструкция управления не встанет: делегировать 99% и строить империю одной одновременно нельзя.</p>
+    </div>
+
+    <div class="t">
+      <div class="side">«Не люди виновники, а системные дыры в процессах» <span class="ref">(73)</span></div>
+      <div class="vs">↔</div>
+      <div class="side r">«Глупость и непрофессионализм людей» <span class="ref">(110 · 62 · 31 · 51)</span></div>
+      <p class="verdict"><b>Обе позиции вы держите одновременно.</b> Практическое следствие: непонятно, что чинить первым — процесс или состав. Ответ разный и стоит разных денег.</p>
+    </div>
+
+    <div class="t">
+      <div class="side">Слияние команды — главная проблема культуры <span class="ref">(39 · 46 · 76)</span></div>
+      <div class="vs">↔</div>
+      <div class="side r">«Мне никто не нужен в коммуникации» <span class="ref">(107)</span></div>
+      <p class="verdict"><b>Самое важное здесь.</b> Ваша критика слияния точна. Но ваш собственный ход — не дифференцированный контакт, а уход. И слияние, и уход избегают одного и того же: отдельных людей, которые остаются в контакте, не соглашаясь друг с другом. Это единственный навык, который закрывает обе проблемы сразу.</p>
+    </div>
+
+    <div class="t">
+      <div class="side">«Моё слабое место — тирания и деспотизм» <span class="ref">(86)</span></div>
+      <div class="vs">↔</div>
+      <div class="side r">«Бизнес не демократия» · «человек над оргструктурой» <span class="ref">(82 · 95 · 63)</span></div>
+      <p class="verdict"><b>Вы назвали свой риск и рядом записали три его обоснования.</b> Это не лицемерие — это неразрешённое напряжение. Ценность в том, что вы его увидели сами; вопрос в том, где проходит граница между твёрдостью и тем, что вы сами назвали деспотизмом.</p>
+    </div>
+
+    <div class="t">
+      <div class="side">«Делегировать 99% работы» <span class="ref">(129)</span></div>
+      <div class="vs">↔</div>
+      <div class="side r">«Оставить принятие решений себе» <span class="ref">(129)</span></div>
+      <p class="verdict"><b>Две строки подряд в одной записи.</b> Система, в которой все решения сходятся к одному человеку, — это не система, а узкое горло с документацией. Ровно то, в чём вы обвиняете маркетинг в заметке 24.</p>
+    </div>
+
+    <div class="t">
+      <div class="side">«В коллективе высокая толерантность к ошибке» <span class="ref">(118)</span></div>
+      <div class="vs">↔</div>
+      <div class="side r">«Делегировать не только задачи, но и право на ошибку» <span class="ref">(80)</span></div>
+      <p class="verdict"><b>Это разные вещи, и их стоит развести явно.</b> Право на ошибку в новом — условие роста. Терпимость к невыполненной договорённости — причина, по которой в проекте ничего не закрывается. Сейчас в заметках это одно слово.</p>
+    </div>
+
+    <div class="t">
+      <div class="side">Цели пятилетки в изъявительном: «у меня доход 10–15 млн»</div>
+      <div class="vs">↔</div>
+      <div class="side r">«Нет способности к успеху, психика не доросла, нет ферментов»</div>
+      <p class="verdict"><b>Ваша формулировка, не моя.</b> Если она верна хотя бы частично, бесконечное достраивание систем работает и как способ не дойти до точки, где результат придётся переварить. Из всего корпуса это гипотеза, объясняющая больше всего.</p>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="shead"><span class="dot" style="background:var(--c5)"></span><h2>Горизонт пяти лет</h2></div>
+  <p class="snote">Записано вами, приведено без правок. Колонка «наклонение» — не украшение: она показывает, где вы разрешаете себе требовать, а где только надеяться.</p>
+  <div style="overflow-x:auto">
+  <table class="tbl">
+    <thead><tr><th>Область</th><th>Формулировка</th><th>Наклонение</th></tr></thead>
+    <tbody>
+      <tr><td>Среда</td><td>Свой красивый дом на земле, на берегу реки или моря, в собственности</td><td class="mood">изъявительное</td></tr>
+      <tr><td>Тело</td><td>Прекрасно выгляжу, спортивная форма, отличное качество тела</td><td class="mood">изъявительное</td></tr>
+      <tr><td>Ум</td><td>Масштабное глубокое качество сознания, глубокий долгий фокус</td><td class="mood">изъявительное</td></tr>
+      <tr><td>Дело</td><td>Качественный бизнес с оборотом 50 млн, единственная владелица</td><td class="mood">изъявительное</td></tr>
+      <tr><td>Деньги</td><td>Личный чистый доход 10–15 млн</td><td class="mood">изъявительное</td></tr>
+      <tr><td>Состояние</td><td>Счастлива, роскошное внутреннее состояние</td><td class="mood">изъявительное</td></tr>
+      <tr><td>Путь</td><td>Своевременна и актуальна, на пути раскрытия сути и потенциала</td><td class="mood">изъявительное</td></tr>
+      <tr class="flag"><td>Отношения</td><td>Была бы рада, если бы был партнёр и качественные счастливые отношения</td><td class="mood">сослагательное</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="snote" style="margin-top:22px">Одиннадцать позиций из двенадцати — утверждение. Двенадцатая — надежда. Это грамматика, а не толкование, но грамматику вы выбирали сами.<br>
+  Отдельно: <b>50 млн оборота и 10–15 млн дохода — единственные числа во всём корпусе.</b> Под ними нет ни одной строки о том, из чего они складываются: ни продукта, ни клиента, ни канала, ни цены. Это самый большой практический разрыв — и, в отличие от остальных, он закрывается за один вечер работы.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="dot" style="background:var(--c2)"></span><h2>Увлечения и интересы</h2></div>
+  <p class="snote">Плотные — сплошной заливкой. Названные, но не наполненные — контуром.</p>
+  <div class="chips">
+    <span class="chip">Психоанализ: Лакан, топология взгляда, субъективация</span>
+    <span class="chip">ИИ и автоматизация</span>
+    <span class="chip">Кундалини-йога</span>
+    <span class="chip">Лес и природа</span>
+    <span class="chip">Longevity и женское здоровье</span>
+    <span class="chip">Вертикальное развитие, лиминальность</span>
+    <span class="chip thin">Объёмное мышление, книги</span>
+    <span class="chip thin">Английский</span>
+    <span class="chip thin">Собака</span>
+    <span class="chip thin">Падел</span>
+    <span class="chip thin">Астрология, нумерология</span>
+    <span class="chip thin">Биоэнергетика</span>
+  </div>
+  <p class="snote"><b>Честная строка.</b> На 160 заметок — четыре записи про отдых, и каждая в служебной функции: лес как ресурс, собака как пункт в схеме уроков, падел как метафора командной работы, йога как практика для здоровья. Ни одного упоминания чего-либо без назначения. Это не осуждение — это то, что показывает корпус.</p>
+</section>
+
+<section>
+  <div class="shead"><span class="dot" style="background:var(--faint)"></span><h2>Чего в 160 заметках нет</h2></div>
+  <p class="snote">Отсутствие — такие же данные, как присутствие. Числа — количество записей.</p>
+  <div class="absent">
+    <div class="ab"><div class="n">0</div><div class="l">Конечность, наследие</div><div class="s">при том, что longevity названо дважды</div></div>
+    <div class="ab"><div class="n">0</div><div class="l">Отдых как самоценность</div><div class="s">только в служебных функциях</div></div>
+    <div class="ab"><div class="n">0</div><div class="l">Тело как опыт, а не как показатель</div><div class="s">форма и качество есть, удовольствие — нет</div></div>
+    <div class="ab"><div class="n">0</div><div class="l">Модель, из которой берутся 50 млн</div><div class="s">цифра есть, механики нет</div></div>
+    <div class="ab"><div class="n">1</div><div class="l">Время и ритм</div><div class="s">«время мой друг» — и всё</div></div>
+    <div class="ab"><div class="n">3</div><div class="l">Отношения вне работы</div><div class="s">из них одна — в сослагательном</div></div>
+  </div>
+</section>
+
+<footer>
+  Карта собрана из ваших заметок и не содержит внешних допущений. Всё спорное помечено как гипотеза и снабжено номерами записей, чтобы можно было проверить.<br>
+  Следующий слой — ресурс и конфликты зон: сколько часов, денег и внимания уходит в каждую зону фактически, и какая зона ест какую.
+</footer>
+
+</div>
+</body>
+</html>
