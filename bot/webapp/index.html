@@ -24,37 +24,46 @@
 
   /* ---------- заставка ---------- */
   .splash{position:fixed;inset:0;z-index:20;background:var(--paper);display:flex;
-    flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center}
-  .splash h1{font-size:34px;font-weight:500;letter-spacing:.62em;margin:0 0 0 .62em;color:var(--ink)}
-  .splash .rule{width:min(78vw,340px);height:1px;margin:20px 0 18px;
-    background:repeating-linear-gradient(90deg,var(--accent-dim) 0 6px,transparent 6px 12px)}
-  .splash p{font-family:var(--sans);font-size:14px;color:var(--muted);margin:0;max-width:24ch;line-height:1.5}
-  .splash .line{font-size:10px;letter-spacing:.28em;color:var(--accent-dim);margin-top:26px}
-  .splash .skip{position:absolute;bottom:30px;background:none;border:0;color:var(--muted);
+    flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+  .splash h1{position:relative;z-index:2;font-size:26px;font-weight:500;letter-spacing:.34em;
+    margin:0 0 0 .34em;color:var(--ink)}
+  .splash p{position:relative;z-index:2;font-family:var(--sans);font-size:13px;color:var(--muted);
+    margin:14px 0 0;max-width:17ch;line-height:1.45}
+  .splash .line{position:relative;z-index:2;font-size:9.5px;letter-spacing:.22em;color:var(--accent-dim);margin-top:20px}
+  .splash .skip{position:absolute;bottom:30px;z-index:3;background:none;border:0;color:var(--muted);
     font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:10px}
+  .splash .ring{position:absolute;width:min(74vw,330px);aspect-ratio:1;display:grid;place-items:center}
+  .splash .ring svg{width:100%;height:100%;overflow:visible}
+  .splash .ring circle{stroke-dasharray:541;stroke-dashoffset:541}
+
+  /* A · круг прочерчивается */
   @media (prefers-reduced-motion:no-preference){
-    .splash h1{animation:track 1.5s cubic-bezier(.2,.7,.2,1) both}
-    .splash .rule{animation:print .7s .8s both}
-    .splash p{animation:up .6s 1.15s both}
-    .splash .line{animation:up .6s 1.45s both}
+    .splash.circle .ring circle{animation:draw 1.5s cubic-bezier(.3,.7,.3,1) both}
+    .splash.circle h1{animation:soft .9s .55s both}
+    .splash.circle p{animation:soft .7s 1.05s both}
+    .splash.circle .line{animation:soft .7s 1.35s both}
     .splash.out{animation:fade .45s both}
   }
-  @keyframes track{from{letter-spacing:.02em;opacity:0}to{letter-spacing:.62em;opacity:1}}
-  /* вариант «набор»: буквы набираются, курсор мигает, снизу выезжает синяя плашка */
-  .splash.type h1{animation:none;letter-spacing:.5em;margin-left:.5em}
-  .splash.type h1 .cur{display:inline-block;width:.5em;background:var(--accent);color:transparent;
-    margin-left:-.12em;animation:blink 1s steps(1,end) infinite}
-  .splash.type .rule{animation:none;width:min(78vw,340px);opacity:.5}
-  .splash.type .plate{position:absolute;left:0;right:0;bottom:0;background:var(--accent);
-    color:#fff;padding:16px 0;font-size:10px;letter-spacing:.28em;text-align:center}
+  .splash.circle .ring circle{stroke-dashoffset:0}
+
+  /* B · светоблик */
+  .splash.glare .ring{display:none}
+  .splash.glare h1{background:linear-gradient(100deg,#31333c 35%,#ffffff 50%,#31333c 65%);
+    background-size:280% 100%;background-position:100% 0;
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .splash.glare::after{content:"";position:absolute;inset:-40%;pointer-events:none;
+    background:radial-gradient(38% 26% at 50% 50%,rgba(27,47,245,.28),rgba(27,47,245,0) 70%)}
   @media (prefers-reduced-motion:no-preference){
-    .splash.type .plate{animation:rise .6s 1.5s both}
-    .splash.type p{animation:up .5s 1.3s both}
+    .splash.glare h1{animation:sweep 2s cubic-bezier(.4,0,.2,1) both}
+    .splash.glare::after{animation:drift 3.4s ease-in-out both}
+    .splash.glare p,.splash.glare .line{animation:soft .8s 1.1s both}
   }
-  @keyframes blink{50%{opacity:0}}
-  @keyframes rise{from{transform:translateY(100%)}to{transform:none}}
-  @keyframes print{from{width:0}to{width:min(78vw,340px)}}
-  @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .splash.glare h1{background-position:0 0}
+
+  @keyframes draw{from{stroke-dashoffset:541}to{stroke-dashoffset:0}}
+  @keyframes soft{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes sweep{0%{background-position:100% 0}100%{background-position:0 0}}
+  @keyframes drift{0%{transform:translate(-30%,-10%)}100%{transform:translate(20%,10%)}}
   @keyframes fade{to{opacity:0;visibility:hidden}}
 
   /* ---------- шапка ---------- */
@@ -83,7 +92,17 @@
   .kv{display:flex;justify-content:space-between;gap:12px;font-size:10.5px;letter-spacing:.06em;
     color:var(--muted);padding:3px 0}
   .kv b{color:var(--ink);font-weight:500;text-align:right}
-  .about{font-family:var(--sans);font-size:14.5px;line-height:1.55;color:#c8ccd4;margin:12px 0}
+  .edu{margin:10px 0 2px}
+  .edu-l{font-size:10.5px;letter-spacing:.06em;color:var(--muted);display:block;margin-bottom:6px}
+  .edu ul{list-style:none;margin:0;padding:0}
+  .edu li{font-family:var(--sans);font-size:13.5px;line-height:1.45;color:#c8ccd4;padding:3px 0 3px 12px;
+    position:relative}
+  .edu li::before{content:"·";position:absolute;left:2px;top:3px;color:var(--accent-dim)}
+  .timing{list-style:none;margin:0;padding:0}
+  .timing li{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);
+    font-family:var(--sans);font-size:14px;line-height:1.45;color:#c2c7d0}
+  .timing .tm{flex:0 0 auto;min-width:62px;font-family:var(--mono);font-size:11.5px;color:var(--accent-dim);
+    padding-top:2px}
   .th{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.18em;color:var(--muted);
     padding-bottom:6px}
   .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;
@@ -201,11 +220,13 @@
 </head>
 <body>
 <div class="splash" id="splash">
-  <h1 id="spTitle">HUMAN</h1>
-  <div class="rule"></div>
+  <div class="ring" id="spRing" aria-hidden="true">
+    <svg viewBox="0 0 220 220"><circle cx="110" cy="110" r="86" fill="none" stroke="var(--accent)"
+      stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <h1 id="spTitle">CIRCLE</h1>
   <p id="spSub"></p>
   <div class="line" id="spLine"></div>
-  <div class="plate" id="spPlate" hidden></div>
   <button class="skip" id="spSkip">пропустить</button>
 </div>
 
@@ -259,14 +280,15 @@
   function renderHome() {
     var h = deck.home, out = '';
     out += '<div class="brandbar"><span>' + esc(h.brand) + '</span><span>' + esc(h.date) + '</span></div>';
-    out += '<p class="r-title">' + esc(h.title) + '</p>';
-    out += '<p class="r-sub">' + esc(h.sub) + '</p>';
     out += '<div class="cut"></div>';
     out += h.meta.map(function (m) {
       return '<div class="kv"><span>' + esc(m[0]) + '</span><b>' + esc(m[1]) + '</b></div>';
     }).join('');
+    if (h.edu && h.edu.length) {
+      out += '<div class="edu"><span class="edu-l">' + esc(h.eduLabel) + '</span><ul>' +
+        h.edu.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>';
+    }
     out += '<div class="cut"></div>';
-    out += '<p class="about">' + esc(h.about) + '</p>';
     out += '<div class="th"><span>' + esc(h.listLabel) + '</span><span>' + esc(h.priceLabel) + '</span></div>';
     out += deck.services.map(function (s, k) {
       return '<button class="row" type="button" data-svc="' + k + '">' +
@@ -323,14 +345,26 @@
     out += '<div class="meta">' + s.meta.map(function (m) {
       return '<div><div class="l">' + esc(m[0]) + '</div><div class="v">' + esc(m[1]) + '</div></div>';
     }).join('') + '</div>';
+    if (s.format) {
+      out += '<div class="section">ФОРМАТ</div><p class="s-desc" style="margin:12px 0 18px">' +
+        esc(s.format) + '</p>';
+    }
+    if (s.timing && s.timing.length) {
+      out += '<div class="section">КАК ПРОХОДИТ</div><ol class="timing">' + s.timing.map(function (x) {
+        var m = x.split(' · ');
+        return '<li><span class="tm">' + esc(m[0]) + '</span><span>' + esc(m.slice(1).join(' · ')) + '</span></li>';
+      }).join('') + '</ol>';
+    }
     if (s.topics && s.topics.length) {
       out += '<div class="section">ТЕМЫ ГРУПП</div><div class="topics">' + s.topics.map(function (t) {
         return '<div class="topic"><b>' + esc(t.title) + '</b><ul>' +
           t.items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>';
       }).join('') + '</div>';
     }
-    out += '<div class="section">ЧТО ВХОДИТ</div><ul class="inc">' +
-      s.includes.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+    if (s.rules && s.rules.length) {
+      out += '<div class="section">ПРАВИЛА</div><ul class="inc">' +
+        s.rules.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+    }
     out += '<div class="cut"></div>';
     out += '<p class="cal-label">' + esc(b.kicker) + ' · ' + esc(b.pickDate) + '</p>';
     out += '<div class="days">' + ds.map(function (d, k) {
@@ -534,27 +568,15 @@
   function splash(done) {
     var sp = deck.splash || {};
     var style = new URLSearchParams(location.search).get('splash');
-    if (style !== 'type' && style !== 'print') style = (deck.brand && deck.brand.splashStyle) || 'print';
-    var el = $('splash'), gone = false;
+    if (style !== 'glare' && style !== 'circle') style = (deck.brand && deck.brand.splashStyle) || 'circle';
+    var el = $('splash');
+    el.classList.add(style);
+    $('spTitle').textContent = sp.title || 'CIRCLE';
     $('spSub').textContent = sp.sub || '';
     $('spLine').textContent = sp.line || '';
     $('spSkip').textContent = sp.skip || 'пропустить';
-    var title = sp.title || 'HUMAN';
 
-    if (style === 'type') {
-      el.classList.add('type');
-      $('spLine').textContent = '';
-      $('spPlate').hidden = false;
-      $('spPlate').textContent = sp.line || '';
-      $('spTitle').innerHTML = '<span id="typed"></span><span class="cur">&nbsp;</span>';
-      var typed = document.getElementById('typed'), n = 0;
-      var tick = setInterval(function () {
-        typed.textContent = title.slice(0, ++n);
-        if (n >= title.length) clearInterval(tick);
-      }, 130);
-    } else {
-      $('spTitle').textContent = title;
-    }
+    var gone = false;
     function hide() {
       if (gone) return; gone = true;
       el.classList.add('out');
@@ -562,7 +584,7 @@
     }
     $('spSkip').onclick = hide;
     el.onclick = hide;
-    setTimeout(hide, 2600);
+    setTimeout(hide, style === 'glare' ? 2900 : 2700);
   }
 
   function boot(data) {
