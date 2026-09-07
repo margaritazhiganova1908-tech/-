@@ -110,7 +110,7 @@ td.st.todo{color:#d9a05b}
         <text x="79" y="143">ПОСТ / ССЫЛКА</text><text x="79" y="160" font-size="9.5" fill="var(--ink3)">канал, визитка</text>
         <text x="239" y="143">/START</text><text x="239" y="160" font-size="9.5" fill="var(--ink3)">приветствие</text>
         <text x="409" y="143">С ЧЕМ ПРИШЛИ</text><text x="409" y="160" font-size="9.5" fill="var(--ink3)">четыре двери</text>
-        <text x="599" y="80" fill="var(--accent)">ЗАСТАВКА</text><text x="599" y="95" font-size="9.5" fill="var(--ink3)">HUMAN, 2.6 с</text>
+        <text x="599" y="80" fill="var(--accent)">ЗАСТАВКА</text><text x="599" y="95" font-size="9.5" fill="var(--ink3)">CIRCLE, 2.7 с</text>
         <text x="599" y="157">ВИТРИНА · ЧЕК</text><text x="599" y="173" font-size="9.5" fill="var(--ink3)">форматы и цены</text>
       </g>
       <g stroke="currentColor" stroke-width="1.1" fill="none" marker-end="url(#a)">
@@ -220,7 +220,7 @@ td.st.todo{color:#d9a05b}
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
-<title>HUMAN</title>
+<title>Circle</title>
 <script src="https://telegram.org/js/telegram-web-app.js"><\/script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Golos+Text:wght@400;500;600&display=swap">
 <style>
@@ -807,7 +807,7 @@ td.st.todo{color:#d9a05b}
 
   function boot(data) {
     deck = data;
-    document.title = (deck.brand && deck.brand.name) || 'HUMAN';
+    document.title = (deck.brand && deck.brand.name) || 'Circle';
     $('foot').textContent = (deck.brand && deck.brand.botUsername) || '';
     if (deck.brand && deck.brand.channel) {
       $('chan').href = deck.brand.channel;
