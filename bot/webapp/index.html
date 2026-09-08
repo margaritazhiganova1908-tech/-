@@ -75,60 +75,53 @@
     background:radial-gradient(closest-side,rgba(30,16,8,.55),rgba(30,16,8,0));opacity:0}
 
   /* мягкое свечение вокруг: край растворяется, а не обрывается */
-  .halo{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);
-    width:min(72vw,312px);aspect-ratio:1;border-radius:50%;filter:blur(18px);opacity:.5;
-    background:radial-gradient(closest-side,rgba(178,208,240,.55),rgba(178,208,240,0) 78%)}
+  /* контейнер: только он двигается — внутренности неподвижны друг относительно друга */
+  .orbwrap{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);
+    width:min(62vw,268px);aspect-ratio:1}
+  .orbin{position:absolute;inset:0}
+  .halo{position:absolute;inset:-9%;border-radius:50%;filter:blur(20px);opacity:.3;
+    background:radial-gradient(closest-side,rgba(178,208,240,.5),rgba(178,208,240,0) 78%)}
 
   /* сама капля: идеальный круг, без деформации контура */
-  .bubble{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);
-    width:min(62vw,268px);aspect-ratio:1;border-radius:50%;overflow:hidden;
+  .bubble{position:absolute;inset:0;border-radius:50%;overflow:hidden;opacity:.66;
     -webkit-mask:radial-gradient(circle,#000 94%,rgba(0,0,0,.35) 98%,transparent 100%);
     mask:radial-gradient(circle,#000 94%,rgba(0,0,0,.35) 98%,transparent 100%);
-    -webkit-backdrop-filter:blur(1.5px) saturate(1.12) brightness(1.05);
-    backdrop-filter:blur(1.5px) saturate(1.12) brightness(1.05)}
+    -webkit-backdrop-filter:blur(3px) saturate(1.15);
+    backdrop-filter:blur(3px) saturate(1.15)}
   /* внутри — перевёрнутая копия сцены; колышется только она, край остаётся ровным */
-  .lens{position:absolute;inset:-22%;transform:scale(1.2);opacity:.42;filter:url(#liquid) blur(.6px);
+  .lens{position:absolute;inset:-22%;transform:scale(1.2);opacity:.55;filter:url(#liquid) blur(.8px);
     background:linear-gradient(0deg,#0a1730 0%,#12325c 26%,#2f6ea8 54%,#8fb6d8 78%,#d8ab7f 100%)}
   .skin{position:absolute;inset:0;border-radius:50%;
     background:
-      radial-gradient(56% 42% at 31% 23%,rgba(255,255,255,.6),rgba(255,255,255,0) 62%),
-      radial-gradient(32% 24% at 72% 78%,rgba(255,255,255,.26),rgba(255,255,255,0) 66%);
+      radial-gradient(56% 42% at 31% 23%,rgba(255,255,255,.5),rgba(255,255,255,0) 62%),
+      radial-gradient(32% 24% at 72% 78%,rgba(255,255,255,.2),rgba(255,255,255,0) 66%);
     box-shadow:
-      inset 0 -24px 40px rgba(8,24,52,.2),
-      inset 0 18px 30px rgba(255,255,255,.16)}
+      inset 0 -24px 40px rgba(8,24,52,.16),
+      inset 0 18px 30px rgba(255,255,255,.12)}
   /* тонкий ободок сверху — не замкнутое кольцо, а блик по дуге */
-  .rim{position:absolute;inset:0;border-radius:50%;opacity:.75;
+  .rim{position:absolute;inset:0;border-radius:50%;opacity:.6;
     background:linear-gradient(160deg,rgba(255,255,255,.85) 0%,rgba(255,255,255,.15) 26%,
       rgba(255,255,255,0) 46%,rgba(255,255,255,.12) 78%,rgba(255,255,255,.5) 100%);
     -webkit-mask:radial-gradient(circle,transparent 93%,#000 95%,#000 99%,transparent 100%);
     mask:radial-gradient(circle,transparent 93%,#000 95%,#000 99%,transparent 100%)}
   /* переливы — мягкие пятна, а не конический градиент: никаких сходящихся спиц */
-  .sheen{position:absolute;inset:-20%;border-radius:50%;mix-blend-mode:screen;opacity:.5;
+  .sheen{position:absolute;inset:-20%;border-radius:50%;mix-blend-mode:screen;opacity:.34;
     filter:blur(14px);
     background:
       radial-gradient(38% 30% at 28% 30%,rgba(214,234,255,.75),rgba(214,234,255,0) 70%),
       radial-gradient(30% 24% at 74% 66%,rgba(255,232,206,.5),rgba(255,232,206,0) 72%),
       radial-gradient(26% 20% at 60% 22%,rgba(255,255,255,.4),rgba(255,255,255,0) 74%)}
-  .spark{position:absolute;inset:0;border-radius:50%;
-    background:
-      radial-gradient(2.2px 2.2px at 40% 34%,#fff,transparent 60%),
-      radial-gradient(1.6px 1.6px at 46% 31%,#fff,transparent 60%),
-      radial-gradient(1.8px 1.8px at 53% 36%,#fff,transparent 60%),
-      radial-gradient(1.4px 1.4px at 59% 32%,#fff,transparent 60%);
-    opacity:.9}
   @media (prefers-reduced-motion:no-preference){
-    .splash.drop .bubble{animation:float 7s ease-in-out infinite, dropin 1.6s cubic-bezier(.2,.8,.3,1) both}
-    .splash.drop .shadow{animation:shadin 1.6s .2s ease-out both, breathe 7s ease-in-out infinite}
-    .splash.drop .halo{animation:float 7s ease-in-out infinite, dropin 1.8s cubic-bezier(.2,.8,.3,1) both}
-    .splash.drop .sheen{animation:driftSheen 14s ease-in-out infinite alternate}
-    .splash.drop .spark{animation:twinkle 3.2s ease-in-out infinite}
-    .splash.drop h1{animation:fadein 1s .9s both, float 7s ease-in-out infinite}
+    .splash.drop .orbwrap{animation:float 14s ease-in-out infinite}
+    .splash.drop .orbin{animation:rise 2.4s cubic-bezier(.22,.7,.3,1) both}
+    .splash.drop .shadow{animation:shadin 2.4s .3s ease-out both, breathe 14s ease-in-out infinite}
+    .splash.drop .sheen{animation:driftSheen 26s ease-in-out infinite alternate}
+    .splash.drop h1{animation:fadein 1.4s 1.3s ease-out both, float 14s ease-in-out infinite}
   }
   @keyframes float{0%,100%{transform:translate(-50%,-50%)}
-    50%{transform:translate(-50%,calc(-50% - 16px))}}
-  @keyframes dropin{from{opacity:0;transform:translate(-50%,-30%) scale(.86)}to{opacity:1}}
+    50%{transform:translate(-50%,calc(-50% - 9px))}}
+  @keyframes rise{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
   @keyframes driftSheen{0%{transform:translate(-4%,-3%) scale(1)}100%{transform:translate(5%,4%) scale(1.08)}}
-  @keyframes twinkle{0%,100%{opacity:.35}50%{opacity:1}}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
   @keyframes shadin{to{opacity:1}}
   @keyframes breathe{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(.86);opacity:.7}}
@@ -329,11 +322,11 @@
 <div class="splash" id="splash">
   <svg class="liquid-defs" aria-hidden="true">
     <filter id="liquid">
-      <feTurbulence type="fractalNoise" baseFrequency="0.009 0.013" numOctaves="2" seed="7" result="n">
-        <animate attributeName="baseFrequency" dur="16s" repeatCount="indefinite"
-          values="0.009 0.013;0.014 0.009;0.009 0.013"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.013" numOctaves="2" seed="7" result="n">
+        <animate attributeName="baseFrequency" dur="48s" repeatCount="indefinite"
+          values="0.011 0.013;0.013 0.011;0.011 0.013"/>
       </feTurbulence>
-      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="7" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
   </svg>
 
@@ -341,14 +334,15 @@
     <div class="sky"></div>
     <div class="ground"></div>
     <div class="shadow"></div>
-    <div class="halo"></div>
-    <div class="bubble">
-      <div class="lens"></div>
-      <div class="skin"></div>
-      <div class="rim"></div>
-      <div class="sheen"></div>
-      <div class="spark"></div>
-    </div>
+    <div class="orbwrap"><div class="orbin">
+      <div class="halo"></div>
+      <div class="bubble">
+        <div class="lens"></div>
+        <div class="skin"></div>
+        <div class="rim"></div>
+        <div class="sheen"></div>
+      </div>
+    </div></div>
   </div>
 
   <div class="ring" id="spRing" aria-hidden="true">
@@ -752,7 +746,7 @@
     }
     $('spSkip').onclick = hide;
     el.onclick = hide;
-    setTimeout(hide, 2800);
+    setTimeout(hide, style === 'drop' ? 3600 : 2800);
   }
 
   function boot(data) {
