@@ -1,0 +1,284 @@
+<title>Тексты бота Circle</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Golos+Text:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#f4f4f1; --surface:#ffffff; --sunk:#e8e8e3;
+  --ink:#16171a; --ink2:#4c5157; --ink3:#7b8087;
+  --line:#dcdcd6; --line2:#c6c7c0;
+  --accent:#1b2ff5; --accent-soft:#e6e9ff; --warn:#a8551f; --warn-soft:#f5e9df;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sans:"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#111214; --surface:#191b1e; --sunk:#0c0d0f;
+    --ink:#eceef0; --ink2:#a9afb6; --ink3:#7d838a;
+    --line:#26282c; --line2:#363a3f;
+    --accent:#8b9bff; --accent-soft:#1a1f38; --warn:#d99a68; --warn-soft:#2a2018;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111214; --surface:#191b1e; --sunk:#0c0d0f;
+  --ink:#eceef0; --ink2:#a9afb6; --ink3:#7d838a;
+  --line:#26282c; --line2:#363a3f;
+  --accent:#8b9bff; --accent-soft:#1a1f38; --warn:#d99a68; --warn-soft:#2a2018;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:880px;margin:0 auto;padding:44px 22px 90px}
+h1{font-family:var(--mono);font-weight:500;font-size:clamp(26px,4.4vw,38px);letter-spacing:.1em;
+  text-transform:uppercase;line-height:1.2;margin:.2em 0 .35em}
+h2{font-family:var(--mono);font-weight:500;font-size:15px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 6px}
+p{margin:0 0 1em;max-width:66ch}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink3);display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+.lede{font-size:18px;line-height:1.55;color:var(--ink2);max-width:60ch}
+
+.screen{border-top:1px solid var(--line);padding:26px 0 4px}
+.screen .where{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:14px}
+.txt{background:var(--surface);border:1px solid var(--line);padding:16px 18px;margin:0 0 14px;
+  font-size:15.5px;line-height:1.6;white-space:pre-line}
+.txt.small{font-size:14.5px;color:var(--ink2)}
+.lbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink3);margin:18px 0 7px}
+ul.list,ol.list{margin:0 0 14px;padding:0;list-style:none;border:1px solid var(--line);background:var(--surface)}
+ul.list li,ol.list li{padding:11px 16px;border-bottom:1px solid var(--line);font-size:15px;line-height:1.5}
+ul.list li:last-child,ol.list li:last-child{border-bottom:0}
+ol.list li span{font-family:var(--mono);font-size:12px;color:var(--accent);margin-right:10px}
+.pill{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  background:var(--accent-soft);color:var(--accent);padding:4px 9px;margin:0 6px 6px 0}
+.pick{border:1px solid var(--warn);background:var(--warn-soft);padding:16px 18px;margin:14px 0}
+.pick .tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--warn);display:block;margin-bottom:9px}
+.pick .opt{padding:9px 0;border-top:1px dashed var(--line2);font-size:15px;line-height:1.55}
+.pick .opt:first-of-type{border-top:0}
+.pick .opt b{font-family:var(--mono);font-size:11px;color:var(--warn);margin-right:8px}
+.note{font-size:14px;color:var(--ink3);line-height:1.5;margin:8px 0 0}
+.end{font-size:14px;color:var(--ink3);border-top:1px solid var(--line);padding-top:18px;margin-top:34px}
+</style>
+
+<div class="page">
+
+<header>
+  <p class="eyebrow">На вычитку · всё, что говорит бот</p>
+  <h1>Тексты бота Circle</h1>
+  <p class="lede">Здесь каждая фраза, которую увидит человек. Читайте как свою речь: если где-то звучит не вашим голосом — отмечайте, перепишу. Два места отмечены отдельно: там я жду ваше слово.</p>
+</header>
+
+<section class="screen">
+  <p class="where">Экран 1 · заставка</p>
+  <div class="txt">CIRCLE</div>
+  <p class="note">Больше на экране ничего. Круг прочерчивается, по нему идёт блик, через три секунды экран уходит.</p>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 2 · что это за место</p>
+  <div class="txt">Circle — круг обмена опытом
+
+Психодинамический коучинг и менторинг. Разговор, в котором становится видно, что повторяется в ваших решениях — и что с этим делать.</div>
+  <p class="lbl">Кнопка</p><span class="pill">ДАЛЬШЕ</span>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 3 · витрина</p>
+  <p class="lbl">Шапка</p>
+  <div class="txt small">КОУЧ · Маргарита Жиганова
+МЕТОД · психодинамический
+ОБРАЗОВАНИЕ · Магистратура НИУ ВШЭ / Лакановские семинары А. Юран и В. Мазина / Академия коучинга С. Чумаковой
+СУПЕРВИЗИЯ · АПКБК
+ЧАСОВ ПРАКТИКИ · 800
+ОПЫТ · 3 года</div>
+  <p class="lbl">Форматы</p>
+  <ul class="list">
+    <li><b>КОУЧИНГ</b> — индивидуальный / командный — от 6 000 ₽</li>
+    <li><b>МЕНТОРИНГ</b> — для начинающих руководителей — 8 000 ₽</li>
+    <li><b>ГРУППА</b> — 6–8 человек — 4 000 ₽</li>
+  </ul>
+  <p class="lbl">Ниже</p>
+  <div class="txt small">ПЕРВАЯ ВСТРЕЧА · 0 ₽
+ЕЩЁ · обо мне, образование, первая встреча, оплата
+СВЯЗЬ · Канал в телеграме · margaritazhiganova1908@gmail.com</div>
+  <span class="pill">ЗАПИСАТЬСЯ</span>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 4 · коучинг индивидуальный · 6 000 ₽ / 50 минут</p>
+  <div class="txt">Разговор один на один, раз в неделю, в одно и то же время. Мы ищем не цель, а то, что мешает к ней идти: какая история повторяется в ваших решениях и откуда она взялась.</div>
+  <p class="lbl">Как проходит</p>
+  <ol class="list">
+    <li><span>0–10</span>с чего начнём сегодня</li>
+    <li><span>10–40</span>разбираем, что происходит</li>
+    <li><span>40–50</span>что берёте с собой на неделю</li>
+  </ol>
+  <p class="lbl">Правила</p>
+  <ul class="list">
+    <li>Время закреплено за вами и не отдаётся другим</li>
+    <li>Не получается прийти — предупредите за сутки, перенесём</li>
+    <li>Я не веду записей: в моих заметках нет имён и контактов</li>
+    <li>Первая встреча бесплатная, продолжать или нет — решаете вы</li>
+  </ul>
+  <p class="note">Рядом: 10 встреч — 54 000 ₽.</p>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 5 · коучинг командный · 30 000 ₽ / 90 минут</p>
+  <div class="txt">Встреча с командой, когда одни и те же разговоры повторяются, а договорённости не держатся. Проговариваем вслух то, о чём обычно молчат в переговорной, и находим, где именно рвётся.</div>
+  <p class="lbl">Как проходит</p>
+  <ol class="list">
+    <li><span>0–15</span>каждый говорит, как видит ситуацию</li>
+    <li><span>15–60</span>разбираем, что происходит между людьми</li>
+    <li><span>60–85</span>договариваемся, что меняем</li>
+    <li><span>85–90</span>записываем договорённости своими словами</li>
+  </ol>
+  <p class="lbl">Правила</p>
+  <ul class="list">
+    <li>В комнате все, кого касается вопрос</li>
+    <li>Участие добровольное</li>
+    <li>Присутствие руководителя обсуждаем заранее — оно меняет разговор</li>
+    <li>Заказчику не пересказываю, кто что сказал: только общие выводы</li>
+  </ul>
+  <p class="note">Рядом: цикл 6 встреч — 150 000 ₽. Проверки через месяц больше нет.</p>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 6 · менторинг · 8 000 ₽ / 90 минут</p>
+
+  <div class="pick">
+    <span class="tag">Первая фраза — жду ваше слово</span>
+    <div class="opt"><b>1</b>Для тех, кого недавно назначили руководителем.</div>
+    <div class="opt"><b>2</b>Вчера вы были лучшим в своём деле, сегодня отвечаете за людей — и это другая работа.</div>
+    <div class="opt"><b>3</b>Когда команда уже ваша, а как ею руководить — ещё непонятно.</div>
+    <p class="note" style="margin-top:10px">Сейчас в боте стоит первая: короткая и нейтральная.</p>
+  </div>
+
+  <p class="lbl">Формат</p>
+  <div class="txt">Разбираем вашу задачу и вместе решаем, что вы сделаете в ближайшие две недели. Я рассказываю, как похожее устроено у меня: двенадцать лет управляю операционкой, сейчас отвечаю за гастрономическое направление фестиваля.</div>
+
+  <p class="lbl">Как проходит</p>
+  <ol class="list">
+    <li><span>0–15</span>что происходит сейчас</li>
+    <li><span>15–60</span>разбираем и смотрим варианты</li>
+    <li><span>60–80</span>выбираем, что делаете</li>
+    <li><span>80–90</span>на что смотреть к следующей встрече</li>
+  </ol>
+
+  <p class="lbl">Правила</p>
+  <ul class="list">
+    <li>Приходите с тем, что беспокоит сейчас — формулировку соберём вместе</li>
+    <li>Между встречами можно писать, отвечаю в течение дня</li>
+    <li>Здесь я делюсь опытом и говорю прямо, если вижу решение</li>
+    <li>Если окажется, что дело не в управлении, скажу и предложу коучинг</li>
+  </ul>
+
+  <div class="pick">
+    <span class="tag">Последняя фраза — жду ваше слово</span>
+    <div class="opt"><b>1</b>Первая встреча бесплатная: посмотрим, ваш ли это формат.</div>
+    <div class="opt"><b>2</b>Если через четыре встречи ничего не изменится — так и скажу.</div>
+    <div class="opt"><b>3</b>Здесь не учат руководить. Здесь помогают разобраться с тем, что уже происходит.</div>
+    <p class="note" style="margin-top:10px">Сейчас в боте этого места нет — оставлено пустым под ваш выбор.</p>
+  </div>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 7 · группа · 4 000 ₽ / 2 часа</p>
+  <div class="txt">Раз в неделю по два часа. В группе видно то, чего не видно один на один: как вы входите в контакт, кого выбираете, рядом с кем замолкаете.</div>
+  <p class="lbl">Формат</p>
+  <div class="txt small">Состав набирается один раз и дальше не меняется — так появляется доверие. Говорите вы, а я держу рамку и возвращаю то, что осталось незамеченным.</div>
+  <p class="lbl">Темы</p>
+  <ul class="list">
+    <li><b>Женское лидерство</b><br>что происходит внутри, когда решение приходится принимать за других · деньги и разговор о своей цене · усталость и право быть неидеальной</li>
+    <li><b>Отношения</b><br>с собой: чей голос звучит внутри, когда вы себя оцениваете · с близкими: повторяющиеся сюжеты, роли и границы · с миром: доверие, сравнение с другими, страх быть заметной</li>
+  </ul>
+  <p class="lbl">Как проходит</p>
+  <ol class="list">
+    <li><span>0–10</span>круг: с чем каждый пришёл</li>
+    <li><span>10–100</span>работа группы</li>
+    <li><span>100–120</span>завершение: что уносим с собой</li>
+  </ol>
+  <p class="lbl">Правила</p>
+  <ul class="list">
+    <li>Сказанное в группе остаётся в группе</li>
+    <li>Приходить регулярно — группа держится на постоянстве</li>
+    <li>Говорим о своих чувствах, а не оцениваем других</li>
+    <li>Решили закончить — приходите ещё на две встречи: расставание тоже важно прожить</li>
+    <li>Оплата блоком, а не по факту прихода</li>
+  </ul>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 8 · запись</p>
+  <div class="txt small">ЗАПИСЬ · ВЫБЕРИТЕ ДЕНЬ → ВЫБЕРИТЕ ВРЕМЯ
+Время предварительное: я подтвержу его в чате. Если удобного слота нет — напишите, подберём.</div>
+  <p class="lbl">Что приходит человеку после записи</p>
+  <div class="txt">Заявка принята.
+
+Формат: коучинг · индивидуальный
+Дата: 12 сентября, 15:00
+Стоимость: 6 000 ₽
+
+Время предварительное — подтвержу его здесь в течение дня. Если что-то поменяется, просто напишите.</div>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 9 · ещё · обо мне</p>
+  <div class="txt">Маргарита Жиганова
+
+Психодинамический коуч и организационный психолог. И одновременно действующий руководитель: отвечаю за гастрономическое направление фестиваля — сто пятнадцать точек питания, команда, два города и дата, которую нельзя перенести.</div>
+  <p class="lbl">Что это значит на практике</p>
+  <ul class="list">
+    <li>Не нужно объяснять, что такое кассовый разрыв или сотрудник, которого жалко уволить</li>
+    <li>Управленческую динамику я вижу не в книгах, а на площадке за сутки до открытия</li>
+    <li>Каждое утро начинается с практики: кундалини-йога, почти три года без пропусков</li>
+    <li>Работаю под супервизией — мою работу регулярно смотрит другой специалист</li>
+  </ul>
+  <p class="lbl">Чего я не делаю</p>
+  <ul class="list">
+    <li>Не даю советов в коучинге — совет снимает с вас авторство решения</li>
+    <li>Не обещаю быстро: сюжет, который строился двадцать лет, за три встречи не разбирается</li>
+    <li>Не беру в работу тех, с кем связана деньгами</li>
+    <li>Не ставлю диагнозов: если вопрос медицинский, скажу прямо и порекомендую врача</li>
+  </ul>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 10 · ещё · первая встреча</p>
+  <div class="txt">Пятьдесят минут разговора. Она бесплатная: и вам, и мне нужно понять, получится ли работать вместе.
+
+1 · Вы рассказываете, что происходит — подробностей на первый раз хватит любых
+2 · Формулируем запрос: чего вы хотите от работы. Это редко получается сразу, помогу
+3 · Решаете вы. Критерий простой: вам легко говорить и легко спрашивать
+
+О наших разговорах не знает никто. Вы вправе не говорить то, что не хотите говорить.</div>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 11 · ещё · оплата и отмены</p>
+  <ul class="list">
+    <li>Оплата после встречи или блоком вперёд, переводом; чек присылаю</li>
+    <li>Перенос не позже чем за сутки — встреча просто сдвигается</li>
+    <li>Отмена позже — встреча оплачивается: это правило защищает и ваше время, и моё</li>
+    <li>Групповой блок возвращается за вычетом прошедших встреч</li>
+  </ul>
+</section>
+
+<section class="screen">
+  <p class="where">Экран 12 · приветствие в чате бота</p>
+  <div class="txt">Circle — психодинамический коучинг и менторинг.
+
+работаю с руководителями, командами и теми, у кого одна и та же история повторяется — с третьей командой, во втором браке, на новой работе.
+
+в меню ниже: форматы работы с ценами и календарём, группа, запись.
+
+если проще спросить — нажмите «задать вопрос», отвечу здесь.</div>
+  <p class="lbl">Кнопки</p>
+  <span class="pill">ОТКРЫТЬ CIRCLE</span><span class="pill">ЗАДАТЬ ВОПРОС</span>
+  <p class="note">В приветствии убрано упоминание клуба — он теперь отдельный бот.</p>
+</section>
+
+<p class="end">Отметьте, что переписать, — внесу в бот за один заход. Два блока в менторинге ждут вашего выбора из трёх вариантов или вашей формулировки.</p>
+
+</div>

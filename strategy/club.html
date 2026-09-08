@@ -1,0 +1,205 @@
+<title>Клуб Circle · три бота</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Golos+Text:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap">
+<style>
+:root{
+  --paper:#0e0f11; --surface:#17191c; --ink:#eef0f2; --ink2:#a4aab1; --ink3:#787f86;
+  --line:#25282c; --line2:#343940; --accent:#1b2ff5; --accent-dim:#8b9bff;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sans:"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;
+  line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:1180px;margin:0 auto;padding:44px 22px 90px}
+h1{font-family:var(--mono);font-weight:500;font-size:clamp(26px,4.4vw,38px);letter-spacing:.12em;
+  text-transform:uppercase;margin:.2em 0 .4em}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink3);display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+.lede{font-size:18px;line-height:1.55;color:var(--ink2);max-width:64ch}
+p{margin:0 0 1em;max-width:66ch}
+.cut{border-top:1px dashed #3a3f46;margin:40px 0}
+
+.row{display:grid;gap:30px;grid-template-columns:1fr;margin:26px 0 0}
+@media(min-width:820px){.row{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1120px){.row{grid-template-columns:repeat(3,1fr)}}
+.card{display:flex;flex-direction:column;gap:14px}
+.card .no{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--accent-dim);text-transform:uppercase}
+.card h3{font-family:var(--mono);font-size:17px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin:0}
+.card .desc{font-size:14.5px;line-height:1.5;color:var(--ink2)}
+.card .desc b{color:var(--ink);font-weight:600}
+.replay{align-self:flex-start;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;background:none;border:1px dashed var(--line2);color:var(--ink2);
+  padding:8px 13px;cursor:pointer}
+.replay:hover{color:var(--ink);border-color:var(--accent-dim)}
+.frame{border:1px solid var(--line2);border-radius:20px;padding:7px;background:#000}
+.screen{position:relative;aspect-ratio:340/620;border-radius:14px;overflow:hidden;display:grid;
+  place-items:center;text-align:center}
+
+/* ---------- A · плёнка ---------- */
+.film{background:#0b0b0c}
+.film .beam{position:absolute;width:74%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,247,230,.24) 0%,rgba(255,247,230,.06) 45%,transparent 68%);
+  transform:scale(.2);opacity:0}
+.film .ttl{position:relative;z-index:2;font-family:var(--mono);font-size:17px;letter-spacing:.42em;
+  color:#f6f1e6;opacity:0;margin-left:.42em}
+.film .sub{position:absolute;bottom:34px;z-index:2;font-family:var(--mono);font-size:9px;
+  letter-spacing:.24em;color:#8d8a80;opacity:0}
+.film .grain{position:absolute;inset:0;opacity:.16;pointer-events:none;
+  background-image:radial-gradient(#fff 0.5px,transparent 0.6px);background-size:3px 3px}
+.play .film .beam{animation:beam 1.6s cubic-bezier(.25,.8,.3,1) both, flicker 3s 1.6s ease-in-out infinite}
+.play .film .ttl{animation:fadein .9s .9s both}
+.play .film .sub{animation:fadein .8s 1.6s both}
+
+/* ---------- B · афиша ---------- */
+.poster{background:#efece4;color:#141414}
+.poster .stamp{position:absolute;width:62%;aspect-ratio:1;border-radius:50%;
+  border:2px solid #c8452f;opacity:0;transform:scale(1.5) rotate(-12deg)}
+.poster .ttl{position:relative;z-index:2;font-family:var(--sans);font-weight:700;font-size:26px;
+  letter-spacing:-.02em;color:#141414;opacity:0}
+.poster .sub{position:absolute;bottom:34px;z-index:2;font-family:var(--mono);font-size:9px;
+  letter-spacing:.24em;color:#7a736a;opacity:0}
+.play .poster .stamp{animation:stamp .5s .5s cubic-bezier(.2,1.6,.4,1) both}
+.play .poster .ttl{animation:fadein .5s .75s both}
+.play .poster .sub{animation:fadein .6s 1.2s both}
+
+/* ---------- C · ночь ---------- */
+.night{background:linear-gradient(180deg,#0a1128 0%,#111a33 60%,#0a0e1c 100%)}
+.night .moon{position:absolute;width:56%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 38% 34%,#f2f5ff 0%,#c6d2f5 42%,#8e9ed6 70%,#5a68a8 100%);
+  filter:blur(.3px);transform:translateY(60%);opacity:0}
+.night .halo{position:absolute;width:78%;aspect-ratio:1;border-radius:50%;transform:translateY(-12%);
+  background:radial-gradient(circle,rgba(160,180,255,.22),transparent 62%);opacity:0}
+.night .ttl{position:absolute;bottom:104px;z-index:3;font-family:"Playfair Display",Georgia,serif;
+  font-size:26px;letter-spacing:.2em;color:#eef1ff;opacity:0;text-shadow:0 2px 18px rgba(10,17,40,.9)}
+.night .sub{position:absolute;bottom:34px;z-index:2;font-family:var(--mono);font-size:9px;
+  letter-spacing:.24em;color:#8f9ac4;opacity:0}
+.play .night .moon{animation:rise 1.8s cubic-bezier(.25,.7,.3,1) both}
+.play .night .halo{animation:fadein 1.4s .6s both}
+.play .night .ttl{animation:fadein 1s 1.1s both}
+.play .night .sub{animation:fadein .8s 1.7s both}
+
+@keyframes beam{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes flicker{0%,100%{opacity:1}45%{opacity:.86}70%{opacity:.95}}
+@keyframes stamp{from{transform:scale(1.5) rotate(-12deg);opacity:0}to{transform:scale(1) rotate(-8deg);opacity:1}}
+@keyframes rise{from{transform:translateY(60%);opacity:0}to{transform:translateY(-12%);opacity:1}}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .play .film .beam,.play .film .ttl,.play .film .sub,
+  .play .poster .stamp,.play .poster .ttl,.play .poster .sub,
+  .play .night .moon,.play .night .halo,.play .night .ttl,.play .night .sub{animation:none;opacity:1}
+  .play .night .moon{transform:translateY(-12%)}
+}
+
+.tw{overflow-x:auto;border:1px solid var(--line);margin:24px 0}
+table{border-collapse:collapse;width:100%;background:var(--surface);font-size:14.5px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink3);background:#0f1113;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+.box{border:1px solid var(--line2);background:var(--surface);padding:18px 20px;margin:26px 0}
+.box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent-dim);display:block;margin-bottom:8px}
+.box p:last-child{margin-bottom:0}
+.end{font-size:14px;color:var(--ink3);border-top:1px solid var(--line);padding-top:18px;margin-top:30px}
+</style>
+
+<div class="page play" id="page">
+
+<header>
+  <p class="eyebrow">Второй бот · клуб</p>
+  <h1>Клуб Circle</h1>
+  <p class="lede">Клуб уезжает в отдельного бота: у него другая аудитория и другой разговор. Сюда приходят не за работой с собой, а за вечером в хорошей компании. Ниже три направления — заставки живые, нажмите «проиграть» под любой.</p>
+</header>
+
+<div class="row">
+
+  <div class="card">
+    <span class="no">Вариант A</span>
+    <h3>Плёнка</h3>
+    <div class="frame"><div class="screen film">
+      <div class="beam"></div>
+      <div class="ttl">CIRCLE</div>
+      <div class="sub">КИНО · КНИГИ · БЕГ</div>
+      <div class="grain"></div>
+    </div></div>
+    <button class="replay" type="button">↻ проиграть</button>
+    <p class="desc"><b>Заставка:</b> из темноты разворачивается круг света — как луч проектора на экране, — потом проступает название и лёгкое мерцание плёнки.<br><br>
+    <b>Мир:</b> чёрное, тёплый белый, зерно. Афиша вечера как титры, расписание как программка кинотеатра.<br><br>
+    <b>Кому:</b> тем, кто ходит в «Гараж» и на ретроспективы. Самое точное попадание в киновечер, но книги и бег в этой эстетике живут хуже.</p>
+  </div>
+
+  <div class="card">
+    <span class="no">Вариант B</span>
+    <h3>Афиша</h3>
+    <div class="frame"><div class="screen poster">
+      <div class="stamp"></div>
+      <div class="ttl">CIRCLE</div>
+      <div class="sub">КЛУБ · МОСКВА</div>
+    </div></div>
+    <button class="replay" type="button">↻ проиграть</button>
+    <p class="desc"><b>Заставка:</b> круглая печать прикладывается к бумаге с лёгким наклоном — как штамп на билете, — и под ней проступает название.<br><br>
+    <b>Мир:</b> бумажный светлый фон, крупный гротеск, один красный. Расписание как афиша на стене, билет как отрывной корешок.<br><br>
+    <b>Кому:</b> самый лёгкий и приглашающий вариант. Хорошо держит все три занятия сразу и не выглядит клубом по интересам для своих.</p>
+  </div>
+
+  <div class="card">
+    <span class="no">Вариант C</span>
+    <h3>Ночь</h3>
+    <div class="frame"><div class="screen night">
+      <div class="halo"></div>
+      <div class="moon"></div>
+      <div class="ttl">CIRCLE</div>
+      <div class="sub">ВЕЧЕРА И УТРА</div>
+    </div></div>
+    <button class="replay" type="button">↻ проиграть</button>
+    <p class="desc"><b>Заставка:</b> круг поднимается снизу как луна, вокруг разливается свечение, название проступает антиквой.<br><br>
+    <b>Мир:</b> глубокий синий с градиентом, мягкие блики, антиква. Тише и медленнее остальных.<br><br>
+    <b>Кому:</b> ближе всего к бегу на рассвете и разговору о книге, но дальше всего от кино. Красиво и рискует остаться просто красивым.</p>
+  </div>
+
+</div>
+
+<div class="cut"></div>
+
+<h1 style="font-size:22px">Что внутри бота клуба</h1>
+<p>Структура проще основного: здесь не выбирают формат работы, здесь выбирают вечер.</p>
+
+<div class="tw">
+  <table>
+    <thead><tr><th>Экран</th><th>Что на нём</th></tr></thead>
+    <tbody>
+      <tr><td>Заставка</td><td>Одна из трёх выше</td></tr>
+      <tr><td>Что это</td><td>Две строки о клубе и кнопка «дальше»</td></tr>
+      <tr><td>Ближайшее</td><td>Три карточки: кино, книга, бег — с датой, местом и кнопкой «занять место»</td></tr>
+      <tr><td>Событие</td><td>Что смотрим или читаем, во сколько собираемся, сколько стоит вход, как проходит вечер</td></tr>
+      <tr><td>Подписка</td><td>3 500 ₽ в месяц: все встречи и чат. Или разовый вход на одно событие</td></tr>
+      <tr><td>Связь</td><td>Канал и почта</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="box">
+  <span class="tag">Что решить до сборки</span>
+  <p><b>Первое:</b> какой из трёх миров. От него зависит всё остальное — шрифты, цвет, тон текстов.</p>
+  <p><b>Второе:</b> оставляем ли разовый вход. В основном боте вы его убрали, но для клуба это главный способ привести нового человека: на подписку сразу почти никто не подписывается, а на один киновечер — легко.</p>
+  <p><b>Третье:</b> имя. Сейчас оба бота называются Circle, и в поиске телеграма они будут стоять рядом одинаковыми. Развести можно так: практика — <b>Circle</b>, клуб — <b>Circle Кино</b> или <b>Circle Вечера</b>.</p>
+</div>
+
+<p class="end">Скажете вариант — соберу второго бота так же, как первый: живой прототип, который можно нажимать.</p>
+
+</div>
+
+<script>
+document.querySelectorAll('.replay').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var card = btn.closest('.card'), screen = card.querySelector('.screen');
+    var page = document.getElementById('page');
+    screen.querySelectorAll('div').forEach(function (el) {
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = '';
+    });
+  });
+});
+</script>
