@@ -203,9 +203,12 @@
   .s-desc{font-family:var(--sans);font-size:15px;line-height:1.6;color:#ccd1d9;margin:0 0 16px;
     white-space:pre-line}
   .inc{list-style:none;margin:0;padding:0}
-  .inc li{font-family:var(--sans);font-size:14px;line-height:1.5;color:#c2c7d0;padding:8px 0 8px 18px;
+  .inc li{font-family:var(--sans);font-size:14px;line-height:1.5;color:#a9b0bc;padding:10px 0 10px 20px;
     border-bottom:1px solid var(--line);position:relative}
-  .inc li::before{content:"→";position:absolute;left:0;top:8px;color:var(--accent-dim);font-family:var(--mono);font-size:12px}
+  .inc li::before{content:"";position:absolute;left:2px;top:17px;width:7px;height:1px;
+    background:var(--accent-dim)}
+  .inc li b{display:block;font-weight:500;color:var(--ink);margin-bottom:2px;letter-spacing:.005em}
+  .inc li:last-child{border-bottom:0}
   .svc{position:relative}
   .svc .row{position:relative;z-index:1}
   .orb{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
@@ -228,8 +231,10 @@
     .orb i{animation:driftSheen 18s ease-in-out infinite alternate}
   }
   .topics{display:grid;gap:10px;margin:2px 0 4px}
-  .s-quote{font-family:var(--sans);font-size:15px;line-height:1.55;font-style:italic;
-    color:var(--ink);margin:18px 0 4px;padding-left:14px;border-left:2px solid var(--accent)}
+  .s-quote{font-family:var(--sans);font-size:14.5px;line-height:1.6;font-style:italic;
+    color:#e4e8f0;margin:20px 0 6px;padding:15px 16px 15px 17px;
+    border-left:3px solid var(--accent);
+    background:linear-gradient(180deg,rgba(27,47,245,.14),rgba(27,47,245,.02))}
   .topic{border:1px solid var(--line);background:var(--card);padding:14px}
   .topic b{display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--accent-dim);margin-bottom:9px}
@@ -238,7 +243,15 @@
   .topic li::before{content:"·";position:absolute;left:2px;top:4px;color:var(--accent-dim)}
 
   /* ---------- календарь ---------- */
-  .cal-label{font-size:9px;letter-spacing:.2em;color:var(--muted);margin:20px 0 8px}
+  .cal{border:1px solid var(--line2);background:linear-gradient(180deg,#15161a,#0e0f12);
+    padding:16px 14px 18px;margin:24px 0 0}
+  .cal-head{display:flex;align-items:center;gap:10px;margin:0 0 14px}
+  .cal-head b{font-size:10px;letter-spacing:.24em;color:var(--accent-ink);font-weight:600;
+    background:var(--accent);padding:4px 9px}
+  .cal-head i{flex:1 1 auto;height:1px;background:var(--line2);font-style:normal}
+  .cal-label{font-size:9px;letter-spacing:.2em;color:var(--muted);margin:16px 0 8px}
+  .cal .cal-label:first-of-type{margin-top:0}
+  .cal .day,.cal .time{background:#191b20}
   .days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
   .days::-webkit-scrollbar{display:none}
   .day{flex:0 0 auto;width:56px;border:1px solid var(--line);background:var(--card);padding:8px 0;
@@ -273,8 +286,9 @@
   .meta div+div{border-left:1px solid var(--line)}
   .meta .l{font-size:8.5px;letter-spacing:.16em;color:var(--muted);margin-bottom:5px}
   .meta .v{font-size:13px}
-  .section{font-size:9px;letter-spacing:.2em;color:var(--muted);border-bottom:1px solid var(--line);
-    padding-bottom:7px;margin:0 0 2px}
+  .section{display:flex;align-items:center;gap:9px;font-size:9.5px;letter-spacing:.2em;
+    color:var(--accent-dim);border-bottom:1px solid var(--line);padding-bottom:8px;margin:0 0 4px}
+  .section::before{content:"";flex:0 0 auto;width:6px;height:6px;background:var(--accent)}
   .inc + .section,.timing + .section,.s-quote + .section{margin-top:26px}
   ol{list-style:none;margin:0;padding:0}
   .n{flex:0 0 auto;min-width:24px;font-size:10px;color:var(--accent-dim);padding-top:3px}
@@ -421,8 +435,6 @@
           '<span class="p">' + esc(s.price) + '</span></button>';
       }).join('') + '</div>';
     out += '<div class="cut"></div>';
-    out += '<div class="total"><span>' + esc(h.totalLabel) + '</span><span>' + esc(h.totalValue) + '</span></div>';
-    out += '<div class="cut"></div>';
     out += '<button class="row" type="button" data-more="1">' +
       '<span><span class="n">' + esc(h.more) + '</span><span class="t">' + esc(h.moreHint) + '</span></span>' +
       '<span class="p">→</span></button>';
@@ -494,7 +506,14 @@
     function bullets(label, arr) {
       if (!arr || !arr.length) return '';
       return '<div class="section">' + esc(label) + '</div><ul class="inc">' +
-        arr.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+        arr.map(function (x) {
+          var m = String(x).split(/ — |: /);
+          if (m.length > 1 && m[0].length <= 46) {
+            var head = m[0], rest = String(x).slice(head.length).replace(/^ — |^: /, '');
+            return '<li><b>' + esc(head) + '</b>' + esc(rest) + '</li>';
+          }
+          return '<li>' + esc(x) + '</li>';
+        }).join('') + '</ul>';
     }
     out += bullets(v.focusLabel || 'ФОКУС', v.focus);
     if (v.blocks && v.blocks.length) {
@@ -504,8 +523,9 @@
     out += bullets(v.givesLabel || 'ЧТО ДАЁТ', v.gives);
     out += bullets('ПРАВИЛА', v.rules);
     if (v.note) out += '<p class="note">' + esc(v.note) + '</p>';
-    out += '<div class="cut"></div>';
-    out += '<p class="cal-label">' + esc(b.kicker) + ' · ' + esc(b.pickDate) + '</p>';
+    out += '<div class="cal">';
+    out += '<div class="cal-head"><b>' + esc(b.kicker) + '</b><i></i></div>';
+    out += '<p class="cal-label">' + esc(b.pickDate) + '</p>';
     out += '<div class="days">' + ds.map(function (d, k) {
       return '<button class="day" type="button" data-d="' + k + '" aria-pressed="' +
         (pick.date === d.iso ? 'true' : 'false') + '">' +
@@ -516,7 +536,7 @@
       return '<button class="time" type="button" data-t="' + esc(t) + '" aria-pressed="' +
         (pick.time === t ? 'true' : 'false') + '">' + esc(t) + '</button>';
     }).join('') + '</div>';
-    out += '<p class="cal-note">' + esc(b.note) + '</p>';
+    out += '<p class="cal-note">' + esc(b.note) + '</p></div>';
     if (s.link) {
       out += '<a class="linkbtn" href="' + esc(s.link.url) + '" target="_blank" rel="noopener">' +
         esc(s.link.label) + '</a>';
