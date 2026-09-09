@@ -735,16 +735,26 @@ td.st.todo{color:#d9a05b}
         return '<li><span class="tm">' + esc(m[0]) + '</span><span>' + esc(m.slice(1).join(' · ')) + '</span></li>';
       }).join('') + '</ol>';
     }
+    /* «Термин — пояснение» выделяем; целое предложение с тире оставляем как есть */
+    var VERBISH = /(ть|ти|ся|сь|ешь|ете|ёте|ет|ёт|ут|ют|ат|ят|ли|ла|ло)$/i;
+    function leadIn(text) {
+      var colon = text.indexOf(': ');
+      if (colon > 0 && colon <= 46) return text.slice(0, colon);
+      var dash = text.indexOf(' — ');
+      if (dash < 1 || dash > 46) return '';
+      var head = text.slice(0, dash), words = head.split(/\s+/);
+      if (words.length > 3) return '';
+      for (var i = 0; i < words.length; i++) if (VERBISH.test(words[i])) return '';
+      return head;
+    }
     function bullets(label, arr) {
       if (!arr || !arr.length) return '';
       return '<div class="section">' + esc(label) + '</div><ul class="inc">' +
         arr.map(function (x) {
-          var m = String(x).split(/ — |: /);
-          if (m.length > 1 && m[0].length <= 46) {
-            var head = m[0], rest = String(x).slice(head.length).replace(/^ — |^: /, '');
-            return '<li><b>' + esc(head) + '</b>' + esc(rest) + '</li>';
-          }
-          return '<li>' + esc(x) + '</li>';
+          var t = String(x), head = leadIn(t);
+          if (!head) return '<li>' + esc(t) + '</li>';
+          return '<li><b>' + esc(head) + '</b>' +
+            esc(t.slice(head.length).replace(/^: |^ — /, '')) + '</li>';
         }).join('') + '</ul>';
     }
     out += bullets(v.focusLabel || 'ФОКУС', v.focus);
