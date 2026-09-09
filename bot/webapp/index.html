@@ -138,6 +138,9 @@
     line-height:1.55;letter-spacing:.025em;margin:0 0 18px}
   .intro h1 br + *{}
   .intro h1 mark{background:var(--accent);color:var(--accent-ink);padding:1px 6px}
+  /* мелкая строка внутри крупного заголовка */
+  .sm{font-style:normal;font-size:.5em;line-height:1.55;letter-spacing:.02em;color:#c3c8d2}
+  .intro h1 .sm{display:inline-block;margin-top:.85em}
   /* написанное от руки */
   .hand{font-family:"Caveat",var(--sans);font-style:normal;font-weight:500;
     font-size:1.9em;line-height:1.05;letter-spacing:0;color:#eef1f6}
@@ -425,6 +428,7 @@
     return esc(s)
       .replace(/==(.+?)==/g, '<mark>$1</mark>')
       .replace(/\/\/([\s\S]+?)\/\//g, '<i class="hand">$1</i>')
+      .replace(/~([\s\S]+?)~/g, '<i class="sm">$1</i>')
       .replace(/\n/g, '<br>');
   }
   function pad(n) { return (n < 10 ? '0' : '') + n; }
