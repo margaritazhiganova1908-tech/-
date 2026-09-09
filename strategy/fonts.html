@@ -1,0 +1,166 @@
+<title>Шрифты Circle</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400;500&family=Manrope:wght@400;500;600&family=Onest:wght@400;500;600&family=Unbounded:wght@300;400;500&family=Literata:opsz,wght@7..72,400;7..72,500&family=Alegreya:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#0a0a0b; --ink:#f2f4f6; --ink2:#a8aeb8; --ink3:#767c86;
+  --line:#24262b; --line2:#33363d; --accent:#1b2ff5; --accent-dim:#7b86ff;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sans:"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:1180px;margin:0 auto;padding:44px 22px 90px}
+h1{font-family:var(--mono);font-weight:500;font-size:clamp(26px,4.4vw,38px);letter-spacing:.14em;
+  line-height:1.15;margin:.2em 0 .4em;text-transform:uppercase}
+h2{font-family:var(--mono);font-weight:500;font-size:clamp(17px,2.4vw,21px);letter-spacing:.14em;
+  text-transform:uppercase;margin:0 0 .7em}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink3);display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+.lede{font-size:18px;line-height:1.55;color:var(--ink2);max-width:64ch}
+p{margin:0 0 1em;max-width:68ch}
+.cut{border-top:1px dashed #3c4048;margin:34px 0 40px}
+code{font-family:var(--mono);font-size:12.5px;background:#131417;padding:1px 5px;color:var(--accent-dim)}
+
+.grid{display:grid;gap:20px;grid-template-columns:1fr;margin:26px 0 0}
+@media(min-width:820px){.grid{grid-template-columns:repeat(2,1fr)}}
+.card{border:1px solid var(--line2);background:#0e0f12;display:flex;flex-direction:column}
+.card .top{display:flex;align-items:baseline;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);
+  background:#131417}
+.card .no{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--accent-dim)}
+.card .nm{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.card .tag{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;
+  color:var(--ink3);text-transform:uppercase}
+.card .body{padding:26px 18px 22px;min-height:150px;display:flex;align-items:center}
+.card .why{padding:0 18px 18px;font-size:14px;line-height:1.5;color:var(--ink2)}
+.card .why b{color:var(--ink);font-weight:500}
+.spec{font-size:19px;line-height:1.3;margin:0}
+.spec mark{background:var(--accent);color:#fff;padding:0 5px}
+
+.f1 .spec{font-family:"Golos Text",sans-serif;font-weight:500;font-size:22px;letter-spacing:.01em}
+.f2 .spec{font-family:"IBM Plex Mono",monospace;font-weight:400;font-size:20px;letter-spacing:.02em}
+.f3 .spec{font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;font-size:33px;line-height:1.22;letter-spacing:.005em}
+.f4 .spec{font-family:"Playfair Display",Georgia,serif;font-weight:400;font-size:26px;line-height:1.28}
+.f5 .spec{font-family:"Manrope",sans-serif;font-weight:500;font-size:22px;letter-spacing:-.005em}
+.f6 .spec{font-family:"Onest",sans-serif;font-weight:500;font-size:22px;letter-spacing:-.01em}
+.f7 .spec{font-family:"Unbounded",sans-serif;font-weight:300;font-size:19px;line-height:1.4;letter-spacing:.01em}
+.f8 .spec{font-family:"Literata",Georgia,serif;font-weight:400;font-size:21px;line-height:1.4}
+
+.pair{display:grid;gap:24px;grid-template-columns:1fr;margin:22px 0 0}
+@media(min-width:820px){.pair{grid-template-columns:repeat(3,1fr)}}
+.ph{border:1px solid var(--line2);background:#000;padding:8px;border-radius:20px}
+.scr{background:#0a0a0b;border-radius:12px;padding:26px 18px;min-height:300px;
+  display:flex;flex-direction:column;justify-content:center}
+.scr .t{margin:0 0 16px}
+.scr .btn{margin-top:auto;background:var(--accent);color:#fff;font-family:var(--mono);
+  font-size:11px;letter-spacing:.18em;padding:14px 16px;text-align:left}
+.cap{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--ink3);
+  text-transform:uppercase;margin:10px 0 0;text-align:center}
+.a .t{font-family:"Golos Text",sans-serif;font-weight:500;font-size:23px;line-height:1.35}
+.b .t{font-family:"Cormorant Garamond",Georgia,serif;font-weight:400;font-size:35px;line-height:1.2}
+.c .t{font-family:"Onest",sans-serif;font-weight:500;font-size:23px;line-height:1.35;letter-spacing:-.01em}
+.t mark{background:var(--accent);color:#fff;padding:0 5px}
+
+table{border-collapse:collapse;width:100%;background:#131417;font-size:14.5px;margin:20px 0 0}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink3);background:#08080a;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+.tw{overflow-x:auto;border:1px solid var(--line)}
+.box{border:1px solid var(--line2);background:#131417;padding:18px 20px;margin:28px 0 0}
+.box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent-dim);display:block;margin-bottom:8px}
+.box p:last-child{margin-bottom:0}
+</style>
+
+<div class="page">
+<header>
+  <p class="eyebrow">Circle · экран-представление</p>
+  <h1>Восемь шрифтов<br>на одну фразу</h1>
+  <p class="lede">Одна и та же строка набрана разными шрифтами — чтобы выбирать не по названию, а по тому, как она звучит. Все восемь есть в Google Fonts, все поддерживают кириллицу и подключаются одной строкой.</p>
+</header>
+
+<div class="cut"></div>
+
+<section>
+  <p class="eyebrow">01 · Варианты</p>
+  <h2>Как читается фраза</h2>
+
+  <div class="grid">
+    <div class="card f1"><div class="top"><span class="no">01</span><span class="nm">Golos Text</span><span class="tag">сейчас в боте</span></div>
+      <div class="body"><p class="spec"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p></div>
+      <p class="why"><b>Нейтральный гротеск.</b> Ничего не добавляет и не мешает. Хорош тем, что не спорит с синим и с моношрифтом в интерфейсе. Минус — за него не цепляется память.</p></div>
+
+    <div class="card f2"><div class="top"><span class="no">02</span><span class="nm">IBM Plex Mono</span><span class="tag">шрифт заголовков</span></div>
+      <div class="body"><p class="spec"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p></div>
+      <p class="why"><b>Моноширинный, техничный.</b> Тот же шрифт, что в шапке-чеке — вся страница становится одноголосой. Читается как приборная панель, а не как приглашение. Для длинной фразы тяжеловат.</p></div>
+
+    <div class="card f3"><div class="top"><span class="no">03</span><span class="nm">Cormorant Garamond</span><span class="tag">антиква</span></div>
+      <div class="body"><p class="spec"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p></div>
+      <p class="why"><b>Тонкая книжная антиква.</b> Даёт воздух и тишину — то, чего просит психоаналитическая рамка. Сильный контраст с моношрифтом интерфейса работает как приём: разговор набран одним голосом, интерфейс другим.</p></div>
+
+    <div class="card f4"><div class="top"><span class="no">04</span><span class="nm">Playfair Display</span><span class="tag">антиква</span></div>
+      <div class="body"><p class="spec"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p></div>
+      <p class="why"><b>Журнальная антиква с высоким контрастом.</b> Заявляет статус. Риск — она заезженная: так набрана половина бьюти-брендов, и фраза начинает звучать рекламно.</p></div>
+
+    <div class="card f5"><div class="top"><span class="no">05</span><span class="nm">Manrope</span><span class="tag">гротеск</span></div>
+      <div class="body"><p class="spec"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p></div>
+      <p class="why"><b>Геометричный, чуть тёплый.</b> Спокойнее Golos, круглее в буквах — фраза читается мягче. Хороший ход, если хочется остаться в гротеске, но убрать канцелярскую ноту.</p></div>
+
+    <div class="card f6"><div class="top"><span class="no">06</span><span class="nm">Onest</span><span class="tag">гротеск</span></div>
+      <div class="body"><p class="spec"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p></div>
+      <p class="why"><b>Новый гротеск, рисованный под кириллицу.</b> Русские буквы в нём не выглядят приспособленными из латиницы — это заметно на «ж», «д», «я». Современно и без позы.</p></div>
+
+    <div class="card f7"><div class="top"><span class="no">07</span><span class="nm">Unbounded</span><span class="tag">характерный</span></div>
+      <div class="body"><p class="spec"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p></div>
+      <p class="why"><b>Широкий, с характером.</b> Запоминается сразу — и так же быстро надоедает. Подойдёт, если Circle должен звучать как культурный проект, а не как практика.</p></div>
+
+    <div class="card f8"><div class="top"><span class="no">08</span><span class="nm">Literata</span><span class="tag">серифный</span></div>
+      <div class="body"><p class="spec"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p></div>
+      <p class="why"><b>Экранная антиква для чтения.</b> Разработана для длинных текстов и не устаёт на маленьком экране. Тот случай, когда серифность даёт не пафос, а спокойствие.</p></div>
+  </div>
+</section>
+
+<div class="cut"></div>
+
+<section>
+  <p class="eyebrow">02 · В экране</p>
+  <h2>Три финалиста на телефоне</h2>
+  <p>Шрифт нельзя оценивать в вакууме: рядом синяя кнопка и чёрный фон. Вот три варианта в реальном окружении.</p>
+
+  <div class="pair">
+    <div><div class="ph"><div class="scr a"><p class="t"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p><div class="btn">ДАЛЬШЕ</div></div></div>
+      <p class="cap">A · Golos Text — как сейчас</p></div>
+    <div><div class="ph"><div class="scr b"><p class="t"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p><div class="btn">ДАЛЬШЕ</div></div></div>
+      <p class="cap">B · Cormorant Garamond</p></div>
+    <div><div class="ph"><div class="scr c"><p class="t"><mark>Circle</mark> —<br>живое пространство<br>взаимодействия</p><div class="btn">ДАЛЬШЕ</div></div></div>
+      <p class="cap">C · Onest</p></div>
+  </div>
+</section>
+
+<div class="cut"></div>
+
+<section>
+  <p class="eyebrow">03 · Выбор</p>
+  <h2>Что я бы взяла</h2>
+
+  <div class="tw"><table>
+    <thead><tr><th>Если хотите, чтобы Circle звучал как…</th><th>Шрифт</th></tr></thead>
+    <tbody>
+      <tr><td>тихая практика, книжная, с воздухом</td><td>Cormorant Garamond</td></tr>
+      <tr><td>современная услуга для руководителей, без украшений</td><td>Onest или Manrope</td></tr>
+      <tr><td>единый технический язык со всем интерфейсом</td><td>IBM Plex Mono</td></tr>
+      <tr><td>культурный проект с характером</td><td>Unbounded</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="box">
+    <span class="tag">Рекомендация</span>
+    <p><b>Cormorant Garamond для этой одной фразы, Onest — для остальных текстов бота.</b> Причина простая: экран-представления — единственное место, где вы говорите от себя, а не описываете услугу. Антиква там читается как голос, а не как интерфейс, и контраст с моношрифтом чека работает на вас. Дальше, в описаниях форматов и правилах, антиква мешала бы — там нужен нейтральный гротеск, и Onest справляется лучше нынешнего Golos на кириллице.</p>
+    <p>Что важно понимать про риск: Cormorant тонкий. На плохом экране в яркий день он проседает. Если это смущает — берите Literata: та же серифная интонация, но с плотностью, которая не теряется.</p>
+  </div>
+
+  <p style="margin-top:26px;color:var(--ink3);font-size:13.5px">Скажите номер — поставлю в бот. Смена шрифта это две строки: подключение в <code>&lt;link&gt;</code> и переменная <code>--sans</code>.</p>
+</section>
+</div>

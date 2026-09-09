@@ -693,20 +693,41 @@
     setTimeout(function () { t.remove(); }, 3200);
   }
 
+  /* ссылка в личные сообщения с уже написанной заявкой */
+  function dmLink(extra) {
+    var c = deck.cta || {}, base = c.url || '';
+    if (!base) return '';
+    var t = c.dmHello || 'Здравствуйте! Хочу записаться';
+    if (extra && extra.service) {
+      t += ': ' + extra.service;
+      if (extra.date) t += ', ' + extra.date;
+      if (extra.time) t += ', ' + extra.time;
+    } else {
+      t += ' на первую встречу';
+    }
+    return base + (base.indexOf('?') < 0 ? '?' : '&') + 'text=' + encodeURIComponent(t + '.');
+  }
+  function openDm(extra) {
+    var url = dmLink(extra);
+    if (!url) return;
+    try { tg.openTelegramLink(url); }
+    catch (e) { try { tg.openLink(url); } catch (e2) { window.open(url, '_blank'); } }
+  }
+
   function book(source, extra) {
     haptic('medium');
     var payload = { action: 'lead', source: source };
     if (extra) Object.keys(extra).forEach(function (k) { payload[k] = extra[k]; });
     if (window.PROTOTYPE) {
+      var where = (deck.cta && deck.cta.mode === 'dm') ? 'Откроется чат ' + (deck.cta.url || '') + ' с готовым текстом: '
+                                                       : 'В боте это уходит в чат: ';
       return toast(extra && extra.service
-        ? 'В боте это уходит в чат: ' + extra.service + ' — ' + extra.date + ', ' + extra.time
-        : 'В боте это уходит в чат как заявка');
+        ? where + extra.service + ' — ' + extra.date + ', ' + extra.time
+        : where + 'заявка на первую встречу');
     }
+    if (deck.cta && deck.cta.mode === 'dm') { openDm(extra); return; }
     var ok = send(payload);
-    if (!ok && deck.cta && deck.cta.url) {
-      try { tg.openLink(deck.cta.url); } catch (e) { window.open(deck.cta.url, '_blank'); }
-      return;
-    }
+    if (!ok) { openDm(extra); return; }
     if (tg && tg.close) setTimeout(function () { tg.close(); }, 150);
   }
 
