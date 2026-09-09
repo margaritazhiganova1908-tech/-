@@ -227,6 +227,10 @@ td.st.todo{color:#d9a05b}
   :root{
     --paper:#0a0a0b; --ink:#f2f4f6; --muted:#8b9099; --line:#2a2c31; --card:#131417;
     --accent:#1b2ff5; --accent-ink:#ffffff; --accent-dim:#7b86ff;
+    /* полупрозрачные подложки: дым, небо и песок с заставки */
+    --smoke:rgba(255,255,255,.045); --smoke-2:rgba(255,255,255,.08);
+    --sky:rgba(143,182,216,.10); --sky-line:rgba(143,182,216,.26); --sky-ink:#a8c6e2;
+    --sand:rgba(216,171,127,.09); --sand-line:rgba(216,171,127,.30); --sand-ink:#d8ab7f;
     --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
     --sans:"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif;
   }
@@ -344,7 +348,9 @@ td.st.todo{color:#d9a05b}
   @keyframes breathe{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(.86);opacity:.7}}
 
   /* ---------- экран-представление ---------- */
-  .intro{display:flex;flex-direction:column;justify-content:center;min-height:62vh;text-align:left}
+  .intro{display:flex;flex-direction:column;justify-content:center;min-height:62vh;text-align:left;
+    animation:soft .7s ease-out both}
+  @media (prefers-reduced-motion:reduce){.intro{animation:none}}
   .intro h1{font-family:var(--mono);font-weight:400;font-size:clamp(18px,5vw,22px);
     line-height:1.55;letter-spacing:.025em;margin:0 0 18px}
   .intro h1 br + *{}
@@ -402,9 +408,10 @@ td.st.todo{color:#d9a05b}
   .total span:first-child{font-size:11px;letter-spacing:.2em}
   .total span:last-child{font-size:15px;background:var(--accent);color:var(--accent-ink);padding:2px 9px}
   .thanks{text-align:center;font-size:9px;letter-spacing:.24em;color:var(--muted);margin:16px 0 10px}
-  .contacts{text-align:center;margin:22px 0 12px;display:grid;gap:6px;justify-items:center}
+  .contacts{text-align:center;margin:22px 0 12px;display:grid;gap:5px;justify-items:center}
   .contacts .c-l{font-size:9px;letter-spacing:.24em;color:var(--muted)}
-  .contacts a{font-family:var(--sans);font-size:14px;color:var(--accent-dim);text-decoration:none}
+  .contacts a{font-family:var(--mono);font-size:10px;letter-spacing:.04em;
+    color:var(--accent-dim);text-decoration:none;word-break:break-all}
   .contacts a:active{color:var(--ink)}
   .bars-code{display:flex;gap:2px;justify-content:center;height:28px;margin-bottom:6px}
   .bars-code i{display:block;background:#e7eaef}
@@ -413,7 +420,7 @@ td.st.todo{color:#d9a05b}
   .s-tag{font-size:9px;letter-spacing:.2em;color:var(--accent-dim);text-transform:uppercase}
   .s-title{font-size:22px;letter-spacing:.1em;margin:8px 0 12px}
   .variants{display:flex;gap:6px;margin:0 0 14px}
-  .vr{flex:1 1 auto;border:1px solid var(--line);background:var(--card);color:var(--muted);
+  .vr{flex:1 1 auto;border:1px solid var(--line);background:var(--smoke);color:var(--muted);
     padding:11px 8px;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase}
   .vr[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
   .s-price{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
@@ -452,8 +459,8 @@ td.st.todo{color:#d9a05b}
   .topics{display:grid;gap:10px;margin:2px 0 4px}
   .s-quote{font-family:var(--sans);font-size:14.5px;line-height:1.6;font-style:italic;
     color:#e4e8f0;margin:20px 0 6px;padding:15px 16px 15px 17px;
-    border-left:3px solid var(--accent);
-    background:linear-gradient(180deg,rgba(27,47,245,.14),rgba(27,47,245,.02))}
+    border-left:3px solid var(--sky-line);
+    background:linear-gradient(180deg,var(--sky),rgba(143,182,216,.01))}
   .topic{border:1px solid var(--line);background:var(--card);padding:14px}
   .topic b{display:block;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--accent-dim);margin-bottom:9px}
@@ -462,15 +469,18 @@ td.st.todo{color:#d9a05b}
   .topic li::before{content:"·";position:absolute;left:2px;top:4px;color:var(--accent-dim)}
 
   /* ---------- календарь ---------- */
-  .cal{border:1px solid var(--line2);background:linear-gradient(180deg,#15161a,#0e0f12);
+  .cal{border:1px solid var(--sand-line);
+    background:linear-gradient(180deg,var(--sand),rgba(216,171,127,.012) 62%),#0d0e11;
     padding:16px 14px 18px;margin:24px 0 0}
   .cal-head{display:flex;align-items:center;gap:10px;margin:0 0 14px}
-  .cal-head b{font-size:10px;letter-spacing:.24em;color:var(--accent-ink);font-weight:600;
-    background:var(--accent);padding:4px 9px}
-  .cal-head i{flex:1 1 auto;height:1px;background:var(--line2);font-style:normal}
+  .cal-head b{font-size:10px;letter-spacing:.24em;color:var(--sand-ink);font-weight:500;
+    border:1px solid var(--sand-line);padding:4px 10px}
+  .cal-head i{flex:1 1 auto;height:1px;background:var(--sand-line);font-style:normal;opacity:.5}
   .cal-label{font-size:9px;letter-spacing:.2em;color:var(--muted);margin:16px 0 8px}
   .cal .cal-label:first-of-type{margin-top:0}
-  .cal .day,.cal .time{background:#191b20}
+  .cal .day,.cal .time{background:var(--smoke);border-color:rgba(216,171,127,.18)}
+  .cal .day[aria-pressed="true"],.cal .time[aria-pressed="true"]{background:var(--accent);
+    border-color:var(--accent)}
   .days{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
   .days::-webkit-scrollbar{display:none}
   .day{flex:0 0 auto;width:56px;border:1px solid var(--line);background:var(--card);padding:8px 0;
@@ -484,6 +494,7 @@ td.st.todo{color:#d9a05b}
   .time{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:9px 14px;font-size:13px}
   .time[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
   .cal-note{font-family:var(--sans);font-size:12.5px;line-height:1.5;color:var(--muted);margin:14px 0 0}
+  .cal .cal-note{border-top:1px solid rgba(216,171,127,.14);padding-top:12px}
   .linkbtn{display:block;margin:16px 0 0;border:1px solid var(--accent);color:var(--accent-dim);
     text-align:center;padding:14px 12px;font-size:11px;letter-spacing:.16em;text-decoration:none}
   .linkbtn:active{background:var(--accent);color:#fff}
@@ -499,8 +510,8 @@ td.st.todo{color:#d9a05b}
   h1.slide mark{background:var(--accent);color:var(--accent-ink);padding:0 5px}
   .kicker{font-size:9.5px;letter-spacing:.2em;color:var(--muted);margin:0 0 12px;text-transform:uppercase}
   .lead{font-family:var(--sans);font-size:15px;line-height:1.6;color:#c8ccd4;margin:0 0 16px}
-  .meta{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--accent-dim);
-    border-bottom:1px solid var(--accent-dim);margin:0 0 18px}
+  .meta{display:grid;grid-template-columns:repeat(3,1fr);background:var(--smoke);
+    border-top:1px solid var(--sky-line);border-bottom:1px solid var(--sky-line);margin:0 0 18px}
   .meta div{padding:9px 8px}
   .meta div+div{border-left:1px solid var(--line)}
   .meta .l{font-size:8.5px;letter-spacing:.16em;color:var(--muted);margin-bottom:5px}
@@ -515,8 +526,9 @@ td.st.todo{color:#d9a05b}
     border-bottom:1px solid var(--line)}
   .rows .t,.cards .t,.steps .t{font-family:var(--sans);font-size:14.5px;font-weight:500;line-height:1.35}
   .rows .q,.cards .q,.steps .q{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--muted);margin-top:3px}
-  .note{font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--muted);
-    border-left:2px solid var(--accent-dim);padding-left:11px;margin:16px 0 0}
+  .note{font-family:var(--sans);font-size:13.5px;line-height:1.55;color:#b6bcc7;
+    background:var(--smoke);border-left:2px solid var(--sky-line);
+    padding:13px 14px;margin:18px 0 0}
   .opts{display:grid;gap:7px}
   .opt{text-align:left;width:100%;background:var(--card);border:1px solid var(--line);padding:14px;
     font-family:var(--sans);font-size:14.5px;line-height:1.35}
@@ -1019,7 +1031,7 @@ td.st.todo{color:#d9a05b}
       $('chan').textContent = deck.home.channel || 'КАНАЛ';
     }
     bind();
-    renderHome();
+    deck.intro ? renderIntro() : renderHome();
     var want = new URLSearchParams(location.search).get('section') ||
                (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || '';
     var svk = deck.services.findIndex(function (x) { return x.id === want; });
