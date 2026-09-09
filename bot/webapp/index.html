@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <title>Circle</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Golos+Text:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Golos+Text:wght@400;500;600&family=Caveat:wght@400;500;600&display=swap">
 <style>
   :root{
     --paper:#0a0a0b; --ink:#f2f4f6; --muted:#8b9099; --line:#2a2c31; --card:#131417;
@@ -138,6 +138,10 @@
     line-height:1.55;letter-spacing:.025em;margin:0 0 18px}
   .intro h1 br + *{}
   .intro h1 mark{background:var(--accent);color:var(--accent-ink);padding:1px 6px}
+  /* написанное от руки */
+  .hand{font-family:"Caveat",var(--sans);font-style:normal;font-weight:500;
+    font-size:1.9em;line-height:1.05;letter-spacing:0;color:#eef1f6}
+  .intro h1 .hand{display:inline-block;margin-top:.28em}
   .intro p{font-family:var(--sans);font-size:16px;line-height:1.6;color:#c3c8d2;margin:0;max-width:32ch}
 
   /* ---------- шапка ---------- */
@@ -417,7 +421,12 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c];
     });
   }
-  function rich(s) { return esc(s).replace(/==(.+?)==/g, '<mark>$1</mark>').replace(/\n/g, '<br>'); }
+  function rich(s) {
+    return esc(s)
+      .replace(/==(.+?)==/g, '<mark>$1</mark>')
+      .replace(/\/\/([\s\S]+?)\/\//g, '<i class="hand">$1</i>')
+      .replace(/\n/g, '<br>');
+  }
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   function sec() { return deck.sections[si]; }
   function nav(show) { $('navrow').hidden = !show; }
