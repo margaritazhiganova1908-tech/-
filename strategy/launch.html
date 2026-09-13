@@ -1,0 +1,248 @@
+<title>Запуск Circle</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Golos+Text:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#0a0a0b; --surface:#121317; --sunk:#08080a;
+    --ink:#f2f4f6; --ink2:#a6acb8; --ink3:#727884;
+    --line:#23252b; --line2:#31343c;
+    --accent:#1b2ff5; --accent-dim:#7b86ff;
+    --sand:#d8ab7f; --sand-line:rgba(216,171,127,.30); --sand-bg:rgba(216,171,127,.07);
+    --done:#5fb27c;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    --sans:"Golos Text",-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .page{max-width:980px;margin:0 auto;padding-block:44px 96px;padding-left:20px;padding-right:20px}
+
+  h1{font-family:var(--mono);font-weight:500;font-size:clamp(25px,4.6vw,38px);letter-spacing:.13em;
+    line-height:1.16;margin:.1em 0 .45em;text-transform:uppercase;text-wrap:balance}
+  h2{font-family:var(--mono);font-weight:500;font-size:clamp(16px,2.4vw,20px);letter-spacing:.13em;
+    text-transform:uppercase;margin:0 0 .8em;text-wrap:balance}
+  p{margin:0 0 1em;max-width:66ch}
+  .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink3);display:flex;align-items:center;gap:12px;margin:0 0 14px}
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+  .lede{font-size:17.5px;line-height:1.55;color:var(--ink2);max-width:60ch}
+  .cut{border-top:1px dashed #383c44;margin-block:38px 40px}
+  code{font-family:var(--mono);font-size:13px;background:var(--surface);padding:2px 6px;
+    color:var(--accent-dim);word-break:break-all}
+  strong{font-weight:600;color:var(--ink)}
+  a{color:var(--accent-dim)}
+
+  /* сводка сверху */
+  .need{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-block:26px 0}
+  @media(min-width:760px){.need{grid-template-columns:repeat(3,1fr)}}
+  .need div{background:var(--surface);padding:16px 18px}
+  .need .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;color:var(--sand);
+    text-transform:uppercase;margin-bottom:7px}
+  .need .v{font-size:14.5px;line-height:1.45;color:var(--ink2)}
+  .need .v b{color:var(--ink);font-weight:500}
+
+  /* шаги */
+  .steps{display:flex;flex-direction:column;gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:26px}
+  .step{background:var(--paper);padding:22px 20px;display:grid;gap:14px;
+    grid-template-columns:1fr}
+  @media(min-width:760px){.step{grid-template-columns:78px 1fr;gap:22px}}
+  .no{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent-dim);
+    padding-top:3px;display:flex;gap:10px;align-items:baseline}
+  @media(min-width:760px){.no{flex-direction:column;gap:7px}}
+  .who{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.18em;
+    text-transform:uppercase;padding:3px 7px;white-space:nowrap}
+  .who.you{color:var(--sand);border:1px solid var(--sand-line);background:var(--sand-bg)}
+  .who.me{color:var(--accent-dim);border:1px solid rgba(123,134,255,.3)}
+  .step h3{font-family:var(--sans);font-size:18px;font-weight:600;line-height:1.3;margin:0 0 10px;
+    text-wrap:balance}
+  .step p{font-size:15px;color:var(--ink2);margin:0 0 .8em}
+  .step p:last-child{margin-bottom:0}
+  .step ol,.step ul{margin:0 0 .9em;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+  .step li{font-size:15px;line-height:1.5;color:var(--ink2);padding-left:18px;position:relative}
+  .step li::before{content:"";position:absolute;left:1px;top:11px;width:8px;height:1px;
+    background:var(--line2)}
+  .step li b{color:var(--ink);font-weight:500}
+  .time{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--ink3);
+    text-transform:uppercase;margin-top:12px;display:block}
+
+  .warn{border-left:3px solid var(--sand);background:var(--sand-bg);padding:13px 15px;margin:14px 0 0}
+  .warn p{font-size:14.5px;color:#ddd3c6;margin:0}
+  .warn p+p{margin-top:.6em}
+  .warn b{color:#fff}
+
+  /* проверка */
+  .check{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:24px}
+  @media(min-width:640px){.check{grid-template-columns:repeat(2,1fr)}}
+  .check div{background:var(--surface);padding:13px 16px;font-size:14.5px;color:var(--ink2);
+    display:flex;gap:11px;align-items:flex-start;line-height:1.45}
+  .check span{font-family:var(--mono);font-size:12px;color:var(--done);flex:0 0 auto;padding-top:1px}
+
+  .tw{overflow-x:auto;border:1px solid var(--line);margin-top:24px}
+  table{border-collapse:collapse;width:100%;background:var(--surface);font-size:14.5px;
+    font-variant-numeric:tabular-nums;min-width:520px}
+  th,td{text-align:left;padding:12px 15px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink3);background:var(--sunk);white-space:nowrap}
+  tbody tr:last-child td{border-bottom:0}
+  td.n{font-family:var(--mono);font-size:13px;color:var(--sand);white-space:nowrap}
+  .end{font-size:14px;color:var(--ink3);border-top:1px solid var(--line);padding-top:20px;
+    margin-top:34px}
+</style>
+
+<div class="page">
+
+<header>
+  <p class="eyebrow">Circle · от прототипа к живому боту</p>
+  <h1>Шесть шагов<br>до запуска</h1>
+  <p class="lede">Бот написан и проверен. Осталось выдать ему имя, поставить страницы на адрес и включить его на машине, которая не выключается. Полтора часа, из них ваших — минут двадцать пять.</p>
+</header>
+
+<section>
+  <p class="eyebrow">Что нужно только от вас</p>
+  <div class="need">
+    <div><div class="k">01 · Токен</div><div class="v"><b>@BotFather</b> выдаёт строку, которая и есть ваш бот. Никому не пересылайте — мне в том числе.</div></div>
+    <div><div class="k">02 · Ваш id</div><div class="v"><b>@userinfobot</b> покажет число. По нему бот понимает, кому слать записи.</div></div>
+    <div><div class="k">03 · Хостинг</div><div class="v">Где боту жить. <b>200–400 ₽ в месяц</b> или бесплатный тариф с оговорками.</div></div>
+  </div>
+</section>
+
+<div class="cut"></div>
+
+<section>
+  <p class="eyebrow">По порядку</p>
+  <h2>Шаги</h2>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="no"><span>ШАГ 1</span><span class="who you">делаете вы</span></div>
+      <div>
+        <h3>Создать бота в @BotFather</h3>
+        <ul>
+          <li>Напишите <code>/newbot</code>. Имя — <b>Circle</b>, его видят люди в заголовке чата.</li>
+          <li>Дальше попросят адрес: он заканчивается на <code>bot</code> и должен быть свободен. <code>circle_bot</code> почти наверняка занят — пробуйте <code>circle_psy_bot</code>, <code>circle_coach_bot</code>, <code>mz_circle_bot</code>.</li>
+          <li>В ответ придёт строка вида <code>8123456789:AAF-xxxxxxxxxxxxxxxxxxxx</code>. Это токен.</li>
+          <li>Там же можно сразу поставить аватар и описание: <code>/setuserpic</code>, <code>/setdescription</code>, <code>/setabouttext</code>.</li>
+        </ul>
+        <div class="warn">
+          <p><b>Токен не присылайте в этот чат.</b> Кто им владеет — владеет ботом: может читать переписку людей с вами и писать от вашего имени. Он вводится один раз в настройках хостинга, в поле для секретов.</p>
+          <p>Если случайно отправили куда-то — <code>/revoke</code> в @BotFather, старый перестаёт работать.</p>
+        </div>
+        <span class="time">10 минут</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="no"><span>ШАГ 2</span><span class="who you">делаете вы</span></div>
+      <div>
+        <h3>Узнать свой номер в телеграме</h3>
+        <p>Напишите <b>@userinfobot</b> команду <code>/start</code> — он ответит строкой <code>Id: 123456789</code>. Это и есть адрес, на который бот будет присылать записи и вопросы.</p>
+        <p>Число не секретное, его можно написать мне.</p>
+        <span class="time">1 минута</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="no"><span>ШАГ 3</span><span class="who me">делаю я</span></div>
+      <div>
+        <h3>Поставить страницы на постоянный адрес</h3>
+        <p>Мини-приложение — это набор файлов, которым нужен адрес в интернете. Бесплатный вариант — GitHub Pages, прямо из того репозитория, где лежит проект.</p>
+        <ul>
+          <li>Я переношу готовую ветку в основную.</li>
+          <li>Вы один раз включаете публикацию: <b>Settings → Pages → Source: Deploy from a branch → main → / (root) → Save</b>.</li>
+          <li>Через пару минут страницы живут по адресу <code>https://margaritazhiganova1908-tech.github.io/-/bot/webapp/</code>.</li>
+        </ul>
+        <div class="warn">
+          <p><b>Условие:</b> бесплатные Pages работают только у открытых репозиториев. Если ваш закрыт — либо открываем его (в коде нет ничего секретного, токен туда не попадает), либо кладём страницы на Netlify: там перетаскиваешь папку в окно браузера и получаешь адрес, тоже бесплатно.</p>
+        </div>
+        <span class="time">15 минут, от вас — одно нажатие</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="no"><span>ШАГ 4</span><span class="who you">выбираете вы</span></div>
+      <div>
+        <h3>Включить бота на машине, которая не выключается</h3>
+        <p>Бот — программа, которая должна работать круглосуточно: ноутбук не подойдёт, при закрытой крышке записи перестанут приходить. Нужен хостинг.</p>
+        <div class="tw"><table>
+          <thead><tr><th>Где</th><th>Сколько</th><th>Что учесть</th></tr></thead>
+          <tbody>
+            <tr><td><b>Amvera</b><br>российский</td><td class="n">от 200 ₽/мес</td><td>Оплата российской картой, интерфейс на русском. Проще всего.</td></tr>
+            <tr><td><b>Timeweb Cloud</b><br>российский</td><td class="n">от 250 ₽/мес</td><td>То же самое, чуть больше настроек.</td></tr>
+            <tr><td><b>Railway</b><br>зарубежный</td><td class="n">≈ 5 $/мес</td><td>Нужна иностранная карта.</td></tr>
+            <tr><td><b>Render</b><br>зарубежный</td><td class="n">бесплатно</td><td>Бесплатный тариф засыпает при простое — бот будет отвечать с задержкой. Для проверки годится, для практики нет.</td></tr>
+          </tbody>
+        </table></div>
+        <p style="margin-top:16px">Куда бы вы ни встали, задаются три значения:</p>
+        <ul>
+          <li><code>BOT_TOKEN</code> — из шага 1, вводите вы, я его не вижу</li>
+          <li><code>WEBAPP_URL</code> — адрес из шага 3</li>
+          <li><code>ADMIN_CHAT_ID</code> — ваш номер из шага 2</li>
+        </ul>
+        <p>Команда запуска — <code>node bot/bot.mjs</code>. Настройку я беру на себя, от вас нужен доступ и оплаченный тариф.</p>
+        <span class="time">40 минут</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="no"><span>ШАГ 5</span><span class="who you">делаете вы</span></div>
+      <div>
+        <h3>Привязать мини-приложение к кнопке меню</h3>
+        <p>Чтобы рядом со строкой ввода появилась кнопка, открывающая Circle:</p>
+        <ul>
+          <li>@BotFather → <code>/mybots</code> → ваш бот → <b>Bot Settings</b> → <b>Menu Button</b> → <b>Configure menu button</b>.</li>
+          <li>Вставьте адрес из шага 3, подпись — <b>открыть Circle</b>.</li>
+        </ul>
+        <span class="time">5 минут</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="no"><span>ШАГ 6</span><span class="who me">делаем вместе</span></div>
+      <div>
+        <h3>Пройти путь клиента и убедиться, что всё работает</h3>
+        <p>Открываете бота с телефона и проходите насквозь, как посторонний человек. Каждый пункт должен сработать:</p>
+        <div class="check">
+          <div><span>✓</span><span><code>/start</code> — приходит приветствие с двумя кнопками</span></div>
+          <div><span>✓</span><span>Кнопка «открыть Circle» разворачивает приложение</span></div>
+          <div><span>✓</span><span>Идёт заставка с шаром, потом фраза, потом меню</span></div>
+          <div><span>✓</span><span>Строка «Коучинг» открывает страницу с переключателем</span></div>
+          <div><span>✓</span><span>Календарь показывает ближайшие подходящие дни</span></div>
+          <div><span>✓</span><span>После выбора дня и времени кнопка «Записаться» загорается</span></div>
+          <div><span>✓</span><span>В чат приходит «ваш слот забронирован» с датой и ценой</span></div>
+          <div><span>✓</span><span>Вам прилетает «ЗАПИСЬ · …» отдельным сообщением</span></div>
+          <div><span>✓</span><span><code>/plan</code> показывает эту запись в расписании</span></div>
+          <div><span>✓</span><span>«Задать вопрос» доходит до вас, ответ реплаем возвращается человеку</span></div>
+        </div>
+        <span class="time">10 минут</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="cut"></div>
+
+<section>
+  <p class="eyebrow">Дальше</p>
+  <h2>Что меняется само, а что придётся делать</h2>
+
+  <p><b>Тексты, цены и расписание</b> лежат в одном файле <code>bot/content.json</code>. Поменяли строку — бот подхватил её на лету, перезапускать ничего не нужно. Код при этом не трогается вообще: это сделано именно для того, чтобы вы не зависели от меня в мелочах.</p>
+
+  <p><b>Чего в боте пока нет</b> — и это не забытое, а отложенное сознательно:</p>
+  <ul style="list-style:none;padding:0;margin:0 0 1em;display:flex;flex-direction:column;gap:11px">
+    <li style="padding-left:18px;position:relative;color:var(--ink2);font-size:15px;line-height:1.5">
+      <span style="position:absolute;left:0;top:0;color:var(--sand);font-family:var(--mono)">·</span>
+      <b style="color:var(--ink);font-weight:500">Бот не знает вашу занятость.</b> Он предложит время из конфига, даже если у вас в этот час площадка. Пока записей меньше трёх в неделю, это закрывается вашим подтверждением в чате. Дальше — подключение Google Calendar, день работы.</li>
+    <li style="padding-left:18px;position:relative;color:var(--ink2);font-size:15px;line-height:1.5">
+      <span style="position:absolute;left:0;top:0;color:var(--sand);font-family:var(--mono)">·</span>
+      <b style="color:var(--ink);font-weight:500">Денег бот не принимает.</b> Он фиксирует запись, оплата идёт мимо него. Подключать ЮKassa имеет смысл после первых живых оплат, когда станет ясно, платят ли вперёд или по факту.</li>
+    <li style="padding-left:18px;position:relative;color:var(--ink2);font-size:15px;line-height:1.5">
+      <span style="position:absolute;left:0;top:0;color:var(--sand);font-family:var(--mono)">·</span>
+      <b style="color:var(--ink);font-weight:500">Нет вашей фотографии.</b> В оформлении «чек» портрет не обязателен, но на аватарку бота он нужен: тёмный кадр анфас, высокий контраст.</li>
+  </ul>
+
+  <p class="end">Начинать стоит с шагов 1 и 2 — они ваши и занимают десять минут. Как только будет номер из @userinfobot и решение по хостингу, остальное двигается за один заход.</p>
+</section>
+
+</div>
