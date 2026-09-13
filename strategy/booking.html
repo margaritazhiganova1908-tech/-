@@ -1,0 +1,106 @@
+<meta charset="utf-8">
+<style>
+:root{--bg:#0e1621;--in:#182533;--out:#2b5278;--ink:#e9edf2;--ink2:#8fa0b4;--blue:#5eb5f7;--accent:#1b2ff5}
+*{box-sizing:border-box}
+body{margin:0;background:#111;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:18px}
+.wrap{display:flex;flex-direction:column;gap:10px}
+.ph{background:var(--bg);border:1px solid #2a3444;border-radius:20px;overflow:hidden;
+  display:flex;flex-direction:column;height:760px}
+.bar{background:#17212b;padding:11px 14px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid #0b1017}
+.ava{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:grid;
+  place-items:center;font-size:11px;font-weight:700;letter-spacing:.06em}
+.who{font-size:13.5px;color:var(--ink);font-weight:600}
+.sub{font-size:11px;color:var(--ink2)}
+.body{flex:1;overflow:hidden;padding:14px 12px;display:flex;flex-direction:column;gap:9px}
+.day{align-self:center;background:#1b2836;color:var(--ink2);font-size:10.5px;padding:3px 10px;
+  border-radius:10px;margin-bottom:2px}
+.msg{max-width:88%;padding:9px 11px;border-radius:12px;font-size:13.5px;line-height:1.45;
+  color:var(--ink);white-space:pre-wrap;position:relative}
+.msg.in{background:var(--in);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.out{background:var(--out);align-self:flex-end;border-bottom-right-radius:4px}
+.t{display:block;text-align:right;font-size:10px;color:var(--ink2);margin-top:4px}
+.msg.out .t{color:#a8c7e8}
+.btn{margin-top:8px;background:#22303f;color:var(--blue);text-align:center;font-size:12.5px;
+  padding:9px;border-radius:8px}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.5}
+.msg.mono{max-width:97%}
+.plan .msg.mono{font-size:11.5px}
+.cap{font-size:12px;color:#9aa3b0;line-height:1.45;padding:0 2px}
+.cap b{color:#e9edf2;display:block;font-size:12.5px;margin-bottom:3px;
+  font-family:ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
+.pin{background:#1a2b1f;border-left:3px solid #4caf6d}
+</style>
+
+<div class="wrap">
+  <div class="ph">
+    <div class="bar"><div class="ava">C</div><div><div class="who">Circle</div><div class="sub">бот</div></div></div>
+    <div class="body">
+      <div class="day">сегодня</div>
+      <div class="msg in">Circle — психодинамический коучинг и менторинг.
+
+в меню ниже: форматы работы с ценами и календарём, группа, клуб.<span class="t">14:02</span></div>
+      <div class="msg out">выбрал слот в мини-приложении<span class="t">14:06</span></div>
+      <div class="msg in pin"><b>ваш слот забронирован</b>
+
+формат — КОУЧИНГ · Индивидуальный
+дата — 17 сентября, 15:00
+стоимость — 6 000 ₽
+
+я подтвержу время здесь в течение дня. если планы изменятся, просто напишите — перенесём.<span class="t">14:06</span>
+        <div class="btn">написать лично</div></div>
+    </div>
+  </div>
+  <p class="cap"><b>01 · Что видит человек</b>Подтверждение приходит в чат бота сразу после выбора дня и времени — с форматом, датой и ценой. Кнопка ведёт к вам в личные сообщения.</p>
+</div>
+
+<div class="wrap">
+  <div class="ph">
+    <div class="bar"><div class="ava">C</div><div><div class="who">Circle</div><div class="sub">ваш чат с ботом</div></div></div>
+    <div class="body">
+      <div class="day">сегодня</div>
+      <div class="msg in mono">ЗАПИСЬ · Ольга @olga_k
+КОУЧИНГ · Индивидуальный — 17 сентября, 15:00 · 6 000 ₽
+подтвердите слот в чате с человеком<span class="t">14:06</span></div>
+      <div class="msg in mono">ЗАПИСЬ · Ирина @i_petrova
+ГРУППА · Женское лидерство — 18 сентября, 18:00 · 4 000 ₽
+подтвердите слот в чате с человеком<span class="t">15:41</span></div>
+      <div class="msg in mono">вопрос от Мария @mariya
+ветка: руковожу и упёрся в потолок
+
+можно ли перенести первую встречу?
+
+ответьте реплаем на это сообщение.<span class="t">16:20</span></div>
+    </div>
+  </div>
+  <p class="cap"><b>02 · Что видите вы</b>Каждая запись падает вам отдельным сообщением — кто, что, когда, за сколько. Туда же приходят вопросы: отвечаете реплаем, и человек получает ответ от вас.</p>
+</div>
+
+<div class="wrap">
+  <div class="ph">
+    <div class="bar"><div class="ava">C</div><div><div class="who">Circle</div><div class="sub">ваш чат с ботом</div></div></div>
+    <div class="body plan">
+      <div class="day">команда /plan</div>
+      <div class="msg out mono">/plan<span class="t">09:12</span></div>
+      <div class="msg in mono">ближайшие записи
+
+17 сентября
+  15:00 · Ольга @olga_k
+     КОУЧИНГ · Индивидуальный · 6 000 ₽
+
+18 сентября
+  18:00 · Ирина @i_petrova
+     ГРУППА · Женское лидерство · 4 000 ₽
+  18:00 · Анна @anna_v
+     ГРУППА · Женское лидерство · 4 000 ₽
+
+20 сентября
+  12:00 · Дмитрий @dm
+     ГРУППА · Динамика отношений · 4 000 ₽
+
+время предварительное, пока вы его не подтвердили в чате.<span class="t">09:12</span></div>
+    </div>
+  </div>
+  <p class="cap"><b>03 · Ваш календарь</b>Команда /plan показывает все будущие записи по дням. Это и есть расписание — внутри телеграма, без отдельного сервиса.</p>
+</div>

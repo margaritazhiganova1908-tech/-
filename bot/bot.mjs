@@ -165,15 +165,19 @@ async function onBook(chatId, from, source, slot) {
   rec.lead = true;
   state.leads.push({
     user: who(from), id: from.id, branch: rec.branch || null, source,
-    service: slot?.service || null, date: slot?.date || null, time: slot?.time || null, at: Date.now(),
+    service: slot?.service || null, date: slot?.date || null, iso: slot?.iso || null,
+    time: slot?.time || null, price: slot?.price || null, at: Date.now(),
   });
   save();
 
   // запись на конкретный слот подтверждаем отдельно
   if (slot && slot.service && slot.date) {
     await send(chatId,
-      `заявка принята.\n\nформат: ${slot.service}\nдата: ${slot.date}${slot.time ? ', ' + slot.time : ''}` +
-      `${slot.price ? '\nстоимость: ' + slot.price : ''}\n\nвремя предварительное — подтвержу его здесь в течение дня. если что-то поменяется, просто напишите.`,
+      `ваш слот забронирован\n\n` +
+      `формат — ${slot.service}\n` +
+      `дата — ${slot.date}${slot.time ? ', ' + slot.time : ''}` +
+      `${slot.price ? '\nстоимость — ' + slot.price : ''}\n\n` +
+      `я подтвержу время здесь в течение дня. если планы изменятся, просто напишите — перенесём.`,
       { inline_keyboard: [[{ text: 'написать лично', url: content.cta.url }]] });
     await notifyAdmin(`ЗАПИСЬ · ${who(from)}\n${slot.service} — ${slot.date}${slot.time ? ', ' + slot.time : ''}` +
       `${slot.price ? ' · ' + slot.price : ''}\nподтвердите слот в чате с человеком`);
@@ -289,9 +293,28 @@ async function onLeads(msg) {
   if (!last.length) return send(msg.chat.id, 'заявок пока нет');
   return send(msg.chat.id, last.map((l) => {
     const d = new Date(l.at).toLocaleString('ru-RU');
-    return `${d} · ${l.user}\n  ветка: ${l.branch || '—'}, источник: ${l.source}`;
+    const slot = l.service
+      ? `\n  слот: ${l.service} — ${l.date}${l.time ? ', ' + l.time : ''}${l.price ? ' · ' + l.price : ''}`
+      : '';
+    return `${d} · ${l.user}${slot}\n  ветка: ${l.branch || '—'}, источник: ${l.source}`;
   }).join('\n\n'));
 }
+async function onPlan(msg) {
+  const today = new Date().toISOString().slice(0, 10);
+  const booked = state.leads
+    .filter((l) => l.iso && l.iso >= today)
+    .sort((a, b) => (a.iso + (a.time || '')).localeCompare(b.iso + (b.time || '')));
+  if (!booked.length) return send(msg.chat.id, 'ближайших записей нет');
+  const byDay = {};
+  for (const l of booked) (byDay[l.iso] ||= []).push(l);
+  const out = Object.keys(byDay).sort().map((iso) => {
+    const rows = byDay[iso].map((l) =>
+      `  ${l.time || '—'} · ${l.user}\n     ${l.service}${l.price ? ' · ' + l.price : ''}`).join('\n');
+    return `${byDay[iso][0].date || iso}\n${rows}`;
+  }).join('\n\n');
+  return send(msg.chat.id, `ближайшие записи\n\n${out}\n\nвремя предварительное, пока вы его не подтвердили в чате.`);
+}
+
 async function onBroadcast(msg, text) {
   const targets = Object.values(state.users).filter((u) => u.consent && !u.stopped);
   if (!text) return send(msg.chat.id, 'напишите: /say текст сообщения');
@@ -328,7 +351,8 @@ async function onWebAppData(msg) {
   }
   if (data.action === 'lead') {
     return onBook(msg.chat.id, msg.from, 'мини-апп: ' + data.source,
-      data.service ? { service: data.service, date: data.date, time: data.time, price: data.price } : null);
+      data.service ? { service: data.service, date: data.date, iso: data.iso,
+                       time: data.time, price: data.price } : null);
   }
 
   if (data.action === 'quiz') {
@@ -412,6 +436,7 @@ async function handle(update) {
   if (/^\/start\b/.test(text)) return onStart(msg);
   if (isAdmin && /^\/stats\b/.test(text)) return onStats(msg);
   if (isAdmin && /^\/leads\b/.test(text)) return onLeads(msg);
+  if (isAdmin && /^\/plan\b/.test(text)) return onPlan(msg);
   if (isAdmin && /^\/say\b/.test(text)) return onBroadcast(msg, text.replace(/^\/say\s*/, ''));
   if (/^\/help\b/.test(text)) {
     return send(msg.chat.id, `/start — начать заново\n«${content.start.buttons.webapp}» — все разделы\n«${content.start.buttons.ask}» — написать мне лично`);

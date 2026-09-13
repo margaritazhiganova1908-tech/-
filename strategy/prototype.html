@@ -1000,7 +1000,8 @@ td.st.todo{color:#d9a05b}
         var s = deck.services[sv], v = s.variants ? s.variants[vi] : s;
         return book('услуга', {
           service: s.title + (s.variants ? ' · ' + v.label : ''),
-          date: pick.human.day + ' ' + pick.human.mon, time: pick.time, price: v.price,
+          date: pick.human.day + ' ' + pick.human.mon, iso: pick.date,
+          time: pick.time, price: v.price,
         });
       }
       var s2 = sec(), last = i === s2.slides.length - 1;
