@@ -409,7 +409,7 @@ td.st.todo{color:#d9a05b}
   .row .n{font-size:12.5px;letter-spacing:.1em;color:var(--ink)}
   .row .t{display:block;font-family:var(--sans);font-size:12px;color:var(--muted);
     letter-spacing:0;margin-top:3px}
-  .row .p{font-size:12px;color:var(--accent-dim);white-space:nowrap}
+  .row .p{font-size:11.5px;color:var(--muted);white-space:nowrap;letter-spacing:.02em}
   .row:active{background:#111318}
   .total{display:flex;justify-content:space-between;align-items:center;margin:12px 0 0}
   .total span:first-child{font-size:11px;letter-spacing:.2em}
@@ -430,9 +430,15 @@ td.st.todo{color:#d9a05b}
   .vr{flex:1 1 auto;border:1px solid var(--line);background:var(--smoke);color:var(--muted);
     padding:11px 8px;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase}
   .vr[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
-  .s-price{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
-  .s-price b{font-size:24px;background:var(--accent);color:var(--accent-ink);padding:1px 8px;font-weight:500}
-  .s-price span{font-size:10px;letter-spacing:.16em;color:var(--muted)}
+  .s-price{display:flex;align-items:center;gap:9px;margin:0 0 16px;
+    font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  .s-price b{font-weight:400;color:#c2c7d0}
+  .s-price i{font-style:normal;color:#3e434c}
+  /* цена рядом с записью — там, где она нужна для решения */
+  .cal-price{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+    margin:0 0 16px;padding-bottom:13px;border-bottom:1px solid rgba(216,171,127,.14)}
+  .cal-price span{font-size:9px;letter-spacing:.2em;color:var(--muted)}
+  .cal-price b{font-size:15px;font-weight:400;color:var(--sand-ink);letter-spacing:.02em}
   .s-desc{font-family:var(--sans);font-size:15px;line-height:1.6;color:#ccd1d9;margin:0 0 16px;
     white-space:pre-line}
   .inc{list-style:none;margin:0;padding:0}
@@ -730,7 +736,8 @@ td.st.todo{color:#d9a05b}
           (k === vi ? 'true' : 'false') + '">' + esc(x.label) + '</button>';
       }).join('') + '</div>';
     }
-    out += '<div class="s-price"><b>' + esc(v.price) + '</b><span>' + esc(v.duration) + '</span></div>';
+    out += '<div class="s-price"><span>' + esc(v.duration) + '</span><i>·</i><b>' +
+      esc(v.price) + '</b></div>';
     if (v.desc) out += '<p class="s-desc">' + esc(v.desc) + '</p>';
     if (v.meta && v.meta.length) {
       out += '<div class="meta">' + v.meta.map(function (m) {
@@ -780,6 +787,7 @@ td.st.todo{color:#d9a05b}
     if (v.note) out += '<p class="note">' + esc(v.note) + '</p>';
     out += '<div class="cal">';
     out += '<div class="cal-head"><b>' + esc(b.kicker) + '</b><i></i></div>';
+    out += '<div class="cal-price"><span>' + esc(v.duration) + '</span><b>' + esc(v.price) + '</b></div>';
     out += '<p class="cal-label">' + esc(b.pickDate) + '</p>';
     out += '<div class="days">' + ds.map(function (d, k) {
       return '<button class="day" type="button" data-d="' + k + '" aria-pressed="' +
