@@ -194,14 +194,52 @@ textarea{resize:vertical;line-height:1.5}
 .nav h4:first-child{padding-top:2px}
 
 /* оргструктура */
-.orgwrap{position:relative}
-.orgfig .onode{cursor:pointer}
-.orgfig .onode:hover rect:first-of-type{stroke:var(--text);stroke-width:1.6}
-.orgfig .onode:focus{outline:none}
-.orgfig .onode:focus rect:first-of-type{stroke:var(--info);stroke-width:2}
+.orgwrap{position:relative;padding-bottom:6px}
+.ochart{display:flex;flex-direction:column}
+.otop{display:flex;justify-content:center}
+.otop .obox{max-width:540px;width:100%}
+.ojoin{position:relative;height:30px}
+.ostem{position:absolute;left:50%;top:0;height:15px;border-left:1.5px solid var(--muted-2)}
+.obus{position:absolute;left:12.5%;right:12.5%;top:15px;height:0;border-top:1.5px solid var(--muted-2)}
+.obranches{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+.obranch{position:relative;display:flex;flex-direction:column;gap:12px;min-width:0}
+.obranch::before{content:"";position:absolute;top:-15px;left:50%;height:15px;border-left:1.5px solid var(--muted-2)}
+.obranch.ext::before{border-left-style:dashed}
+.okids{display:flex;flex-direction:column;gap:10px;padding-left:17px;position:relative}
+.okids::before{content:"";position:absolute;left:7px;top:-12px;bottom:32px;border-left:1.5px solid var(--muted-2)}
+.okid{position:relative;min-width:0}
+.okid::before{content:"";position:absolute;left:-10px;top:30px;width:10px;border-top:1.5px solid var(--muted-2)}
+.obox{background:var(--surface);border:1px solid var(--line-soft);border-top:3px solid var(--muted-2);
+  border-radius:12px;padding:13px 14px;cursor:pointer;min-width:0;box-shadow:var(--shadow);
+  transition:box-shadow .12s}
+.obox:hover,.obox:focus{outline:none;box-shadow:0 0 0 2px var(--text)}
+.obox.ext{border-left-style:dashed;border-right-style:dashed;border-bottom-style:dashed}
+.obox.gap{border-color:var(--danger);border-left-style:dashed;border-right-style:dashed;border-bottom-style:dashed}
+.ob-h{display:flex;gap:9px;align-items:flex-start;margin-bottom:10px}
+.ob-h .av{min-width:30px;padding:0 6px;height:30px;border-radius:9px;font-size:10.5px}
+.ob-t{min-width:0}
+.ob-t b{display:block;font-size:13.5px;line-height:1.25}
+.ob-sub{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.ob-who{display:block;font-size:11px;color:var(--muted-2);margin-top:3px}
+.ob-fn{font-size:12.3px;line-height:1.45}
+.ob-fn ul{margin:0 0 0 15px;display:flex;flex-direction:column;gap:3px}
+.ob-fn b{display:block;font-size:11.5px;font-weight:700;margin-bottom:4px}
+.ob-fn ul + b{margin-top:9px}
+.ob-fn li::marker{color:var(--muted-2)}
+.ob-f{display:flex;gap:5px;flex-wrap:wrap;margin-top:11px;padding-top:10px;border-top:1px solid var(--line-soft)}
+.oaside{margin-top:22px;border-top:1px dashed var(--line);padding-top:16px}
+.oaside-l{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--danger);
+  font-weight:800;margin-bottom:10px}
+.oaside-b{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:1100px){
+  .obranches,.oaside-b{grid-template-columns:repeat(2,1fr)}
+  .ojoin{height:12px}
+  .obus,.obranch::before{display:none}
+}
+@media (max-width:680px){ .obranches,.oaside-b{grid-template-columns:1fr} }
 .ocard{position:absolute;z-index:20;pointer-events:none;background:var(--surface);border:1px solid var(--line);
-  border-radius:14px;padding:14px;box-shadow:0 16px 44px rgba(12,30,60,.22);font-size:12.5px}
-.orgwrap{padding-bottom:6px}
+  border-radius:14px;padding:14px;box-shadow:0 16px 44px rgba(12,30,60,.22);font-size:12.5px;
+  max-height:none}
 .ocard-in{display:flex;flex-direction:column;gap:10px}
 .oc-h{display:flex;gap:10px;align-items:center}
 .oc-h .av{min-width:34px;padding:0 7px;height:34px;border-radius:10px;font-size:11px}
@@ -1782,9 +1820,13 @@ ${hist||'чат пуст'}
    ОРГСТРУКТУРА
    ========================================================================= */
 const ORG = [
-  {id:'RAZ', role:'RAZ', lvl:0, x:350, w:300, kind:'направление',
-   l:['Директор по развитию направления'], rep:'—',
-   zone:'Владелец бюджета. Стратегия продаж и пакетов резидентов, концепция, управление бизнес-процессами — финансово-юридическим, клиентским, маркетинговым. Создание креатива с коммерческими партнёрами и спецпроекты.',
+  {id:'RAZ', role:'RAZ', lvl:0, kind:'направление',
+   t:'Директор по развитию направления', rep:'—',
+   fn:[{items:['Владелец бюджета',
+               'Стратегия продаж и пакетов резидентов',
+               'Концепция',
+               'Управление бизнес-процессами (финансово-юридический, клиентский, маркетинговый)',
+               'Создание креатива с коммерческими партнёрами / Спецпроекты']}],
    res:['Утверждённый бюджет направления и план-факт по нему',
         'Стратегия продаж и пакеты резидентов на сезон',
         'Концепция гастроблока',
@@ -1792,9 +1834,13 @@ const ORG = [
         'Партнёрские интеграции и спецпроекты с коммерческими партнёрами',
         'Отчёт по зоне, принятый на итоговой встрече']},
 
-  {id:'GASTRO', role:'GASTRO', lvl:1, x:40, w:210, kind:'штат',
-   l:['Продажи','Старший менеджер направления'], rep:'Директор по развитию',
-   zone:'Резиденты: единая точка входа от первого письма до обратной связи после фестиваля.',
+  {id:'GASTRO', role:'GASTRO', lvl:1, kind:'штат',
+   t:'Продажи', sub:'Старший менеджер направления', rep:'Директор по развитию',
+   fn:[{items:['РЕЗИДЕНТЫ — весь путь от первого письма до обратной связи',
+               'Пул резидентов и продажа участия',
+               'Сбор документов и тех. информации',
+               'Клуб резидентов и программа лояльности',
+               'Координация на площадке и дежурных администраторов']}],
    res:['30 подтверждённых резидентов на город',
         'Полный комплект документов и тех. информации от каждого резидента в срок',
         'Согласованные проекты резидентов с собственной застройкой',
@@ -1802,9 +1848,15 @@ const ORG = [
         'Работающая зона в дни фестиваля без простоев точек',
         'Обратная связь собрана у 100% резидентов']},
 
-  {id:'HOST', role:'HOST', lvl:1, x:270, w:210, kind:'подрядчик', ext:true,
-   l:['OOFF Studio'], rep:'Директор по развитию · договор подряда',
-   zone:'Полный цикл хостинга резидентов (без Ромы Ф): прямая коммуникация с клинингом, обеспечение водой, хранение, логистика. VIP-зона: разработка дизайна, подбор резидентов, тех. обеспечение. Фудкорт Купер: коммуникация с партнёром, подбор резидентов и онбординг, тех. обеспечение.',
+  {id:'HOST', role:'HOST', lvl:1, kind:'подрядчик', ext:true,
+   t:'OOFF Studio', rep:'Директор по развитию · договор подряда',
+   fn:[{items:['Полный цикл хостинга резидентов (без Ромы Ф)',
+               'прямая коммуникация с клинингом',
+               'обеспечение водой',
+               'хранение',
+               'логистика']},
+       {h:'VIP зона', items:['разработка дизайна','подбор резидентов','тех. обеспечение']},
+       {h:'Фудкорт Купер', items:['коммуникация с партнёром','подбор резидентов и онбординг','тех. обеспечение']}],
    res:['Карта объектов с разметкой и нумерацией',
         'ТЗ на электричество с расчётом мощностей по заявкам резидентов',
         'Регламент заезда и выезда, графики, списки персонала и авто',
@@ -1814,118 +1866,124 @@ const ORG = [
         'Фудкорт Купер: партнёр ведётся, резиденты подобраны и прошли онбординг',
         'Выезд, вывоз отходов, площадка сдана']},
 
-  {id:'MKT', role:'MKT', lvl:1, x:500, w:210, kind:'ресурс Афиши', ext:true,
-   l:['Маркетинг Афиши'], rep:'Директор по развитию',
-   zone:'Формирование материалов и отдача на вёрстку, медиакит для резидентов.',
+  {id:'MKT', role:'MKT', lvl:1, kind:'ресурс Афиши', ext:true,
+   t:'Маркетинг Афиши', rep:'Директор по развитию',
+   fn:[{items:['Формирование материалов, отдача на вёрстку','Медиакит для резидентов']}],
    res:['Презентация для резидентов',
         'Медиакит резидента',
         'Материалы о зоне и участниках переданы на вёрстку в срок']},
 
-  {id:'PART', role:null, lvl:1, x:730, w:210, kind:'зона директора', ext:true,
-   l:['Коммерческие партнёры','и спецпроекты'], rep:'Директор по развитию',
+  {id:'PART', role:null, lvl:1, kind:'зона директора', ext:true,
+   t:'Коммерческие партнёры и Спецпроекты', rep:'Директор по развитию',
    who:'ведёт директор по развитию',
-   zone:'Поиск дополнительного спонсорства, спецпроекты, тестирование новых гипотез.',
+   fn:[{items:['Поиск дополнительного спонсорства','Спецпроекты','Тестирование новых гипотез']}],
    res:['Дополнительное спонсорство найдено',
         'Спецпроекты собраны и реализованы',
         'Новые гипотезы протестированы, результат описан',
         'Партнёрские интеграции в меню резидентов']},
 
-  {id:'FIN', role:'FIN', lvl:2, x:20, w:150, kind:'под продажами',
-   l:['Финансовый блок'], rep:'Старший менеджер направления', parent:'GASTRO',
-   zone:'Контроль оплат, УПД.',
+  {id:'FIN', role:'FIN', lvl:2, kind:'под продажами', parent:'GASTRO',
+   t:'Финансовый блок', rep:'Старший менеджер направления',
+   fn:[{items:['Контроль оплат','УПД']}],
    res:['Счета выставлены, оплаты проконтролированы',
         'Договоры с резидентами подписаны',
         'Z-отчёты сняты по всем точкам',
         'УПД и закрывающие документы собраны и сданы в ЭДО',
         'Смета закрыта']},
 
-  {id:'DES', role:'DES', lvl:2, x:180, w:150, kind:'под продажами',
-   l:['Дизайн блок'], rep:'Старший менеджер направления', parent:'GASTRO',
-   zone:'Тех. карты, названия вывесок.',
+  {id:'DES', role:'DES', lvl:2, kind:'под продажами', parent:'GASTRO',
+   t:'Дизайн блок', rep:'Старший менеджер направления',
+   fn:[{items:['Тех. карты','Названия вывесок']}],
    res:['Технологические карты по каждому резиденту',
         'Названия вывесок и нейминг корнеров согласованы',
         'Тексты меню сданы дизайнеру в срок',
         'Макеты и единое оформление корнеров приняты']},
 
-  {id:'REST', role:null, lvl:2, x:480, w:150, kind:'ресурс Афиши', ext:true,
-   l:['Афиша Рестораны'], rep:'Маркетинг Афиши', parent:'MKT',
-   who:'ресурс Афиши',
-   zone:'Формирование материалов, отдача на вёрстку.',
+  {id:'REST', role:null, lvl:2, kind:'ресурс Афиши', ext:true, parent:'MKT',
+   t:'Афиша Рестораны', rep:'Маркетинг Афиши', who:'ресурс Афиши',
+   fn:[{items:['Формирование материалов, отдача на вёрстку']}],
    res:['Материалы по гастроблоку для канала «Афиша Рестораны»',
         'Публикации выходят по медиаплану сезона']},
 
-  {id:'SITE', role:null, lvl:2, x:640, w:150, kind:'ресурс Афиши', ext:true,
-   l:['Сайт проекта'], rep:'Маркетинг Афиши', parent:'MKT',
-   who:'ресурс Афиши',
-   zone:'Формирование материалов, контроль вёрстки.',
+  {id:'SITE', role:null, lvl:2, kind:'ресурс Афиши', ext:true, parent:'MKT',
+   t:'Сайт проекта', rep:'Маркетинг Афиши', who:'ресурс Афиши',
+   fn:[{items:['Формирование материалов','Контроль вёрстки']}],
    res:['Раздел гастроблока на сайте свёрстан и выверен',
         'Карта фуд-корта и состав резидентов опубликованы']},
 
-  {id:'IT', role:'IT', lvl:2, x:830, w:150, kind:'вне слайда', ext:true, gap:true,
-   l:['Цифровой контур'], rep:'не закреплён',
-   zone:'На слайде оргструктуры этого блока нет, а в дорожной карте на нём две задачи и 440 часов — самая большая работа сезона.',
+  {id:'IT', role:'IT', lvl:9, kind:'вне слайда', ext:true, gap:true,
+   t:'Цифровой контур', rep:'не закреплён',
+   fn:[{items:['Платформа с личными кабинетами резидентов','Наладка ПО и интеграции','Digital-меню по QR-коду']}],
    res:['Платформа с личными кабинетами резидентов',
         'Digital-меню по QR для каждого резидента']}
 ];
 const ORGBY = Object.fromEntries(ORG.map(o=>[o.id,o]));
 
-function orgCard(o){
+function orgBox(o){
   const r = o.role ? ROLE[o.role] : null;
   const list = r ? byRole(r.id) : [];
   const hours = list.reduce((s,x)=>s+(x.h||0),0);
-  const pk = r ? peakFTE(r.id) : null;
-  return `<div class="ocard-in">
-    <div class="oc-h">${r?avatar(r.id,'av'):`<span class="av" style="background:var(--mute-bg);color:var(--mute-ink)">···</span>`}
-      <div><b>${esc(r?r.n:o.l.join(' '))}</b>
-        <span>${esc(r ? (nameOf(r.id)||'исполнитель не назначен') : (o.who||''))}</span></div></div>
-    <div class="oc-tags"><span class="pill">${esc(o.kind)}</span>
-      ${r?`<span class="pill">${nTask(list.length)}</span><span class="pill">${hours} ч</span>`:''}
-      ${pk?`<span class="pill" style="background:${pk.fte>1?'var(--h3)':'var(--h1)'};color:${pk.fte>1?'var(--h3i)':'var(--h1i)'}">пик ${pk.fte.toFixed(1)} ставки</span>`:''}</div>
-    <div class="oc-row"><b>Подчиняется</b><span>${esc(o.rep)}</span></div>
-    ${r?`<div class="oc-row"><b>Совмещает</b><span>${esc(r.mix)}</span></div>`:''}
-    <div class="oc-row"><b>Зона ответственности</b><span>${esc(o.zone)}</span></div>
-    <div class="oc-res"><b>Результат, который обязан предоставить</b>
-      <ul>${o.res.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
-  </div>`;
+  const open = list.filter(x=>(Store.task(x.id).p||0)<100).length;
+  const late = list.filter(isLate).length;
+  const col = r ? `var(--rc-${r.id})` : 'var(--muted-2)';
+  const who = r ? (nameOf(r.id) || (r.ext?'контакт не назначен':'исполнитель не назначен')) : (o.who||'');
+  return `<article class="obox${o.ext?' ext':''}${o.gap?' gap':''}" data-org="${o.id}" tabindex="0"
+      style="border-top-color:${col}">
+    <header class="ob-h">
+      ${r?avatar(r.id,'av'):'<span class="av" style="background:var(--mute-bg);color:var(--mute-ink)">···</span>'}
+      <div class="ob-t"><b>${esc(o.t)}</b>
+        ${o.sub?`<span class="ob-sub">${esc(o.sub)}</span>`:''}
+        <span class="ob-who">${esc(who)}</span></div>
+    </header>
+    <div class="ob-fn">${o.fn.map(g=>
+      (g.h?`<b>${esc(g.h)}</b>`:'') + `<ul>${g.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>`).join('')}</div>
+    <footer class="ob-f">
+      <span class="pill">${esc(o.kind)}</span>
+      ${r?`<span class="pill">${nTask(list.length)}</span><span class="pill">${hours} ч</span>
+          ${late?`<span class="pill" style="background:var(--h4);color:var(--h4i)">${late} просрочено</span>`
+                :(open?`<span class="pill">${open} открыто</span>`:'')}`:''}
+    </footer>
+  </article>`;
 }
 
 function figOrg(){
-  const Y = [16, 168, 306], H = [76, 92, 88];
-  const node = o=>{
-    const y = Y[o.lvl], h = H[o.lvl];
-    const col = o.role ? `var(--rc-${o.role})` : 'var(--muted-2)';
-    const nm  = o.role ? (nameOf(o.role)||'не назначен') : (o.who||'');
-    return `<g class="onode" data-org="${o.id}" tabindex="0" role="button"
-        aria-label="${esc(o.role?ROLE[o.role].n:o.l.join(' '))}">
-      <title>${esc(o.role?ROLE[o.role].n:o.l.join(' '))} — ${esc(o.kind)}. Наведите, чтобы увидеть результат позиции.</title>
-      <rect x="${o.x}" y="${y}" width="${o.w}" height="${h}" rx="11" fill="var(--surface)"
-        stroke="${o.ext?col:'var(--line)'}" stroke-width="${o.ext?1.4:1}"
-        stroke-dasharray="${o.ext?'5 4':'0'}"></rect>
-      <path d="M${o.x} ${y+11} a11 11 0 0 1 11 -11 h${o.w-22} a11 11 0 0 1 11 11 v3 h-${o.w} Z" fill="${col}"></path>
-      ${o.l.map((t,i)=>`<text x="${o.x+13}" y="${y+(o.lvl===0?32:30)+i*15}" font-size="${o.lvl===0?13.5:11.8}"
-        font-weight="800" fill="currentColor">${esc(t)}</text>`).join('')}
-      <text x="${o.x+13}" y="${y+h-22}" font-size="9.6" fill="var(--muted-2)">${esc(nm.length>26?nm.slice(0,26)+'…':nm)}</text>
-      <text x="${o.x+13}" y="${y+h-9}" font-size="8.8" font-weight="700" letter-spacing=".5"
-        fill="${col}">${esc(o.kind.toUpperCase())}</text>
-    </g>`;
-  };
-  const cx = o=>o.x+o.w/2;
   const lvl1 = ORG.filter(o=>o.lvl===1);
-  const busY = 130, rootB = Y[0]+H[0];
-  const links = `<g stroke="var(--line)" stroke-width="1.4" fill="none">
-      <line x1="500" y1="${rootB}" x2="500" y2="${busY}"></line>
-      <line x1="${cx(lvl1[0])}" y1="${busY}" x2="${cx(lvl1[lvl1.length-1])}" y2="${busY}"></line>
-      ${lvl1.map(o=>`<line x1="${cx(o)}" y1="${busY}" x2="${cx(o)}" y2="${Y[1]}"
-        stroke-dasharray="${o.ext?'5 4':'0'}"></line>`).join('')}
-      ${ORG.filter(o=>o.lvl===2 && o.parent).map(o=>{const par=ORGBY[o.parent], da=o.ext?'5 4':'0';
-        return `<line x1="${cx(par)}" y1="${Y[1]+H[1]}" x2="${cx(par)}" y2="${Y[2]-14}" stroke-dasharray="${da}"></line>
-                <line x1="${cx(par)}" y1="${Y[2]-14}" x2="${cx(o)}" y2="${Y[2]-14}" stroke-dasharray="${da}"></line>
-                <line x1="${cx(o)}" y1="${Y[2]-14}" x2="${cx(o)}" y2="${Y[2]}" stroke-dasharray="${da}"></line>`;}).join('')}
-    </g>`;
-  return `<svg class="fig orgfig" viewBox="0 0 1000 410" role="img"
-      aria-label="Оргструктура гастроблока по слайду направления: директор, продажи, OOFF Studio, маркетинг Афиши и коммерческие партнёры">
-    <title>Оргструктура гастроблока</title>
-    ${links}${ORG.map(node).join('')}</svg>`;
+  const kids = id => ORG.filter(o=>o.lvl===2 && o.parent===id);
+  const aside = ORG.filter(o=>o.lvl===9);
+  return `<div class="ochart">
+    <div class="otop">${orgBox(ORG.find(o=>o.lvl===0))}</div>
+    <div class="ojoin"><i class="ostem"></i><i class="obus"></i></div>
+    <div class="obranches">
+      ${lvl1.map(o=>`<div class="obranch${o.ext?' ext':''}">
+        ${orgBox(o)}
+        ${kids(o.id).length?`<div class="okids">${kids(o.id).map(k=>
+          `<div class="okid">${orgBox(k)}</div>`).join('')}</div>`:''}
+      </div>`).join('')}
+    </div>
+    ${aside.length?`<div class="oaside">
+      <div class="oaside-l">вне слайда оргструктуры</div>
+      <div class="oaside-b">${aside.map(orgBox).join('')}</div></div>`:''}
+  </div>`;
+}
+
+function orgCard(o){
+  const r = o.role ? ROLE[o.role] : null;
+  const list = r ? byRole(r.id) : [];
+  const pk = r ? peakFTE(r.id) : null;
+  const tpl = r ? TASKS.filter(t=>t.r===r.id) : [];
+  return `<div class="ocard-in">
+    <div class="oc-h">${r?avatar(r.id,'av'):`<span class="av" style="background:var(--mute-bg);color:var(--mute-ink)">···</span>`}
+      <div><b>${esc(o.t)}</b>
+        <span>${esc(r ? (nameOf(r.id)||'исполнитель не назначен') : (o.who||''))}</span></div></div>
+    <div class="oc-tags"><span class="pill">${esc(o.kind)}</span>
+      ${r?`<span class="pill">${nTask(list.length)}</span>`:''}
+      ${pk?`<span class="pill" style="background:${pk.fte>1?'var(--h3)':'var(--h1)'};color:${pk.fte>1?'var(--h3i)':'var(--h1i)'}">пик ${pk.fte.toFixed(1)} ставки</span>`:''}</div>
+    <div class="oc-row"><b>Подчиняется</b><span>${esc(o.rep)}</span></div>
+    <div class="oc-res"><b>Результат, который обязан предоставить</b>
+      <ul>${o.res.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    ${tpl.length?`<div class="oc-res"><b>Задачи дорожной карты</b>
+      <ul>${tpl.map(t=>`<li>${esc(t.t.length>70?t.t.slice(0,70)+'…':t.t)}</li>`).join('')}</ul></div>`:''}
+  </div>`;
 }
 
 let orgPinned = null;
@@ -1933,13 +1991,13 @@ function renderOrg(){
   $('#v-org').innerHTML = `
     <div class="card">
       <div class="ask">Кто кому подчиняется и что с кого спрашивать</div>
-      <div class="figcap" style="margin:0 0 14px">Структура со слайда направления. Сплошная рамка — штат,
-        пунктирная — подряд и ресурсы Афиши. Наведите на позицию или нажмите на неё — откроется карточка
-        с зоной ответственности и результатом, который эта позиция обязана предоставить.
-        Правый пунктирный блок «Цифровой контур» на слайде не значится: он добавлен, потому что в дорожной
-        карте на нём висят платформа с личными кабинетами и digital-меню.</div>
+      <div class="figcap" style="margin:0 0 18px">Структура и формулировки — со слайда направления.
+        Сплошная рамка — штат, пунктирная — подряд и ресурсы Афиши. Наведите на блок или нажмите на него —
+        откроется карточка с результатом, который позиция обязана предоставить, и её задачами дорожной карты.
+        Нижний блок «Цифровой контур» на слайде не значится: он добавлен, потому что в карте на нём висят
+        платформа с личными кабинетами и digital-меню.</div>
       <div class="orgwrap" id="orgWrap">
-        <div class="scroll-x"><div style="min-width:880px">${figOrg()}</div></div>
+        ${figOrg()}
         <div class="ocard" id="orgCard" hidden></div>
       </div>
     </div>
@@ -1951,7 +2009,7 @@ function renderOrg(){
         <tbody>${ORG.map(o=>{const r=o.role?ROLE[o.role]:null;
           return `<tr>
             <td><div style="display:flex;gap:8px;align-items:center;font-weight:700">
-              ${r?avatar(r.id,''):''}${esc(r?r.n:o.l.join(' '))}</div></td>
+              ${r?avatar(r.id,''):''}${esc(o.t)}</div></td>
             <td>${esc(r?(nameOf(r.id)||'не назначен'):(o.who||'—'))}</td>
             <td><span class="pill">${esc(o.kind)}</span></td>
             <td>${esc(o.rep)}</td>
@@ -1972,21 +2030,15 @@ function bindOrg(){
     const ch = card.offsetHeight;
     const nL = nr.left - wr.left, nT = nr.top - wr.top;
     let left, top;
-    if(nT + nr.height + 10 + ch <= wr.height){            // под позицией
-      top = nT + nr.height + 10;
-      left = nL + nr.width/2 - cw/2;
-    } else if(nT - 10 - ch >= 0){                          // над позицией
-      top = nT - 10 - ch;
-      left = nL + nr.width/2 - cw/2;
-    } else {                                               // сбоку, чтобы не накрыть саму позицию
-      top = Math.max(4, Math.min(wr.height - ch - 4, nT + nr.height/2 - ch/2));
-      left = (nL + nr.width + 12 + cw <= wr.width) ? nL + nr.width + 12 : nL - cw - 12;
-    }
+    if(nL + nr.width + 12 + cw <= wr.width){ left = nL + nr.width + 12; top = nT; }
+    else if(nL - 12 - cw >= 0){            left = nL - cw - 12;        top = nT; }
+    else {                                  left = nL + nr.width/2 - cw/2;
+                                            top = nT + nr.height + 10; }
     card.style.left = Math.max(4, Math.min(wr.width - cw - 4, left))+'px';
-    card.style.top  = Math.max(4, top)+'px';
+    card.style.top  = Math.max(4, Math.min(Math.max(4, wr.height - ch - 4), top))+'px';
   };
   const hide = ()=>{ if(!orgPinned){ card.hidden=true; } };
-  wrap.querySelectorAll('.onode').forEach(el=>{
+  wrap.querySelectorAll('.obox').forEach(el=>{
     const id = el.dataset.org;
     el.addEventListener('mouseenter', ()=>{ if(!orgPinned) show(el,id); });
     el.addEventListener('focus',      ()=>{ show(el,id); });
