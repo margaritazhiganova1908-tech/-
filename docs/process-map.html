@@ -4,7 +4,7 @@
 <style>
 :root{
   --bg:#F4F6F3; --paper:#FFFFFF; --ink:#1B2220; --muted:#5B6763; --line:#C9D1CC; --hair:#E2E7E3;
-  --pm:#DCE5F5; --prod:#FBEFC6; --mk:#FADFD3; --sl:#DFEEDB; --fn:#E8DEF1; --tc:#E6F1E2; --hs:#D6EBD8;
+  --pm:#DCE5F5; --pc:#D6EEF0; --pc-i:#1F6570; --prod:#FBEFC6; --mk:#FADFD3; --sl:#DFEEDB; --fn:#E8DEF1; --tc:#E6F1E2; --hs:#D6EBD8;
   --pm-i:#2F4C8F; --prod-i:#8A6200; --mk-i:#A2432A; --sl-i:#2D6B34; --fn-i:#5E3C8C; --tc-i:#3C6B45; --hs-i:#245A33;
   --flow:#1F3F8F; --data:#7B4FC4; --exc:#C2571A; --loop:#23804D;
   --warn-bg:#FFE7D6; --warn:#A2400F; --new:#E3A600;
@@ -16,7 +16,7 @@
   :root:not([data-theme="light"]){
     color-scheme:dark;
     --bg:#121716; --paper:#1B2221; --ink:#E7ECE9; --muted:#9AA7A2; --line:#35403C; --hair:#27302D;
-    --pm:#1D2940; --prod:#352C12; --mk:#3A2520; --sl:#1C2F1F; --fn:#2A2238; --tc:#1D2B1F; --hs:#18301F;
+    --pm:#1D2940; --pc:#16292C; --pc-i:#8FD3DB; --prod:#352C12; --mk:#3A2520; --sl:#1C2F1F; --fn:#2A2238; --tc:#1D2B1F; --hs:#18301F;
     --pm-i:#9DB7F2; --prod-i:#F2C94C; --mk-i:#F2A58C; --sl-i:#94D39C; --fn-i:#C6A8F0; --tc-i:#A3D1AA; --hs-i:#86CF98;
     --flow:#8FB0FF; --data:#B996F5; --exc:#F29A5C; --loop:#6BD39A;
     --warn-bg:#3D2414; --warn:#FFB38A; --new:#F2C94C;
@@ -25,7 +25,7 @@
 :root[data-theme="dark"]{
   color-scheme:dark;
   --bg:#121716; --paper:#1B2221; --ink:#E7ECE9; --muted:#9AA7A2; --line:#35403C; --hair:#27302D;
-  --pm:#1D2940; --prod:#352C12; --mk:#3A2520; --sl:#1C2F1F; --fn:#2A2238; --tc:#1D2B1F; --hs:#18301F;
+  --pm:#1D2940; --pc:#16292C; --pc-i:#8FD3DB; --prod:#352C12; --mk:#3A2520; --sl:#1C2F1F; --fn:#2A2238; --tc:#1D2B1F; --hs:#18301F;
   --pm-i:#9DB7F2; --prod-i:#F2C94C; --mk-i:#F2A58C; --sl-i:#94D39C; --fn-i:#C6A8F0; --tc-i:#A3D1AA; --hs-i:#86CF98;
   --flow:#8FB0FF; --data:#B996F5; --exc:#F29A5C; --loop:#6BD39A;
   --warn-bg:#3D2414; --warn:#FFB38A; --new:#F2C94C;
@@ -48,7 +48,7 @@ header{display:grid;gap:10px;margin-bottom:28px}
 /* ===== Board ===== */
 .scroller{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--paper);-webkit-overflow-scrolling:touch}
 .board{position:relative;display:grid;
-  grid-template-columns:168px repeat(6,224px) 40px;
+  grid-template-columns:168px repeat(6,224px) 110px;
   column-gap:56px;row-gap:6px;padding:0 0 18px 0;width:max-content}
 .phase{grid-row:1;padding:16px 0 12px;border-bottom:1px solid var(--line);position:relative;z-index:2}
 .phase b{display:block;font:600 11px/1 var(--mono);color:var(--muted);letter-spacing:.06em;margin-bottom:6px}
@@ -119,6 +119,33 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
 .risk p b{color:var(--ink)}
 .risk .lvl{font:600 11px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;width:max-content;padding:5px 7px;border-radius:5px;background:var(--warn-bg);color:var(--warn)}
 .risk .lvl.mid{background:var(--hair);color:var(--muted)}
+
+/* ===== Tabs ===== */
+.tabs{display:flex;flex-wrap:wrap;gap:4px;padding:4px;background:var(--hair);border-radius:12px;width:max-content;max-width:100%;margin-bottom:8px}
+.tabs button{font:600 14px var(--sans);color:var(--muted);background:transparent;border:0;border-radius:9px;padding:9px 16px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--paper);color:var(--ink);box-shadow:0 1px 2px rgb(0 0 0 / .08)}
+.tabs button:focus-visible{outline:2px solid var(--flow);outline-offset:2px}
+section.first{margin-top:28px}
+
+/* ===== CRM board ===== */
+.cboard{position:relative;display:grid;grid-template-columns:118px repeat(var(--n),152px) 36px;column-gap:34px;grid-template-rows:auto repeat(3,minmax(128px,auto));width:max-content;padding:8px 0 24px}
+.cphase{grid-row:1;z-index:2;text-align:center;font:500 12px/1 var(--mono);letter-spacing:.08em;color:var(--muted);padding:22px 0 10px;border-bottom:1px solid var(--line);margin-bottom:26px}
+.clane{grid-column:1 / -1;z-index:0;display:flex;align-items:center;border-top:1px dashed var(--hair)}
+.clane span{width:118px;text-align:right;padding-right:14px;font:500 12.5px var(--mono);color:var(--muted)}
+.step{z-index:2;align-self:center;background:var(--pm);border:1px solid color-mix(in srgb,var(--pm-i) 25%,var(--line));border-radius:10px;padding:10px 12px 11px;display:grid;gap:5px;min-height:84px;align-content:start}
+.step b{font:600 11px/1 var(--mono);color:var(--pm-i);background:var(--paper);border-radius:50%;width:22px;height:22px;display:grid;place-items:center}
+.step h4{margin:0;font-size:14px;line-height:1.25}
+.step p{margin:0;font-size:12.5px;color:var(--muted)}
+.step.fest{align-self:stretch;margin-block:10px;border:2px solid var(--flow);align-content:center;justify-items:center;text-align:center}
+.step.fest h4{font-family:var(--disp);font-size:16px}
+code.st{font:500 10.5px/1.3 var(--mono);color:var(--flow);word-break:break-word}
+.joint{margin:10px 0;font:500 12.5px var(--mono);color:var(--flow)}
+.loopnote{color:var(--loop)}
+.steps-t td:first-child{font:600 13px var(--sans);color:var(--ink)}
+.steps-t td:nth-child(4){white-space:nowrap}
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rules li{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:12px 16px 12px 40px;position:relative;font-size:14px}
+.rules li::before{content:"!";position:absolute;left:18px;top:11px;font:700 15px var(--mono);color:var(--flow)}
 @media (max-width:720px){
   .wrap{padding:28px 16px 56px}
   .sp{grid-template-columns:1fr}
@@ -130,8 +157,24 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
 <header>
   <div class="eyebrow">Пикник Афиши · гастроменеджмент · сезон</div>
   <h1>Бизнес-процесс гастроблока</h1>
-  <p class="lede">Путь резидента от холодной базы до фестиваля и возврата в следующий сезон. Семь направлений, шесть этапов, все передачи между командами. Финансово-юридический контур детализирован по документу «Финансовое сопровождение резидентов».</p>
+  <p class="lede">Путь резидента от холодной базы до фестиваля и возврата в следующий сезон. Восемь направлений, шесть этапов, все передачи между командами. Вторая вкладка — путь резидента внутри кастомной CRM.</p>
 </header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <marker id="m-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--flow)"/></marker>
+      <marker id="m-data" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--data)"/></marker>
+      <marker id="m-exc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--exc)"/></marker>
+      <marker id="m-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--loop)"/></marker>
+    </defs>
+</svg>
+
+<nav class="tabs" role="tablist" aria-label="Схемы">
+  <button type="button" role="tab" id="t-gastro" aria-controls="tab-gastro" aria-selected="true">Процесс гастроблока</button>
+  <button type="button" role="tab" id="t-crm" aria-controls="tab-crm" aria-selected="false">Кастомная CRM</button>
+</nav>
+
+<div id="tab-gastro" role="tabpanel" aria-labelledby="t-gastro">
 
 <div class="legend" aria-label="Легенда">
   <span><svg width="34" height="10"><path d="M1 5H28" stroke="var(--flow)" stroke-width="1.8"/><path d="M26 1L33 5L26 9Z" fill="var(--flow)"/></svg>Основной поток</span>
@@ -145,12 +188,6 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
 <div class="scroller">
 <div class="board" id="board">
   <svg class="wires" id="wires" aria-hidden="true">
-    <defs>
-      <marker id="m-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--flow)"/></marker>
-      <marker id="m-data" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--data)"/></marker>
-      <marker id="m-exc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--exc)"/></marker>
-      <marker id="m-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--loop)"/></marker>
-    </defs>
     <g id="wire-g"></g>
   </svg>
 
@@ -185,6 +222,9 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
   <div class="cell pm" style="grid-row:2;grid-column:7">
     <div class="card" id="pm-special"><h4>Спецпроекты и коллаборации</h4><ul><li>пример: Андердог × ВкусВилл</li><li>Афиша Рестораны</li></ul></div>
   </div>
+  <div class="cell pm" style="grid-row:3;grid-column:2;padding-top:0">
+    <div class="card new" id="pm-bp"><span class="tag">Новый блок</span><h4>Бизнес-план проекта «Гастроли»</h4><ul><li>разработка бизнес-плана по проекту</li></ul></div>
+  </div>
   <div class="band pm" style="grid-row:3;grid-column:4 / 8">
     <b>Управление бизнес-процессами:</b> финансово-юридический · маркетинг · продажи · реализация · команда 10 человек и KPI
   </div>
@@ -193,14 +233,14 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
   <div class="lane" style="grid-row:4 / 6;background:var(--prod)"></div>
   <div class="lane-label" style="grid-row:4 / 6">
     <h3 style="color:var(--prod-i)">Отдел продукта</h3>
-    <div class="owner">Игорь, Кристина, Тен<small>+ наёмный подрядчик</small></div>
+    <div class="owner">Игорь, Кристина, Катя Тен<small>+ наёмный подрядчик</small></div>
   </div>
   <div class="cell" style="grid-row:4;grid-column:3">
     <div class="card new" id="prod-dev">
       <span class="tag">Новый блок · гибридный процесс</span>
       <h4>Разработка CRM</h4>
       <ul>
-        <li><b>Отдел продукта:</b> требования, приоритизация, приёмка, владение продуктом</li>
+        <li><b>Отдел продукта:</b> создание MVP, анализ эффективности продукта, расчёт внутренних ресурсов, дорожная карта проекта</li>
         <li><b>Подрядчик:</b> разработка и поддержка</li>
         <li>интеграция с 1С</li>
       </ul>
@@ -210,29 +250,38 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
     <b>CRM в работе:</b> база резидентов · воронка · офферы · статусы оплат и документов · история для удержания
   </div>
 
-  <!-- ===== Lane: Marketing ===== -->
-  <div class="lane" style="grid-row:6;background:var(--mk)"></div>
+  <!-- ===== Lane: Picnic ===== -->
+  <div class="lane" style="grid-row:6;background:var(--pc)"></div>
   <div class="lane-label" style="grid-row:6">
+    <h3 style="color:var(--pc-i)">Отдел Пикника</h3>
+  </div>
+  <div class="cell" style="grid-row:6;grid-column:3">
+    <div class="card new" id="pc-prep"><span class="tag">Новый блок</span><h4>Данные для платформы</h4><ul><li>карта мест для торговли</li><li>прототип и ТЗ</li><li>материалы для загрузки</li></ul></div>
+  </div>
+
+  <!-- ===== Lane: Marketing ===== -->
+  <div class="lane" style="grid-row:7;background:var(--mk)"></div>
+  <div class="lane-label" style="grid-row:7">
     <h3 style="color:var(--mk-i)">Маркетинг</h3>
     <span class="chip-warn">владелец не назначен</span>
   </div>
-  <div class="cell" style="grid-row:6;grid-column:3">
+  <div class="cell" style="grid-row:7;grid-column:3">
     <div class="card" id="mk-1"><span class="tag">Блок 1</span><h4>Холодная база</h4><ul><li>сбор холодной базы резидентов</li><li>прогрев</li><li>емейл-маркетинг</li><li>контент-план рассылок</li></ul><div class="res">→ квалифицированные лиды</div></div>
   </div>
-  <div class="cell" style="grid-row:6;grid-column:6">
+  <div class="cell" style="grid-row:7;grid-column:6">
     <div class="card" id="mk-3"><span class="tag">Блок 3</span><h4>Медиакиты и промо</h4><ul><li>медиакиты для резидентов</li><li>совместное промо: от идеи до реализации и согласования ресурсов</li></ul></div>
   </div>
-  <div class="cell" style="grid-row:6;grid-column:7">
+  <div class="cell" style="grid-row:7;grid-column:7">
     <div class="card" id="mk-2"><span class="tag">Блок 2</span><h4>Клуб резидентов</h4><ul><li>программа удержания</li><li>работа с LTV партнёров</li><li>возвращение резидентов</li></ul></div>
   </div>
 
   <!-- ===== Lane: Sales ===== -->
-  <div class="lane" style="grid-row:7;background:var(--sl)"></div>
-  <div class="lane-label" style="grid-row:7">
+  <div class="lane" style="grid-row:8;background:var(--sl)"></div>
+  <div class="lane-label" style="grid-row:8">
     <h3 style="color:var(--sl-i)">Продажи</h3>
     <div class="owner">Арсентьева</div>
   </div>
-  <div class="cell" style="grid-row:7;grid-column:4">
+  <div class="cell" style="grid-row:8;grid-column:4">
     <div class="card" id="sl-sale">
       <h4>Продажа сезона</h4>
       <ul><li>горячая база резидентов</li><li>кастомные офферы</li><li>емейл и мессенджеры</li><li>зум-презентация сезона</li><li>контроль оплат</li></ul>
@@ -248,13 +297,13 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
   </div>
 
   <!-- ===== Lane: Finance ===== -->
-  <div class="lane" style="grid-row:8;background:var(--fn)"></div>
-  <div class="lane-label" style="grid-row:8">
+  <div class="lane" style="grid-row:9;background:var(--fn)"></div>
+  <div class="lane-label" style="grid-row:9">
     <h3 style="color:var(--fn-i)">Финансово-юридический контур</h3>
     <div class="owner">Менеджер фин. сопровождения</div>
     <span class="chip-warn">не назначен</span>
   </div>
-  <div class="cell" style="grid-row:8;grid-column:2 / 4">
+  <div class="cell" style="grid-row:9;grid-column:2 / 4">
     <div class="card hub" id="fn-hub">
       <span class="tag">Одно окно вместо пяти отделов</span>
       <h4>Мост между резидентом и компанией</h4>
@@ -265,38 +314,38 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
       <div class="who"><i>Бухгалтерия</i><i>Казначейство</i><i>Юридический</i><i>Документооборот</i><i>CRM / 1С</i></div>
     </div>
   </div>
-  <div class="cell" style="grid-row:8;grid-column:5">
+  <div class="cell" style="grid-row:9;grid-column:5">
     <div class="card" id="fn-bill"><h4><span class="num">1</span>Счета и дебиторка</h4><ul><li>выставление счетов, проверка сумм и реквизитов</li><li>мониторинг взаиморасчётов, дебиторская задолженность</li><li>консультации резидента по оплате</li></ul></div>
     <div class="card" id="fn-edo"><h4><span class="num">2</span>ЭДО и документы</h4><ul><li>подключение к ЭДО, контроль статуса приглашений</li><li>передача в бухгалтерию, контроль счетов</li><li>акты сверки, справки, копии, подтверждения оплат</li><li>ответы подразделениям по резиденту</li></ul></div>
   </div>
-  <div class="cell" style="grid-row:8;grid-column:6">
+  <div class="cell" style="grid-row:9;grid-column:6">
     <div class="card" id="fn-diff"><h4><span class="num">3</span>Расхождения</h4><ul><li>источник ошибки: резидент или учёт / программа</li><li>оценка критичности со специалистами</li><li>ответственные, способ решения, корректировка до закрытия</li></ul></div>
     <div class="card" id="fn-refund"><h4><span class="num">4</span>Возвраты</h4><ul><li>ответственные, заявление резидента</li><li>заявка на расходование с пакетом документов</li><li>проверка казначейством → выплата</li></ul></div>
   </div>
-  <div class="cell" style="grid-row:8;grid-column:7">
+  <div class="cell" style="grid-row:9;grid-column:7">
     <div class="card" id="fn-upd"><h4><span class="num">5</span>Контроль УПД</h4><ul><li>проверка предварительных отчётов с учётом расхождений за период</li><li>сверка итогов, ошибки автовыгрузки из учётной системы</li><li>формирование, выгрузка и рассылка УПД</li></ul></div>
   </div>
 
   <!-- ===== Lane: Tech ===== -->
-  <div class="lane" style="grid-row:9;background:var(--tc)"></div>
-  <div class="lane-label" style="grid-row:9">
+  <div class="lane" style="grid-row:10;background:var(--tc)"></div>
+  <div class="lane-label" style="grid-row:10">
     <h3 style="color:var(--tc-i)">Тех дирекция / дизайн</h3>
     <div class="owner">Арсентьева<small>координация</small></div>
   </div>
-  <div class="cell" style="grid-row:9;grid-column:6">
+  <div class="cell" style="grid-row:10;grid-column:6">
     <div class="card" id="tc-map"><h4>Техника и оформление</h4><ul><li>работа с тех картой</li><li>названия на фризы</li><li>сбор и отдача меню на печать</li></ul></div>
   </div>
 
   <!-- ===== Lane: Hosting ===== -->
-  <div class="lane" style="grid-row:10;background:var(--hs)"></div>
-  <div class="lane-label" style="grid-row:10">
+  <div class="lane" style="grid-row:11;background:var(--hs)"></div>
+  <div class="lane-label" style="grid-row:11">
     <h3 style="color:var(--hs-i)">Хостинг OOFF Studio</h3>
     <div class="owner">Жиганова<small>владелец процесса</small></div>
   </div>
-  <div class="cell" style="grid-row:10;grid-column:6">
+  <div class="cell" style="grid-row:11;grid-column:6">
     <div class="card" id="hs-prep"><h4>Подготовка хостинга</h4><ul><li>регламент хостинга резидентов</li><li>печать меню</li><li>набор VIP резидентов</li></ul></div>
   </div>
-  <div class="cell" style="grid-row:10;grid-column:7">
+  <div class="cell" style="grid-row:11;grid-column:7">
     <div class="card" id="hs-fest"><h4>Хостинг на площадке</h4><ul><li>реализация хостинга и логистики</li><li>коммуникация со смежными службами</li></ul></div>
   </div>
 </div>
@@ -417,23 +466,121 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
     <div class="risk"><span class="lvl mid">средний</span><h3>Хостинг: исполнение и владение разведены</h3><p>Вы владелец процесса, координация зелёного блока — у Арсентьевой, исполнение — OOFF Studio. Стоит зафиксировать, <b>кто принимает решения на площадке</b> в день фестиваля.</p></div>
   </div>
 </section>
+</div><!-- /tab-gastro -->
+
+<div id="tab-crm" role="tabpanel" aria-labelledby="t-crm" hidden>
+<section class="first">
+  <div class="sec-head">
+    <div class="eyebrow">ТЗ на платформу резидентов · версия 1.1</div>
+    <h2>Путь резидента в кастомной CRM</h2>
+    <p>Дорожки показывают, кто действует на каждом шаге. Пунктиром — три возврата: отказ возвращает резидента к материалам, правки куратора — к конкретной форме, а обратная связь запускает следующий сезон с уже заполненными данными и реквизитами. До оплаты счёта этапы подготовки закрыты.</p>
+  </div>
+
+  <div class="legend" aria-label="Легенда">
+    <span><svg width="34" height="10"><path d="M1 5H28" stroke="var(--flow)" stroke-width="1.8"/><path d="M26 1L33 5L26 9Z" fill="var(--flow)"/></svg>Переход по событию</span>
+    <span><svg width="34" height="10"><path d="M1 5H28" stroke="var(--exc)" stroke-width="1.8" stroke-dasharray="2 4" stroke-linecap="round"/><path d="M26 1L33 5L26 9Z" fill="var(--exc)"/></svg>Возврат на доработку</span>
+    <span><svg width="34" height="10"><path d="M1 5H28" stroke="var(--loop)" stroke-width="2.2" stroke-dasharray="9 5"/><path d="M26 1L33 5L26 9Z" fill="var(--loop)"/></svg>Следующий сезон</span>
+    <span><code class="st">submitted</code>состояние в системе</span>
+  </div>
+
+  <div class="scroller">
+  <div class="cboard" id="crm1" style="--n:8">
+    <svg class="wires" aria-hidden="true"><g></g></svg>
+    <div class="cphase" style="grid-column:2 / 7">Знакомство и заявка</div>
+    <div class="cphase" style="grid-column:7 / 9">Решение</div>
+    <div class="cphase" style="grid-column:9 / 10">Оплата</div>
+
+    <div class="clane" style="grid-row:2"><span>Резидент</span></div>
+    <div class="clane" style="grid-row:3"><span>Организатор</span></div>
+    <div class="clane" style="grid-row:4"><span>Платформа</span></div>
+
+    <div class="step" id="s1" style="grid-row:2;grid-column:2"><b>1</b><h4>О фестивале</h4></div>
+    <div class="step" id="s2" style="grid-row:2;grid-column:3"><b>2</b><h4>Карта мест и цены</h4></div>
+    <div class="step" id="s3" style="grid-row:2;grid-column:4"><b>3</b><h4>Место в корзину</h4><code class="st">cart</code></div>
+    <div class="step" id="s4" style="grid-row:2;grid-column:5"><b>4</b><h4>Материалы и реквизиты</h4><code class="st">cart_filled</code></div>
+    <div class="step" id="s5" style="grid-row:2;grid-column:6"><b>5</b><h4>Отправка на валидацию</h4><code class="st">submitted</code></div>
+    <div class="step" id="s6" style="grid-row:3;grid-column:7"><b>6</b><h4>Решение организатора</h4><code class="st">approved / rejected</code></div>
+    <div class="step" id="s7" style="grid-row:4;grid-column:8"><b>7</b><h4>Счёт и кабинет</h4><code class="st">invoiced + cabinet_active</code></div>
+    <div class="step" id="s8" style="grid-row:2;grid-column:9"><b>8</b><h4>Оплата</h4><code class="st">paid_partial → paid</code></div>
+  </div>
+  </div>
+
+  <p class="joint">↓ оплачено — открываются этапы подготовки</p>
+
+  <div class="scroller">
+  <div class="cboard" id="crm2" style="--n:8">
+    <svg class="wires" aria-hidden="true"><g></g></svg>
+    <div class="cphase" style="grid-column:2 / 5">Подготовка</div>
+    <div class="cphase" style="grid-column:5 / 6">Сезон</div>
+    <div class="cphase" style="grid-column:6 / 9">Закрытие</div>
+
+    <div class="clane" style="grid-row:2"><span>Резидент</span></div>
+    <div class="clane" style="grid-row:3"><span>Организатор</span></div>
+    <div class="clane" style="grid-row:4"><span>Платформа</span></div>
+
+    <div class="step" id="s9" style="grid-row:2;grid-column:2"><b>9</b><h4>Данные резидента</h4><code class="st">data_filling → data_done</code></div>
+    <div class="step" id="s10" style="grid-row:2;grid-column:3"><b>10</b><h4>Тех хостинг</h4><code class="st">hosting</code></div>
+    <div class="step" id="s11" style="grid-row:3;grid-column:4"><b>11</b><h4>Пропуска и заезд</h4><code class="st">access_ready</code></div>
+    <div class="step fest" id="s12" style="grid-row:2 / 5;grid-column:5"><b>12</b><h4>Фестиваль</h4><p>работа корнера</p><code class="st">live</code></div>
+    <div class="step" id="s13" style="grid-row:2;grid-column:6"><b>13</b><h4>Выручка</h4><code class="st">revenue_submitted</code></div>
+    <div class="step" id="s14" style="grid-row:4;grid-column:7"><b>14</b><h4>Закрывающие</h4><code class="st">docs_signed</code></div>
+    <div class="step" id="s15" style="grid-row:2;grid-column:8"><b>15</b><h4>Обратная связь</h4><code class="st">closed → new</code></div>
+  </div>
+  </div>
+  <p class="joint loopnote">↺ следующий сезон — с шага 1, данные резидента и реквизиты уже заполнены</p>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div class="eyebrow">Шаги</div>
+    <h2>Кто действует, сроки и состояния</h2>
+  </div>
+  <div class="tbl-wrap">
+  <table class="hand steps-t">
+    <thead><tr><th>Шаг</th><th>Кто действует</th><th>Что происходит</th><th>Срок</th><th>Состояние</th></tr></thead>
+    <tbody>
+      <tr><td>1. О фестивале</td><td>Гость</td><td>Заходит на платформу, читает про фестиваль: даты, площадки, форматы, цифры</td><td>—</td><td>—</td></tr>
+      <tr><td>2. Карта мест и цены</td><td>Гость</td><td>Смотрит схемы фуд-кортов и общую карту площадки: что свободно и сколько стоит</td><td>—</td><td>—</td></tr>
+      <tr><td>3. Место в корзину</td><td>Гость</td><td>Кладёт один или несколько корнеров в корзину, в том числе в двух городах</td><td>место держится 48 часов</td><td><code class="st">cart</code></td></tr>
+      <tr><td>4. Материалы и реквизиты</td><td>Резидент</td><td>Прикладывает презентацию, концепцию меню, фото корнера и реквизиты юрлица</td><td>—</td><td><code class="st">cart_filled</code></td></tr>
+      <tr><td>5. Отправка на валидацию</td><td>Резидент</td><td>Отправляет заявку организатору и получает подтверждение о приёме</td><td>—</td><td><code class="st">submitted</code></td></tr>
+      <tr><td>6. Решение организатора</td><td>Организатор</td><td>Проверяет материалы и отвечает: одобрено или нет. При отказе — с комментарием, что доработать</td><td>3 рабочих дня</td><td><code class="st">approved / rejected</code></td></tr>
+      <tr><td>7. Счёт и личный кабинет</td><td>Платформа</td><td>При одобрении выставляет счёт по составу корзины (с комбо-пакетом и скидкой) и открывает кабинет</td><td>сразу после одобрения</td><td><code class="st">invoiced + cabinet_active</code></td></tr>
+      <tr><td>8. Оплата</td><td>Резидент</td><td>Платит картой или по счёту, получает чек; при необходимости вносит доплату</td><td>3 дня с даты счёта</td><td><code class="st">paid_partial → paid</code></td></tr>
+      <tr><td>9. Данные резидента</td><td>Резидент</td><td>Заполняет формы: меню, аккредитации, промо, вывеска. Реквизиты уже в профиле</td><td>до 28 мая</td><td><code class="st">data_filling → data_done</code></td></tr>
+      <tr><td>10. Тех хостинг</td><td>Резидент</td><td>Подаёт оборудование с мощностью, записывается на вебинар по заезду</td><td>до 20 июня</td><td><code class="st">hosting</code></td></tr>
+      <tr><td>11. Пропуска и заезд</td><td>Организатор и площадка</td><td>Собирает списки людей и транспорта, выгружает для службы безопасности</td><td>25 июля и 1 августа</td><td><code class="st">access_ready</code></td></tr>
+      <tr><td>12. Фестиваль</td><td>Все стороны</td><td>Корнер работает, оперативный канал события открыт, тех. поддержка на связи</td><td>дни фестиваля</td><td><code class="st">live</code></td></tr>
+      <tr><td>13. Отправка данных о выручке</td><td>Резидент</td><td>Сдаёт сумму и количество чеков по отчёту кассы</td><td>5 дней после события</td><td><code class="st">revenue_submitted</code></td></tr>
+      <tr><td>14. Закрывающие документы</td><td>Платформа</td><td>Формирует УПД, акт и счёт-фактуру, отправляет через ЭДО, ждёт подписи</td><td>10 дней после события</td><td><code class="st">docs_signed</code></td></tr>
+      <tr><td>15. Обратная связь</td><td>Резидент</td><td>Оценивает работу куратора и подаёт заявку на следующий сезон</td><td>2 недели после события</td><td><code class="st">closed → new</code></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <ul class="rules">
+    <li>Счёт формируется автоматически по составу корзины сразу после одобрения: аренда мест, комбо-пакет за два города, скидка куратора и заказанные услуги.</li>
+    <li>Блокировки: до оплаты счёта этапы подготовки закрыты, без сданной выручки не выпускаются закрывающие документы.</li>
+    <li>Возвраты: отказ на шаге 6 возвращает заявку к материалам с комментарием организатора, правки на шаге 9 возвращают конкретную форму, а не весь комплект.</li>
+    <li>Переход делает система по событию, а не куратор вручную: оплатили — этап закрылся сам, форму приняли — задача отметилась.</li>
+    <li>Каждая смена состояния пишется в журнал и рассылает уведомление тем, кого она касается — резиденту, куратору или площадке.</li>
+  </ul>
+</section>
+</div>
+
 </div>
 
 <script>
 (function(){
-  const board=document.getElementById('board');
-  const g=document.getElementById('wire-g');
-  const svg=document.getElementById('wires');
-  const GAP=56;
-  // k: flow|data|exc|loop.  r: route type.
+  const NS='http://www.w3.org/2000/svg';
   const E=[
     {f:'pm-analysis',t:'pm-strategy',k:'flow',r:'v'},
     {f:'pm-strategy',t:'mk-1',k:'flow',r:'h',gx:-10,fy:-8,l:'ЦА и пакеты',lx:'end'},
     {f:'pm-strategy',t:'sl-sale',k:'flow',r:'h',gx:10,fy:8,ty:-40,l:'пакеты и план',lx:'end'},
     {f:'pm-crm',t:'prod-dev',k:'flow',r:'v',l:'ТЗ'},
+    {f:'pc-prep',t:'prod-dev',k:'flow',r:'v',dx:40,l:'карта, прототип, материалы',la:'left'},
     {f:'prod-dev',t:'prod-crm',k:'flow',r:'h',l:'релиз'},
     {f:'prod-crm',t:'sl-sale',k:'data',r:'v',dx:-50,l:'база и воронка'},
-    {f:'prod-crm',t:'fn-bill',k:'data',r:'v',dx:0,l:'статусы оплат'},
+    {f:'prod-crm',t:'fn-bill',k:'data',r:'v',dx:0,l:'статусы оплат',dy:70},
     {f:'prod-crm',t:'mk-2',k:'data',r:'v',dx:-60,l:'история'},
     {f:'fn-hub',t:'prod-dev',k:'data',r:'up',gx:14,l:'1С / CRM'},
     {f:'mk-1',t:'sl-sale',k:'flow',r:'h',ty:-10,l:'квал. лиды',lx:'end'},
@@ -443,7 +590,7 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
     {f:'fn-bill',t:'fn-edo',k:'flow',r:'v'},
     {f:'fn-bill',t:'fn-diff',k:'exc',r:'h',fy:-10,gx:-8,l:'ошибка'},
     {f:'fn-diff',t:'fn-refund',k:'exc',r:'v',l:'нужен возврат'},
-    {f:'fn-diff',t:'fn-upd',k:'exc',r:'h',l:'исправлено'},
+    {f:'fn-diff',t:'fn-upd',k:'exc',r:'h'},
     {f:'fn-edo',t:'tc-map',k:'flow',r:'h',gx:8,l:'оплата подтверждена',ly:40},
     {f:'tc-map',t:'hs-prep',k:'flow',r:'v',l:'меню и фризы'},
     {f:'hs-prep',t:'hs-fest',k:'flow',r:'h'},
@@ -451,61 +598,86 @@ table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
     {f:'hs-fest',t:'mk-2',k:'loop',r:'right',l:'после фестиваля'},
     {f:'mk-2',t:'sl-sale',k:'loop',r:'loop',l:'возврат в следующий сезон'},
   ];
-  function R(id){
-    const el=document.getElementById(id), b=board.getBoundingClientRect(), r=el.getBoundingClientRect();
-    const x=r.left-b.left, y=r.top-b.top;
-    return {l:x,t:y,r:x+r.width,b:y+r.height,cx:x+r.width/2,cy:y+r.height/2,w:r.width,h:r.height};
-  }
-  const NS='http://www.w3.org/2000/svg';
-  function draw(){
-    const bb=board.getBoundingClientRect();
+  const C1=[
+    {f:'s1',t:'s2',k:'flow',r:'h'},{f:'s2',t:'s3',k:'flow',r:'h'},{f:'s3',t:'s4',k:'flow',r:'h'},{f:'s4',t:'s5',k:'flow',r:'h'},
+    {f:'s5',t:'s6',k:'flow',r:'h'},
+    {f:'s6',t:'s4',k:'exc',r:'over',l:'не одобрено — доработать материалы'},
+    {f:'s6',t:'s7',k:'flow',r:'h',l:'одобрено',lx:'end'},
+    {f:'s7',t:'s8',k:'flow',r:'h',l:'дальше — только после оплаты',ly:0,la:'end'},
+  ];
+  const C2=[
+    {f:'s9',t:'s9',k:'exc',r:'self',l:'правки куратора'},
+    {f:'s9',t:'s10',k:'flow',r:'h'},{f:'s10',t:'s11',k:'flow',r:'h'},{f:'s11',t:'s12',k:'flow',r:'h',ty:0},
+    {f:'s12',t:'s13',k:'flow',r:'h',fy:'t'},{f:'s13',t:'s14',k:'flow',r:'h'},{f:'s14',t:'s15',k:'flow',r:'h'},
+    {f:'s15',t:'s15',k:'loop',r:'down',l:'в новый сезон'},
+  ];
+  function wire(board,edges,GAP){
+    const svg=board.querySelector('svg.wires'), g=svg.querySelector('g');
+    const bb=board.getBoundingClientRect(); if(!bb.width) return;
+    const R=id=>{const r=document.getElementById(id).getBoundingClientRect();const x=r.left-bb.left,y=r.top-bb.top;
+      return {l:x,t:y,r:x+r.width,b:y+r.height,cx:x+r.width/2,cy:y+r.height/2};};
     svg.setAttribute('width',bb.width); svg.setAttribute('height',bb.height);
     svg.setAttribute('viewBox','0 0 '+bb.width+' '+bb.height);
     g.textContent='';
-    E.forEach(e=>{
+    edges.forEach(e=>{
       const a=R(e.f), b=R(e.t); let d, lp;
       if(e.r==='v'){
         const x=Math.max(a.l+12,Math.min(a.r-12,b.cx+(e.dx||0)));
-        const down=b.t>=a.b-1;
-        const y1=down?a.b:a.t, y2=down?b.t:b.b;
-        d=`M${x},${y1}V${y2}`; lp=[x+7,(y1+y2)/2+4,'start'];
+        const down=b.t>=a.b-1, y1=down?a.b:a.t, y2=down?b.t:b.b;
+        d=`M${x},${y1}V${y2}`; lp=e.la==='left'?[x-7,(y1+y2)/2+4+(e.dy||0),'end']:[x+7,(y1+y2)/2+4+(e.dy||0),'start'];
       } else if(e.r==='h'){
-        const y1=a.cy+(e.fy||0), y2=b.cy+(e.ty||0);
+        const y1=e.fy==='t'?Math.min(a.t+34,a.cy):a.cy+(e.fy||0), y2=b.cy+(e.ty||0);
+        const yy2=e.fy==='t'?b.cy:y2;
         const gx=a.r+GAP/2+(e.gx||0);
-        d=`M${a.r},${y1}H${gx}V${y2}H${b.l}`;
-        if(e.lx==='end') lp=[b.l-6,y2-7,'end'];
-        else if(e.lx==='mid') lp=[(a.r+b.l)/2,y2-7,'middle'];
-        else lp=[gx+7,(y1+y2)/2+(e.ly||0),'start'];
-        if(Math.abs(y1-y2)<2) lp=[(a.r+b.l)/2,y1-7,'middle'];
+        d=`M${a.r},${y1}H${gx}V${yy2}H${b.l}`;
+        if(e.la==='end') lp=[gx-8,(y1+yy2)/2+4,'end'];
+        else if(e.lx==='end') lp=[b.l-6,yy2-7,'end'];
+        else if(e.lx==='mid') lp=[(a.r+b.l)/2,yy2-7,'middle'];
+        else lp=[gx+7,(y1+yy2)/2+(e.ly||0),'start'];
+        if(Math.abs(y1-yy2)<2) lp=[(a.r+b.l)/2,y1-7,'middle'];
       } else if(e.r==='up'){
-        const gxx=b.l-GAP/2+(e.gx||0);
-        const y2=b.cy+30;
+        const gxx=b.l-GAP/2+(e.gx||0), y2=b.cy+30;
         d=`M${gxx},${a.t}V${y2}H${b.l}`; lp=[gxx+7,a.t-12,'start'];
       } else if(e.r==='right'){
         const xr=Math.max(a.r,b.r)+22;
-        d=`M${a.r},${a.cy}H${xr}V${b.cy}H${b.r}`;
-        lp=[xr-6,(a.cy+b.cy)/2,'end'];
+        d=`M${a.r},${a.cy}H${xr}V${b.cy}H${b.r}`; lp=[xr+6,(a.cy+b.cy)/2,'start'];
       } else if(e.r==='loop'){
-        const s=R('sl-sale');
-        const yg=(a.b+s.t)/2; const x1=a.l+26, x2=s.cx+50;
-        d=`M${x1},${a.b}V${yg}H${x2}V${s.t}`;
-        lp=[(x1+x2)/2+60,yg-7,'middle'];
+        const yg=(a.b+b.t)/2, x1=a.l+26, x2=b.cx+50;
+        d=`M${x1},${a.b}V${yg}H${x2}V${b.t}`; lp=[(x1+x2)/2+60,yg-7,'middle'];
+      } else if(e.r==='over'){
+        const y=Math.min(a.t,b.t)-18;
+        d=`M${a.cx},${a.t}V${y}H${b.cx}V${b.t}`; lp=[(a.cx+b.cx)/2,y-6,'middle'];
+      } else if(e.r==='self'){
+        const y=a.t-16;
+        d=`M${a.r-26},${a.t}V${y}H${a.l+26}V${a.t}`; lp=[a.l+14,y-6,'start'];
+      } else if(e.r==='down'){
+        const y=board.getBoundingClientRect().height-6;
+        d=`M${a.cx},${a.b}V${y}`; lp=[a.cx+8,a.b+22,'start'];
       }
       const p=document.createElementNS(NS,'path');
       p.setAttribute('d',d); p.setAttribute('class','w-'+e.k);
-      p.setAttribute('marker-end','url(#m-'+e.k+')');
+      if(e.r!=='down') p.setAttribute('marker-end','url(#m-'+e.k+')');
       g.appendChild(p);
       if(e.l){
         const t=document.createElementNS(NS,'text');
         t.setAttribute('x',lp[0]); t.setAttribute('y',lp[1]); t.setAttribute('text-anchor',lp[2]);
-        t.setAttribute('class','t-'+e.k); t.textContent=e.l;
-        g.appendChild(t);
+        t.setAttribute('class','t-'+e.k); t.textContent=e.l; g.appendChild(t);
       }
     });
   }
-  draw();
-  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(draw);
-  window.addEventListener('resize',draw);
-  if(window.ResizeObserver) new ResizeObserver(draw).observe(board);
+  const boards=[[document.getElementById('board'),E,56],[document.getElementById('crm1'),C1,34],[document.getElementById('crm2'),C2,34]];
+  const drawAll=()=>boards.forEach(([b,e,gap])=>wire(b,e,gap));
+
+  const tabs=[...document.querySelectorAll('[role=tab]')];
+  function show(id,push){
+    tabs.forEach(t=>{const on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',on);document.getElementById(t.getAttribute('aria-controls')).hidden=!on;});
+    if(push){try{history.replaceState(null,'',id==='tab-crm'?'#crm':'#gastro');}catch(_){}}
+    drawAll();
+  }
+  tabs.forEach(t=>t.addEventListener('click',()=>show(t.getAttribute('aria-controls'),true)));
+  show(location.hash==='#crm'?'tab-crm':'tab-gastro',false);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(drawAll);
+  window.addEventListener('resize',drawAll);
+  if(window.ResizeObserver){const ro=new ResizeObserver(drawAll);boards.forEach(([b])=>ro.observe(b));}
 })();
 </script>
