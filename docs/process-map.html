@@ -48,8 +48,8 @@ header{display:grid;gap:10px;margin-bottom:28px}
 /* ===== Board ===== */
 .scroller{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--paper);-webkit-overflow-scrolling:touch}
 .board{position:relative;display:grid;
-  grid-template-columns:168px repeat(6,224px) 110px;
-  column-gap:56px;row-gap:6px;padding:0 0 18px 0;width:max-content}
+  grid-template-columns:168px repeat(3,224px) 184px 224px 224px 110px;
+  column-gap:42px;row-gap:6px;padding:0 0 18px 0;width:max-content}
 .phase{grid-row:1;padding:16px 0 12px;border-bottom:1px solid var(--line);position:relative;z-index:2}
 .phase b{display:block;font:600 11px/1 var(--mono);color:var(--muted);letter-spacing:.06em;margin-bottom:6px}
 .phase span{font-weight:600;font-size:14px}
@@ -664,7 +664,7 @@ code.st{font:500 10.5px/1.3 var(--mono);color:var(--flow);word-break:break-word}
       }
     });
   }
-  const boards=[[document.getElementById('board'),E,56],[document.getElementById('crm1'),C1,34],[document.getElementById('crm2'),C2,34]];
+  const boards=[[document.getElementById('board'),E,42],[document.getElementById('crm1'),C1,34],[document.getElementById('crm2'),C2,34]];
   const drawAll=()=>boards.forEach(([b,e,gap])=>wire(b,e,gap));
 
   const tabs=[...document.querySelectorAll('[role=tab]')];
