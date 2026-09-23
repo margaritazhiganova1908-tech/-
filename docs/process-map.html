@@ -59,6 +59,8 @@ header{display:grid;gap:10px;margin-bottom:28px}
 .lane-label h3{font-size:13px;letter-spacing:.04em;text-transform:uppercase;line-height:1.25}
 .owner{font-size:13px;font-weight:600}
 .owner small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.lane-note{font-size:12px;line-height:1.4;color:var(--muted);border-top:1px solid color-mix(in srgb,var(--pm-i) 25%,transparent);padding-top:8px;margin-top:2px}
+.lane-note b{color:var(--ink);font-weight:600}
 .chip-warn{display:inline-block;width:max-content;font:600 11px/1 var(--mono);background:var(--warn-bg);color:var(--warn);padding:5px 7px;border-radius:5px}
 .cell{z-index:2;display:flex;flex-direction:column;gap:18px;padding-block:16px;align-self:start}
 .card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:11px 12px 12px;font-size:12.5px;line-height:1.42}
@@ -205,6 +207,7 @@ code.st{font:500 10.5px/1.3 var(--mono);color:var(--flow);word-break:break-word}
   <div class="lane-label" style="grid-row:2 / 4">
     <h3 style="color:var(--pm-i)">Управление проектом</h3>
     <div class="owner">Жиганова<small>руководитель направления</small></div>
+    <div class="lane-note"><b>Управление бизнес-процессами:</b> финансово-юридический, маркетинг, продажи, реализация · команда 10 человек и KPI</div>
   </div>
   <div class="cell pm" style="grid-row:2;grid-column:2">
     <div class="card" id="pm-analysis"><h4>Анализ</h4><ul><li>работа фестиваля в прошлом сезоне</li><li>рынок и конкуренты</li></ul></div>
@@ -224,9 +227,6 @@ code.st{font:500 10.5px/1.3 var(--mono);color:var(--flow);word-break:break-word}
   </div>
   <div class="cell pm" style="grid-row:3;grid-column:2;padding-top:0">
     <div class="card new" id="pm-bp"><span class="tag">Новый блок</span><h4>Бизнес-план проекта «Гастроли»</h4><ul><li>разработка бизнес-плана по проекту</li></ul></div>
-  </div>
-  <div class="band pm" style="grid-row:3;grid-column:4 / 8">
-    <b>Управление бизнес-процессами:</b> финансово-юридический · маркетинг · продажи · реализация · команда 10 человек и KPI
   </div>
 
   <!-- ===== Lane: Product ===== -->
