@@ -1,0 +1,511 @@
+<title>Гастропроцесс Пикника Афиши</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#F4F6F3; --paper:#FFFFFF; --ink:#1B2220; --muted:#5B6763; --line:#C9D1CC; --hair:#E2E7E3;
+  --pm:#DCE5F5; --prod:#FBEFC6; --mk:#FADFD3; --sl:#DFEEDB; --fn:#E8DEF1; --tc:#E6F1E2; --hs:#D6EBD8;
+  --pm-i:#2F4C8F; --prod-i:#8A6200; --mk-i:#A2432A; --sl-i:#2D6B34; --fn-i:#5E3C8C; --tc-i:#3C6B45; --hs-i:#245A33;
+  --flow:#1F3F8F; --data:#7B4FC4; --exc:#C2571A; --loop:#23804D;
+  --warn-bg:#FFE7D6; --warn:#A2400F; --new:#E3A600;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --sans:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --disp:"Unbounded","Onest",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#121716; --paper:#1B2221; --ink:#E7ECE9; --muted:#9AA7A2; --line:#35403C; --hair:#27302D;
+    --pm:#1D2940; --prod:#352C12; --mk:#3A2520; --sl:#1C2F1F; --fn:#2A2238; --tc:#1D2B1F; --hs:#18301F;
+    --pm-i:#9DB7F2; --prod-i:#F2C94C; --mk-i:#F2A58C; --sl-i:#94D39C; --fn-i:#C6A8F0; --tc-i:#A3D1AA; --hs-i:#86CF98;
+    --flow:#8FB0FF; --data:#B996F5; --exc:#F29A5C; --loop:#6BD39A;
+    --warn-bg:#3D2414; --warn:#FFB38A; --new:#F2C94C;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#121716; --paper:#1B2221; --ink:#E7ECE9; --muted:#9AA7A2; --line:#35403C; --hair:#27302D;
+  --pm:#1D2940; --prod:#352C12; --mk:#3A2520; --sl:#1C2F1F; --fn:#2A2238; --tc:#1D2B1F; --hs:#18301F;
+  --pm-i:#9DB7F2; --prod-i:#F2C94C; --mk-i:#F2A58C; --sl-i:#94D39C; --fn-i:#C6A8F0; --tc-i:#A3D1AA; --hs-i:#86CF98;
+  --flow:#8FB0FF; --data:#B996F5; --exc:#F29A5C; --loop:#6BD39A;
+  --warn-bg:#3D2414; --warn:#FFB38A; --new:#F2C94C;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:40px 20px 72px}
+h1,h2{font-family:var(--disp);font-weight:700;text-wrap:balance;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(26px,4vw,40px);line-height:1.1}
+h2{font-size:22px;line-height:1.2}
+h3{font-size:16px;margin:0}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lede{max-width:68ch;color:var(--muted);font-size:16px;margin:12px 0 0}
+header{display:grid;gap:10px;margin-bottom:28px}
+.legend{display:flex;flex-wrap:wrap;gap:10px 22px;margin:18px 0 12px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend svg{flex:none}
+.hint{font:12px var(--mono);color:var(--muted);margin:0 0 8px}
+
+/* ===== Board ===== */
+.scroller{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--paper);-webkit-overflow-scrolling:touch}
+.board{position:relative;display:grid;
+  grid-template-columns:168px repeat(6,224px) 40px;
+  column-gap:56px;row-gap:6px;padding:0 0 18px 0;width:max-content}
+.phase{grid-row:1;padding:16px 0 12px;border-bottom:1px solid var(--line);position:relative;z-index:2}
+.phase b{display:block;font:600 11px/1 var(--mono);color:var(--muted);letter-spacing:.06em;margin-bottom:6px}
+.phase span{font-weight:600;font-size:14px}
+.phase.fest span::after{content:"ФЕСТИВАЛЬ";margin-left:8px;font:600 10px/1 var(--mono);letter-spacing:.06em;background:var(--ink);color:var(--paper);padding:3px 6px;border-radius:4px;vertical-align:2px}
+.lane{grid-column:1 / -1;z-index:0;border-radius:0}
+.lane-label{grid-column:1;z-index:2;padding:16px 14px 16px 18px;display:flex;flex-direction:column;gap:6px}
+.lane-label h3{font-size:13px;letter-spacing:.04em;text-transform:uppercase;line-height:1.25}
+.owner{font-size:13px;font-weight:600}
+.owner small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.chip-warn{display:inline-block;width:max-content;font:600 11px/1 var(--mono);background:var(--warn-bg);color:var(--warn);padding:5px 7px;border-radius:5px}
+.cell{z-index:2;display:flex;flex-direction:column;gap:18px;padding-block:16px;align-self:start}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:11px 12px 12px;font-size:12.5px;line-height:1.42}
+.card h4{margin:0 0 6px;font-size:13.5px;line-height:1.25}
+.card ul{margin:0;padding-left:15px}
+.card li{margin:1px 0}
+.card .tag{display:inline-block;font:600 10px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.card .res{margin-top:8px;padding-top:7px;border-top:1px dashed var(--line);font-weight:600}
+.card .who{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+.card .who i{font-style:normal;font:500 10.5px/1 var(--mono);border:1px solid var(--line);border-radius:4px;padding:4px 5px;color:var(--muted)}
+.card .dup{margin-top:6px;font:600 10.5px/1.3 var(--mono);color:var(--warn)}
+.band{z-index:2;align-self:center;margin-block:8px;background:var(--paper);border:1px dashed var(--line);border-radius:10px;padding:9px 14px;font-size:12.5px}
+.band b{font-weight:600}
+.kpi{margin-top:8px;border-collapse:collapse;width:100%;font:12px var(--mono);font-variant-numeric:tabular-nums}
+.kpi th,.kpi td{padding:3px 4px;border-bottom:1px solid var(--hair);text-align:right}
+.kpi th:first-child,.kpi td:first-child{text-align:left}
+.kpi tr:last-child td{font-weight:600;border-bottom:0}
+.pm .card,.pm.band{border-color:color-mix(in srgb,var(--pm-i) 35%,var(--line))}
+.card.new{border:2px solid var(--new);box-shadow:0 0 0 4px color-mix(in srgb,var(--new) 18%,transparent)}
+.card.new .tag{color:var(--prod-i)}
+.card.hub{border-width:2px;border-color:color-mix(in srgb,var(--fn-i) 55%,var(--line))}
+.num{font:600 11px/1 var(--mono);color:var(--fn-i);margin-right:4px}
+svg.wires{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:visible}
+svg.wires path{fill:none;stroke-width:1.7}
+.w-flow{stroke:var(--flow)}
+.w-data{stroke:var(--data);stroke-dasharray:5 4}
+.w-exc{stroke:var(--exc);stroke-dasharray:2 4;stroke-linecap:round}
+.w-loop{stroke:var(--loop);stroke-dasharray:9 5;stroke-width:2.2 !important}
+svg.wires text{font:600 10.5px var(--sans);paint-order:stroke;stroke:var(--wire-bg,var(--paper));stroke-width:4px;stroke-linejoin:round}
+.t-flow{fill:var(--flow)} .t-data{fill:var(--data)} .t-exc{fill:var(--exc)} .t-loop{fill:var(--loop)}
+
+/* ===== Sections below ===== */
+section{margin-top:56px;display:grid;gap:18px}
+.sec-head{display:grid;gap:8px}
+.sec-head p{margin:0;color:var(--muted);max-width:72ch}
+.fin-grid{display:grid;gap:14px}
+.sp{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:230px 1fr;gap:18px}
+.sp-h h3{font-size:15px;line-height:1.3}
+.sp-h .num{font-size:13px}
+.sp-h p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+.steps{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px;list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;flex:1 1 150px;background:var(--fn);border-radius:8px;padding:9px 10px 10px;font-size:13px;line-height:1.4;position:relative}
+.steps li::before{content:counter(s);display:block;font:600 11px/1 var(--mono);color:var(--fn-i);margin-bottom:5px}
+.sp .meta{grid-column:2;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted)}
+.sp .meta b{color:var(--ink);font-weight:600}
+.value{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.value div{border-top:2px solid var(--fn-i);padding-top:8px;font-weight:600;font-size:14px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+table.hand{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
+.hand th,.hand td{padding:10px 14px;border-bottom:1px solid var(--hair);text-align:left;vertical-align:top}
+.hand th{font:600 11px/1.2 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.hand tr:last-child td{border-bottom:0}
+.hand td:first-child{font:600 12px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.risks{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.risk{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:8px;align-content:start}
+.risk h3{font-size:15px;line-height:1.3}
+.risk p{margin:0;font-size:13.5px;color:var(--muted)}
+.risk p b{color:var(--ink)}
+.risk .lvl{font:600 11px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;width:max-content;padding:5px 7px;border-radius:5px;background:var(--warn-bg);color:var(--warn)}
+.risk .lvl.mid{background:var(--hair);color:var(--muted)}
+@media (max-width:720px){
+  .wrap{padding:28px 16px 56px}
+  .sp{grid-template-columns:1fr}
+  .sp .meta{grid-column:1}
+}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Пикник Афиши · гастроменеджмент · сезон</div>
+  <h1>Бизнес-процесс гастроблока</h1>
+  <p class="lede">Путь резидента от холодной базы до фестиваля и возврата в следующий сезон. Семь направлений, шесть этапов, все передачи между командами. Финансово-юридический контур детализирован по документу «Финансовое сопровождение резидентов».</p>
+</header>
+
+<div class="legend" aria-label="Легенда">
+  <span><svg width="34" height="10"><path d="M1 5H28" stroke="var(--flow)" stroke-width="1.8"/><path d="M26 1L33 5L26 9Z" fill="var(--flow)"/></svg>Основной поток</span>
+  <span><svg width="34" height="10"><path d="M1 5H28" stroke="var(--data)" stroke-width="1.8" stroke-dasharray="5 4"/><path d="M26 1L33 5L26 9Z" fill="var(--data)"/></svg>Данные / CRM / 1С</span>
+  <span><svg width="34" height="10"><path d="M1 5H28" stroke="var(--exc)" stroke-width="1.8" stroke-dasharray="2 4" stroke-linecap="round"/><path d="M26 1L33 5L26 9Z" fill="var(--exc)"/></svg>Исключение (ошибка, возврат)</span>
+  <span><svg width="34" height="10"><path d="M1 5H28" stroke="var(--loop)" stroke-width="2.2" stroke-dasharray="9 5"/><path d="M26 1L33 5L26 9Z" fill="var(--loop)"/></svg>Цикл удержания</span>
+  <span><svg width="18" height="14"><rect x="1" y="1" width="16" height="12" rx="3" fill="none" stroke="var(--new)" stroke-width="2"/></svg>Новый блок</span>
+</div>
+<p class="hint">Схема шире экрана — листайте вбок →</p>
+
+<div class="scroller">
+<div class="board" id="board">
+  <svg class="wires" id="wires" aria-hidden="true">
+    <defs>
+      <marker id="m-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--flow)"/></marker>
+      <marker id="m-data" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--data)"/></marker>
+      <marker id="m-exc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--exc)"/></marker>
+      <marker id="m-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" style="fill:var(--loop)"/></marker>
+    </defs>
+    <g id="wire-g"></g>
+  </svg>
+
+  <!-- phases -->
+  <div class="phase" style="grid-column:1;padding-left:18px"><b>ЭТАП →</b><span>Направление</span></div>
+  <div class="phase" style="grid-column:2"><b>01</b><span>Анализ и стратегия</span></div>
+  <div class="phase" style="grid-column:3"><b>02</b><span>Инструменты и лиды</span></div>
+  <div class="phase" style="grid-column:4"><b>03</b><span>Продажа</span></div>
+  <div class="phase" style="grid-column:5"><b>04</b><span>Счета, ЭДО, оплата</span></div>
+  <div class="phase" style="grid-column:6"><b>05</b><span>Подготовка и производство</span></div>
+  <div class="phase fest" style="grid-column:7"><b>06</b><span>Сезон</span></div>
+
+  <!-- ===== Lane: PM ===== -->
+  <div class="lane" style="grid-row:2 / 4;background:var(--pm)"></div>
+  <div class="lane-label" style="grid-row:2 / 4">
+    <h3 style="color:var(--pm-i)">Управление проектом</h3>
+    <div class="owner">Жиганова<small>руководитель направления</small></div>
+  </div>
+  <div class="cell pm" style="grid-row:2;grid-column:2">
+    <div class="card" id="pm-analysis"><h4>Анализ</h4><ul><li>работа фестиваля в прошлом сезоне</li><li>рынок и конкуренты</li></ul></div>
+    <div class="card" id="pm-strategy"><h4>Стратегия продаж</h4><ul><li>пакеты резидентов (уровни A / B / C)</li><li>цели по городам</li><li>KPI команды</li></ul></div>
+  </div>
+  <div class="cell pm" style="grid-row:2;grid-column:3">
+    <div class="card" id="pm-crm"><h4>Кастомная CRM</h4><ul><li>для резидентов и менеджеров</li><li>заказчик: ТЗ, приоритеты, приёмка</li></ul></div>
+  </div>
+  <div class="cell pm" style="grid-row:2;grid-column:4">
+    <div class="card" id="pm-sponsor"><h4>Спонсорство</h4><ul><li>гастроспонсоры фестиваля (Купер, Апероль и др.)</li><li>спонсорские пакеты во всех категориях</li><li>кастомные пакеты гастроблока — обсуждается отдельно</li></ul></div>
+  </div>
+  <div class="cell pm" style="grid-row:2;grid-column:6">
+    <div class="card" id="pm-afisha"><h4>Смежные отделы Афиши</h4><ul><li>согласования и коммуникация по всем контурам</li></ul></div>
+  </div>
+  <div class="cell pm" style="grid-row:2;grid-column:7">
+    <div class="card" id="pm-special"><h4>Спецпроекты и коллаборации</h4><ul><li>пример: Андердог × ВкусВилл</li><li>Афиша Рестораны</li></ul></div>
+  </div>
+  <div class="band pm" style="grid-row:3;grid-column:4 / 8">
+    <b>Управление бизнес-процессами:</b> финансово-юридический · маркетинг · продажи · реализация · команда 10 человек и KPI
+  </div>
+
+  <!-- ===== Lane: Product ===== -->
+  <div class="lane" style="grid-row:4 / 6;background:var(--prod)"></div>
+  <div class="lane-label" style="grid-row:4 / 6">
+    <h3 style="color:var(--prod-i)">Отдел продукта</h3>
+    <div class="owner">Игорь, Кристина, Тен<small>+ наёмный подрядчик</small></div>
+  </div>
+  <div class="cell" style="grid-row:4;grid-column:3">
+    <div class="card new" id="prod-dev">
+      <span class="tag">Новый блок · гибридный процесс</span>
+      <h4>Разработка CRM</h4>
+      <ul>
+        <li><b>Отдел продукта:</b> требования, приоритизация, приёмка, владение продуктом</li>
+        <li><b>Подрядчик:</b> разработка и поддержка</li>
+        <li>интеграция с 1С</li>
+      </ul>
+    </div>
+  </div>
+  <div class="band" id="prod-crm" style="grid-row:5;grid-column:4 / 8;border-color:color-mix(in srgb,var(--prod-i) 45%,var(--line))">
+    <b>CRM в работе:</b> база резидентов · воронка · офферы · статусы оплат и документов · история для удержания
+  </div>
+
+  <!-- ===== Lane: Marketing ===== -->
+  <div class="lane" style="grid-row:6;background:var(--mk)"></div>
+  <div class="lane-label" style="grid-row:6">
+    <h3 style="color:var(--mk-i)">Маркетинг</h3>
+    <span class="chip-warn">владелец не назначен</span>
+  </div>
+  <div class="cell" style="grid-row:6;grid-column:3">
+    <div class="card" id="mk-1"><span class="tag">Блок 1</span><h4>Холодная база</h4><ul><li>сбор холодной базы резидентов</li><li>прогрев</li><li>емейл-маркетинг</li><li>контент-план рассылок</li></ul><div class="res">→ квалифицированные лиды</div></div>
+  </div>
+  <div class="cell" style="grid-row:6;grid-column:6">
+    <div class="card" id="mk-3"><span class="tag">Блок 3</span><h4>Медиакиты и промо</h4><ul><li>медиакиты для резидентов</li><li>совместное промо: от идеи до реализации и согласования ресурсов</li></ul></div>
+  </div>
+  <div class="cell" style="grid-row:6;grid-column:7">
+    <div class="card" id="mk-2"><span class="tag">Блок 2</span><h4>Клуб резидентов</h4><ul><li>программа удержания</li><li>работа с LTV партнёров</li><li>возвращение резидентов</li></ul></div>
+  </div>
+
+  <!-- ===== Lane: Sales ===== -->
+  <div class="lane" style="grid-row:7;background:var(--sl)"></div>
+  <div class="lane-label" style="grid-row:7">
+    <h3 style="color:var(--sl-i)">Продажи</h3>
+    <div class="owner">Арсентьева</div>
+  </div>
+  <div class="cell" style="grid-row:7;grid-column:4">
+    <div class="card" id="sl-sale">
+      <h4>Продажа сезона</h4>
+      <ul><li>горячая база резидентов</li><li>кастомные офферы</li><li>емейл и мессенджеры</li><li>зум-презентация сезона</li><li>контроль оплат</li></ul>
+      <table class="kpi" aria-label="План продаж">
+        <tr><th>Уровень</th><th>МСК</th><th>СПб</th></tr>
+        <tr><td>A</td><td>10</td><td>7</td></tr>
+        <tr><td>B</td><td>40</td><td>20</td></tr>
+        <tr><td>C</td><td>10</td><td>8</td></tr>
+        <tr><td>Итого</td><td>60</td><td>35</td></tr>
+      </table>
+      <div class="dup">⚠ контроль оплат есть и у фин. контура</div>
+    </div>
+  </div>
+
+  <!-- ===== Lane: Finance ===== -->
+  <div class="lane" style="grid-row:8;background:var(--fn)"></div>
+  <div class="lane-label" style="grid-row:8">
+    <h3 style="color:var(--fn-i)">Финансово-юридический контур</h3>
+    <div class="owner">Менеджер фин. сопровождения</div>
+    <span class="chip-warn">не назначен</span>
+  </div>
+  <div class="cell" style="grid-row:8;grid-column:2 / 4">
+    <div class="card hub" id="fn-hub">
+      <span class="tag">Одно окно вместо пяти отделов</span>
+      <h4>Мост между резидентом и компанией</h4>
+      <ul>
+        <li>единая точка контакта: коммуникация, координация и контроль каждого финансового вопроса от выявления до закрытия</li>
+        <li>лидирует фин. департамент и разработчиков 1С / CRM</li>
+      </ul>
+      <div class="who"><i>Бухгалтерия</i><i>Казначейство</i><i>Юридический</i><i>Документооборот</i><i>CRM / 1С</i></div>
+    </div>
+  </div>
+  <div class="cell" style="grid-row:8;grid-column:5">
+    <div class="card" id="fn-bill"><h4><span class="num">1</span>Счета и дебиторка</h4><ul><li>выставление счетов, проверка сумм и реквизитов</li><li>мониторинг взаиморасчётов, дебиторская задолженность</li><li>консультации резидента по оплате</li></ul></div>
+    <div class="card" id="fn-edo"><h4><span class="num">2</span>ЭДО и документы</h4><ul><li>подключение к ЭДО, контроль статуса приглашений</li><li>передача в бухгалтерию, контроль счетов</li><li>акты сверки, справки, копии, подтверждения оплат</li><li>ответы подразделениям по резиденту</li></ul></div>
+  </div>
+  <div class="cell" style="grid-row:8;grid-column:6">
+    <div class="card" id="fn-diff"><h4><span class="num">3</span>Расхождения</h4><ul><li>источник ошибки: резидент или учёт / программа</li><li>оценка критичности со специалистами</li><li>ответственные, способ решения, корректировка до закрытия</li></ul></div>
+    <div class="card" id="fn-refund"><h4><span class="num">4</span>Возвраты</h4><ul><li>ответственные, заявление резидента</li><li>заявка на расходование с пакетом документов</li><li>проверка казначейством → выплата</li></ul></div>
+  </div>
+  <div class="cell" style="grid-row:8;grid-column:7">
+    <div class="card" id="fn-upd"><h4><span class="num">5</span>Контроль УПД</h4><ul><li>проверка предварительных отчётов с учётом расхождений за период</li><li>сверка итогов, ошибки автовыгрузки из учётной системы</li><li>формирование, выгрузка и рассылка УПД</li></ul></div>
+  </div>
+
+  <!-- ===== Lane: Tech ===== -->
+  <div class="lane" style="grid-row:9;background:var(--tc)"></div>
+  <div class="lane-label" style="grid-row:9">
+    <h3 style="color:var(--tc-i)">Тех дирекция / дизайн</h3>
+    <div class="owner">Арсентьева<small>координация</small></div>
+  </div>
+  <div class="cell" style="grid-row:9;grid-column:6">
+    <div class="card" id="tc-map"><h4>Техника и оформление</h4><ul><li>работа с тех картой</li><li>названия на фризы</li><li>сбор и отдача меню на печать</li></ul></div>
+  </div>
+
+  <!-- ===== Lane: Hosting ===== -->
+  <div class="lane" style="grid-row:10;background:var(--hs)"></div>
+  <div class="lane-label" style="grid-row:10">
+    <h3 style="color:var(--hs-i)">Хостинг OOFF Studio</h3>
+    <div class="owner">Жиганова<small>владелец процесса</small></div>
+  </div>
+  <div class="cell" style="grid-row:10;grid-column:6">
+    <div class="card" id="hs-prep"><h4>Подготовка хостинга</h4><ul><li>регламент хостинга резидентов</li><li>печать меню</li><li>набор VIP резидентов</li></ul></div>
+  </div>
+  <div class="cell" style="grid-row:10;grid-column:7">
+    <div class="card" id="hs-fest"><h4>Хостинг на площадке</h4><ul><li>реализация хостинга и логистики</li><li>коммуникация со смежными службами</li></ul></div>
+  </div>
+</div>
+</div>
+
+<!-- ===== Finance detail ===== -->
+<section id="fin">
+  <div class="sec-head">
+    <div class="eyebrow">Детализация</div>
+    <h2>Финансово-юридический контур</h2>
+    <p>Менеджер финансового сопровождения ведёт каждый финансовый вопрос резидента от первого обращения или выявления до полного закрытия. Внутри компании он работает с бухгалтерией, казначейством, юридическим отделом, документооборотом и CRM.</p>
+  </div>
+  <div class="fin-grid">
+    <div class="sp">
+      <div class="sp-h"><h3><span class="num">1</span>Счета, расчёты и контроль задолженности</h3><p>Старт: оферта принята в продажах</p></div>
+      <ol class="steps">
+        <li>Формирование и выставление счёта</li>
+        <li>Проверка сумм и реквизитов</li>
+        <li>Консультация резидента по реквизитам, срокам и порядку расчётов</li>
+        <li>Мониторинг взаиморасчётов</li>
+        <li>Контроль дебиторской задолженности</li>
+      </ol>
+      <div class="meta"><span><b>Участвуют:</b> бухгалтерия, CRM</span><span><b>Выход:</b> оплата подтверждена → резидент идёт в производство</span></div>
+    </div>
+    <div class="sp">
+      <div class="sp-h"><h3><span class="num">2</span>Документооборот с резидентами</h3><p>Параллельно со счетами</p></div>
+      <ol class="steps">
+        <li>Данные резидента ответственному за приглашения в ЭДО</li>
+        <li>Контроль статуса подключения; при сбое — кураторство обеих сторон до отладки</li>
+        <li>Передача информации в бухгалтерию, контроль выставления счетов</li>
+        <li>Акты сверки, справки, копии первички, подтверждения оплат по запросу</li>
+        <li>Ответы подразделениям и запрос документов у резидента</li>
+      </ol>
+      <div class="meta"><span><b>Участвуют:</b> документооборот, бухгалтерия, казначейство, юридический</span><span><b>Выход:</b> резидент в ЭДО, пакет документов полный</span></div>
+    </div>
+    <div class="sp">
+      <div class="sp-h"><h3><span class="num">3</span>Выявление и урегулирование расхождений</h3><p>Исключение: запускается при любой ошибке</p></div>
+      <ol class="steps">
+        <li>Обнаружение несоответствия</li>
+        <li>Источник: внешний (резидент) или внутренний (учёт, программа)</li>
+        <li>Оценка критичности со специалистами всех затронутых подразделений</li>
+        <li>Ответственные и способ решения</li>
+        <li>Работа с резидентом: разъяснение, документы, контроль исправления</li>
+        <li>Внутренняя корректировка до полного закрытия</li>
+      </ol>
+      <div class="meta"><span><b>Участвуют:</b> все затронутые подразделения</span><span><b>Выход:</b> исправления учтены в отчётах к УПД</span></div>
+    </div>
+    <div class="sp">
+      <div class="sp-h"><h3><span class="num">4</span>Возврат денежных средств</h3><p>Исключение: по заявлению резидента или итогам расхождения</p></div>
+      <ol class="steps">
+        <li>Определение ответственных в компании</li>
+        <li>Помощь резиденту с заявлением</li>
+        <li>Заявка на расходование с корректным пакетом документов</li>
+        <li>Сопровождение проверки казначейством</li>
+        <li>Одобрение и выплата</li>
+      </ol>
+      <div class="meta"><span><b>Участвуют:</b> казначейство, бухгалтерия, юридический (консультирование по оферте)</span><span><b>Выход:</b> возврат проведён, вопрос закрыт</span></div>
+    </div>
+    <div class="sp">
+      <div class="sp-h"><h3><span class="num">5</span>Контроль формирования УПД</h3><p>Закрытие периода после фестиваля</p></div>
+      <ol class="steps">
+        <li>Организация процесса</li>
+        <li>Проверка предварительных отчётов с учётом расхождений и ошибок за период</li>
+        <li>Сверка итоговых сумм, поиск ошибок автовыгрузки из учётной системы</li>
+        <li>Формирование, выгрузка и рассылка УПД</li>
+        <li>Устранение системных сбоев на финальном этапе</li>
+      </ol>
+      <div class="meta"><span><b>Участвуют:</b> бухгалтерия, 1С / CRM</span><span><b>Выход:</b> закрывающие документы у всех резидентов</span></div>
+    </div>
+  </div>
+  <div class="value">
+    <div>Одно окно вместо пяти отделов</div>
+    <div>Вопросы доводятся до конца</div>
+    <div>Ошибки ловятся и курируются</div>
+    <div>Быстрее и качественнее взаимодействие</div>
+  </div>
+</section>
+
+<!-- ===== Handoffs ===== -->
+<section>
+  <div class="sec-head">
+    <div class="eyebrow">Стыки</div>
+    <h2>Передачи между направлениями</h2>
+    <p>Каждая стрелка на схеме — передача ответственности. Критерий передачи — то, что должно быть готово, чтобы следующая команда взяла резидента в работу.</p>
+  </div>
+  <div class="tbl-wrap">
+  <table class="hand">
+    <thead><tr><th>#</th><th>Откуда → куда</th><th>Что передаётся</th><th>Критерий передачи</th></tr></thead>
+    <tbody>
+      <tr><td>01</td><td>Управление → Маркетинг</td><td>Стратегия, пакеты A/B/C, целевые резиденты</td><td>Пакеты и цены утверждены</td></tr>
+      <tr><td>02</td><td>Управление → Продажи</td><td>Пакеты, цены, план 60 МСК / 35 СПб</td><td>План разложен по уровням и городам</td></tr>
+      <tr><td>03</td><td>Управление → Отдел продукта</td><td>ТЗ на кастомную CRM</td><td>Требования согласованы, подрядчик выбран</td></tr>
+      <tr><td>04</td><td>Отдел продукта + подрядчик → все направления</td><td>Рабочая CRM с интеграцией 1С</td><td>Приёмка отделом продукта</td></tr>
+      <tr><td>05</td><td>Маркетинг → Продажи</td><td>Квалифицированные лиды</td><td>Лид прогрет и внесён в CRM</td></tr>
+      <tr><td>06</td><td>Продажи → Фин-юр контур</td><td>Оферта, реквизиты, выбранный пакет</td><td>Оферта принята резидентом</td></tr>
+      <tr><td>07</td><td>Продажи → Маркетинг (блок 3)</td><td>Проданные резиденты</td><td>Резидент в статусе «продан»</td></tr>
+      <tr><td>08</td><td>Фин-юр контур → Тех дирекция</td><td>Резидент в производство</td><td>Оплата подтверждена, резидент в ЭДО</td></tr>
+      <tr><td>09</td><td>Тех дирекция → Хостинг</td><td>Тех карта, фризы, меню</td><td>Меню на печати</td></tr>
+      <tr><td>10</td><td>Хостинг → Фин-юр контур</td><td>Факт оказания услуг</td><td>Фестиваль проведён</td></tr>
+      <tr><td>11</td><td>Хостинг → Маркетинг (блок 2)</td><td>Резиденты сезона, обратная связь</td><td>Фестиваль проведён</td></tr>
+      <tr><td>12</td><td>Маркетинг (блок 2) → Продажи</td><td>Резиденты на следующий сезон</td><td>Резидент в клубе, есть интерес к продлению</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ===== Risks ===== -->
+<section>
+  <div class="sec-head">
+    <div class="eyebrow">Что видно по схеме</div>
+    <h2>Зоны риска в текущей конструкции</h2>
+  </div>
+  <div class="risks">
+    <div class="risk"><span class="lvl">высокий</span><h3>У маркетинга нет владельца</h3><p>Все три маркетинговых блока ни на ком. Блок 1 даёт вход в воронку для плана <b>95 резидентов</b>, блок 2 — возврат на следующий сезон. Без владельца обе точки держатся на продажах и на вас.</p></div>
+    <div class="risk"><span class="lvl">высокий</span><h3>Фин-юр менеджер не назначен</h3><p>Через этот узел проходит каждый резидент: счёт, ЭДО, подтверждение оплаты. Пока роли нет, <b>никто не даёт сигнал «оплата подтверждена»</b>, и тех дирекция не знает, кого брать в производство.</p></div>
+    <div class="risk"><span class="lvl mid">средний</span><h3>Контроль оплат у двух команд</h3><p>Он записан и у продаж, и у фин. контура. Вариант разделения: <b>продажи</b> ведут коммуникацию с резидентом о сроках, <b>фин. контур</b> сверяет факт поступления и дебиторку. Один источник статуса — CRM.</p></div>
+    <div class="risk"><span class="lvl mid">средний</span><h3>У CRM три центра влияния</h3><p>Вы — заказчик, отдел продукта с подрядчиком — разработка, фин. менеджер — лидирует разработчиков 1С / CRM. Нужен <b>один владелец продукта</b> и один канал требований, иначе подрядчик получает противоречивые задачи.</p></div>
+    <div class="risk"><span class="lvl mid">средний</span><h3>Хостинг: исполнение и владение разведены</h3><p>Вы владелец процесса, координация зелёного блока — у Арсентьевой, исполнение — OOFF Studio. Стоит зафиксировать, <b>кто принимает решения на площадке</b> в день фестиваля.</p></div>
+  </div>
+</section>
+</div>
+
+<script>
+(function(){
+  const board=document.getElementById('board');
+  const g=document.getElementById('wire-g');
+  const svg=document.getElementById('wires');
+  const GAP=56;
+  // k: flow|data|exc|loop.  r: route type.
+  const E=[
+    {f:'pm-analysis',t:'pm-strategy',k:'flow',r:'v'},
+    {f:'pm-strategy',t:'mk-1',k:'flow',r:'h',gx:-10,fy:-8,l:'ЦА и пакеты',lx:'end'},
+    {f:'pm-strategy',t:'sl-sale',k:'flow',r:'h',gx:10,fy:8,ty:-40,l:'пакеты и план',lx:'end'},
+    {f:'pm-crm',t:'prod-dev',k:'flow',r:'v',l:'ТЗ'},
+    {f:'prod-dev',t:'prod-crm',k:'flow',r:'h',l:'релиз'},
+    {f:'prod-crm',t:'sl-sale',k:'data',r:'v',dx:-50,l:'база и воронка'},
+    {f:'prod-crm',t:'fn-bill',k:'data',r:'v',dx:0,l:'статусы оплат'},
+    {f:'prod-crm',t:'mk-2',k:'data',r:'v',dx:-60,l:'история'},
+    {f:'fn-hub',t:'prod-dev',k:'data',r:'up',gx:14,l:'1С / CRM'},
+    {f:'mk-1',t:'sl-sale',k:'flow',r:'h',ty:-10,l:'квал. лиды',lx:'end'},
+    {f:'sl-sale',t:'mk-3',k:'flow',r:'h',fy:-40,l:'проданные',lx:'end'},
+    {f:'sl-sale',t:'fn-bill',k:'flow',r:'h',fy:40,gx:0,l:'оферта принята'},
+    {f:'fn-hub',t:'fn-bill',k:'flow',r:'h',ty:30,gx:-4,l:'одно окно',lx:'mid'},
+    {f:'fn-bill',t:'fn-edo',k:'flow',r:'v'},
+    {f:'fn-bill',t:'fn-diff',k:'exc',r:'h',fy:-10,gx:-8,l:'ошибка'},
+    {f:'fn-diff',t:'fn-refund',k:'exc',r:'v',l:'нужен возврат'},
+    {f:'fn-diff',t:'fn-upd',k:'exc',r:'h',l:'исправлено'},
+    {f:'fn-edo',t:'tc-map',k:'flow',r:'h',gx:8,l:'оплата подтверждена',ly:40},
+    {f:'tc-map',t:'hs-prep',k:'flow',r:'v',l:'меню и фризы'},
+    {f:'hs-prep',t:'hs-fest',k:'flow',r:'h'},
+    {f:'hs-fest',t:'fn-upd',k:'flow',r:'v',dx:-50,l:'услуга оказана'},
+    {f:'hs-fest',t:'mk-2',k:'loop',r:'right',l:'после фестиваля'},
+    {f:'mk-2',t:'sl-sale',k:'loop',r:'loop',l:'возврат в следующий сезон'},
+  ];
+  function R(id){
+    const el=document.getElementById(id), b=board.getBoundingClientRect(), r=el.getBoundingClientRect();
+    const x=r.left-b.left, y=r.top-b.top;
+    return {l:x,t:y,r:x+r.width,b:y+r.height,cx:x+r.width/2,cy:y+r.height/2,w:r.width,h:r.height};
+  }
+  const NS='http://www.w3.org/2000/svg';
+  function draw(){
+    const bb=board.getBoundingClientRect();
+    svg.setAttribute('width',bb.width); svg.setAttribute('height',bb.height);
+    svg.setAttribute('viewBox','0 0 '+bb.width+' '+bb.height);
+    g.textContent='';
+    E.forEach(e=>{
+      const a=R(e.f), b=R(e.t); let d, lp;
+      if(e.r==='v'){
+        const x=Math.max(a.l+12,Math.min(a.r-12,b.cx+(e.dx||0)));
+        const down=b.t>=a.b-1;
+        const y1=down?a.b:a.t, y2=down?b.t:b.b;
+        d=`M${x},${y1}V${y2}`; lp=[x+7,(y1+y2)/2+4,'start'];
+      } else if(e.r==='h'){
+        const y1=a.cy+(e.fy||0), y2=b.cy+(e.ty||0);
+        const gx=a.r+GAP/2+(e.gx||0);
+        d=`M${a.r},${y1}H${gx}V${y2}H${b.l}`;
+        if(e.lx==='end') lp=[b.l-6,y2-7,'end'];
+        else if(e.lx==='mid') lp=[(a.r+b.l)/2,y2-7,'middle'];
+        else lp=[gx+7,(y1+y2)/2+(e.ly||0),'start'];
+        if(Math.abs(y1-y2)<2) lp=[(a.r+b.l)/2,y1-7,'middle'];
+      } else if(e.r==='up'){
+        const gxx=b.l-GAP/2+(e.gx||0);
+        const y2=b.cy+30;
+        d=`M${gxx},${a.t}V${y2}H${b.l}`; lp=[gxx+7,a.t-12,'start'];
+      } else if(e.r==='right'){
+        const xr=Math.max(a.r,b.r)+22;
+        d=`M${a.r},${a.cy}H${xr}V${b.cy}H${b.r}`;
+        lp=[xr-6,(a.cy+b.cy)/2,'end'];
+      } else if(e.r==='loop'){
+        const s=R('sl-sale');
+        const yg=(a.b+s.t)/2; const x1=a.l+26, x2=s.cx+50;
+        d=`M${x1},${a.b}V${yg}H${x2}V${s.t}`;
+        lp=[(x1+x2)/2+60,yg-7,'middle'];
+      }
+      const p=document.createElementNS(NS,'path');
+      p.setAttribute('d',d); p.setAttribute('class','w-'+e.k);
+      p.setAttribute('marker-end','url(#m-'+e.k+')');
+      g.appendChild(p);
+      if(e.l){
+        const t=document.createElementNS(NS,'text');
+        t.setAttribute('x',lp[0]); t.setAttribute('y',lp[1]); t.setAttribute('text-anchor',lp[2]);
+        t.setAttribute('class','t-'+e.k); t.textContent=e.l;
+        g.appendChild(t);
+      }
+    });
+  }
+  draw();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(draw);
+  window.addEventListener('resize',draw);
+  if(window.ResizeObserver) new ResizeObserver(draw).observe(board);
+})();
+</script>
