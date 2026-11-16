@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Макет дашборда РОПа</title>
+<style>
+  :root{
+    color-scheme: light;
+    --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,.10);
+    --blue:#2a78d6; --blue-light:#86b6ef; --blue-track:#cde2fb;
+    --good-text:#006300; --warning:#fab219; --critical:#d03b3b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--page);color:var(--ink);font:14px/1.4 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+       width:1600px;padding:32px 32px 28px}
+  .num{font-variant-numeric:tabular-nums}
+  header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px}
+  .eyebrow{font-size:13px;color:var(--ink-2);margin-bottom:4px}
+  h1{font-size:28px;line-height:1.15;margin:0;font-weight:650;letter-spacing:-.01em}
+  .meta{display:flex;gap:12px;align-items:center;font-size:13px;color:var(--ink-2)}
+  .pill{border:1px solid var(--axis);border-radius:999px;padding:4px 12px;font-weight:550;color:var(--ink)}
+  .filters{display:flex;gap:10px;align-items:center;margin-bottom:20px;flex-wrap:wrap}
+  .seg{display:flex;border:1px solid var(--border);border-radius:8px;background:var(--surface);overflow:hidden}
+  .seg span{padding:7px 14px;font-size:13.5px;color:var(--ink-2)}
+  .seg span.on{background:var(--ink);color:#fff;font-weight:550}
+  .chip{border:1px solid var(--border);border-radius:8px;background:var(--surface);padding:7px 12px;font-size:13.5px;color:var(--ink-2)}
+  .chip b{color:var(--ink);font-weight:550}
+  .chip i{font-style:normal;color:var(--muted);margin-left:6px}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px 18px;display:flex;flex-direction:column}
+  .s3{grid-column:span 3}.s4{grid-column:span 4}.s5{grid-column:span 5}.s8{grid-column:span 8}
+  .title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;margin:0 0 2px}
+  .badge{flex:none;width:20px;height:20px;border-radius:50%;border:1px solid var(--axis);color:var(--ink-2);
+         font-size:11.5px;font-weight:600;display:grid;place-items:center}
+  .sub{font-size:12.5px;color:var(--ink-2);margin:0 0 14px}
+  /* плитки */
+  .tiles{grid-column:span 8;display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+  .tile{display:flex;flex-direction:column}
+  .tile .label{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2);font-weight:500;min-height:22px;white-space:nowrap}
+  .tile .value{font-size:32px;font-weight:600;line-height:1.15;margin-top:10px;letter-spacing:-.01em}
+  .tile .value small{font-size:15px;font-weight:500;color:var(--ink-2);letter-spacing:0}
+  .tile .note{font-size:12.5px;color:var(--ink-2);margin-top:auto;padding-top:10px;white-space:nowrap}
+  .hero .value{font-size:52px;font-weight:600;line-height:1.05;letter-spacing:-.02em;margin:8px 0 4px}
+  .hero .value small{font-size:22px;font-weight:500;color:var(--ink-2);letter-spacing:0}
+  .delta{color:var(--good-text);font-weight:550;font-size:13px}
+  .meter{height:8px;border-radius:999px;background:var(--blue-track);overflow:hidden;margin:10px 0 8px}
+  .meter i{display:block;height:100%;background:var(--blue);border-radius:999px}
+  .row2{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-2)}
+  .row2 b{color:var(--ink);font-weight:600}
+  /* воронка и полосы */
+  .bars{display:grid;row-gap:13px;column-gap:12px;align-items:center;margin-bottom:16px}
+  .funnel{grid-template-columns:196px 1fr 74px}
+  .bars .name{font-size:13.5px}
+  .bars .head{font-size:11.5px;color:var(--muted);text-align:right}
+  .track{display:flex;align-items:center;gap:8px;min-width:0}
+  .bar{height:22px;background:var(--blue);border-radius:0 4px 4px 0;flex:none}
+  .bar.thin{height:8px;border-radius:999px}
+  .val{font-size:13.5px;font-weight:600}
+  .conv{font-size:13px;color:var(--ink-2);text-align:right}
+  .bars+.foot,table+.foot,svg+.foot{margin-top:auto}
+  .foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--grid);font-size:12.5px;color:var(--ink-2)}
+  .foot b{color:var(--ink);font-weight:600}
+  /* легенда */
+  .legend{display:flex;gap:16px;font-size:12.5px;color:var(--ink-2);margin:0 0 12px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:8px;border-radius:999px;display:inline-block}
+  .key{width:18px;height:0;border-top:2px solid var(--blue);display:inline-block}
+  .key.plan{border-top:2px dashed var(--muted)}
+  /* города */
+  .city+.city{margin-top:16px;padding-top:16px;border-top:1px solid var(--grid)}
+  .city .cname{font-size:14px;font-weight:600}
+  .city .when{font-size:12.5px;color:var(--ink-2)}
+  .city .big{font-size:22px;font-weight:600;margin-top:8px}
+  .city .big small{font-size:13px;font-weight:500;color:var(--ink-2)}
+  /* фуд-корты */
+  .courts{display:grid;grid-template-columns:1fr 1fr;gap:0 36px}
+  .courts h3{font-size:13.5px;font-weight:600;margin:0}
+  .courts h3 span{font-weight:400;color:var(--ink-2)}
+  .ct{display:grid;grid-template-columns:150px 1fr 38px 38px 38px;column-gap:10px;row-gap:9px;align-items:center}
+  .ct .h{font-size:11.5px;color:var(--muted);text-align:right;align-self:end}
+  .ct .n{font-size:13px;text-align:right}
+  .ct .n.b{font-weight:600}
+  .stack{display:flex;gap:2px;height:8px}
+  .stack i{display:block;height:100%;border-radius:999px}
+  .sold{background:var(--blue)}.hold{background:var(--blue-light)}.free{background:var(--grid)}
+  /* деньги в пути */
+  .money{grid-template-columns:1fr 112px;row-gap:9px}
+  .money .name small{display:block;font-size:12px;color:var(--ink-2);margin-top:1px}
+  .money .right{text-align:right;font-size:13.5px}
+  .money .right b{font-weight:600}
+  .money .line{grid-column:1/-1;margin-top:-3px;margin-bottom:5px}
+  /* таблица */
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{font-size:11.5px;color:var(--muted);font-weight:500;text-align:right;padding:0 0 8px 8px;vertical-align:bottom}
+  th:first-child,td:first-child{text-align:left;padding-left:0}
+  td{padding:9px 0 9px 8px;text-align:right;border-top:1px solid var(--grid)}
+  tr.total td{font-weight:600;border-top:1px solid var(--axis)}
+  .flag{display:inline-flex;align-items:center;gap:5px}
+  /* источники */
+  .src{grid-template-columns:112px 1fr 96px}
+  /* внимание */
+  .alerts{list-style:none;margin:0;padding:0}
+  .alerts li{display:grid;grid-template-columns:18px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--grid);font-size:13.5px}
+  .alerts li:first-child{border-top:0;padding-top:2px}
+  .alerts small{display:block;font-size:12.5px;color:var(--ink-2);margin-top:1px}
+  .alerts svg{margin-top:1px}
+  footer{margin-top:16px;font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between}
+  svg text{font-family:Inter,system-ui,sans-serif}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="eyebrow">Пикник Афиши 2027 · дашборд РОПа</div>
+    <h1>Продажи пакетов резидентов фуд-корта</h1>
+  </div>
+  <div class="meta">
+    <span>Обновлено 16.11.2026, 14:05</span>
+    <span class="pill">Макет · цифры условные</span>
+  </div>
+</header>
+
+<div class="filters">
+  <div class="seg"><span class="on">Все города</span><span>Москва</span><span>Санкт-Петербург</span></div>
+  <div class="chip">Период: <b>с начала продаж</b><i>▾</i></div>
+  <div class="chip">Менеджер: <b>все</b><i>▾</i></div>
+  <div class="chip">Фуд-корт: <b>все</b><i>▾</i></div>
+  <div class="chip">Источник: <b>все</b><i>▾</i></div>
+</div>
+
+<div class="grid">
+
+  <!-- 1. Главная цифра -->
+  <section class="card s4 hero">
+    <div class="title"><span class="badge">1</span>Сумма продаж</div>
+    <div class="value">9,87 <small>млн ₽</small></div>
+    <div class="row2"><span><b>55%</b> плана 18,0 млн ₽</span><span class="delta">▲ +1,27 млн ₽ за 7 дней</span></div>
+    <div class="meter"><i style="width:55%"></i></div>
+    <div class="row2"><span>Получено на счёт <b>7,60 млн ₽</b></span><span>К доплате <b>2,27 млн ₽</b></span></div>
+  </section>
+
+  <!-- 2. Плитки -->
+  <div class="tiles">
+    <section class="card tile">
+      <div class="label"><span class="badge">2</span>Заявки сегодня</div>
+      <div class="value">6</div>
+      <div class="note">Всего лидов 148<br>+23 за 7 дней</div>
+    </section>
+    <section class="card tile">
+      <div class="label">Продано мест</div>
+      <div class="value">51 <small>из 106</small></div>
+      <div class="note">МСК 35 · СПб 16<br>оплачено полностью 38</div>
+    </section>
+    <section class="card tile">
+      <div class="label">В брони</div>
+      <div class="value">19 <small>мест</small></div>
+      <div class="note">На сумму<br>4,09 млн ₽</div>
+    </section>
+    <section class="card tile">
+      <div class="label">Свободно</div>
+      <div class="value">36 <small>мест</small></div>
+      <div class="note">На сумму<br>5,87 млн ₽</div>
+    </section>
+    <section class="card tile">
+      <div class="label">Отказы</div>
+      <div class="value">31</div>
+      <div class="note">21% лидов<br>чаще всего: цена (11)</div>
+    </section>
+  </div>
+
+  <!-- 3. Воронка -->
+  <section class="card s5">
+    <div class="title"><span class="badge">3</span>Воронка продаж</div>
+    <p class="sub">Сделки, дошедшие до этапа, с начала продаж</p>
+    <div class="bars funnel" id="funnel">
+      <span></span><span></span><span class="head">в след. этап</span>
+    </div>
+    <div class="foot">Заявка → оплата: <b>30%</b> · медиана <b>19 рабочих дней</b> · дольше всего стоят «Переговоры»</div>
+  </section>
+
+  <!-- 4. Динамика -->
+  <section class="card s4">
+    <div class="title"><span class="badge">4</span>Продажи нарастающим итогом</div>
+    <p class="sub">млн ₽ по неделям, факт против плана</p>
+    <div class="legend"><span><i class="key"></i>факт</span><span><i class="key plan"></i>план</span></div>
+    <svg id="trend" viewBox="0 0 470 236" width="100%" role="img" aria-label="Продажи нарастающим итогом: факт 9,87 млн ₽ против плана 11,0 млн ₽"></svg>
+    <div class="foot">Отставание от плана на 16.11: <b>1,13 млн ₽</b></div>
+  </section>
+
+  <!-- 5. Города -->
+  <section class="card s3">
+    <div class="title"><span class="badge">5</span>План и факт по городам</div>
+    <p class="sub">Сумма продаж и места</p>
+    <div class="city">
+      <div class="cname">Москва</div>
+      <div class="when">26.06.2027 · осталось 222 дня</div>
+      <div class="big">7,46 <small>из 13,0 млн ₽ · 57%</small></div>
+      <div class="meter"><i style="width:57%"></i></div>
+      <div class="row2"><span>Продано <b>35 из 68</b> мест</span><span>В брони <b>13</b></span></div>
+    </div>
+    <div class="city">
+      <div class="cname">Санкт-Петербург</div>
+      <div class="when">07.08.2027 · осталось 264 дня</div>
+      <div class="big">2,41 <small>из 5,0 млн ₽ · 48%</small></div>
+      <div class="meter"><i style="width:48%"></i></div>
+      <div class="row2"><span>Продано <b>16 из 38</b> мест</span><span>В брони <b>6</b></span></div>
+    </div>
+  </section>
+
+  <!-- 6. Фуд-корты -->
+  <section class="card s8">
+    <div class="title"><span class="badge">6</span>Продажи по пакетам: загрузка фуд-кортов</div>
+    <p class="sub">Сколько мест каждого формата продано, в брони и свободно</p>
+    <div class="legend">
+      <span><i class="sw sold"></i>продано</span><span><i class="sw hold"></i>бронь</span><span><i class="sw free"></i>свободно</span>
+    </div>
+    <div class="courts">
+      <div><div class="ct" id="msk"></div></div>
+      <div><div class="ct" id="spb"></div></div>
+    </div>
+  </section>
+
+  <!-- 7. Деньги в пути -->
+  <section class="card s4">
+    <div class="title"><span class="badge">7</span>Деньги между согласием и оплатой</div>
+    <p class="sub">19 мест · 4,09 млн ₽ — где они стоят сейчас</p>
+    <div class="bars money" id="money"></div>
+  </section>
+
+  <!-- 8. Менеджеры -->
+  <section class="card s5">
+    <div class="title"><span class="badge">8</span>Менеджеры</div>
+    <p class="sub">Результат и просроченные действия по каждому</p>
+    <table class="num">
+      <thead><tr><th>Менеджер</th><th>Сделок<br>в работе</th><th>Продано<br>мест</th><th>Сумма,<br>млн ₽</th><th>Заявка →<br>оплата</th><th>Просрочено<br>действий</th></tr></thead>
+      <tbody>
+        <tr><td>Менеджер 1</td><td>28</td><td>21</td><td>4,10</td><td>34%</td><td>2</td></tr>
+        <tr><td>Менеджер 2</td><td>25</td><td>17</td><td>3,35</td><td>29%</td>
+            <td><span class="flag"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 15 14H1z" fill="#fab219"/><rect x="7.2" y="6" width="1.6" height="4.2" fill="#0b0b0b"/><rect x="7.2" y="11.1" width="1.6" height="1.6" fill="#0b0b0b"/></svg>5</span></td></tr>
+        <tr><td>Менеджер 3</td><td>20</td><td>13</td><td>2,42</td><td>26%</td><td>1</td></tr>
+        <tr class="total"><td>Итого</td><td>73</td><td>51</td><td>9,87</td><td>30%</td><td>8</td></tr>
+      </tbody>
+    </table>
+    <div class="foot">Просроченные действия: звонок по ЭДО, счёт по брони, напоминание об оплате</div>
+  </section>
+
+  <!-- 9. Источники -->
+  <section class="card s4">
+    <div class="title"><span class="badge">9</span>Источники заявок</div>
+    <p class="sub">Откуда приходят заявки и какие доходят до оплаты</p>
+    <div class="bars src" id="src">
+      <span></span><span class="head" style="text-align:left">заявки</span><span class="head">оплаты · доля</span>
+    </div>
+    <div class="foot">Лучше всего до оплаты доходят заявки с рассылки CRM: <b>37%</b></div>
+  </section>
+
+  <!-- 10. Требует внимания -->
+  <section class="card s3">
+    <div class="title"><span class="badge">10</span>Требует внимания</div>
+    <p class="sub">Просрочки на сегодня</p>
+    <ul class="alerts">
+      <li>
+        <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#d03b3b"/><rect x="7.2" y="3.8" width="1.6" height="5.2" fill="#fff"/><rect x="7.2" y="10.4" width="1.6" height="1.6" fill="#fff"/></svg>
+        <div><b>1 счёт</b> — срок отправки истекает сегодня<small>Очередь бухгалтерии</small></div>
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 15 14H1z" fill="#fab219"/><rect x="7.2" y="6" width="1.6" height="4.2" fill="#0b0b0b"/><rect x="7.2" y="11.1" width="1.6" height="1.6" fill="#0b0b0b"/></svg>
+        <div><b>3 счёта</b> без оплаты дольше 5 рабочих дней<small>0,64 млн ₽</small></div>
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 15 14H1z" fill="#fab219"/><rect x="7.2" y="6" width="1.6" height="4.2" fill="#0b0b0b"/><rect x="7.2" y="11.1" width="1.6" height="1.6" fill="#0b0b0b"/></svg>
+        <div><b>3 брони</b> без счёта дольше 5 рабочих дней<small>0,61 млн ₽</small></div>
+      </li>
+      <li>
+        <svg width="18" height="18" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 15 14H1z" fill="#fab219"/><rect x="7.2" y="6" width="1.6" height="4.2" fill="#0b0b0b"/><rect x="7.2" y="11.1" width="1.6" height="1.6" fill="#0b0b0b"/></svg>
+        <div><b>2 приглашения</b> в ЭДО не приняты<small>Дольше 2 рабочих дней · нужен звонок</small></div>
+      </li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>
+  <span>Клик по любой цифре открывает список сделок за ней.</span>
+  <span>Цифры условные. Ёмкость фуд-кортов взята из прототипа сервиса резидентов.</span>
+</footer>
+
+<script>
+const ru = n => String(n).replace('.', ',');
+
+// 3. Воронка
+const funnel = [
+  ['Заявка', 148], ['Переговоры', 112], ['Предварительное согласие', 76],
+  ['Реквизиты внесены', 66], ['Обмен по ЭДО установлен', 58], ['Счёт отправлен', 52], ['Оплата', 44]
+];
+const fEl = document.getElementById('funnel');
+funnel.forEach(([name, n], i) => {
+  const next = funnel[i + 1];
+  const conv = next ? Math.round(next[1] / n * 100) + '%' : '';
+  fEl.insertAdjacentHTML('beforeend',
+    `<span class="name">${name}</span>
+     <span class="track" title="${name}: ${n}"><i class="bar" style="width:${n / 148 * 82}%"></i><span class="val num">${n}</span></span>
+     <span class="conv num">${conv}</span>`);
+});
+
+// 6. Фуд-корты
+const courts = {
+  msk: ['Москва', 68, [['ФК1', 17, 7, 12], ['ФК2 «Г»', 5, 2, 1], ['ФК3 Купер', 3, 1, 1], ['Семейный', 5, 0, 0],
+        ['VIP', 2, 2, 1], ['Тележки мороженого', 1, 1, 2], ['PopUp', 2, 0, 3]]],
+  spb: ['Санкт-Петербург', 38, [['ФК1', 4, 3, 3], ['ФК2', 2, 1, 2], ['ФК3 Купер', 1, 1, 3], ['Семейный', 3, 0, 0],
+        ['VIP', 1, 1, 1], ['Фудтраки', 1, 0, 2], ['Тележки мороженого', 3, 0, 1], ['PopUp', 1, 0, 4]]]
+};
+for (const id in courts) {
+  const [city, total, rows] = courts[id];
+  const el = document.getElementById(id);
+  el.insertAdjacentHTML('beforeend',
+    `<h3 style="grid-column:1/3">${city} <span>· ${total} мест</span></h3><span class="h">прод.</span><span class="h">бронь</span><span class="h">своб.</span>`);
+  rows.forEach(([name, s, h, f]) => {
+    const seg = (cls, v) => v ? `<i class="${cls}" style="flex:${v}"></i>` : '';
+    el.insertAdjacentHTML('beforeend',
+      `<span class="name" style="font-size:13.5px">${name}</span>
+       <span class="stack" title="${name}: продано ${s}, бронь ${h}, свободно ${f}">${seg('sold', s)}${seg('hold', h)}${seg('free', f)}</span>
+       <span class="n b num">${s}</span><span class="n num">${h}</span><span class="n num">${f}</span>`);
+  });
+}
+
+// 7. Деньги между согласием и оплатой
+const money = [
+  ['Согласие есть, счёт не выставлен', 'из них дольше 5 рабочих дней: 3', 4, 0.82],
+  ['Счёт ждёт обмена по ЭДО', 'отправка заблокирована', 4, 0.95],
+  ['Очередь бухгалтерии', 'срок отправки сегодня: 1', 3, 0.62],
+  ['Счёт отправлен, ждём оплату', 'из них дольше 5 рабочих дней: 3', 8, 1.70]
+];
+const mEl = document.getElementById('money');
+money.forEach(([name, note, n, sum]) => {
+  mEl.insertAdjacentHTML('beforeend',
+    `<span class="name">${name}<small>${note}</small></span>
+     <span class="right num"><b>${ru(sum.toFixed(2))} млн ₽</b><br><span style="color:var(--ink-2);font-size:12.5px">${n} ${n === 3 || n === 4 ? 'места' : 'мест'}</span></span>
+     <span class="line" title="${name}: ${ru(sum.toFixed(2))} млн ₽"><i class="bar thin" style="display:block;width:${sum / 1.7 * 100}%"></i></span>`);
+});
+
+// 9. Источники
+const src = [['Опен Кола', 61, 17], ['Рассылка CRM', 38, 14], ['Почта', 27, 6], ['Вручную', 22, 7]];
+const sEl = document.getElementById('src');
+src.forEach(([name, n, paid]) => {
+  sEl.insertAdjacentHTML('beforeend',
+    `<span class="name">${name}</span>
+     <span class="track" title="${name}: ${n} заявок"><i class="bar" style="width:${n / 61 * 78}%"></i><span class="val num">${n}</span></span>
+     <span class="conv num">${paid} · ${Math.round(paid / n * 100)}%</span>`);
+});
+
+// 4. Динамика
+(() => {
+  const fact = [0.6, 1.5, 2.7, 4.0, 5.6, 7.1, 8.6, 9.87], plan = [1.1, 2.2, 3.4, 4.7, 6.2, 7.8, 9.4, 11.0];
+  const weeks = ['21.09', '28.09', '05.10', '12.10', '19.10', '26.10', '02.11', '09.11'];
+  const L = 30, R = 388, T = 10, B = 200, max = 12;
+  const x = i => L + i * (R - L) / 7, y = v => B - v / max * (B - T);
+  const path = a => a.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join('');
+  let s = '';
+  [0, 4, 8, 12].forEach(t => {
+    s += `<line x1="${L}" x2="${R}" y1="${y(t)}" y2="${y(t)}" stroke="${t ? '#e1e0d9' : '#c3c2b7'}" stroke-width="1"/>`;
+    s += `<text x="${L - 8}" y="${y(t) + 4}" text-anchor="end" font-size="11.5" fill="#898781">${t}</text>`;
+  });
+  weeks.forEach((w, i) => { if (i % 2 === 1 || i === 0) s += `<text x="${x(i)}" y="${B + 18}" text-anchor="middle" font-size="11.5" fill="#898781">${w}</text>`; });
+  s += `<path d="${path(fact)}L${x(7)} ${B}L${x(0)} ${B}Z" fill="#2a78d6" fill-opacity=".10"/>`;
+  s += `<path d="${path(plan)}" fill="none" stroke="#898781" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round"/>`;
+  s += `<path d="${path(fact)}" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  s += `<circle cx="${x(7)}" cy="${y(9.87)}" r="5" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>`;
+  s += `<text x="${x(7) + 12}" y="${y(11.0) + 2}" font-size="12.5" fill="#52514e">план 11,0</text>`;
+  s += `<text x="${x(7) + 12}" y="${y(9.87) + 8}" font-size="12.5" font-weight="600" fill="#0b0b0b">факт 9,87</text>`;
+  document.getElementById('trend').innerHTML = s;
+})();
+</script>
+</body>
+</html>
