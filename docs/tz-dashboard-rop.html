@@ -1,0 +1,259 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Дашборд продаж резидентов</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Unbounded:wght@500;600&display=swap">
+<style>
+  /* Раскладка: широкий макет сверху, под ним ТЗ в одну колонку; блоки ТЗ пронумерованы так же, как на макете */
+  :root{
+    --bg:#f5f7f3; --surface:#ffffff; --ink:#141a16; --ink-2:#55605a; --line:#dde2da;
+    --accent:#1b7a45; --accent-soft:#e2f1e7; --frame:#ffffff;
+    --display:"Unbounded","Golos Text",system-ui,sans-serif;
+    --text:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#111512; --surface:#191e1a; --ink:#edf1ec; --ink-2:#a4afa7; --line:#2a322c;
+      --accent:#62c58a; --accent-soft:#1c2e23; --frame:#fcfcfb; color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#111512; --surface:#191e1a; --ink:#edf1ec; --ink-2:#a4afa7; --line:#2a322c;
+    --accent:#62c58a; --accent-soft:#1c2e23; --frame:#fcfcfb; color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--bg); color:var(--ink); font:16px/1.55 var(--text);
+    padding-block:40px 64px;
+    padding-left:max(16px, env(safe-area-inset-left, 0px));
+    padding-right:max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap{max-width:1040px; margin:0 auto; display:flex; flex-direction:column; gap:44px}
+  .wide{max-width:1400px; margin:0 auto; width:100%}
+
+  /* шапка */
+  .eyebrow{font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); margin:0 0 12px}
+  h1{font:600 clamp(24px, 3.3vw, 38px)/1.18 var(--display); margin:0 0 16px; text-wrap:balance; letter-spacing:-.01em}
+  .lead{font-size:18px; line-height:1.5; margin:0; max-width:64ch}
+  .meta{margin:16px 0 0; font-size:14px; color:var(--ink-2)}
+
+  h2{font:500 19px/1.3 var(--display); margin:0 0 16px; text-wrap:balance}
+  p{margin:0}
+  section{min-width:0}
+
+  /* макет */
+  .mock{display:flex; flex-direction:column; gap:12px; margin:36px auto 44px}
+  .mock-head{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap}
+  .mock-head h2{margin:0}
+  .zoom{font:500 14px/1 var(--text); color:var(--ink); background:var(--surface); border:1px solid var(--line);
+        border-radius:8px; padding:10px 14px; cursor:pointer}
+  .zoom:hover{border-color:var(--accent)}
+  .zoom:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .shot{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--frame)}
+  .shot img{display:block; width:100%; min-width:860px; max-width:none; height:auto}
+  .shot.big img{width:1600px}
+  .cap{font-size:14px; color:var(--ink-2); max-width:80ch}
+
+  /* списки */
+  ul.plain{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px}
+  ul.plain li{padding-left:22px; position:relative; max-width:76ch}
+  ul.plain li::before{content:""; position:absolute; left:2px; top:.62em; width:8px; height:8px; border-radius:50%; background:var(--accent)}
+
+  /* определения */
+  dl{margin:0; display:grid; grid-template-columns:minmax(120px, 200px) 1fr; gap:0}
+  dt,dd{margin:0; padding:12px 0; border-top:1px solid var(--line)}
+  dt{font-weight:600; padding-right:16px}
+  dd{min-width:0}
+
+  /* блоки */
+  .blocks{border:1px solid var(--line); border-radius:12px; background:var(--surface); overflow:hidden}
+  .brow{display:grid; grid-template-columns:230px 1fr 1fr; gap:20px; padding:16px 20px; border-top:1px solid var(--line)}
+  .brow:first-child{border-top:0}
+  .brow > *{min-width:0}
+  .brow.head{font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); padding-block:12px}
+  .bname{display:flex; gap:12px; align-items:flex-start; font-weight:600}
+  .n{flex:none; width:28px; height:28px; border-radius:50%; background:var(--accent-soft); color:var(--accent);
+     font:600 12px/28px var(--display); text-align:center; font-variant-numeric:tabular-nums}
+  .bname span:last-child{padding-top:2px}
+  .brow p{font-size:15px; line-height:1.5}
+  .lab{display:none; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-2); margin-bottom:2px}
+
+  /* приёмка и вопросы */
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:44px}
+  .ask{background:var(--accent-soft); border-radius:12px; padding:22px 24px}
+  .ask ol{margin:0; padding-left:20px; display:flex; flex-direction:column; gap:10px}
+  .ask li{max-width:76ch}
+  .note{font-size:14px; color:var(--ink-2); max-width:76ch}
+
+  @media (max-width: 820px){
+    body{padding-block:24px 48px}
+    .wrap{gap:36px}
+    .brow{grid-template-columns:1fr; gap:10px}
+    .brow.head{display:none}
+    .lab{display:block}
+    .two{grid-template-columns:1fr; gap:36px}
+    dl{grid-template-columns:1fr}
+    dt{padding-bottom:0}
+    dd{border-top:0; padding-top:2px}
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Пикник Афиши 2027 · ТЗ для отдела автоматизации CRM</p>
+    <h1>Дашборд РОПа: продажи пакетов резидентов фуд-корта</h1>
+    <p class="lead">РОП на одном экране видит, сколько продано и сколько осталось, на каком этапе застревают сделки и деньги, и что нужно сделать сегодня.</p>
+    <p class="meta">Версия от 16.11.2026 · Маргарита Жиганова</p>
+  </header>
+</div>
+
+<div class="wide mock">
+  <div class="mock-head">
+    <h2>Макет экрана</h2>
+    <button class="zoom" id="zoom" type="button" aria-pressed="false">Показать в полном размере</button>
+  </div>
+  <div class="shot" id="shot" tabindex="0">
+    <img src="dashboard-rop-maket.png" width="3200" height="3082"
+         alt="Макет дашборда: сумма продаж 9,87 млн рублей, плитки с заявками, проданными, забронированными и свободными местами, воронка продаж, продажи нарастающим итогом, план и факт по городам, загрузка фуд-кортов, деньги между согласием и оплатой, менеджеры, источники заявок, список просрочек">
+  </div>
+  <p class="cap">Номера в кружках на макете совпадают с номерами блоков в таблице ниже. Цифры условные. Настоящая только ёмкость фуд-кортов: 68 мест в Москве и 38 в Петербурге, она взята из прототипа сервиса резидентов.</p>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <h2>Общие требования</h2>
+    <ul class="plain">
+      <li>Один экран, 10 блоков.</li>
+      <li>Фильтры стоят одной строкой сверху и действуют на все блоки сразу: город, период, менеджер, фуд-корт, источник заявки.</li>
+      <li>Данные из CRM обновляются не реже раза в 5 минут. Время последнего обновления видно на экране.</li>
+      <li>Клик по любой цифре открывает список сделок за ней. Список выгружается в Excel.</li>
+      <li>РОП видит всё, клиентский менеджер видит только свои сделки.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Определения</h2>
+    <dl>
+      <dt>Пакет</dt><dd>Место определённого формата на фуд-корте: корнер ФК1, VIP, фудтрак, тележка мороженого, PopUp.</dd>
+      <dt>Продано</dt><dd>По месту поступила предоплата 10% или полная оплата.</dd>
+      <dt>Бронь</dt><dd>Есть предварительное согласие, оплаты ещё нет.</dd>
+      <dt>Свободно</dt><dd>Ёмкость минус продано минус бронь.</dd>
+      <dt>Сумма продаж</dt><dd>Сумма счетов по проданным местам. «Получено» — деньги, которые фактически пришли.</dd>
+      <dt>Рабочий день</dt><dd>По производственному календарю РФ, время московское.</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Блоки экрана</h2>
+    <div class="blocks">
+      <div class="brow head"><span>Блок</span><span>Что показывает</span><span>Как считается</span></div>
+
+      <div class="brow">
+        <div class="bname"><span class="n">1</span><span>Сумма продаж</span></div>
+        <div><span class="lab">Что показывает</span><p>Главная цифра, процент плана, прирост за 7 дней, получено на счёт, к доплате.</p></div>
+        <div><span class="lab">Как считается</span><p>Сумма счетов по проданным местам. План задаётся вручную. К доплате = сумма продаж − получено.</p></div>
+      </div>
+
+      <div class="brow">
+        <div class="bname"><span class="n">2</span><span>Плитки</span></div>
+        <div><span class="lab">Что показывает</span><p>Заявки сегодня и всего лидов; продано мест из ёмкости; бронь; свободно; отказы и главная причина.</p></div>
+        <div><span class="lab">Как считается</span><p>Места и рубли по определениям выше. Отказы — закрытые сделки с причиной из справочника.</p></div>
+      </div>
+
+      <div class="brow">
+        <div class="bname"><span class="n">3</span><span>Воронка продаж</span></div>
+        <div><span class="lab">Что показывает</span><p>Сколько сделок дошло до каждого этапа и какая доля перешла в следующий. Внизу: итоговая конверсия, медиана рабочих дней от заявки до оплаты, этап с самым долгим простоем.</p></div>
+        <div><span class="lab">Как считается</span><p>Этапы: заявка → переговоры → предварительное согласие → реквизиты → обмен по ЭДО → счёт отправлен → оплата. Сделка считается на этапе, если хотя бы раз до него дошла.</p></div>
+      </div>
+
+      <div class="brow">
+        <div class="bname"><span class="n">4</span><span>Продажи нарастающим итогом</span></div>
+        <div><span class="lab">Что показывает</span><p>Факт против плана по неделям, отставание или опережение в рублях.</p></div>
+        <div><span class="lab">Как считается</span><p>Сумма продаж накопительно на конец каждой недели. План по неделям задаётся вручную.</p></div>
+      </div>
+
+      <div class="brow">
+        <div class="bname"><span class="n">5</span><span>План и факт по городам</span></div>
+        <div><span class="lab">Что показывает</span><p>По Москве и Петербургу: сумма и процент плана, продано мест из ёмкости, бронь, дней до фестиваля.</p></div>
+        <div><span class="lab">Как считается</span><p>То же, что блок 1, в разрезе города. Даты фестиваля: Москва 26.06.2027, Петербург 07.08.2027.</p></div>
+      </div>
+
+      <div class="brow">
+        <div class="bname"><span class="n">6</span><span>Продажи по пакетам</span></div>
+        <div><span class="lab">Что показывает</span><p>По каждому фуд-корту и формату: сколько мест продано, в брони и свободно.</p></div>
+        <div><span class="lab">Как считается</span><p>Число мест в каждом состоянии из справочника мест. Продано + бронь + свободно равно ёмкости.</p></div>
+      </div>
+
+      <div class="brow">
+        <div class="bname"><span class="n">7</span><span>Деньги между согласием и оплатой</span></div>
+        <div><span class="lab">Что показывает</span><p>Где стоят забронированные места: согласие без счёта; счёт ждёт обмена по ЭДО; очередь бухгалтерии; счёт отправлен, ждём оплату.</p></div>
+        <div><span class="lab">Как считается</span><p>Места и рубли на каждой остановке. Отдельно: счета со сроком отправки сегодня и те, что ждут дольше 5 рабочих дней.</p></div>
+      </div>
+
+      <div class="brow">
+        <div class="bname"><span class="n">8</span><span>Менеджеры</span></div>
+        <div><span class="lab">Что показывает</span><p>По каждому менеджеру: сделок в работе, продано мест, сумма, конверсия заявка → оплата, просроченных действий.</p></div>
+        <div><span class="lab">Как считается</span><p>Просроченное действие: не позвонил по непринятому приглашению в ЭДО, не выставил счёт по брони, не напомнил об оплате.</p></div>
+      </div>
+
+      <div class="brow">
+        <div class="bname"><span class="n">9</span><span>Источники заявок</span></div>
+        <div><span class="lab">Что показывает</span><p>Заявки, оплаты и доля дошедших до оплаты по каждому источнику.</p></div>
+        <div><span class="lab">Как считается</span><p>Источники: Опен Кола, рассылка CRM, почта, вручную. Источник — обязательное поле сделки.</p></div>
+      </div>
+
+      <div class="brow">
+        <div class="bname"><span class="n">10</span><span>Требует внимания</span></div>
+        <div><span class="lab">Что показывает</span><p>Список просрочек на сегодня, самые срочные сверху.</p></div>
+        <div><span class="lab">Как считается</span><p>Срок отправки счёта истекает сегодня; счёт без оплаты дольше 5 рабочих дней; бронь без счёта дольше 5 рабочих дней; приглашение в ЭДО не принято 2 рабочих дня.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="two">
+    <section>
+      <h2>Что должно быть в CRM</h2>
+      <ul class="plain">
+        <li>Справочник мест: город, фуд-корт, формат, цена. У каждой сделки указано место.</li>
+        <li>План продаж по городам в местах и рублях, с разбивкой по неделям.</li>
+        <li>Журнал переходов этапов и статусов с датой и временем.</li>
+        <li>Источник заявки — обязательное поле.</li>
+        <li>Причина отказа — из справочника.</li>
+        <li>Статусы ЭДО, счёта и оплаты, суммы счетов и поступлений.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Приёмка</h2>
+      <ul class="plain">
+        <li>Продано + бронь + свободно равно ёмкости, сумма по менеджерам равна итогу.</li>
+        <li>Цифры совпадают с выгрузкой из CRM на ту же дату.</li>
+        <li>Фильтры действуют на все блоки.</li>
+        <li>Клик по цифре открывает список сделок.</li>
+        <li>Менеджер видит только свои сделки.</li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="ask">
+    <h2>Нужно решение до старта разработки</h2>
+    <ol>
+      <li>Считать место проданным с предоплаты 10% или только после полной оплаты? В макете — с предоплаты, полная оплата показана отдельной строкой.</li>
+      <li>Подходит ли порог в 5 рабочих дней для счёта без оплаты и для брони без счёта?</li>
+      <li>Кто даёт план продаж по неделям и по городам?</li>
+    </ol>
+  </section>
+
+  <p class="note">Метрики самих рассылок — открытия, клики, отписки — в этот экран не входят. Рассылка здесь видна только как источник заявок.</p>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('zoom'), shot = document.getElementById('shot');
+    btn.addEventListener('click', function () {
+      var big = shot.classList.toggle('big');
+      btn.setAttribute('aria-pressed', big ? 'true' : 'false');
+      btn.textContent = big ? 'Вписать в экран' : 'Показать в полном размере';
+      if (!big) shot.scrollLeft = 0;
+    });
+  })();
+</script>
