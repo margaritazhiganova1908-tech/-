@@ -316,7 +316,7 @@ html.present, html.present body { height: 100%; overflow: hidden; }
   html, body, html.present, html.present body { height: auto; overflow: visible; background: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .stage, .present .stage { position: static; display: block; }
   .deck, .present .deck { transform: none !important; zoom: 1 !important; height: auto; box-shadow: none; }
-  html .deck > section:nth-child(n) { display: flex !important; position: relative; margin: 0; break-after: page; page-break-after: always; }
+  html .deck > section:not(.zz-never):nth-child(n) { display: flex !important; position: relative; margin: 0; break-after: page; page-break-after: always; }
   .deck * { animation: none !important; }
   .hud, .bar { display: none !important; }
 }
