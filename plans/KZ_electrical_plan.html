@@ -24,6 +24,9 @@
            padding-bottom: 4mm; border-bottom: 0.5mm solid var(--ink); }
   .over { font-size: 2.6mm; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
   h1 { font-size: 9.2mm; line-height: 1; font-weight: 800; letter-spacing: -.02em; margin-top: 1.6mm; }
+  h1 { display: flex; align-items: center; gap: 4mm; }
+  .floor { font-size: 5mm; font-weight: 800; letter-spacing: .02em; background: var(--ink); color: var(--live);
+            border-radius: 2mm; padding: 1.4mm 3.2mm 1.6mm; line-height: 1; }
   .lead { font-size: 3.2mm; color: var(--ink2); margin-top: 1.8mm; }
   .keys { display: flex; gap: 3mm; }
   .key { display: flex; align-items: center; gap: 2.4mm; padding: 2.4mm 4mm 2.4mm 2.6mm;
@@ -137,8 +140,8 @@
 <header>
   <div>
     <div class="over">Техническое задание для электрика</div>
-    <h1>План электроподключения</h1>
-    <div class="lead">Концертный зал · Фойе · Кабинет · Кухня кейтеринга</div>
+    <h1>План электроподключения <span class="floor">2 этаж</span></h1>
+    <div class="lead">2 этаж · Концертный зал · Фойе · Кабинет · Кухня кейтеринга</div>
   </div>
   <div class="keys">
     <div class="key on">
