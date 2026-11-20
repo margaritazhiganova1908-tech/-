@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>План электроподключения</title>
+<style>
+  @page { size: 420mm 297mm; margin: 0; }
+  :root {
+    --ink: #17171a; --ink2: #4a4a50; --muted: #8b8b92; --line: #d9d9dc;
+    --paper: #ffffff; --room: #f7f7f5; --stage: #e2e2df; --cab: #edf2f4;
+    --live: #ffd21f; --live-deep: #f2b600; --dead: #efefed;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--paper); }
+  body {
+    width: 420mm; height: 297mm; padding: 11mm 12mm 10mm;
+    font-family: "Inter", "DejaVu Sans", sans-serif; color: var(--ink);
+    display: flex; flex-direction: column; gap: 4mm;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  /* ---- шапка ---- */
+  header { display: flex; justify-content: space-between; align-items: flex-end;
+           padding-bottom: 4mm; border-bottom: 0.5mm solid var(--ink); }
+  .over { font-size: 2.6mm; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  h1 { font-size: 9.2mm; line-height: 1; font-weight: 800; letter-spacing: -.02em; margin-top: 1.6mm; }
+  .lead { font-size: 3.2mm; color: var(--ink2); margin-top: 1.8mm; }
+  .keys { display: flex; gap: 3mm; }
+  .key { display: flex; align-items: center; gap: 2.4mm; padding: 2.4mm 4mm 2.4mm 2.6mm;
+          border-radius: 10mm; font-size: 3.1mm; font-weight: 600; white-space: nowrap; }
+  .key.on { background: var(--ink); color: #fff; }
+  .key.off { border: 0.3mm solid var(--line); color: var(--ink2); }
+  .key svg { width: 5mm; height: 5mm; flex: none; }
+
+  /* ---- чертёж ---- */
+  .plan { display: flex; justify-content: center; }
+  .plan svg { width: 368.00mm; height: 154.00mm; display: block; overflow: visible; }
+  .room   { fill: var(--room);  stroke: var(--ink); stroke-width: 75.0; }
+  .stage  { fill: var(--stage); stroke: var(--ink); stroke-width: 75.0; stroke-linejoin: miter; }
+  .portal { fill: #fff; stroke: var(--ink); stroke-width: 60.0; }
+  .cab    { fill: var(--cab);   stroke: var(--ink); stroke-width: 75.0; }
+  .aux    { fill: #ececea; stroke: var(--ink2); stroke-width: 60.0; }
+  .auxin  { fill: #fbfbfa; stroke: var(--muted); stroke-width: 30.0; }
+  .lustre { fill: none; stroke: var(--ink2); stroke-width: 33.0; stroke-dasharray: 165.0 120.0; }
+  .live   { fill: var(--live); stroke: var(--ink); stroke-width: 67.5; }
+  .halo   { fill: none; stroke: var(--live); stroke-opacity: .45; stroke-width: 240.0; }
+  .dead   { fill: var(--dead); stroke: #a9a9ae; stroke-width: 45.0; stroke-dasharray: 180.0 120.0; }
+  .tag    { fill: var(--ink); }
+  .tagbolt { fill: var(--live); }
+  .tagnum { fill: #fff; font-weight: 800; font-size: 630.0px; }
+  .nobolt { fill: none; stroke: #a9a9ae; stroke-linejoin: round; }
+  .nostrike { stroke: #a9a9ae; stroke-width: 45.0; stroke-linecap: round; }
+  .dim    { stroke: #8b8b92; stroke-width: 22.5; }
+  .ext    { stroke: #b4b4ba; stroke-width: 18.0; }
+  .tick   { stroke: var(--ink2); stroke-width: 45.0; }
+  .dimt   { fill: var(--ink2); font-size: 345.0px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .rlabel { fill: var(--ink); font-size: 495.0px; font-weight: 700; letter-spacing: .1em; }
+  .sub    { fill: var(--ink2); font-size: 360.0px; }
+  .small  { fill: var(--ink2); font-size: 315.0px; }
+  .zlabel { font-size: 390.0px; font-weight: 800; letter-spacing: .04em; }
+  .zsub   { font-size: 300.0px; font-weight: 500; }
+  .live-t { fill: var(--ink); }
+  .live-s { fill: #4b3e00; }
+  .dead-t { fill: #85858c; }
+  .dead-s { fill: #9a9aa0; }
+  .sb1 { fill: var(--ink); stroke: var(--ink); stroke-width: 22.5; }
+  .sb0 { fill: #fff; stroke: var(--ink); stroke-width: 22.5; }
+  .sbt { fill: var(--ink2); font-size: 285.0px; }
+
+  /* ---- нижняя панель ---- */
+  .bottom { flex: 1; display: grid; grid-template-columns: 1fr 1fr 0.86fr 0.98fr; gap: 4mm; min-height: 0; }
+  .card { border-radius: 3mm; padding: 4mm 4.4mm; display: flex; flex-direction: column; }
+  .card.pw { background: #fff8d6; border: 0.35mm solid var(--live-deep); }
+  .card.plain { border: 0.3mm solid var(--line); }
+  .chead { display: flex; align-items: center; gap: 2.6mm; }
+  .badge { display: inline-flex; align-items: center; gap: 1.2mm; background: var(--ink); color: #fff;
+            border-radius: 10mm; padding: 1.1mm 2.6mm 1.1mm 1.8mm; font-weight: 800; font-size: 3.4mm; }
+  .badge svg { width: 3.8mm; height: 3.8mm; }
+  .ctitle { font-size: 4.2mm; font-weight: 800; letter-spacing: .02em; }
+  .cwhere { font-size: 2.75mm; color: var(--ink2); margin-top: 1.6mm; }
+  .fields { margin-top: 5mm; flex: 1; display: grid; grid-template-columns: auto 1fr; column-gap: 3mm; align-content: space-between;
+             font-size: 2.75mm; align-items: end; }
+  .fields dt { color: var(--ink2); white-space: nowrap; }
+  .fields dd { border-bottom: 0.25mm solid #c9b25a; height: 5.2mm; display: flex; align-items: flex-end; gap: 4mm; }
+  .fields dd.opts { border: 0; gap: 5mm; }
+  .box { display: inline-flex; align-items: center; gap: 1.4mm; }
+  .box i { width: 3mm; height: 3mm; border: 0.3mm solid var(--ink); border-radius: .5mm; display: inline-block; background: #fff; }
+  .ptitle { font-size: 2.6mm; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--muted); }
+  .off-list { list-style: none; margin-top: 3mm; display: grid; row-gap: 2.2mm; }
+  .off-list li { display: flex; justify-content: space-between; gap: 3mm; font-size: 3.2mm; padding-bottom: 2.2mm;
+                  border-bottom: 0.2mm dashed var(--line); }
+  .off-list li b { font-weight: 700; color: var(--ink); }
+  .off-list li span { color: var(--muted); }
+  .legend { margin-top: 3mm; display: grid; grid-template-columns: 1fr 1fr; gap: 3mm 3mm; font-size: 2.55mm; color: var(--ink2); }
+  .legend .ico { width: 6mm; height: 4.4mm; flex: none; }
+  .badge.sm { font-size: 2.4mm; padding: .6mm 1.8mm .6mm 1.1mm; gap: .6mm; }
+  .badge.sm svg { width: 2.8mm; height: 2.8mm; }
+  .legend div { display: flex; align-items: center; gap: 1.8mm; }
+  .sw { width: 6mm; height: 3.8mm; border-radius: .6mm; flex: none; }
+  .sw.l { background: var(--live); border: 0.3mm solid var(--ink); }
+  .sw.d { background: var(--dead); border: 0.3mm dashed #a9a9ae; }
+  .sw.r { background: var(--room); border: 0.4mm solid var(--ink); }
+  .sw.c { background: none; border: 0.3mm dashed var(--ink2); border-radius: 50%; width: 3.8mm; margin: 0 1.1mm; }
+  .stamp { border: 0.4mm solid var(--ink); border-radius: 0; padding: 0; }
+  .stop { background: var(--ink); color: #fff; font-weight: 700; letter-spacing: .06em; font-size: 2.9mm; padding: 2.6mm 3mm; }
+  .srow { flex: 1; display: grid; grid-template-columns: 42mm 1fr; border-bottom: 0.2mm solid var(--line); font-size: 2.7mm; }
+  .srow .k { color: var(--muted); padding: 0 3mm 1.6mm; align-self: end; }
+  .srow span + span { border-left: 0.2mm solid var(--line); }
+  .note { font-size: 2.55mm; color: var(--ink2); line-height: 1.4; padding: 2.4mm 3mm; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="over">Техническое задание для электрика</div>
+    <h1>План электроподключения</h1>
+    <div class="lead">Концертный зал · Фойе · Кабинет · Кухня кейтеринга</div>
+  </div>
+  <div class="keys">
+    <div class="key on">
+      <svg viewBox="0 0 24 24"><path d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" fill="#ffd21f"/></svg>
+      Подключение нужно в 2 точках: Бар 1 и Кухня кейтеринга
+    </div>
+    <div class="key off">
+      <svg viewBox="0 0 24 24"><path d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" fill="none" stroke="#a9a9ae" stroke-width="1.6" stroke-linejoin="round"/><line x1="4" y1="20" x2="20" y2="4" stroke="#a9a9ae" stroke-width="2" stroke-linecap="round"/></svg>
+      Остальные зоны — без подключения
+    </div>
+  </div>
+</header>
+
+<section class="plan">
+  <svg viewBox="-6600 -3800 55200 23100" xmlns="http://www.w3.org/2000/svg" font-family="Inter, DejaVu Sans, sans-serif">
+<rect class="room" x="0" y="0" width="19000" height="16300" />
+<polygon class="stage" points="-5700,1550 0,1550 0,3750 850,3750 850,2950 2700,2950 2700,13350 850,13350 850,12550 0,12550 0,14750 -5700,14750"/>
+<rect class="portal" x="0" y="1550" width="850" height="2200" />
+<rect class="portal" x="0" y="12550" width="850" height="2200" />
+<text class="rlabel" x="-2850" y="8330.0" text-anchor="middle" >СЦЕНА</text>
+<text class="rlabel" x="10200" y="4500" text-anchor="middle" >КОНЦЕРТНЫЙ ЗАЛ</text>
+<circle class="lustre" cx="9500" cy="8150" r="1600"/>
+<line class="ext" x1="9200" y1="8150" x2="9800" y2="8150"/><line class="ext" x1="9500" y1="7850" x2="9500" y2="8450"/>
+<text class="small" x="9500" y="10450" text-anchor="middle" >Люстра Ø3 200</text>
+<rect class="room" x="23500" y="-1200" width="16800" height="11000" />
+<text class="rlabel" x="31900" y="3650" text-anchor="middle" >ФОЙЕ</text>
+<text class="sub" x="31900" y="4650" text-anchor="middle" >H = 3 400</text>
+<rect class="aux" x="41050" y="-1950" width="6800" height="12050" />
+<rect class="auxin" x="41520" y="-1350" width="2700" height="10850" />
+<rect class="auxin" x="44670" y="-1350" width="2700" height="10850" />
+<rect class="cab" x="23500" y="10570" width="5700" height="7200" />
+<text class="rlabel" x="26350.0" y="13870" text-anchor="middle" >КАБИНЕТ</text>
+<text class="sub" x="26350.0" y="14870" text-anchor="middle" >H = 3 400</text>
+<rect class="dead" x="16300" y="300" width="2300" height="2200" />
+<path class="nobolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" style="stroke-width:1.600" transform="translate(17135.0 1085.0) scale(26.25)"/>
+<line class="nostrike" x1="17157.5" y1="1692.5" x2="17742.5" y2="1107.5"/>
+<text class="zlabel dead-t" x="15970.0" y="1080.0" text-anchor="end" >БАР 2</text>
+<text class="zsub dead-s" x="15970.0" y="1590.0" text-anchor="end" >без подключения</text>
+<rect class="dead" x="34580" y="-550" width="3700" height="3170" />
+<path class="nobolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" style="stroke-width:1.600" transform="translate(36115.0 -30.0) scale(26.25)"/>
+<line class="nostrike" x1="36137.5" y1="577.5" x2="36722.5" y2="-7.5"/>
+<text class="zlabel dead-t" x="36430.0" y="1125.0" text-anchor="middle" >ОСТРОВ-</text>
+<text class="zlabel dead-t" x="36430.0" y="1575.0" text-anchor="middle" >ФУРШЕТ</text>
+<text class="zsub dead-s" x="36430.0" y="2085.0" text-anchor="middle" >без подключения</text>
+<rect class="dead" x="28100" y="8350" width="9000" height="1200" />
+<path class="nobolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" style="stroke-width:1.600" transform="translate(28385.0 8635.0) scale(26.25)"/>
+<line class="nostrike" x1="28407.5" y1="9242.5" x2="28992.5" y2="8657.5"/>
+<text class="zlabel dead-t" x="29225.0" y="9085.0" text-anchor="start" >ФУДЛАЙН 9 м</text>
+<text class="zsub dead-s" x="36650" y="9055.0" text-anchor="end" >без подключения</text>
+<rect class="halo" x="23660.0" y="-1240.0" width="4180.0" height="3580.0" rx="240.0"/>
+<rect class="live" x="23900" y="-1000" width="3700" height="3100" />
+<text class="zlabel live-t" x="25750.0" y="220.0" text-anchor="middle" >БАР 1</text>
+<rect class="tag" x="24775.0" y="655.0" width="1950" height="1050" rx="525.0"/>
+<path class="tagbolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" transform="translate(24970.0 790.0) scale(32.5)"/>
+<text class="tagnum" x="26110.0" y="1412.5" text-anchor="middle" >1</text>
+<rect class="halo" x="31600.0" y="13590.0" width="8600.0" height="4280.0" rx="240.0"/>
+<rect class="live" x="31840" y="13830" width="8120" height="3800" />
+<text class="zlabel live-t" x="35900.0" y="15040.0" text-anchor="middle" >КУХНЯ КЕЙТЕРИНГА</text>
+<text class="zsub live-s" x="35900.0" y="15640.0" text-anchor="middle" >основная нагрузка</text>
+<rect class="tag" x="34925.0" y="16105.0" width="1950" height="1050" rx="525.0"/>
+<path class="tagbolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" transform="translate(35120.0 16240.0) scale(32.5)"/>
+<text class="tagnum" x="36260.0" y="16862.5" text-anchor="middle" >2</text>
+<line class="ext" x1="0" y1="-150" x2="0" y2="-1680.0"/>
+<line class="ext" x1="19000" y1="-150" x2="19000" y2="-1680.0"/>
+<line class="dim" x1="-180.0" y1="-1500" x2="19180.0" y2="-1500"/>
+<line class="tick" x1="-165.0" y1="-1335.0" x2="165.0" y2="-1665.0"/>
+<line class="tick" x1="18835.0" y1="-1335.0" x2="19165.0" y2="-1665.0"/>
+<text class="dimt" x="9500.0" y="-1650.0" text-anchor="middle" >19 000</text>
+<line class="ext" x1="19150" y1="0" x2="20580.0" y2="0"/>
+<line class="ext" x1="19150" y1="16300" x2="20580.0" y2="16300"/>
+<line class="dim" x1="20400" y1="-180.0" x2="20400" y2="16480.0"/>
+<line class="tick" x1="20235.0" y1="165.0" x2="20565.0" y2="-165.0"/>
+<line class="tick" x1="20235.0" y1="16465.0" x2="20565.0" y2="16135.0"/>
+<text class="dimt" x="20865.0" y="8150.0" text-anchor="middle" transform="rotate(-90 20865.0 8150.0)">16 300*</text>
+<line class="ext" x1="-5700" y1="14900" x2="-5700" y2="15830.0"/>
+<line class="dim" x1="-5880.0" y1="15650" x2="180.0" y2="15650"/>
+<line class="tick" x1="-5865.0" y1="15815.0" x2="-5535.0" y2="15485.0"/>
+<line class="tick" x1="-165.0" y1="15815.0" x2="165.0" y2="15485.0"/>
+<text class="dimt" x="-2850.0" y="15500.0" text-anchor="middle" >5 700</text>
+<line class="ext" x1="-5700" y1="14900" x2="-5700" y2="17630.0"/>
+<line class="ext" x1="2700" y1="13500" x2="2700" y2="17630.0"/>
+<line class="dim" x1="-5880.0" y1="17450" x2="2880.0" y2="17450"/>
+<line class="tick" x1="-5865.0" y1="17615.0" x2="-5535.0" y2="17285.0"/>
+<line class="tick" x1="2535.0" y1="17615.0" x2="2865.0" y2="17285.0"/>
+<text class="dimt" x="-1500.0" y="17300.0" text-anchor="middle" >8 400</text>
+<line class="ext" x1="2850" y1="2950" x2="3780.0" y2="2950"/>
+<line class="ext" x1="2850" y1="13350" x2="3780.0" y2="13350"/>
+<line class="dim" x1="3600" y1="2770.0" x2="3600" y2="13530.0"/>
+<line class="tick" x1="3435.0" y1="3115.0" x2="3765.0" y2="2785.0"/>
+<line class="tick" x1="3435.0" y1="13515.0" x2="3765.0" y2="13185.0"/>
+<text class="dimt" x="3450.0" y="8150.0" text-anchor="middle" transform="rotate(-90 3450.0 8150.0)">10 400</text>
+<line class="ext" x1="2850" y1="3750" x2="5130.0" y2="3750"/>
+<line class="ext" x1="2850" y1="12550" x2="5130.0" y2="12550"/>
+<line class="dim" x1="4950" y1="3570.0" x2="4950" y2="12730.0"/>
+<line class="tick" x1="4785.0" y1="3915.0" x2="5115.0" y2="3585.0"/>
+<line class="tick" x1="4785.0" y1="12715.0" x2="5115.0" y2="12385.0"/>
+<text class="dimt" x="4800.0" y="8150.0" text-anchor="middle" transform="rotate(-90 4800.0 8150.0)">8 800</text>
+<line class="dim" x1="-180.0" y1="1100" x2="1030.0" y2="1100"/>
+<line class="tick" x1="-165.0" y1="1265.0" x2="165.0" y2="935.0"/>
+<line class="tick" x1="685.0" y1="1265.0" x2="1015.0" y2="935.0"/>
+<text class="dimt" x="425.0" y="950.0" text-anchor="middle" >850</text>
+<line class="dim" x1="-180.0" y1="15200" x2="1030.0" y2="15200"/>
+<line class="tick" x1="-165.0" y1="15365.0" x2="165.0" y2="15035.0"/>
+<line class="tick" x1="685.0" y1="15365.0" x2="1015.0" y2="15035.0"/>
+<text class="dimt" x="425.0" y="15665.0" text-anchor="middle" >850</text>
+<line class="ext" x1="23500" y1="-1350" x2="23500" y2="-2980.0"/>
+<line class="ext" x1="40300" y1="-1350" x2="40300" y2="-2980.0"/>
+<line class="dim" x1="23320.0" y1="-2800" x2="40480.0" y2="-2800"/>
+<line class="tick" x1="23335.0" y1="-2635.0" x2="23665.0" y2="-2965.0"/>
+<line class="tick" x1="40135.0" y1="-2635.0" x2="40465.0" y2="-2965.0"/>
+<text class="dimt" x="31900.0" y="-2950.0" text-anchor="middle" >16 800</text>
+<line class="ext" x1="23350" y1="-1200" x2="22220.0" y2="-1200"/>
+<line class="ext" x1="23350" y1="9800" x2="22220.0" y2="9800"/>
+<line class="dim" x1="22400" y1="-1380.0" x2="22400" y2="9980.0"/>
+<line class="tick" x1="22235.0" y1="-1035.0" x2="22565.0" y2="-1365.0"/>
+<line class="tick" x1="22235.0" y1="9965.0" x2="22565.0" y2="9635.0"/>
+<text class="dimt" x="22250.0" y="4300.0" text-anchor="middle" transform="rotate(-90 22250.0 4300.0)">11 000</text>
+<line class="ext" x1="23500" y1="17920" x2="23500" y2="18950.0"/>
+<line class="ext" x1="29200" y1="17920" x2="29200" y2="18950.0"/>
+<line class="dim" x1="23320.0" y1="18770" x2="29380.0" y2="18770"/>
+<line class="tick" x1="23335.0" y1="18935.0" x2="23665.0" y2="18605.0"/>
+<line class="tick" x1="29035.0" y1="18935.0" x2="29365.0" y2="18605.0"/>
+<text class="dimt" x="26350.0" y="19235.0" text-anchor="middle" >5 700</text>
+<line class="ext" x1="29350" y1="10570" x2="30280.0" y2="10570"/>
+<line class="ext" x1="29350" y1="17770" x2="30280.0" y2="17770"/>
+<line class="dim" x1="30100" y1="10390.0" x2="30100" y2="17950.0"/>
+<line class="tick" x1="29935.0" y1="10735.0" x2="30265.0" y2="10405.0"/>
+<line class="tick" x1="29935.0" y1="17935.0" x2="30265.0" y2="17605.0"/>
+<text class="dimt" x="30565.0" y="14170.0" text-anchor="middle" transform="rotate(-90 30565.0 14170.0)">7 200</text>
+<text class="small" x="41800" y="17210.0" text-anchor="start" >М 1:150 · размеры в мм</text>
+<rect class="sb1" x="41800" y="17690.0" width="1000" height="210.0" />
+<rect class="sb0" x="42800" y="17690.0" width="1000" height="210.0" />
+<rect class="sb1" x="43800" y="17690.0" width="1000" height="210.0" />
+<rect class="sb0" x="44800" y="17690.0" width="1000" height="210.0" />
+<rect class="sb1" x="45800" y="17690.0" width="1000" height="210.0" />
+<text class="sbt" x="41800" y="18350.0" text-anchor="middle" >0</text>
+<text class="sbt" x="42800" y="18350.0" text-anchor="middle" >1</text>
+<text class="sbt" x="43800" y="18350.0" text-anchor="middle" >2</text>
+<text class="sbt" x="44800" y="18350.0" text-anchor="middle" >3</text>
+<text class="sbt" x="45800" y="18350.0" text-anchor="middle" >4</text>
+<text class="sbt" x="46800" y="18350.0" text-anchor="middle" >5</text>
+<text class="sbt" x="47130.0" y="18350.0" text-anchor="start" >м</text>
+  </svg>
+</section>
+
+<section class="bottom">
+  <div class="card pw">
+    <div class="chead">
+      <span class="badge"><svg viewBox="0 0 24 24"><path d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" fill="#ffd21f"/></svg>1</span>
+      <span class="ctitle">БАР 1</span>
+    </div>
+    <div class="cwhere">Фойе, угол у левой стены (вверху слева на плане)</div>
+    <dl class="fields">
+      <dt>Оборудование</dt><dd></dd>
+      <dt></dt><dd></dd>
+      <dt>Суммарная мощность, кВт</dt><dd></dd>
+      <dt>Напряжение</dt><dd class="opts"><span class="box"><i></i>220 В</span><span class="box"><i></i>380 В · 3 фазы</span></dd>
+      <dt>Розеток, шт.</dt><dd></dd>
+      <dt>Примечание</dt><dd></dd>
+    </dl>
+  </div>
+
+  <div class="card pw">
+    <div class="chead">
+      <span class="badge"><svg viewBox="0 0 24 24"><path d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" fill="#ffd21f"/></svg>2</span>
+      <span class="ctitle">КУХНЯ КЕЙТЕРИНГА</span>
+    </div>
+    <div class="cwhere">Основная нагрузка · справа от кабинета, ниже фойе</div>
+    <dl class="fields">
+      <dt>Оборудование</dt><dd></dd>
+      <dt></dt><dd></dd>
+      <dt>Суммарная мощность, кВт</dt><dd></dd>
+      <dt>Напряжение</dt><dd class="opts"><span class="box"><i></i>220 В</span><span class="box"><i></i>380 В · 3 фазы</span></dd>
+      <dt>Розеток, шт.</dt><dd></dd>
+      <dt>Примечание</dt><dd></dd>
+    </dl>
+  </div>
+
+  <div class="card plain">
+    <div class="ptitle">Без подключения</div>
+    <ul class="off-list">
+      <li><b>Бар 2</b><span>концертный зал</span></li>
+      <li><b>Остров-фуршет</b><span>фойе</span></li>
+      <li><b>Фудлайн 9 м</b><span>фойе</span></li>
+    </ul>
+    <div class="ptitle" style="margin-top:auto">Условные обозначения</div>
+    <div class="legend">
+      <div><span class="sw l"></span>Зона с подключением</div>
+      <div><span class="badge sm"><svg viewBox="0 0 24 24"><path d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" fill="#ffd21f"/></svg>1</span>Номер точки</div>
+      <div><span class="sw d"></span>Зона без подключения</div>
+      <div><svg class="ico" viewBox="0 0 24 24"><path d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" fill="none" stroke="#a9a9ae" stroke-width="1.6" stroke-linejoin="round"/><line x1="4" y1="20" x2="20" y2="4" stroke="#a9a9ae" stroke-width="2" stroke-linecap="round"/></svg>Не подключать</div>
+      <div><span class="sw r"></span>Помещение</div>
+      <div><span class="sw c"></span>Люстра Ø3,2 м</div>
+    </div>
+  </div>
+
+  <div class="card stamp">
+    <div class="stop">ЛИСТ 1 / 1 · А3 · М 1:150</div>
+    <div class="srow"><span class="k">Объект</span><span></span></div>
+    <div class="srow"><span class="k">Дата монтажа</span><span></span></div>
+    <div class="srow"><span class="k">Контакт на площадке</span><span></span></div>
+    <div class="srow"><span class="k">Электрик</span><span></span></div>
+    <div class="note">Размеры в мм, по обмерному плану KZ_dimension_plan.
+      Место ввода / щита на плане не указано — согласовать на площадке.</div>
+  </div>
+</section>
+
+</body>
+</html>
