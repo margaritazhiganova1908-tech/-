@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>План 1 этажа</title>
+<style>
+  @page { size: 420mm 262mm; margin: 0; }
+  :root { --ink: #17171a; --ink2: #4a4a50; --muted: #8b8b92; --line: #d9d9dc; --live: #ffd21f;
+           --pink: #f6b3d2; --pink-line: #d4689c; --pink-ink: #8e2f60; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #fff; }
+  body { width: 420mm; height: 262mm; padding: 11mm 12mm 10mm; font-family: "Inter", "DejaVu Sans", sans-serif;
+          color: var(--ink); display: flex; flex-direction: column; gap: 4mm;
+          -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 4mm;
+           border-bottom: 0.5mm solid var(--ink); }
+  .over { font-size: 2.6mm; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  h1 { font-size: 9.2mm; line-height: 1; font-weight: 800; letter-spacing: -.02em; margin-top: 1.6mm;
+        display: flex; align-items: center; gap: 4mm; }
+  .floor { font-size: 5mm; font-weight: 800; letter-spacing: .02em; background: var(--ink); color: var(--live);
+            border-radius: 2mm; padding: 1.4mm 3.2mm 1.6mm; line-height: 1; }
+  .lead { font-size: 3.2mm; color: var(--ink2); margin-top: 1.8mm; }
+  .key { display: flex; align-items: center; gap: 2.6mm; padding: 2.4mm 4mm 2.4mm 2.8mm; border-radius: 10mm;
+          font-size: 3.1mm; font-weight: 600; white-space: nowrap; border: 0.35mm solid var(--pink-line);
+          background: #fdf0f6; color: var(--pink-ink); }
+  .key i { width: 7mm; height: 3mm; border-radius: .6mm; background: var(--pink); border: 0.3mm solid var(--pink-line); }
+
+  .plan { flex: 1; display: flex; justify-content: center; align-items: center; min-height: 0; }
+  .plan svg { width: 248.32mm; height: 182.26mm; display: block; overflow: visible; }
+  .wall   { fill: #8f8f8f; }
+  .light  { fill: #c3c3c3; }
+  .stairs { fill: #8cc97b; stroke: #2a3a28; stroke-width: 1.28; }
+  .tread  { stroke: #2a3a28; stroke-width: 0.77; }
+  .salmon { fill: #eb9191; }
+  .orange { fill: #ea8d3f; }
+  .rest   { fill: #fcf4f8; stroke: #e2b9cd; stroke-width: 1.49; }
+  .food   { fill: var(--pink); stroke: var(--pink-line); stroke-width: 1.71; }
+  .flabel { fill: var(--pink-ink); font-size: 11.53px; font-weight: 800; letter-spacing: .08em; }
+  .rlabel { fill: var(--ink2); font-size: 12.81px; font-weight: 700; letter-spacing: .14em; }
+  .rname  { fill: var(--ink); font-size: 21.34px; font-weight: 800; letter-spacing: .02em; }
+  .arrow  { stroke: var(--ink); stroke-width: 3.84; }
+  .arrowhead { fill: var(--ink); }
+  .entry  { fill: var(--ink); font-size: 15.37px; font-weight: 800; letter-spacing: .08em; }
+  .dim    { stroke: #8b8b92; stroke-width: 0.64; }
+  .ext    { stroke: #b4b4ba; stroke-width: 0.51; }
+  .tick   { stroke: var(--ink2); stroke-width: 1.28; }
+  .dimt   { fill: var(--ink2); font-size: 9.82px; font-weight: 500; }
+  .small  { fill: var(--ink2); font-size: 8.96px; }
+  .sb1 { fill: var(--ink); stroke: var(--ink); stroke-width: 0.64; }
+  .sb0 { fill: #fff; stroke: var(--ink); stroke-width: 0.64; }
+  .sbt { fill: var(--ink2); font-size: 8.11px; }
+
+  .strip { display: grid; grid-template-columns: 1.3fr 1fr 1.3fr 1fr 0.8fr; border: 0.4mm solid var(--ink); height: 15mm; }
+  .strip .cell { border-right: 0.2mm solid var(--line); padding: 1.8mm 3mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .strip .cell span { font-size: 2.5mm; color: var(--muted); }
+  .strip .cell.dark { background: var(--ink); border-right: 0; color: #fff; }
+  .strip .cell.dark b { font-size: 3mm; letter-spacing: .06em; }
+  .strip .cell.dark span { color: #c9c9ce; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="over">Схема площадки</div>
+    <h1>План этажа <span class="floor">1 этаж</span></h1>
+    <div class="lead">1 этаж · Ресторан «Рестик» · фудлайн</div>
+  </div>
+  <div class="key"><i></i>Фудлайн — в ресторане «Рестик»</div>
+</header>
+
+<section class="plan">
+  <svg viewBox="690 325 1060 778" xmlns="http://www.w3.org/2000/svg" font-family="Inter, DejaVu Sans, sans-serif">
+<rect class="rest" x="790" y="423" width="255" height="595" />
+<path class="light" d="M1045,423 H1112 V817 H1322 V671 H1332 V873 H1068 Q1045,873 1045,850 Z"/>
+<rect class="light" x="1172" y="553" width="147" height="8" />
+<rect class="stairs" x="1110" y="423" width="262" height="127" />
+<line class="tread" x1="1159" y1="423" x2="1159" y2="550"/>
+<line class="tread" x1="1200" y1="423" x2="1200" y2="550"/>
+<line class="tread" x1="1236" y1="423" x2="1236" y2="550"/>
+<line class="tread" x1="1268" y1="423" x2="1268" y2="550"/>
+<line class="tread" x1="1302" y1="423" x2="1302" y2="550"/>
+<line class="tread" x1="1337" y1="423" x2="1337" y2="550"/>
+<rect class="salmon" x="1000" y="563" width="177" height="181" />
+<rect class="orange" x="1105" y="900" width="191" height="27" />
+<rect class="wall" x="740" y="377" width="201" height="46" />
+<rect class="wall" x="1024" y="377" width="144" height="46" />
+<rect class="wall" x="1315" y="377" width="119" height="46" />
+<rect class="wall" x="740" y="423" width="50" height="618" />
+<rect class="wall" x="740" y="1018" width="118" height="23" />
+<rect class="wall" x="1017" y="1018" width="379" height="23" />
+<rect class="wall" x="1372" y="423" width="24" height="185" />
+<rect class="wall" x="1378" y="608" width="17" height="58" />
+<rect class="wall" x="1378" y="721" width="17" height="35" />
+<rect class="wall" x="1378" y="756" width="30" height="36" />
+<rect class="wall" x="1381" y="792" width="26" height="95" />
+<rect class="wall" x="1383" y="989" width="23" height="29" />
+<rect class="wall" x="1373" y="564" width="158" height="7" />
+<rect class="wall" x="1521" y="510" width="13" height="7" />
+<rect class="wall" x="1521" y="517" width="8" height="47" />
+<rect class="wall" x="1508" y="571" width="8" height="168" />
+<rect class="wall" x="1585" y="510" width="108" height="7" />
+<rect class="wall" x="1676" y="433" width="17" height="142" />
+<rect class="wall" x="1676" y="626" width="17" height="181" />
+<rect class="wall" x="1581" y="732" width="112" height="6" />
+<rect class="wall" x="1581" y="738" width="8" height="5" />
+<rect class="wall" x="1581" y="783" width="7" height="8" />
+<rect class="wall" x="1563" y="791" width="130" height="16" />
+<rect class="wall" x="1381" y="792" width="121" height="15" />
+<rect class="food" x="801" y="550" width="57" height="341" />
+<text class="flabel" x="829.50" y="724.56" text-anchor="middle" transform="rotate(-90 829.5 720.5)">ФУДЛАЙН</text>
+<text class="rlabel" x="951.50" y="892.00" text-anchor="middle" >РЕСТОРАН</text>
+<text class="rname" x="951.50" y="921.88" text-anchor="middle" >«РЕСТИК»</text>
+<line class="arrow" x1="1612" y1="938" x2="1430.8059191804211" y2="938"/>
+<path class="arrowhead" d="M1418,938 l17.92828685258964,-10.244735344336936 v20.489470688673872 z"/>
+<text class="entry" x="1612.00" y="925.19" text-anchor="end" >ВХОД</text>
+<line class="ext" x1="791" y1="374" x2="791" y2="350.53443369379625"/>
+<line class="ext" x1="941" y1="374" x2="941" y2="350.53443369379625"/>
+<line class="dim" x1="785.8776323278315" y1="355.6568013659647" x2="946.1223676721685" y2="355.6568013659647"/>
+<line class="tick" x1="786.3044963005123" y1="360.35230506545247" x2="795.6955036994877" y2="350.961297666477"/>
+<line class="tick" x1="936.3044963005123" y1="360.35230506545247" x2="945.6955036994877" y2="350.961297666477"/>
+<text class="dimt" x="866.00" y="351.39" text-anchor="middle" >2 625</text>
+<line class="ext" x1="941" y1="374" x2="941" y2="350.53443369379625"/>
+<line class="ext" x1="1024" y1="374" x2="1024" y2="350.53443369379625"/>
+<line class="dim" x1="935.8776323278315" y1="355.6568013659647" x2="1029.1223676721684" y2="355.6568013659647"/>
+<line class="tick" x1="936.3044963005123" y1="360.35230506545247" x2="945.6955036994877" y2="350.961297666477"/>
+<line class="tick" x1="1019.3044963005123" y1="360.35230506545247" x2="1028.6955036994877" y2="350.961297666477"/>
+<text class="dimt" x="982.50" y="351.39" text-anchor="middle" >1 500</text>
+<line class="ext" x1="1024" y1="374" x2="1024" y2="350.53443369379625"/>
+<line class="ext" x1="1168" y1="374" x2="1168" y2="350.53443369379625"/>
+<line class="dim" x1="1018.8776323278315" y1="355.6568013659647" x2="1173.1223676721684" y2="355.6568013659647"/>
+<line class="tick" x1="1019.3044963005123" y1="360.35230506545247" x2="1028.6955036994877" y2="350.961297666477"/>
+<line class="tick" x1="1163.3044963005123" y1="360.35230506545247" x2="1172.6955036994877" y2="350.961297666477"/>
+<text class="dimt" x="1096.00" y="351.39" text-anchor="middle" >2 550</text>
+<line class="ext" x1="1168" y1="374" x2="1168" y2="350.53443369379625"/>
+<line class="ext" x1="1315" y1="374" x2="1315" y2="350.53443369379625"/>
+<line class="dim" x1="1162.8776323278316" y1="355.6568013659647" x2="1320.1223676721684" y2="355.6568013659647"/>
+<line class="tick" x1="1163.3044963005123" y1="360.35230506545247" x2="1172.6955036994877" y2="350.961297666477"/>
+<line class="tick" x1="1310.3044963005123" y1="360.35230506545247" x2="1319.6955036994877" y2="350.961297666477"/>
+<text class="dimt" x="1241.50" y="351.39" text-anchor="middle" >2 600</text>
+<line class="dim" x1="784.8776323278315" y1="446" x2="1050.1223676721684" y2="446"/>
+<line class="tick" x1="785.3044963005123" y1="450.69550369948774" x2="794.6955036994877" y2="441.30449630051226"/>
+<line class="tick" x1="1040.3044963005123" y1="450.69550369948774" x2="1049.6955036994877" y2="441.30449630051226"/>
+<text class="dimt" x="917.50" y="441.73" text-anchor="middle" >4 500</text>
+<line class="ext" x1="737" y1="423" x2="713.5344336937962" y2="423"/>
+<line class="ext" x1="737" y1="1018" x2="713.5344336937962" y2="1018"/>
+<line class="dim" x1="718.6568013659647" y1="417.8776323278315" x2="718.6568013659647" y2="1023.1223676721685"/>
+<line class="tick" x1="713.961297666477" y1="427.69550369948774" x2="723.3523050654525" y2="418.30449630051226"/>
+<line class="tick" x1="713.961297666477" y1="1022.6955036994877" x2="723.3523050654525" y2="1013.3044963005123"/>
+<text class="dimt" x="714.39" y="720.50" text-anchor="middle" transform="rotate(-90 714.39 720.50)">10 507</text>
+<line class="ext" x1="858" y1="1044" x2="858" y2="1067.4655663062038"/>
+<line class="ext" x1="1017" y1="1044" x2="1017" y2="1067.4655663062038"/>
+<line class="dim" x1="852.8776323278315" y1="1062.3431986340354" x2="1022.1223676721685" y2="1062.3431986340354"/>
+<line class="tick" x1="853.3044963005123" y1="1067.0387023335231" x2="862.6955036994877" y2="1057.6476949345476"/>
+<line class="tick" x1="1012.3044963005123" y1="1067.0387023335231" x2="1021.6955036994877" y2="1057.6476949345476"/>
+<text class="dimt" x="937.50" y="1058.07" text-anchor="middle" >2 800</text>
+<line class="ext" x1="1017" y1="1044" x2="1017" y2="1067.4655663062038"/>
+<line class="ext" x1="1383" y1="1044" x2="1383" y2="1067.4655663062038"/>
+<line class="dim" x1="1011.8776323278315" y1="1062.3431986340354" x2="1388.1223676721684" y2="1062.3431986340354"/>
+<line class="tick" x1="1012.3044963005123" y1="1067.0387023335231" x2="1021.6955036994877" y2="1057.6476949345476"/>
+<line class="tick" x1="1378.3044963005123" y1="1067.0387023335231" x2="1387.6955036994877" y2="1057.6476949345476"/>
+<text class="dimt" x="1200.00" y="1058.07" text-anchor="middle" >6 456</text>
+<line class="dim" x1="1039.8776323278316" y1="851" x2="1327.1223676721684" y2="851"/>
+<line class="tick" x1="1040.3044963005123" y1="855.6955036994877" x2="1049.6955036994877" y2="846.3044963005123"/>
+<line class="tick" x1="1317.3044963005123" y1="855.6955036994877" x2="1326.6955036994877" y2="846.3044963005123"/>
+<text class="dimt" x="1183.50" y="846.73" text-anchor="middle" >4 800</text>
+<line class="dim" x1="1326.8776323278316" y1="851" x2="1386.1223676721684" y2="851"/>
+<line class="tick" x1="1327.3044963005123" y1="855.6955036994877" x2="1336.6955036994877" y2="846.3044963005123"/>
+<line class="tick" x1="1376.3044963005123" y1="855.6955036994877" x2="1385.6955036994877" y2="846.3044963005123"/>
+<text class="dimt" x="1356.50" y="846.73" text-anchor="middle" >868</text>
+<line class="ext" x1="1380" y1="887" x2="1350.8776323278316" y2="887"/>
+<line class="ext" x1="1380" y1="989" x2="1350.8776323278316" y2="989"/>
+<line class="dim" x1="1356" y1="881.8776323278315" x2="1356" y2="994.1223676721685"/>
+<line class="tick" x1="1351.3044963005123" y1="891.6955036994877" x2="1360.6955036994877" y2="882.3044963005123"/>
+<line class="tick" x1="1351.3044963005123" y1="993.6955036994877" x2="1360.6955036994877" y2="984.3044963005123"/>
+<text class="dimt" x="1351.73" y="938.00" text-anchor="middle" transform="rotate(-90 1351.73 938.00)">1 800</text>
+<line class="ext" x1="1380" y1="989" x2="1350.8776323278316" y2="989"/>
+<line class="ext" x1="1380" y1="1018" x2="1350.8776323278316" y2="1018"/>
+<line class="dim" x1="1356" y1="983.8776323278315" x2="1356" y2="1023.1223676721685"/>
+<line class="tick" x1="1351.3044963005123" y1="993.6955036994877" x2="1360.6955036994877" y2="984.3044963005123"/>
+<line class="tick" x1="1351.3044963005123" y1="1022.6955036994877" x2="1360.6955036994877" y2="1013.3044963005123"/>
+<text class="dimt" x="1351.73" y="1003.50" text-anchor="middle" transform="rotate(-90 1351.73 1003.50)">500</text>
+<text class="small" x="1435.42" y="1061.22" text-anchor="start" >М 1:75 · размеры в мм</text>
+<rect class="sb1" x="1435.4240182128628" y="1074.0239043824702" width="56.915196357427476" height="5.976095617529836" />
+<rect class="sb0" x="1492.3392145702903" y="1074.0239043824702" width="56.915196357427476" height="5.976095617529836" />
+<rect class="sb1" x="1549.2544109277178" y="1074.0239043824702" width="56.91519635742725" height="5.976095617529836" />
+<rect class="sb0" x="1606.169607285145" y="1074.0239043824702" width="56.915196357427476" height="5.976095617529836" />
+<rect class="sb1" x="1663.0848036425725" y="1074.0239043824702" width="56.915196357427476" height="5.976095617529836" />
+<text class="sbt" x="1435.42" y="1092.81" text-anchor="middle" >0</text>
+<text class="sbt" x="1492.34" y="1092.81" text-anchor="middle" >1</text>
+<text class="sbt" x="1549.25" y="1092.81" text-anchor="middle" >2</text>
+<text class="sbt" x="1606.17" y="1092.81" text-anchor="middle" >3</text>
+<text class="sbt" x="1663.08" y="1092.81" text-anchor="middle" >4</text>
+<text class="sbt" x="1720.00" y="1092.81" text-anchor="middle" >5</text>
+<text class="sbt" x="1728.54" y="1092.81" text-anchor="start" >м</text>
+  </svg>
+</section>
+
+<footer class="strip">
+  <div class="cell"><span>Объект</span></div>
+  <div class="cell"><span>Дата монтажа</span></div>
+  <div class="cell"><span>Контакт на площадке</span></div>
+  <div class="cell"><span>Ответственный</span></div>
+  <div class="cell dark"><b>1 ЭТАЖ</b><span>М 1:75 при печати на А3 в 100%</span></div>
+</footer>
+</body>
+</html>
