@@ -66,6 +66,10 @@
   .ctable { fill: #2f4d63; stroke: var(--ink); stroke-width: 45.0; }
   .pict   { fill: none; stroke: var(--ink); stroke-linecap: round; stroke-linejoin: round; }
   .zonet  { fill: var(--ink); font-size: 270.0px; font-weight: 600; }
+  .zcoffee { fill: #7b4b2a; stroke: var(--ink); stroke-width: 45.0; }
+  .zcocktail { fill: #6cc24a; stroke: #2c6a1f; stroke-width: 45.0; stroke-linejoin: round; }
+  .wpict  { stroke: #ffffff; }
+  .small2 { font-size: 240.0px; }
   .zdiv   { stroke: var(--ink); stroke-width: 37.5; stroke-dasharray: 135.0 90.0; }
   .tsub   { fill: #fff3c2; }
   .tsubt  { fill: var(--ink); font-size: 277.5px; font-weight: 800; letter-spacing: .06em; }
@@ -121,6 +125,7 @@
   .spec tr.sub svg { width: 3.4mm; height: 3.4mm; vertical-align: -0.8mm; margin-right: 1.6mm; fill: none;
                       stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
   .spec tr.tot td { background: #fff1b3; font-weight: 800; border-bottom: 0; border-top: 0.3mm solid var(--ink); }
+  .zsw { display: inline-block; width: 4.2mm; height: 2.8mm; border: 0.25mm solid var(--ink); border-radius: .5mm; vertical-align: -0.5mm; margin-right: 1.8mm; }
   .bl { display: inline-block; width: 16mm; height: 3mm; border-bottom: 0.25mm solid var(--ink); vertical-align: -0.6mm; }
   .bl.wide { width: 48mm; }
   .bl.short { width: 6mm; }
@@ -247,16 +252,17 @@
 <rect class="halo" x="23660.0" y="-1240.0" width="4180.0" height="3580.0" rx="240.0"/>
 <rect class="live" x="23900" y="-1000" width="3700" height="3100" />
 <text class="zlabel live-t" x="25750.0" y="-415.0" text-anchor="middle" >БАР 1</text>
-<line class="zdiv" x1="25565.0" y1="-190.0" x2="25565.0" y2="1560.0"/>
-<path class="pict" d="M5 9 H17 V13 A5 5 0 0 1 12 18 H10 A5 5 0 0 1 5 13 Z M17 10.5 H18.5 A2.5 2.5 0 0 1 18.5 15.5 H16.6 M3 21 H19 M9 3.2 Q10.2 4.6 9 6 M13 3.2 Q14.2 4.6 13 6" style="stroke-width:1.477" transform="translate(24342.5 5.0) scale(32.5)"/>
-<path class="pict" d="M4 4 H20 L12 13 Z M12 13 V20.5 M8 20.8 H16 M15.5 1.8 L13 8.5" style="stroke-width:1.477" transform="translate(26192.5 5.0) scale(32.5)"/>
-<text class="zonet" x="24732.5" y="1115.0" text-anchor="middle" >кофе</text>
-<text class="zonet" x="24732.5" y="1430.0" text-anchor="middle" >бар</text>
-<text class="zonet" x="26582.5" y="1115.0" text-anchor="middle" >коктейльный</text>
-<text class="zonet" x="26582.5" y="1430.0" text-anchor="middle" >бар</text>
-<rect class="tag" x="24887.5" y="1635.0" width="1725.0" height="930.0" rx="465.0"/>
-<path class="tagbolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" transform="translate(25060.0 1755.0) scale(28.75)"/>
-<text class="tagnum" x="26065.0" y="2310.0" text-anchor="middle" >1</text>
+<rect class="zcoffee" x="23980" y="-150" width="540" height="1050" />
+<path class="pict wpict" d="M5 9 H17 V13 A5 5 0 0 1 12 18 H10 A5 5 0 0 1 5 13 Z M17 10.5 H18.5 A2.5 2.5 0 0 1 18.5 15.5 H16.6 M3 21 H19 M9 3.2 Q10.2 4.6 9 6 M13 3.2 Q14.2 4.6 13 6" style="stroke-width:2.560" transform="translate(24025.0 150.0) scale(18.75)"/>
+<text class="zonet" x="24660" y="472.5" text-anchor="start" >кофемашина</text>
+<polygon class="zcocktail" points="27080,-80 27540,-80 27540,1960 26090,1960 26090,840 27080,840"/>
+<path class="pict" d="M4 4 H20 L12 13 Z M12 13 V20.5 M8 20.8 H16 M15.5 1.8 L13 8.5" style="stroke-width:2.250" transform="translate(26575.0 990.0) scale(20.0)"/>
+<text class="zonet small2" x="26815" y="1755.0" text-anchor="middle" >коктейли</text>
+<text class="zonet" x="25035" y="1400" text-anchor="middle" >вино</text>
+<text class="zonet" x="25035" y="1730.0" text-anchor="middle" >и б/а напитки</text>
+<rect class="tag" x="27427.5" y="-925.0" width="1725.0" height="930.0" rx="465.0"/>
+<path class="tagbolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" transform="translate(27600.0 -805.0) scale(28.75)"/>
+<text class="tagnum" x="28605.0" y="-250.0" text-anchor="middle" >1</text>
 <rect class="halo" x="31600.0" y="13590.0" width="8600.0" height="4280.0" rx="240.0"/>
 <rect class="live" x="31840" y="13830" width="8120" height="3800" />
 <text class="zlabel live-t big" x="35900.0" y="15640.0" text-anchor="middle" >КУХНЯ КЕЙТЕРИНГА</text>
@@ -352,11 +358,13 @@
     <div class="sh"><span class="sbadge"><svg viewBox="0 0 24 24"><path d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" fill="#17171a"/></svg>1</span>БАР 1<span class="sor">ориентир на точку <b>10 кВт</b></span></div>
     <table>
       <tr class="cols"><td>Оборудование</td><td>кол-во</td><td>мощность</td></tr>
-      <tr class="sub"><td colspan="3"><svg viewBox="0 0 24 24"><path d="M5 9 H17 V13 A5 5 0 0 1 12 18 H10 A5 5 0 0 1 5 13 Z M17 10.5 H18.5 A2.5 2.5 0 0 1 18.5 15.5 H16.6 M3 21 H19 M9 3.2 Q10.2 4.6 9 6 M13 3.2 Q14.2 4.6 13 6"/></svg>Кофе-бар</td></tr>
+      <tr class="sub"><td colspan="3"><i class="zsw" style="background:#7b4b2a"></i>Кофейная зона</td></tr>
       <tr><td>Кофемашина</td><td>1 шт</td><td><i class="bl"></i> кВт</td></tr>
       <tr><td>Кофемолка</td><td>1 шт</td><td><i class="bl"></i> кВт</td></tr>
       <tr><td>Бойлер</td><td>1 шт</td><td><i class="bl"></i> кВт</td></tr>
-      <tr class="sub"><td colspan="3"><svg viewBox="0 0 24 24"><path d="M4 4 H20 L12 13 Z M12 13 V20.5 M8 20.8 H16 M15.5 1.8 L13 8.5"/></svg>Коктейльный бар</td></tr>
+      <tr class="sub"><td colspan="3"><i class="zsw" style="background:#6cc24a"></i>Коктейльная зона</td></tr>
+      <tr><td><i class="bl wide"></i></td><td><i class="bl short"></i> шт</td><td><i class="bl"></i> кВт</td></tr>
+      <tr class="sub"><td colspan="3"><i class="zsw" style="background:#ffd21f"></i>Вино и б/а напитки</td></tr>
       <tr><td><i class="bl wide"></i></td><td><i class="bl short"></i> шт</td><td><i class="bl"></i> кВт</td></tr>
       <tr class="tot"><td>Ориентир на точку</td><td></td><td>10 кВт</td></tr>
     </table>
