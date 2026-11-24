@@ -58,6 +58,17 @@
   .tdb    { font-weight: 800; }
   .tdu    { fill: var(--ink2); font-size: 330.0px; font-weight: 500; }
   .tsep   { stroke: #e3e3e6; stroke-width: 30.0; }
+  .col    { fill: #3a3a3e; }
+  .colx   { stroke: #ffffff; stroke-width: 30.0; }
+  .snake-o { fill: none; stroke: var(--dead-line); stroke-width: 805.0; stroke-linejoin: round; }
+  .snake-i { fill: none; stroke: var(--dead); stroke-width: 700; stroke-linejoin: round; }
+  .snake-t { font-size: 345.0px; }
+  .ctable { fill: #2f4d63; stroke: var(--ink); stroke-width: 45.0; }
+  .pict   { fill: none; stroke: var(--ink); stroke-linecap: round; stroke-linejoin: round; }
+  .zonet  { fill: var(--ink); font-size: 270.0px; font-weight: 600; }
+  .zdiv   { stroke: var(--ink); stroke-width: 37.5; stroke-dasharray: 135.0 90.0; }
+  .tsub   { fill: #fff3c2; }
+  .tsubt  { fill: var(--ink); font-size: 277.5px; font-weight: 800; letter-spacing: .06em; }
   .ttotbg { fill: #fff1b3; }
   .ttot   { stroke: var(--ink); stroke-width: 45.0; }
   .blank  { stroke: var(--ink); stroke-width: 33.0; }
@@ -167,66 +178,98 @@
 <line class="ext" x1="9200" y1="8150" x2="9800" y2="8150"/><line class="ext" x1="9500" y1="7850" x2="9500" y2="8450"/>
 <text class="small" x="9500" y="10450" text-anchor="middle" >Люстра Ø3 200</text>
 <rect class="room" x="23500" y="-1200" width="16800" height="11000" />
-<text class="rlabel" x="36100" y="5500" text-anchor="middle" >ФОЙЕ</text>
-<text class="sub" x="36100" y="6500" text-anchor="middle" >H = 3 400</text>
+<text class="rlabel" x="37400" y="5300" text-anchor="middle" >ФОЙЕ</text>
+<text class="sub" x="37400" y="6300" text-anchor="middle" >H = 3 400</text>
 <rect class="aux" x="41050" y="-1950" width="6800" height="12050" />
 <rect class="auxin" x="41520" y="-1350" width="2700" height="10850" />
 <rect class="auxin" x="44670" y="-1350" width="2700" height="10850" />
 <rect class="cab" x="23500" y="10570" width="5700" height="7200" />
-<rect class="dead" x="23650" y="11470" width="900" height="5400" />
-<text class="zlabel dead-t" x="24100.0" y="14170.0" text-anchor="middle" transform="rotate(-90 24100.0 14170.0)" dy="120.0"><tspan>БАР 3</tspan><tspan class="zsub dead-s" dx="240.0">без подключения</tspan></text>
-<text class="rlabel" x="26875.0" y="13870" text-anchor="middle" >ВИП</text>
-<text class="sub" x="26875.0" y="14870" text-anchor="middle" >H = 3 400</text>
-<rect class="dead" x="16300" y="300" width="2300" height="2200" />
-<path class="nobolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" style="stroke-width:1.600" transform="translate(17135.0 1085.0) scale(26.25)"/>
-<line class="nostrike" x1="17157.5" y1="1692.5" x2="17742.5" y2="1107.5"/>
-<text class="zlabel dead-t" x="15970.0" y="1080.0" text-anchor="end" >БАР 2</text>
-<text class="zsub dead-s" x="15970.0" y="1590.0" text-anchor="end" >без подключения</text>
+<polygon class="dead" points="23650,15070 25800,15070 25800,17620 24850,17620 24850,16120 23650,16120"/>
+<path class="nobolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" style="stroke-width:1.600" transform="translate(23945.0 15280.0) scale(26.25)"/>
+<line class="nostrike" x1="23967.5" y1="15887.5" x2="24552.5" y2="15302.5"/>
+<text class="zlabel dead-t" x="26150" y="15720" text-anchor="start" >БАР 3</text>
+<text class="zsub dead-s" x="26150" y="16215.0" text-anchor="start" >без подключения</text>
+<text class="rlabel" x="26350.0" y="13270" text-anchor="middle" >ВИП</text>
+<text class="sub" x="26350.0" y="14270" text-anchor="middle" >H = 3 400</text>
+<rect class="dead" x="16300" y="13800" width="2300" height="2200" />
+<path class="nobolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" style="stroke-width:1.600" transform="translate(17135.0 14585.0) scale(26.25)"/>
+<line class="nostrike" x1="17157.5" y1="15192.5" x2="17742.5" y2="14607.5"/>
+<text class="zlabel dead-t" x="15970.0" y="14580.0" text-anchor="end" >БАР 2</text>
+<text class="zsub dead-s" x="15970.0" y="15090.0" text-anchor="end" >без подключения</text>
 <rect class="dead" x="34580" y="-550" width="3700" height="3170" />
 <path class="nobolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" style="stroke-width:1.600" transform="translate(36115.0 -30.0) scale(26.25)"/>
 <line class="nostrike" x1="36137.5" y1="577.5" x2="36722.5" y2="-7.5"/>
 <text class="zlabel dead-t" x="36430.0" y="1125.0" text-anchor="middle" >ОСТРОВ-</text>
 <text class="zlabel dead-t" x="36430.0" y="1575.0" text-anchor="middle" >ФУРШЕТ</text>
 <text class="zsub dead-s" x="36430.0" y="2085.0" text-anchor="middle" >без подключения</text>
-<rect class="dead" x="28100" y="8350" width="9000" height="1200" />
-<path class="nobolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" style="stroke-width:1.600" transform="translate(28385.0 8635.0) scale(26.25)"/>
-<line class="nostrike" x1="28407.5" y1="9242.5" x2="28992.5" y2="8657.5"/>
-<text class="zlabel dead-t" x="29225.0" y="9085.0" text-anchor="start" >ФУДЛАЙН 9 м</text>
-<text class="zsub dead-s" x="36650" y="9055.0" text-anchor="end" >без подключения</text>
+<rect class="col" x="28750" y="4550" width="550" height="1100" />
+<path class="colx" d="M28750,4550 L29300,5650 M29300,4550 L28750,5650"/>
+<rect class="col" x="34300" y="4550" width="550" height="1100" />
+<path class="colx" d="M34300,4550 L34850,5650 M34850,4550 L34300,5650"/>
+<path class="snake-o" d="M29650.0,5100.0 L29685.8,5080.6 L29721.7,5061.3 L29757.5,5042.3 L29793.3,5023.6 L29829.2,5005.4 L29865.0,4987.8 L29900.8,4970.8 L29936.7,4954.7 L29972.5,4939.4 L30008.3,4925.2 L30044.2,4912.0 L30080.0,4900.0 L30115.8,4889.2 L30151.7,4879.7 L30187.5,4871.6 L30223.3,4864.9 L30259.2,4859.6 L30295.0,4855.8 L30330.8,4853.5 L30366.7,4852.8 L30402.5,4853.5 L30438.3,4855.8 L30474.2,4859.6 L30510.0,4864.9 L30545.8,4871.6 L30581.7,4879.7 L30617.5,4889.2 L30653.3,4900.0 L30689.2,4912.0 L30725.0,4925.2 L30760.8,4939.4 L30796.7,4954.7 L30832.5,4970.8 L30868.3,4987.8 L30904.2,5005.4 L30940.0,5023.6 L30975.8,5042.3 L31011.7,5061.3 L31047.5,5080.6 L31083.3,5100.0 L31119.2,5119.4 L31155.0,5138.7 L31190.8,5157.7 L31226.7,5176.4 L31262.5,5194.6 L31298.3,5212.2 L31334.2,5229.2 L31370.0,5245.3 L31405.8,5260.6 L31441.7,5274.8 L31477.5,5288.0 L31513.3,5300.0 L31549.2,5310.8 L31585.0,5320.3 L31620.8,5328.4 L31656.7,5335.1 L31692.5,5340.4 L31728.3,5344.2 L31764.2,5346.5 L31800.0,5347.2 L31835.8,5346.5 L31871.7,5344.2 L31907.5,5340.4 L31943.3,5335.1 L31979.2,5328.4 L32015.0,5320.3 L32050.8,5310.8 L32086.7,5300.0 L32122.5,5288.0 L32158.3,5274.8 L32194.2,5260.6 L32230.0,5245.3 L32265.8,5229.2 L32301.7,5212.2 L32337.5,5194.6 L32373.3,5176.4 L32409.2,5157.7 L32445.0,5138.7 L32480.8,5119.4 L32516.7,5100.0 L32552.5,5080.6 L32588.3,5061.3 L32624.2,5042.3 L32660.0,5023.6 L32695.8,5005.4 L32731.7,4987.8 L32767.5,4970.8 L32803.3,4954.7 L32839.2,4939.4 L32875.0,4925.2 L32910.8,4912.0 L32946.7,4900.0 L32982.5,4889.2 L33018.3,4879.7 L33054.2,4871.6 L33090.0,4864.9 L33125.8,4859.6 L33161.7,4855.8 L33197.5,4853.5 L33233.3,4852.8 L33269.2,4853.5 L33305.0,4855.8 L33340.8,4859.6 L33376.7,4864.9 L33412.5,4871.6 L33448.3,4879.7 L33484.2,4889.2 L33520.0,4900.0 L33555.8,4912.0 L33591.7,4925.2 L33627.5,4939.4 L33663.3,4954.7 L33699.2,4970.8 L33735.0,4987.8 L33770.8,5005.4 L33806.7,5023.6 L33842.5,5042.3 L33878.3,5061.3 L33914.2,5080.6 L33950.0,5100.0"/>
+<path id="snakepath" class="snake-i" d="M29650.0,5100.0 L29685.8,5080.6 L29721.7,5061.3 L29757.5,5042.3 L29793.3,5023.6 L29829.2,5005.4 L29865.0,4987.8 L29900.8,4970.8 L29936.7,4954.7 L29972.5,4939.4 L30008.3,4925.2 L30044.2,4912.0 L30080.0,4900.0 L30115.8,4889.2 L30151.7,4879.7 L30187.5,4871.6 L30223.3,4864.9 L30259.2,4859.6 L30295.0,4855.8 L30330.8,4853.5 L30366.7,4852.8 L30402.5,4853.5 L30438.3,4855.8 L30474.2,4859.6 L30510.0,4864.9 L30545.8,4871.6 L30581.7,4879.7 L30617.5,4889.2 L30653.3,4900.0 L30689.2,4912.0 L30725.0,4925.2 L30760.8,4939.4 L30796.7,4954.7 L30832.5,4970.8 L30868.3,4987.8 L30904.2,5005.4 L30940.0,5023.6 L30975.8,5042.3 L31011.7,5061.3 L31047.5,5080.6 L31083.3,5100.0 L31119.2,5119.4 L31155.0,5138.7 L31190.8,5157.7 L31226.7,5176.4 L31262.5,5194.6 L31298.3,5212.2 L31334.2,5229.2 L31370.0,5245.3 L31405.8,5260.6 L31441.7,5274.8 L31477.5,5288.0 L31513.3,5300.0 L31549.2,5310.8 L31585.0,5320.3 L31620.8,5328.4 L31656.7,5335.1 L31692.5,5340.4 L31728.3,5344.2 L31764.2,5346.5 L31800.0,5347.2 L31835.8,5346.5 L31871.7,5344.2 L31907.5,5340.4 L31943.3,5335.1 L31979.2,5328.4 L32015.0,5320.3 L32050.8,5310.8 L32086.7,5300.0 L32122.5,5288.0 L32158.3,5274.8 L32194.2,5260.6 L32230.0,5245.3 L32265.8,5229.2 L32301.7,5212.2 L32337.5,5194.6 L32373.3,5176.4 L32409.2,5157.7 L32445.0,5138.7 L32480.8,5119.4 L32516.7,5100.0 L32552.5,5080.6 L32588.3,5061.3 L32624.2,5042.3 L32660.0,5023.6 L32695.8,5005.4 L32731.7,4987.8 L32767.5,4970.8 L32803.3,4954.7 L32839.2,4939.4 L32875.0,4925.2 L32910.8,4912.0 L32946.7,4900.0 L32982.5,4889.2 L33018.3,4879.7 L33054.2,4871.6 L33090.0,4864.9 L33125.8,4859.6 L33161.7,4855.8 L33197.5,4853.5 L33233.3,4852.8 L33269.2,4853.5 L33305.0,4855.8 L33340.8,4859.6 L33376.7,4864.9 L33412.5,4871.6 L33448.3,4879.7 L33484.2,4889.2 L33520.0,4900.0 L33555.8,4912.0 L33591.7,4925.2 L33627.5,4939.4 L33663.3,4954.7 L33699.2,4970.8 L33735.0,4987.8 L33770.8,5005.4 L33806.7,5023.6 L33842.5,5042.3 L33878.3,5061.3 L33914.2,5080.6 L33950.0,5100.0"/>
+<text class="zlabel dead-t snake-t" dy="127.5"><textPath href="#snakepath" startOffset="50%" text-anchor="middle">ФУДЛАЙН 4,6 м</textPath></text>
+<path class="nobolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" style="stroke-width:1.600" transform="translate(29760.0 5817.243428645788) scale(26.25)"/>
+<line class="nostrike" x1="29782.5" y1="6424.743428645788" x2="30367.5" y2="5839.743428645788"/>
+<text class="zsub dead-s" x="30510.0" y="6237.243428645788" text-anchor="start" >без подключения</text>
+<circle class="ctable" cx="27500" cy="4450" r="400"/>
+<circle class="ctable" cx="25750" cy="5980" r="400"/>
+<circle class="ctable" cx="27790" cy="7160" r="400"/>
+<circle class="ctable" cx="30370" cy="6980" r="400"/>
+<circle class="ctable" cx="33310" cy="7070" r="400"/>
+<text class="small" x="27790" y="8070.0" text-anchor="middle" >коктейльные столы</text>
 <rect class="halo" x="23660.0" y="-1240.0" width="4180.0" height="3580.0" rx="240.0"/>
 <rect class="live" x="23900" y="-1000" width="3700" height="3100" />
-<text class="zlabel live-t big" x="25750.0" y="700.0" text-anchor="middle" >БАР 1</text>
-<rect class="tag" x="26737.5" y="1635.0" width="1725.0" height="930.0" rx="465.0"/>
-<path class="tagbolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" transform="translate(26910.0 1755.0) scale(28.75)"/>
-<text class="tagnum" x="27915.0" y="2310.0" text-anchor="middle" >1</text>
-<line class="leader" x1="24650" y1="2100" x2="24650" y2="3120.0"/>
-<circle class="leaderdot" cx="24650" cy="2100" r="112.5"/>
-<rect class="tbl" x="23900" y="3120.0" width="8100" height="3599.9999999999995" rx="150.0"/>
-<rect class="tblh" x="23900" y="3120.0" width="8100" height="660.0" rx="150.0"/>
-<rect class="tblh" x="23900" y="3630.0" width="8100" height="150.0"/>
-<text class="th" x="24290.0" y="3547.5" text-anchor="start" >ОБОРУДОВАНИЕ</text>
-<text class="thc" x="28355.0" y="3547.5" text-anchor="start" >кол-во</text>
-<text class="thc" x="29375.0" y="3547.5" text-anchor="start" >мощность</text>
-<text class="td" x="24290.0" y="4260.0" text-anchor="start" >Кофемашина</text>
-<text class="td" x="28355.0" y="4260.0" text-anchor="start" >1 шт</text>
-<line class="blank" x1="29375.0" y1="4335.0" x2="30890.0" y2="4335.0"/>
-<text class="tdu" x="31040.0" y="4260.0" text-anchor="start" >кВт</text>
-<line class="tsep" x1="24140.0" y1="4500.0" x2="31760.0" y2="4500.0"/>
-<text class="td" x="24290.0" y="4980.0" text-anchor="start" >Кофемолка</text>
-<text class="td" x="28355.0" y="4980.0" text-anchor="start" >1 шт</text>
-<line class="blank" x1="29375.0" y1="5055.0" x2="30890.0" y2="5055.0"/>
-<text class="tdu" x="31040.0" y="4980.0" text-anchor="start" >кВт</text>
-<line class="tsep" x1="24140.0" y1="5220.0" x2="31760.0" y2="5220.0"/>
-<text class="td" x="24290.0" y="5700.0" text-anchor="start" >Бойлер</text>
-<text class="td" x="28355.0" y="5700.0" text-anchor="start" >1 шт</text>
-<line class="blank" x1="29375.0" y1="5775.0" x2="30890.0" y2="5775.0"/>
-<text class="tdu" x="31040.0" y="5700.0" text-anchor="start" >кВт</text>
-<rect class="ttotbg" x="23900" y="5940.0" width="8100" height="780.0" rx="150.0"/>
-<rect class="ttotbg" x="23900" y="5940.0" width="8100" height="150.0"/>
-<line class="ttot" x1="23900" y1="5940.0" x2="32000" y2="5940.0"/>
-<text class="td tdb" x="24290.0" y="6450.0" text-anchor="start" >Ориентир на точку</text>
-<text class="td tdb" x="29375.0" y="6450.0" text-anchor="start" >10 кВт</text>
-<rect class="tblo" x="23900" y="3120.0" width="8100" height="3599.9999999999995" rx="150.0"/>
+<text class="zlabel live-t" x="25750.0" y="-415.0" text-anchor="middle" >БАР 1</text>
+<line class="zdiv" x1="25565.0" y1="-190.0" x2="25565.0" y2="1560.0"/>
+<path class="pict" d="M5 9 H17 V13 A5 5 0 0 1 12 18 H10 A5 5 0 0 1 5 13 Z M17 10.5 H18.5 A2.5 2.5 0 0 1 18.5 15.5 H16.6 M3 21 H19 M9 3.2 Q10.2 4.6 9 6 M13 3.2 Q14.2 4.6 13 6" style="stroke-width:1.477" transform="translate(24342.5 5.0) scale(32.5)"/>
+<path class="pict" d="M4 4 H20 L12 13 Z M12 13 V20.5 M8 20.8 H16 M15.5 1.8 L13 8.5" style="stroke-width:1.477" transform="translate(26192.5 5.0) scale(32.5)"/>
+<text class="zonet" x="24732.5" y="1115.0" text-anchor="middle" >кофе</text>
+<text class="zonet" x="24732.5" y="1430.0" text-anchor="middle" >бар</text>
+<text class="zonet" x="26582.5" y="1115.0" text-anchor="middle" >коктейльный</text>
+<text class="zonet" x="26582.5" y="1430.0" text-anchor="middle" >бар</text>
+<rect class="tag" x="24887.5" y="1635.0" width="1725.0" height="930.0" rx="465.0"/>
+<path class="tagbolt" d="M13 2 L3 14 H10.5 L9.5 22 L20 9.5 H12.5 L13 2 Z" transform="translate(25060.0 1755.0) scale(28.75)"/>
+<text class="tagnum" x="26065.0" y="2310.0" text-anchor="middle" >1</text>
+<line class="leader" x1="27600" y1="395.0" x2="28250" y2="395.0"/>
+<circle class="leaderdot" cx="27600" cy="395.0" r="112.5"/>
+<rect class="tbl" x="28250" y="-1000" width="6000" height="4889.999999999999" rx="150.0"/>
+<rect class="tblh" x="28250" y="-1000" width="6000" height="600.0" rx="150.0"/>
+<rect class="tblh" x="28250" y="-550.0" width="6000" height="150.0"/>
+<text class="th" x="28640.0" y="-602.5" text-anchor="start" >БАР 1</text>
+<text class="thc" x="31400.0" y="-602.5" text-anchor="start" >кол-во</text>
+<text class="thc" x="32390.0" y="-602.5" text-anchor="start" >мощность</text>
+<rect class="tsub" x="28250" y="-400.0" width="6000" height="555.0" />
+<path class="pict" d="M5 9 H17 V13 A5 5 0 0 1 12 18 H10 A5 5 0 0 1 5 13 Z M17 10.5 H18.5 A2.5 2.5 0 0 1 18.5 15.5 H16.6 M3 21 H19 M9 3.2 Q10.2 4.6 9 6 M13 3.2 Q14.2 4.6 13 6" style="stroke-width:2.483" transform="translate(28482.5 -340.0) scale(18.125)"/>
+<text class="tsubt" x="29060.0" y="-25.0" text-anchor="start" >КОФЕ-БАР</text>
+<text class="td" x="28640.0" y="575.0" text-anchor="start" >Кофемашина</text>
+<text class="td" x="31400.0" y="575.0" text-anchor="start" >1 шт</text>
+<line class="blank" x1="32390.0" y1="650.0" x2="33395.0" y2="650.0"/>
+<text class="tdu" x="33500.0" y="575.0" text-anchor="start" >кВт</text>
+<line class="tsep" x1="28490.0" y1="770.0" x2="34010.0" y2="770.0"/>
+<text class="td" x="28640.0" y="1190.0" text-anchor="start" >Кофемолка</text>
+<text class="td" x="31400.0" y="1190.0" text-anchor="start" >1 шт</text>
+<line class="blank" x1="32390.0" y1="1265.0" x2="33395.0" y2="1265.0"/>
+<text class="tdu" x="33500.0" y="1190.0" text-anchor="start" >кВт</text>
+<line class="tsep" x1="28490.0" y1="1385.0" x2="34010.0" y2="1385.0"/>
+<text class="td" x="28640.0" y="1805.0" text-anchor="start" >Бойлер</text>
+<text class="td" x="31400.0" y="1805.0" text-anchor="start" >1 шт</text>
+<line class="blank" x1="32390.0" y1="1880.0" x2="33395.0" y2="1880.0"/>
+<text class="tdu" x="33500.0" y="1805.0" text-anchor="start" >кВт</text>
+<rect class="tsub" x="28250" y="2000.0" width="6000" height="555.0" />
+<path class="pict" d="M4 4 H20 L12 13 Z M12 13 V20.5 M8 20.8 H16 M15.5 1.8 L13 8.5" style="stroke-width:2.483" transform="translate(28482.5 2060.0) scale(18.125)"/>
+<text class="tsubt" x="29060.0" y="2375.0" text-anchor="start" >КОКТЕЙЛЬНЫЙ БАР</text>
+<line class="blank" x1="28640.0" y1="3050.0" x2="31100.0" y2="3050.0"/>
+<line class="blank" x1="31400.0" y1="3050.0" x2="31790.0" y2="3050.0"/>
+<text class="tdu" x="31850.0" y="2975.0" text-anchor="start" >шт</text>
+<line class="blank" x1="32390.0" y1="3050.0" x2="33395.0" y2="3050.0"/>
+<text class="tdu" x="33500.0" y="2975.0" text-anchor="start" >кВт</text>
+<rect class="ttotbg" x="28250" y="3170.0" width="6000" height="720.0" rx="150.0"/>
+<rect class="ttotbg" x="28250" y="3170.0" width="6000" height="150.0"/>
+<line class="ttot" x1="28250" y1="3170.0" x2="34250" y2="3170.0"/>
+<text class="td tdb" x="28640.0" y="3650.0" text-anchor="start" >Ориентир на точку</text>
+<text class="td tdb" x="32390.0" y="3650.0" text-anchor="start" >10 кВт</text>
+<rect class="tblo" x="28250" y="-1000" width="6000" height="4889.999999999999" rx="150.0"/>
 <rect class="halo" x="31600.0" y="13590.0" width="8600.0" height="4280.0" rx="240.0"/>
 <rect class="live" x="31840" y="13830" width="8120" height="3800" />
 <text class="zlabel live-t" x="32230.0" y="14490.0" text-anchor="start" >КУХНЯ КЕЙТЕРИНГА</text>
